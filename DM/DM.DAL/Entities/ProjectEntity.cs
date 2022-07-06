@@ -8,7 +8,7 @@ namespace DM.DAL.Entities
         public string Title { get; set; }
 
         public ICollection<ObjectiveEntity> Objectives { get; set; }
-
         public ICollection<UserProjectEntity> Users { get; set; }
+        public ICollection<ItemEntity> Items { get; set; }
     }
 }

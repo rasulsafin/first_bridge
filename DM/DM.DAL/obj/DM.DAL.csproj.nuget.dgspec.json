@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\projects\\brio\\DM\\DM.DAL\\DM.DAL.csproj": {}
+    "C:\\projects\\dm\\document-manager\\DM\\DM.DAL\\DM.DAL.csproj": {}
   },
   "projects": {
-    "C:\\projects\\brio\\DM\\DM.DAL\\DM.DAL.csproj": {
+    "C:\\projects\\dm\\document-manager\\DM\\DM.DAL\\DM.DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\projects\\brio\\DM\\DM.DAL\\DM.DAL.csproj",
+        "projectUniqueName": "C:\\projects\\dm\\document-manager\\DM\\DM.DAL\\DM.DAL.csproj",
         "projectName": "DM.DAL",
-        "projectPath": "C:\\projects\\brio\\DM\\DM.DAL\\DM.DAL.csproj",
+        "projectPath": "C:\\projects\\dm\\document-manager\\DM\\DM.DAL\\DM.DAL.csproj",
         "packagesPath": "C:\\Users\\rhadiev\\.nuget\\packages\\",
-        "outputPath": "C:\\projects\\brio\\DM\\DM.DAL\\obj\\",
+        "outputPath": "C:\\projects\\dm\\document-manager\\DM\\DM.DAL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\rhadiev\\AppData\\Roaming\\NuGet\\NuGet.Config",

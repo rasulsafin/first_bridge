@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "0Z4jnbaxoKQjhUa2lgPX274sfUv+A/gOC4GzcOQ1HuRHLhDUlvFVxI+aY68GZ6QMJXtifLjnh55yENxlqPbTPw==",
+  "dgSpecHash": "DmofbrpojFZHHlSWcpKusGGe5jnprS8oQTv18ROkWJCLxWZ1lCJ0m+YuDl7wBOgdTIjEP+oa/4P63L/tTmHlmw==",
   "success": true,
-  "projectFilePath": "C:\\projects\\brio\\DM\\DM.DAL\\DM.DAL.csproj",
+  "projectFilePath": "C:\\projects\\dm\\document-manager\\DM\\DM.DAL\\DM.DAL.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\rhadiev\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\rhadiev\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",

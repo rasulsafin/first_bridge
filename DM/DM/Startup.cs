@@ -1,3 +1,6 @@
+using DM.Domain;
+using DM.Domain.Implementations;
+using DM.Domain.Interfaces;
 using DM.repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -21,6 +24,10 @@ namespace DM
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(MappingProfile));
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IItemService, ItemService>();
+
             services.AddDbContext<DmDbContext>(options =>
             {
                 options.UseNpgsql(Configuration.GetConnectionString("Db"), builder =>
