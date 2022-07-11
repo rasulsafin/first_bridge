@@ -1,6 +1,5 @@
 ﻿using DM.Domain.Interfaces;
 using DM.Domain.Models;
-using DM.repository;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -10,12 +9,10 @@ namespace DM.Controllers
     [Route("api/record")]
     public class RecordController : ControllerBase
     {
-        public readonly DmDbContext _context;
         public readonly IRecordService _recordService;
 
-        public RecordController(DmDbContext context, IRecordService recordService)
+        public RecordController(IRecordService recordService)
         {
-            _context = context;
             _recordService = recordService;
         }
 

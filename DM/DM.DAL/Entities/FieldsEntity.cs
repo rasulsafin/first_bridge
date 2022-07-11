@@ -10,8 +10,8 @@ namespace DM.DAL.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public FieldState State { get; set; }
-        public UserEntity Issuer { get; set; }
-        public UserEntity Assignee { get; set; }
+        public int IssuerId { get; set; }
+        public int AssigneeId { get; set; }
     }
 
     public enum FieldState

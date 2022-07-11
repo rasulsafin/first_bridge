@@ -9,14 +9,11 @@ namespace DM.Domain
     {
         public MappingProfile()
         {
-            CreateMap<UserEntity, UserModel>();
-            CreateMap<UserModel, UserEntity>();
-            CreateMap<ItemModel, ItemEntity>();
-            CreateMap<ItemEntity, ItemModel>();
-            CreateMap<ProjectEntity, ProjectModel>();
-            CreateMap<ProjectModel, ProjectEntity>();
-            CreateMap<RecordEntity, RecordModel>();
-            CreateMap<RecordModel, RecordEntity>();
+            CreateMap<UserEntity, UserModel>().ReverseMap();
+            CreateMap<ItemModel, ItemEntity>().ReverseMap();
+            CreateMap<ProjectEntity, ProjectModel>().ReverseMap();
+            CreateMap<RecordEntity, RecordModel>().ReverseMap();
+            CreateMap<FieldsEntity, FieldsModel>().ReverseMap();
         }
     }
 }

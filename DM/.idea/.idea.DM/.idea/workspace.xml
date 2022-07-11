@@ -5,14 +5,78 @@
     <projectFile profileName="DM">DM/DM.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2e1f95ed-fc57-4af1-a92f-28dd04a71de3" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.vs/DM/FileContentIndex/75d3e2df-9c3b-4b72-8efc-869c4ab84a27.vsidx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/slnx.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/slnx.sqlite" afterDir="false" />
+    <list default="true" id="2e1f95ed-fc57-4af1-a92f-28dd04a71de3" name="Changes" comment="added ProjectService/RecordService">
+      <change afterPath="$PROJECT_DIR$/.vs/DM/FileContentIndex/2ba886c3-93fc-4bfb-a083-9ff67c592dd0.vsidx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.vs/DM/FileContentIndex/5f3267de-02ff-4fa2-9634-e61f69d31fa8.vsidx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.vs/DM/FileContentIndex/c27d82cd-d394-4e38-9be6-793c1a3cd5ae.vsidx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.vs/DM/FileContentIndex/f66cd830-d445-4d35-910e-7f69b93c8bab.vsidx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DM/bin/Debug/net5.0/Microsoft.AspNetCore.JsonPatch.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DM/bin/Debug/net5.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DM/bin/Debug/net5.0/Newtonsoft.Json.Bson.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.DM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DM/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/DM/DesignTimeBuild/.dtbcache.v2" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/DM/DesignTimeBuild/.dtbcache.v2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/DM/FileContentIndex/20058172-8249-42d7-84f9-c61df5680092.vsidx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/DM/FileContentIndex/6ec2172a-3fd3-476f-89fb-f0a455b0b4d5.vsidx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/DM/FileContentIndex/a23bf126-cd26-46b4-a0e8-7f0027e46043.vsidx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/DM/v17/.suo" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/DM/v17/.suo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/ProjectEvaluation/dm.metadata.v2" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/ProjectEvaluation/dm.metadata.v2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/ProjectEvaluation/dm.projects.v2" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/ProjectEvaluation/dm.projects.v2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM.DAL/Entities/FieldsEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/Entities/FieldsEntity.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM.DAL/Entities/UserEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/Entities/UserEntity.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM.DAL/bin/Debug/net5.0/DM.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/bin/Debug/net5.0/DM.DAL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM.DAL/bin/Debug/net5.0/DM.DAL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/bin/Debug/net5.0/DM.DAL.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM.DAL/obj/Debug/net5.0/DM.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/obj/Debug/net5.0/DM.DAL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM.DAL/obj/Debug/net5.0/DM.DAL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/obj/Debug/net5.0/DM.DAL.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM.DAL/obj/Debug/net5.0/ref/DM.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/obj/Debug/net5.0/ref/DM.DAL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM.DAL/obj/Debug/net5.0/refint/DM.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/obj/Debug/net5.0/refint/DM.DAL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM.Domain/Implementations/ProjectService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/Implementations/ProjectService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM.Domain/Implementations/RecordService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/Implementations/RecordService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM.Domain/MappingProfile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/MappingProfile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM.Domain/Models/FieldsModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/Models/FieldsModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM.Domain/bin/Debug/net5.0/DM.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/bin/Debug/net5.0/DM.DAL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM.Domain/bin/Debug/net5.0/DM.DAL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/bin/Debug/net5.0/DM.DAL.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM.Domain/bin/Debug/net5.0/DM.Domain.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/bin/Debug/net5.0/DM.Domain.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM.Domain/bin/Debug/net5.0/DM.Domain.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/bin/Debug/net5.0/DM.Domain.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/DM.Domain.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/DM.Domain.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/DM.Domain.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/DM.Domain.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/DM.Domain.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/DM.Domain.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/ref/DM.Domain.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/ref/DM.Domain.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/refint/DM.Domain.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/refint/DM.Domain.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM/Controllers/RecordController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DM/Controllers/RecordController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM/DM.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/DM/DM.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DM/Startup.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.DAL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.DAL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.DAL.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.Domain.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.Domain.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.Domain.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.Domain.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.deps.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM/bin/Debug/net5.0/Newtonsoft.Json.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM/bin/Debug/net5.0/Newtonsoft.Json.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM/obj/DM.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/DM.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM/obj/DM.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/DM.csproj.nuget.g.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.MvcApplicationPartsAssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.MvcApplicationPartsAssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/project.packagespec.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="main" />
+      </map>
+    </option>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -77,6 +141,7 @@
       <workItem from="1657112315466" duration="1112000" />
       <workItem from="1657116874065" duration="155000" />
       <workItem from="1657117093793" duration="183000" />
+      <workItem from="1657524748347" duration="893000" />
     </task>
     <task id="LOCAL-00001" summary="FirstSteps">
       <created>1657112582598</created>
@@ -99,7 +164,14 @@
       <option name="project" value="LOCAL" />
       <updated>1657117186043</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="added ProjectService/RecordService">
+      <created>1657524934820</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1657524934820</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -112,7 +184,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="feature/services" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -123,6 +207,7 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="FirstSteps" />
     <MESSAGE value="created pwa project with navigation and react-router-dom" />
-    <option name="LAST_COMMIT_MESSAGE" value="created pwa project with navigation and react-router-dom" />
+    <MESSAGE value="added ProjectService/RecordService" />
+    <option name="LAST_COMMIT_MESSAGE" value="added ProjectService/RecordService" />
   </component>
 </project>

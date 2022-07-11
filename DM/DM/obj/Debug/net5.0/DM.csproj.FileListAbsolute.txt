@@ -136,3 +136,6 @@ C:\projects\dm\document-manager\DM\DM\obj\Debug\net5.0\refint\DM.dll
 C:\projects\dm\document-manager\DM\DM\obj\Debug\net5.0\DM.pdb
 C:\projects\dm\document-manager\DM\DM\obj\Debug\net5.0\DM.genruntimeconfig.cache
 C:\projects\dm\document-manager\DM\DM\obj\Debug\net5.0\ref\DM.dll
+C:\projects\dm\document-manager\DM\DM\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\projects\dm\document-manager\DM\DM\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\projects\dm\document-manager\DM\DM\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll

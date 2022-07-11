@@ -23,7 +23,7 @@ namespace DM.Domain.Implementations
 
         public async Task<List<ProjectModel>> GetAll()
         {
-            var projects = await _context.Projects.Include(u => u.Users).Include(i => i.Items).ToListAsync();
+            var projects = await _context.Projects.Include(u => u.Users).ToListAsync();
             return _mapper.Map<List<ProjectModel>>(projects);
         }
         public ProjectModel GetById(long projectId)

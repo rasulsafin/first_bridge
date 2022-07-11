@@ -3,6 +3,7 @@ using DM.DAL.Entities;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
 using DM.repository;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,17 +24,27 @@ namespace DM.Domain.Implementations
         }
         public List<RecordModel> GetAll()
         {
-            var records = _context.Records.ToList();
+            var records = _context.Records.Include(f => f.Fields).ToList();
             return _mapper.Map<List<RecordModel>>(records);
         }
         public RecordModel GetById(long recordId)
         {
-            var record = _context.Records.FirstOrDefault(x => x.Id == recordId);
+            var record = _context.Records.Include(f => f.Fields).FirstOrDefault(x => x.Id == recordId);
             return _mapper.Map<RecordModel>(record);
         }
         public async Task<long> Create(RecordModel recordModel)
         {
             var record = _mapper.Map<RecordEntity>(recordModel);
+
+            /*
+            var fields = await _context.Fields.AddAsync(new FieldsEntity 
+            { AssigneeId = recordModel.AssigneeId, Description = recordModel.Description,
+                IssuerId = recordModel.IssuerId, Name = recordModel.Name, State = (DAL.Entities.FieldState)recordModel.State });
+            
+
+            await _context.SaveChangesAsync();
+            */
+
             var result = await _context.Records.AddAsync(record);
             await _context.SaveChangesAsync();
             return result.Entity.Id;
