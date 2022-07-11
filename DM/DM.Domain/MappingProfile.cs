@@ -13,6 +13,10 @@ namespace DM.Domain
             CreateMap<UserModel, UserEntity>();
             CreateMap<ItemModel, ItemEntity>();
             CreateMap<ItemEntity, ItemModel>();
+            CreateMap<ProjectEntity, ProjectModel>();
+            CreateMap<ProjectModel, ProjectEntity>();
+            CreateMap<RecordEntity, RecordModel>();
+            CreateMap<RecordModel, RecordEntity>();
         }
     }
 }

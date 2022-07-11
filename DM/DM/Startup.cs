@@ -27,6 +27,8 @@ namespace DM
             services.AddAutoMapper(typeof(MappingProfile));
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IItemService, ItemService>();
+            services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<IRecordService, RecordService>();
 
             services.AddDbContext<DmDbContext>(options =>
             {

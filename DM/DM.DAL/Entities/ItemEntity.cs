@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace DM.DAL.Entities
 {
+    /// <summary>
+    /// Object .bim (ifc)
+    /// </summary>
     public class ItemEntity : BaseEntity
     {
         public string Name { get; set; }

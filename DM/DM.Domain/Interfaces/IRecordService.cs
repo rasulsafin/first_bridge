@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace DM.Domain.Interfaces
 {
-    public interface IItemService
+    public interface IRecordService
     {
-        public List<ItemModel> GetAll();
-        public ItemModel GetById(long itemId);
-        public Task<long> Create(ItemModel itemModel);
+        public List<RecordModel> GetAll();
+        public RecordModel GetById(long recordId);
+        public Task<long> Create(RecordModel recordModel);
     }
 }

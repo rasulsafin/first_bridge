@@ -10,11 +10,11 @@ namespace DM.Entities
         public string Login { get; set; }
         public string Email { get; set; }
         public byte[] PasswordHash { get; set; }
-        public ICollection<ObjectiveEntity> Objectives { get; set; }
+        public List<ObjectiveEntity> Objectives { get; set; }
 
-        public ICollection<UserProjectEntity> Projects { get; set; }
+        public List<UserProjectEntity> Projects { get; set; }
 
-        public ICollection<UserRoleEntity> Roles { get; set; }
+        public List<UserRoleEntity> Roles { get; set; }
 
     }
 }

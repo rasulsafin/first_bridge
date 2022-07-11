@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 
 namespace DM.DAL.Entities
 {
+    /// <summary>
+    /// User role
+    /// </summary>
     public class RoleEntity
     {
         public int ID { get; set; }
 
         public string Name { get; set; }
 
-        public ICollection<UserRoleEntity> Users { get; set; }
+        public List<UserRoleEntity> Users { get; set; }
     }
 }

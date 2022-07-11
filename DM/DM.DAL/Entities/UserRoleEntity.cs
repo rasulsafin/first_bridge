@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace DM.DAL.Entities
 {
+    /// <summary>
+    /// many to many
+    /// </summary>
     public class UserRoleEntity : BaseEntity
     {
         public long UserId { get; set; }
