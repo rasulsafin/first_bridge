@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.css';
 import {BrowserRouter, Route, Link, Routes } from 'react-router-dom';
 import {AppBar, Box, Typography, Toolbar} from '@mui/material';
 import {Home} from "./components/pages/HomePage/Home";

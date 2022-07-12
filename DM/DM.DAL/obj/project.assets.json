@@ -5856,19 +5856,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\rhadiev\\.nuget\\packages\\": {}
+    "C:\\Users\\rizmailov\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\projects\\dm\\document-manager\\DM\\DM.DAL\\DM.DAL.csproj",
+      "projectUniqueName": "C:\\Users\\rizmailov\\RiderProjects\\DocMan\\DM\\DM.DAL\\DM.DAL.csproj",
       "projectName": "DM.DAL",
-      "projectPath": "C:\\projects\\dm\\document-manager\\DM\\DM.DAL\\DM.DAL.csproj",
-      "packagesPath": "C:\\Users\\rhadiev\\.nuget\\packages\\",
-      "outputPath": "C:\\projects\\dm\\document-manager\\DM\\DM.DAL\\obj\\",
+      "projectPath": "C:\\Users\\rizmailov\\RiderProjects\\DocMan\\DM\\DM.DAL\\DM.DAL.csproj",
+      "packagesPath": "C:\\Users\\rizmailov\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\rizmailov\\RiderProjects\\DocMan\\DM\\DM.DAL\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\rhadiev\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\rizmailov\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
