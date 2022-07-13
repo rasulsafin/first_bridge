@@ -11,7 +11,10 @@ namespace DM.DAL.Entities
         public string Title { get; set; }
 
  //       public List<ObjectiveEntity> Objectives { get; set; }
-        public List<UserEntity> Users { get; set; }
+
+ //       public List<long>? UserIds { get; set; }
+        public List<UserProjectEntity> Users { get; set; }
         public List<ItemEntity> Items { get; set; }
+        public List<RecordEntity> Records { get; set; }
     }
 }

@@ -39,5 +39,12 @@ namespace DM.Controllers
 
             return Ok(id);
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int userId)
+        {
+            await _userService.Delete(userId);
+            return Ok();
+        }
     }
 }
