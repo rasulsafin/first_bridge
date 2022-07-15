@@ -6,83 +6,49 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2e1f95ed-fc57-4af1-a92f-28dd04a71de3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/DM.DAL/obj/rider.project.restore.info" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DM.Domain/obj/rider.project.restore.info" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DM/obj/rider.project.restore.info" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pwa-react/src/components/navMenu/NavMenu.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/ProjectsPage/components/ProjectsGrid.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/ProjectsPage/components/modal/AddProjectModal.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/ProjectsPage/components/modal/EditProjectModal.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/UsersPage/components/modal/AddUserModal.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/UsersPage/components/modal/EditUserModal.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pwa-react/.prettierrc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pwa-react/src/axios/axiosInstance.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/LoginPage/LoginPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/ProfilePage/ProfilePage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/ProjectsPage/components/ProjectDetailPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/RecordsPage/Records.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/RecordsPage/components/RecordsGrid.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/UsersPage/UsersTest.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pwa-react/src/redux/store.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pwa-react/src/redux/usersReducer.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pwa-react/src/services/users.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DM/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.DAL/bin/Debug/net5.0/DM.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/bin/Debug/net5.0/DM.DAL.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.DAL/bin/Debug/net5.0/DM.DAL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/bin/Debug/net5.0/DM.DAL.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.DAL/bin/Debug/net5.0/DM.DAL.runtimeconfig.dev.json" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/bin/Debug/net5.0/DM.DAL.runtimeconfig.dev.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.DAL/obj/DM.DAL.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/obj/DM.DAL.csproj.nuget.dgspec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.DAL/obj/DM.DAL.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/obj/DM.DAL.csproj.nuget.g.props" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.DAL/obj/Debug/net5.0/DM.DAL.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/obj/Debug/net5.0/DM.DAL.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.DAL/obj/Debug/net5.0/DM.DAL.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/obj/Debug/net5.0/DM.DAL.assets.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.DAL/obj/Debug/net5.0/DM.DAL.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/obj/Debug/net5.0/DM.DAL.csproj.AssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.DAL/obj/Debug/net5.0/DM.DAL.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/obj/Debug/net5.0/DM.DAL.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.DAL/obj/Debug/net5.0/DM.DAL.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/obj/Debug/net5.0/DM.DAL.csproj.FileListAbsolute.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.DAL/obj/Debug/net5.0/DM.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/obj/Debug/net5.0/DM.DAL.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.DAL/obj/Debug/net5.0/DM.DAL.genruntimeconfig.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/obj/Debug/net5.0/DM.DAL.genruntimeconfig.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.DAL/obj/Debug/net5.0/DM.DAL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/obj/Debug/net5.0/DM.DAL.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.DAL/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.DAL/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/obj/project.nuget.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.DAL/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/obj/project.packagespec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.Domain/bin/Debug/net5.0/DM.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/bin/Debug/net5.0/DM.DAL.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.Domain/bin/Debug/net5.0/DM.DAL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/bin/Debug/net5.0/DM.DAL.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM.Domain/Models/FieldsModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/Models/FieldsModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM.Domain/Models/ItemModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/Models/ItemModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM.Domain/Models/ProjectModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/Models/ProjectModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM.Domain/Models/RecordModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/Models/RecordModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM.Domain/Models/UserModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/Models/UserModel.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DM.Domain/bin/Debug/net5.0/DM.Domain.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/bin/Debug/net5.0/DM.Domain.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DM.Domain/bin/Debug/net5.0/DM.Domain.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/bin/Debug/net5.0/DM.Domain.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.Domain/obj/DM.Domain.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/obj/DM.Domain.csproj.nuget.dgspec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.Domain/obj/DM.Domain.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/obj/DM.Domain.csproj.nuget.g.props" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/DM.Domain.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/DM.Domain.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/DM.Domain.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/DM.Domain.assets.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/DM.Domain.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/DM.Domain.csproj.AssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/DM.Domain.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/DM.Domain.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/DM.Domain.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/DM.Domain.csproj.FileListAbsolute.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/DM.Domain.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/DM.Domain.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/DM.Domain.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/DM.Domain.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.Domain/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.Domain/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/obj/project.nuget.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.Domain/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/obj/project.packagespec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/DM/Properties/launchSettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/DM/appsettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.DAL.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.DAL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.DAL.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/ref/DM.Domain.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/ref/DM.Domain.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/refint/DM.Domain.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/refint/DM.Domain.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.Domain.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.Domain.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.Domain.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.Domain.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.runtimeconfig.dev.json" beforeDir="false" afterPath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.runtimeconfig.dev.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/bin/Debug/net5.0/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/DM/bin/Debug/net5.0/appsettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/obj/DM.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/DM.csproj.nuget.dgspec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/obj/DM.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/DM.csproj.nuget.g.props" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.MvcApplicationPartsAssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.MvcApplicationPartsAssemblyInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.assets.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.csproj.AssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.csproj.FileListAbsolute.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.genruntimeconfig.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.genruntimeconfig.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/obj/Debug/net5.0/ref/DM.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/Debug/net5.0/ref/DM.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/obj/Debug/net5.0/refint/DM.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/Debug/net5.0/refint/DM.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/project.nuget.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/project.packagespec.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pwa-react/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pwa-react/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pwa-react/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pwa-react/src/.env" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pwa-react/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pwa-react/src/axios/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pwa-react/src/components/Home.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pwa-react/src/components/pages/HomePage/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/HomePage/Home.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pwa-react/src/components/pages/ProjectsPage/Projects.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/ProjectsPage/Projects.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pwa-react/src/components/pages/ProjectsPage/components/ProjectsGrid.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/ProjectsPage/components/ProjectsGrid.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pwa-react/src/components/pages/UsersPage/UserBadge.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pwa-react/src/components/pages/UsersPage/Users.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/UsersPage/Users.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pwa-react/src/components/pages/UsersPage/components/EditUser.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/UsersPage/components/EditUser.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pwa-react/src/components/pages/UsersPage/components/UsersGrid.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/UsersPage/components/UsersGrid.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pwa-react/src/components/pages/UsersPage/components/ViewUser.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/UsersPage/components/ViewUser.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pwa-react/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,16 +81,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\JetBrains Rider 2022.1.2\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Launch Settings Profile.DM">
     <configuration name="DM" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/DM/DM.csproj" />
@@ -169,7 +136,10 @@
       <workItem from="1657116874065" duration="155000" />
       <workItem from="1657117093793" duration="183000" />
       <workItem from="1657524748347" duration="893000" />
-      <workItem from="1657606366036" duration="23718000" />
+      <workItem from="1657606366036" duration="30370000" />
+      <workItem from="1657692600810" duration="24288000" />
+      <workItem from="1657778826417" duration="25932000" />
+      <workItem from="1657865256696" duration="1882000" />
     </task>
     <task id="LOCAL-00001" summary="FirstSteps">
       <created>1657112582598</created>
@@ -206,7 +176,14 @@
       <option name="project" value="LOCAL" />
       <updated>1657548602923</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Add projectPage">
+      <created>1657632890397</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1657632890397</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -244,6 +221,7 @@
     <MESSAGE value="created pwa project with navigation and react-router-dom" />
     <MESSAGE value="added ProjectService/RecordService" />
     <MESSAGE value="Added UserGrid" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added UserGrid" />
+    <MESSAGE value="Add projectPage" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add projectPage" />
   </component>
 </project>

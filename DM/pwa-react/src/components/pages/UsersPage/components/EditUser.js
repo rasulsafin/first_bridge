@@ -1,8 +1,8 @@
 export const EditUser = props => {
 
-    return (
-        <div>
-            
-        </div>
-    )
-}
+  return (
+    <div>
+
+    </div>
+  );
+};

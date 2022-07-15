@@ -1,35 +1,22 @@
-import {Table} from "react-bootstrap";
+import * as React from 'react';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+
+const columns: GridColDef[] = [
+  { field: 'name', headerName: 'name', width: 200 },
+  { field: 'login', headerName: 'login', width: 200 },
+  { field: 'email', headerName: 'email', width: 200 },
+];
 
 export default function UsersGrid(props) {
-
-    return (
-        <div>
-            <Table
-                className="mt-5"
-                striped
-                bordered
-                hover
-                size="sm"
-                data-pagination="true"
-            >
-                <thead>
-                <tr>
-                    <td>Name</td>
-                    <td>Login</td>
-                    <td>Email</td>
-                    <td>Edit</td>
-                </tr>
-                </thead>
-                <tbody>
-                {props.users.map(user =>
-                    <tr key={user.id}>
-                        <td data-sortable="true">{user.name}</td>
-                        <td>{user.login}</td>
-                        <td>{user.email}</td>
-                        <td>Edit / Delete</td>
-                    </tr>)}
-                </tbody>
-            </Table>
-        </div>
-    )
+  return (
+    <div style={{ height: 650, width: '80%', marginTop: 20 }}>
+      <DataGrid
+        rows={props.users}
+        columns={columns}
+        pageSize={10}
+        rowsPerPageOptions={[10]}
+        checkboxSelection
+      />
+    </div>
+  );
 }

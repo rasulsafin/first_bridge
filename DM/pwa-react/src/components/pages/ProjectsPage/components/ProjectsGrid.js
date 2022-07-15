@@ -1,35 +1,21 @@
-import {Table} from "react-bootstrap";
+import * as React from 'react';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+
+const columns: GridColDef[] = [
+  { field: 'title', headerName: 'Title', width: 200 },
+  { field: 'email', headerName: 'Description', width: 200 },
+];
 
 export default function ProjectsGrid(props) {
-
-    return (
-        <div>
-            <Table
-                className="mt-5"
-                striped bordered hover size="sm"
-            >
-                <thead>
-                <tr>
-                    <td>Project title</td>
-                    <td>User</td>
-                    <td>Items</td>
-                    <td>Edit</td>
-                </tr>
-                </thead>
-                <tbody>
-                {props.projects.map(project =>
-                    <tr key={project.id}>
-                        <td>{project.title}</td>
-                        <td> {project.users.map(user => <tr key={user.id}>
-                            <td>{user.name}</td>
-                        </tr>)}</td>
-                        <td> {project.items.map(item => <tr key={item.id}>
-                            <td>{item.name}</td>
-                        </tr>)}</td>
-                        <td>Edit / Delete</td>
-                    </tr>)}
-                </tbody>
-            </Table>
-        </div>
-    )
+  console.log(props.projects);
+  return (
+    <div style={{ height: 650, width: '80%', marginTop: 20 }}>
+      <DataGrid
+        rows={props.projects}
+        columns={columns}
+        pageSize={10}
+        rowsPerPageOptions={[10]}
+      />
+    </div>
+  );
 }
