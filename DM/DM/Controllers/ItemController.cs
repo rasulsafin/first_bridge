@@ -1,5 +1,6 @@
 ﻿using DM.Domain.Interfaces;
 using DM.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
@@ -10,6 +11,7 @@ namespace DM.Controllers
 {
     [ApiController]
     [Route("api/item")]
+    [Authorize(Roles ="admin")]
     public class ItemController : ControllerBase
     {
         private readonly IItemService _itemService;
@@ -20,6 +22,7 @@ namespace DM.Controllers
             _itemService = itemService;
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -45,7 +48,7 @@ namespace DM.Controllers
             return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
         }
         */
-
+        [Authorize]
         [HttpGet("download")]
         public IActionResult Download(string fileName)
         {
@@ -59,7 +62,7 @@ namespace DM.Controllers
 
             return Ok();
         }
-
+        [Authorize]
         [HttpPost, DisableRequestSizeLimit, Route("file")]
         public async Task<IActionResult> Post(IFormFile file)
         {

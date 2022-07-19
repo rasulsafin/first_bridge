@@ -1,5 +1,6 @@
 ﻿using DM.Domain.Interfaces;
 using DM.Domain.Models;
+using DM.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -15,7 +16,7 @@ namespace DM.Controllers
         {
             _recordService = recordService;
         }
-
+        [Authorize]
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -23,7 +24,7 @@ namespace DM.Controllers
 
             return Ok(users);
         }
-
+        [Authorize]
         [HttpGet("{recordId}")]
         public IActionResult GetById(long recordId)
         {
@@ -31,11 +32,19 @@ namespace DM.Controllers
 
             return Ok(record);
         }
-
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(RecordModel recordModel)
         {
             var id = await _recordService.Create(recordModel);
+
+            return Ok(id);
+        }
+        [Authorize]
+        [HttpDelete]
+        public async Task<IActionResult> Delete(long recordId)
+        {
+            var id = await _recordService.Delete(recordId);
 
             return Ok(id);
         }

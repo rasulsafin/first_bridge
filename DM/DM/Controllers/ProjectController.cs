@@ -1,5 +1,6 @@
 ﻿using DM.Domain.Interfaces;
 using DM.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -31,7 +32,7 @@ namespace DM.Controllers
 
             return Ok(project);
         }
-
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(ProjectModel projectModel)
         {

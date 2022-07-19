@@ -9,6 +9,7 @@ namespace DM.DAL.Entities
     public class RecordEntity : BaseEntity
     {
         public string Name { get; set; }
+        public long ProjectId { get; set; }
         public ProjectEntity Project { get; set; }
         public List<FieldsEntity> Fields { get; set; }
     }

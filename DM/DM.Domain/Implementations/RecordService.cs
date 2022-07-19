@@ -4,10 +4,8 @@ using DM.Domain.Interfaces;
 using DM.Domain.Models;
 using DM.repository;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DM.Domain.Implementations
@@ -36,18 +34,20 @@ namespace DM.Domain.Implementations
         {
             var record = _mapper.Map<RecordEntity>(recordModel);
 
-            /*
-            var fields = await _context.Fields.AddAsync(new FieldsEntity 
-            { AssigneeId = recordModel.AssigneeId, Description = recordModel.Description,
-                IssuerId = recordModel.IssuerId, Name = recordModel.Name, State = (DAL.Entities.FieldState)recordModel.State });
-            
-
-            await _context.SaveChangesAsync();
-            */
 
             var result = await _context.Records.AddAsync(record);
             await _context.SaveChangesAsync();
             return result.Entity.Id;
+        }
+        //TODO: Add Checks
+        public async Task<bool> Delete(long recordId)
+        {
+            var result = await _context.Records.Include(x => x.Fields).FirstOrDefaultAsync(x => x.Id == recordId);
+            // if result.length == 0 Throw New Exception
+
+            _context.Records.Remove(result);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

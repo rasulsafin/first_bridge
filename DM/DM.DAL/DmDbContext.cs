@@ -11,6 +11,16 @@ namespace DM.repository
             Database.EnsureCreated();
         }
 
+        public void Detach<T>(DbContext context, T entry)
+        {
+            if (entry == null)
+            {
+                return;
+            }
+
+            context.Entry(entry).State = EntityState.Detached;
+        }
+
         public DmDbContext()
         {
 
@@ -49,13 +59,14 @@ namespace DM.repository
                     .HasOne(x => x.Project)
                     .WithMany(x => x.Items)
                     .OnDelete(DeleteBehavior.Cascade);
-/*
-            modelBuilder.Entity<FieldsEntity>().
-                HasOne(x => x.AssigneeId)
-                .WithMany(x => x.Fields)
-                .OnDelete(DeleteBehavior.Cascade);
+            /*
+                        modelBuilder.Entity<FieldsEntity>().
+                            HasOne(x => x.AssigneeId)
+                            .WithMany(x => x.Fields)
+                            .OnDelete(DeleteBehavior.Cascade);
+            
 
-            public static void Detach<T>(DbContext context, T entry)
+            public static void Detach<T>(this DbContext context, T entry)
             {
                 if (entry == null)
                 {
