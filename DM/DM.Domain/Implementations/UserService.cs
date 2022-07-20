@@ -27,7 +27,7 @@ namespace DM.Domain.Implementations
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
         {
-            var user = _context.Users.FirstOrDefault(x => x.Login == model.Login && x.Password == model.Password);
+            var user = _context.Users.FirstOrDefault(x => x.Login == model.Login);
 
             if (user == null)
             {
@@ -35,6 +35,12 @@ namespace DM.Domain.Implementations
                 return null;
             }
 
+            var passwordChecker = PasswordHelper.VerifyHashedPassword(user.Password, model.Password);
+
+            if (passwordChecker == false)
+            {
+                return null;
+            }
             var token = _configuration.GenerateJwtToken(user);
 
             return new AuthenticateResponse(user, token);
@@ -51,7 +57,11 @@ namespace DM.Domain.Implementations
         }
         public async Task<long> Create(UserModel userModel)
         {
-            var user = _mapper.Map<UserEntity>(userModel);
+            var hashedPass = PasswordHelper.HashPassword(userModel.Password);
+            var user = _mapper.Map<UserEntity>(new UserModel
+            { Login = userModel.Login, Name = userModel.Name, Email = userModel.Email, Password = hashedPass });
+
+
             var result = await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
             return result.Entity.Id;

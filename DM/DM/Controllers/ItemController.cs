@@ -1,6 +1,6 @@
 ﻿using DM.Domain.Interfaces;
 using DM.Domain.Models;
-using Microsoft.AspNetCore.Authorization;
+using DM.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
@@ -11,7 +11,7 @@ namespace DM.Controllers
 {
     [ApiController]
     [Route("api/item")]
-    [Authorize(Roles ="admin")]
+    [Authorize]
     public class ItemController : ControllerBase
     {
         private readonly IItemService _itemService;

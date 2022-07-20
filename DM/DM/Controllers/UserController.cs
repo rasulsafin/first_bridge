@@ -1,7 +1,7 @@
 ﻿using DM.Domain.Exceptions;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
-using Microsoft.AspNetCore.Authorization;
+using DM.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using static DM.Validators.ServiceResponsesValidator;
@@ -44,6 +44,7 @@ namespace DM.Controllers
         public IActionResult Authenticate(AuthenticateRequest model)
         {
             var response = _userService.Authenticate(model);
+            
 
             if (response == null)
                 return BadRequest(new { message = "Username or password is incorrect" });

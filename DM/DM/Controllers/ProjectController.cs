@@ -1,6 +1,6 @@
 ﻿using DM.Domain.Interfaces;
 using DM.Domain.Models;
-using Microsoft.AspNetCore.Authorization;
+using DM.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
