@@ -12,23 +12,10 @@ export class Projects extends Component {
     };
   }
 
-  getProjects = async () => {
-    const response = await fetch("https://localhost:5001/api/project");
-    console.log(response);
-    const projectsData = await response.json();
-    this.setState({
-      projects: projectsData
-    });
-  };
-
-  componentDidMount() {
-    this.getProjects();
-  }
-
   render() {
     let addModalClose = () => this.setState({ addModalShow: false });
     return (
-      <div className="m-5">
+      <div className="p-4">
         <h1 className="mb-4">Projects</h1>
         <ButtonToolbar>
           <Button
@@ -43,7 +30,7 @@ export class Projects extends Component {
           >
           </AddProjectModal>
         </ButtonToolbar>
-        <ProjectsGrid projects={this.state.projects} />
+        <ProjectsGrid />
       </div>
     );
   }

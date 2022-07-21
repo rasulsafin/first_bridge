@@ -12,7 +12,7 @@ namespace DM.Entities
     //    public byte[] PasswordHash { get; set; }
     //    public List<ObjectiveEntity> Objectives { get; set; }
 
-    //    public List<UserProjectEntity> Projects { get; set; }
+        public List<UserProjectEntity> Projects { get; set; }
 
      //   public List<UserRoleEntity> Roles { get; set; }
 

@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using DM.DAL.Entities;
 
 namespace DM.Domain.Implementations
 {
@@ -37,6 +39,38 @@ namespace DM.Domain.Implementations
             var result = await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
             return result.Entity.Id;
+        }
+
+        public async Task<bool> Delete(long userId)
+        {
+
+            var fieldEntity = await _context.Fields.FirstOrDefaultAsync(x => x.Id == userId);
+            _context.Fields.Attach(fieldEntity);
+
+            fieldEntity.AssigneeId = null;
+            fieldEntity.IssuerId = null;
+            await _context.SaveChangesAsync();
+       //     context.Entry(entry).State = EntityState.Detached;
+            _context.Entry(fieldEntity).State = EntityState.Detached;
+
+            // check that the fields do not contain users to be deleted
+            //        _context.Fields.Where(u => u.AssigneeId == userId).ToList().ForEach(x => x.AssigneeId = null);
+            //                  _context.Fields.Where(u => u.IssuerId == userId).ToList().ForEach(x => x.AssigneeId = null);
+         //   await _context.SaveChangesAsync();
+
+
+            var user = _context.Users.FirstOrDefault(q => q.Id == userId);
+            
+
+            if (user == null)
+            {
+                return false;
+            }
+            
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+            return true;
+
         }
     }
 }

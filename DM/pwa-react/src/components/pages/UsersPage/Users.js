@@ -12,25 +12,10 @@ export class Users extends Component {
     };
   }
 
-  getUsers = async () => {
-    const response = await fetch("https://localhost:5001/api/users");
-
-    const usersData = await response.json();
-
-    console.log(usersData);
-    this.setState({
-      users: usersData
-    });
-  };
-
-  componentDidMount() {
-    this.getUsers();
-  }
-
   render() {
     let addModalClose = () => this.setState({ addModalShow: false });
     return (
-      <div className="m-5">
+      <div className="p-4">
         <h1 className="mb-4">User</h1>
         <div>
         </div>
@@ -47,8 +32,7 @@ export class Users extends Component {
           >
           </AddUserModal>
         </ButtonToolbar>
-        <UsersGrid users={this.state.users} />
-        {/*<DataTable users={this.state.users} />*/}
+        <UsersGrid />
       </div>
     );
   }

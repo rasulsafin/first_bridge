@@ -1,38 +1,58 @@
-import { Table } from "react-bootstrap";
+import { DataGrid, GridColDef, GridColumnHeaderParams, GridEventListener, GridEvents } from "@mui/x-data-grid";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
+import { fetchRecords, selectAllRecords } from "../../../../services/recordsSlice";
 
-export default function RecordsGrid(props) {
+const columns: GridColDef[] = [
+  {
+    field: "name",
+    width: 200,
+    renderHeader: (params: GridColumnHeaderParams) => (
+      <strong>
+        <h4>
+          {"Name"}
+        </h4>
+      </strong>
+    )
+  }
+];
+
+export default function RecordsGrid() {
+  const dispatch = useDispatch();
+  const records = useSelector(selectAllRecords);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(fetchRecords());
+  }, []);
+
+  const handleRowDoubleClick: GridEventListener<GridEvents.rowClick> = ({ row }) => {
+    navigate(`/record/${row.id}`);
+  };
 
   return (
-    <div>
-      <Table
-        className="mt-5"
-        striped
-        bordered
-        hover
-        size="sm"
-      >
-        <thead>
-        <tr>
-          <td>Record Name</td>
-          <td>fieldName</td>
-          <td>Description</td>
-          <td>Edit</td>
-        </tr>
-        </thead>
-        <tbody>
-        {props.records.map(record =>
-          <tr key={record.id}>
-            <td>{record.name}</td>
-            <td>{record.fields.map(field => <tr key={field.id}>
-              <td>{field.name}</td>
-            </tr>)}</td>
-            <td>{record.fields.map(field => <tr key={field.id}>
-              <td>{field.description}</td>
-            </tr>)}</td>
-            <td>Edit / Delete</td>
-          </tr>)}
-        </tbody>
-      </Table>
+    <div style={{
+      height: 650,
+      width: "100%",
+      marginTop: 20
+    }}>
+      <DataGrid
+        rows={records}
+        columns={columns}
+        pageSize={10}
+        rowsPerPageOptions={[10]}
+        onRowDoubleClick={handleRowDoubleClick}
+        sx={{
+          "& .MuiDataGrid-row:hover": {
+            color: "green"
+          },
+          border: 2,
+          boxShadow: 2,
+          background: "white",
+          fontSize: 18
+        }}
+      />
     </div>
   );
 }

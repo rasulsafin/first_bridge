@@ -11,25 +11,10 @@ export class Records extends Component {
     };
   }
 
-  getRecords = async () => {
-    const response = await fetch("https://localhost:5001/api/record");
-
-    const recordsData = await response.json();
-
-    console.log(recordsData);
-    this.setState({
-      records: recordsData
-    });
-  };
-
-  componentDidMount() {
-    this.getRecords();
-  }
-
   render() {
     // let addModalClose = () => this.setState({addModalShow: false});
     return (
-      <div className="m-5">
+      <div className="p-4">
         <h1 className="mb-4">Records</h1>
         <div>
         </div>
@@ -46,7 +31,7 @@ export class Records extends Component {
           {/*>*/}
           {/*</AddUserModal>*/}
         </ButtonToolbar>
-        <RecordsGrid records={this.state.records} />
+        <RecordsGrid />
       </div>
     );
   }

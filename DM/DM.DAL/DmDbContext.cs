@@ -25,7 +25,47 @@ namespace DM.repository
         public DbSet<ItemEntity> Items { get; set; }
         public DbSet<RoleEntity> Roles { get; set; }
         public DbSet<UserRoleEntity> UserRoles { get; set; }
-        
-    }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Users should have unique logins
+            /*
+            modelBuilder.Entity<UserEntity>()
+                .HasIndex(x => x.Login)
+                .IsUnique(true);
+            */
+            modelBuilder.Entity<UserProjectEntity>()
+                .HasKey(x => new { x.ProjectId, x.UserId });
+            modelBuilder.Entity<UserProjectEntity>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.Projects)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<UserProjectEntity>()
+                .HasOne(x => x.Project)
+                .WithMany(x => x.Users)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ItemEntity>()
+                    .HasOne(x => x.Project)
+                    .WithMany(x => x.Items)
+                    .OnDelete(DeleteBehavior.Cascade);
+/*
+            modelBuilder.Entity<FieldsEntity>().
+                HasOne(x => x.AssigneeId)
+                .WithMany(x => x.Fields)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            public static void Detach<T>(DbContext context, T entry)
+            {
+                if (entry == null)
+                {
+                    return;
+                }
+
+                context.Entry(entry).State = EntityState.Detached;
+            }
+            */
+        }
+
+    }
 }

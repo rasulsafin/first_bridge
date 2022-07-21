@@ -1,11 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit'
-import UsersReducer from "./usersReducer";
 import thunk from "redux-thunk";
 import logger from 'redux-logger'
+import usersReducer from '../services/usersSlice';
+import projectsReducer from '../services/projectsSlice';
+import recordsReducer from '../services/recordsSlice';
 
  const store = configureStore({
   reducer: {
-    usersReducer: UsersReducer,
+    users: usersReducer,
+    projects: projectsReducer,
+    records: recordsReducer,
   },
   middleware: [thunk, logger],
 })

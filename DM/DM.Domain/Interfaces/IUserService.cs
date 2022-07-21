@@ -12,5 +12,6 @@ namespace DM.Domain.Interfaces
         public List<UserModel> GetAll();
         public UserModel GetById(long userId);
         public Task<long> Create(UserModel userModel);
+        public Task<bool> Delete(long userId);
     }
 }
