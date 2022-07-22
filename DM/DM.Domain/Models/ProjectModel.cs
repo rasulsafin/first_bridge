@@ -1,18 +1,15 @@
 ﻿using DM.DAL.Entities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DM.Domain.Models
 {
     public class ProjectModel
     {
+        public int Id { get; set; }
         public string Title { get; set; }
+        public List<UserModel> User { get; set; }
 
-        public ICollection<ObjectiveEntity> Objectives { get; set; }
-
-        public ICollection<UserProjectEntity> Users { get; set; }
+        //    public List<ItemModel> Items { get; set; }
+        //    public List<ObjectiveEntity> Objectives { get; set; }
     }
 }

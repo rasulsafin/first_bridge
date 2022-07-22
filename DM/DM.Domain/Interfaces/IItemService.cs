@@ -10,7 +10,7 @@ namespace DM.Domain.Interfaces
     public interface IItemService
     {
         public List<ItemModel> GetAll();
-        public ItemModel GetById(long userId);
-        public Task<long> Create(ItemModel userModel);
+        public ItemModel GetById(long itemId);
+        public Task<long> Create(ItemModel itemModel);
     }
 }

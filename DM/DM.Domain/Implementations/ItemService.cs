@@ -3,11 +3,8 @@ using DM.DAL.Entities;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
 using DM.repository;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DM.Domain.Implementations

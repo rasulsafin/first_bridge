@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c199095e-3025-4057-848c-8c0a71c92532" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../.idea/.idea.DM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/.idea.DM/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.vs/DM/DesignTimeBuild/.dtbcache.v2" beforeDir="false" afterPath="$PROJECT_DIR$/../.vs/DM/DesignTimeBuild/.dtbcache.v2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.vs/DM/FileContentIndex/2ba886c3-93fc-4bfb-a083-9ff67c592dd0.vsidx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.vs/DM/FileContentIndex/5f3267de-02ff-4fa2-9634-e61f69d31fa8.vsidx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.vs/DM/v17/.suo" beforeDir="false" afterPath="$PROJECT_DIR$/../.vs/DM/v17/.suo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.vs/ProjectEvaluation/dm.metadata.v2" beforeDir="false" afterPath="$PROJECT_DIR$/../.vs/ProjectEvaluation/dm.metadata.v2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.vs/ProjectEvaluation/dm.projects.v2" beforeDir="false" afterPath="$PROJECT_DIR$/../.vs/ProjectEvaluation/dm.projects.v2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DmDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DmDbContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Entities/ProjectEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Entities/ProjectEntity.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Entities/UserEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Entities/UserEntity.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net5.0/DM.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net5.0/DM.DAL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net5.0/DM.DAL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net5.0/DM.DAL.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net5.0/DM.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net5.0/DM.DAL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net5.0/DM.DAL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net5.0/DM.DAL.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net5.0/ref/DM.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net5.0/ref/DM.DAL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net5.0/refint/DM.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net5.0/refint/DM.DAL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DM.Domain/Implementations/ProjectService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../DM.Domain/Implementations/ProjectService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DM.Domain/Implementations/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../DM.Domain/Implementations/UserService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DM.Domain/Interfaces/IUserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../DM.Domain/Interfaces/IUserService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DM.Domain/MappingProfile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../DM.Domain/MappingProfile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DM.Domain/Models/ProjectModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../DM.Domain/Models/ProjectModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DM.Domain/bin/Debug/net5.0/DM.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../DM.Domain/bin/Debug/net5.0/DM.DAL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DM.Domain/bin/Debug/net5.0/DM.DAL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../DM.Domain/bin/Debug/net5.0/DM.DAL.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DM.Domain/bin/Debug/net5.0/DM.Domain.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../DM.Domain/bin/Debug/net5.0/DM.Domain.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DM.Domain/bin/Debug/net5.0/DM.Domain.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../DM.Domain/bin/Debug/net5.0/DM.Domain.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DM.Domain/obj/Debug/net5.0/DM.Domain.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../DM.Domain/obj/Debug/net5.0/DM.Domain.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DM.Domain/obj/Debug/net5.0/DM.Domain.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../DM.Domain/obj/Debug/net5.0/DM.Domain.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DM.Domain/obj/Debug/net5.0/DM.Domain.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../DM.Domain/obj/Debug/net5.0/DM.Domain.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DM.Domain/obj/Debug/net5.0/ref/DM.Domain.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../DM.Domain/obj/Debug/net5.0/ref/DM.Domain.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DM.Domain/obj/Debug/net5.0/refint/DM.Domain.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../DM.Domain/obj/Debug/net5.0/refint/DM.Domain.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DM/Controllers/UserController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../DM/Controllers/UserController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DM/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../DM/Properties/launchSettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DM/bin/Debug/net5.0/DM.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../DM/bin/Debug/net5.0/DM.DAL.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DM/bin/Debug/net5.0/DM.DAL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../DM/bin/Debug/net5.0/DM.DAL.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DM/bin/Debug/net5.0/DM.Domain.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../DM/bin/Debug/net5.0/DM.Domain.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DM/bin/Debug/net5.0/DM.Domain.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../DM/bin/Debug/net5.0/DM.Domain.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DM/bin/Debug/net5.0/DM.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../DM/bin/Debug/net5.0/DM.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DM/bin/Debug/net5.0/DM.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../DM/bin/Debug/net5.0/DM.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DM/obj/Debug/net5.0/DM.MvcApplicationPartsAssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../DM/obj/Debug/net5.0/DM.MvcApplicationPartsAssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DM/obj/Debug/net5.0/DM.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../DM/obj/Debug/net5.0/DM.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DM/obj/Debug/net5.0/DM.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../DM/obj/Debug/net5.0/DM.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DM/obj/Debug/net5.0/DM.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../DM/obj/Debug/net5.0/DM.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DM/obj/Debug/net5.0/ref/DM.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../DM/obj/Debug/net5.0/ref/DM.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DM/obj/Debug/net5.0/refint/DM.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../DM/obj/Debug/net5.0/refint/DM.dll" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectId" id="2BscteZ5Mn9RkmVi3WizbsZgcn6" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenDatabaseViewOnStart": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/rhadiev"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
+    ]
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+</project>
