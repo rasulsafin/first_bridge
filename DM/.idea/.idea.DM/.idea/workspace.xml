@@ -5,40 +5,11 @@
     <projectFile profileName="DM">DM/DM.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2e1f95ed-fc57-4af1-a92f-28dd04a71de3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.vs/DM/FileContentIndex/837b0a14-b5e4-463b-8bf4-575e71bbb79d.vsidx" afterDir="false" />
+    <list default="true" id="2e1f95ed-fc57-4af1-a92f-28dd04a71de3" name="Changes" comment="fixed ItemService">
+      <change afterPath="$PROJECT_DIR$/.vs/DM/FileContentIndex/bc55bfc4-71a6-4351-b65e-7a609bb86e68.vsidx" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.vs/DM/FileContentIndex/f0b22851-b509-4ad4-b9a9-92bdded86380.vsidx" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.vs/DM/FileContentIndex/f890ccb7-5907-4352-bff4-d789bad480a3.vsidx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DM/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/DM/DesignTimeBuild/.dtbcache.v2" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/DM/DesignTimeBuild/.dtbcache.v2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/DM/FileContentIndex/5123732d-46d3-41b8-9d63-d99bd7b3656b.vsidx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/DM/FileContentIndex/dd04b010-e65c-44d1-b31b-31faded78d3e.vsidx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/DM/FileContentIndex/f6c99b8a-c30c-4e6f-adc8-ee06ca456ad5.vsidx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/DM/v17/.futdcache.v1" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/DM/v17/.futdcache.v1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/DM/v17/.suo" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/DM/v17/.suo" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/ProjectEvaluation/dm.metadata.v2" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/ProjectEvaluation/dm.metadata.v2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/ProjectEvaluation/dm.projects.v2" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/ProjectEvaluation/dm.projects.v2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.DAL/DmDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/DmDbContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.DAL/Entities/ItemEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/Entities/ItemEntity.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.DAL/Entities/UserEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/Entities/UserEntity.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.DAL/Entities/UserProjectEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/Entities/UserProjectEntity.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.DAL/bin/Debug/net5.0/DM.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/bin/Debug/net5.0/DM.DAL.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.DAL/bin/Debug/net5.0/DM.DAL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/bin/Debug/net5.0/DM.DAL.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.DAL/obj/Debug/net5.0/DM.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/obj/Debug/net5.0/DM.DAL.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.DAL/obj/Debug/net5.0/DM.DAL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/obj/Debug/net5.0/DM.DAL.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.Domain/bin/Debug/net5.0/DM.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/bin/Debug/net5.0/DM.DAL.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.Domain/bin/Debug/net5.0/DM.DAL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/bin/Debug/net5.0/DM.DAL.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/DM.Domain.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/obj/Debug/net5.0/DM.Domain.csproj.AssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/Controllers/ItemController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DM/Controllers/ItemController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/Controllers/ProjectController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DM/Controllers/ProjectController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/Controllers/RecordController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DM/Controllers/RecordController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.DAL.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.DAL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.DAL.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.csproj.AssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/Debug/net5.0/DM.pdb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,6 +91,7 @@
       <workItem from="1657719290187" duration="1923000" />
       <workItem from="1658240217864" duration="1197000" />
       <workItem from="1658328827101" duration="735000" />
+      <workItem from="1658473115088" duration="719000" />
     </task>
     <task id="LOCAL-00001" summary="FirstSteps">
       <created>1657112582598</created>
@@ -177,7 +149,14 @@
       <option name="project" value="LOCAL" />
       <updated>1658328945280</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="fixed ItemService">
+      <created>1658473411228</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1658473411228</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -218,6 +197,7 @@
     <MESSAGE value="fixed some relations, added delete operations for user, binded project with records, but need to fix userProjects" />
     <MESSAGE value="added jwt bearer authorization, fixed some problems" />
     <MESSAGE value="Added hashing password and fixed some problems with authorization" />
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="fixed ItemService" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed ItemService" />
   </component>
 </project>
