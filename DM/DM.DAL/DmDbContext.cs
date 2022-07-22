@@ -22,10 +22,7 @@ namespace DM.repository
         }
 
         public DmDbContext()
-        {
-
-        }
-
+        { }
         public DbSet<UserEntity> Users { get; set; }
         public DbSet<FieldsEntity> Fields { get; set; }
         public DbSet<ObjectiveEntity> Objective { get; set; }
@@ -39,11 +36,11 @@ namespace DM.repository
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Users should have unique logins
-            /*
+            
             modelBuilder.Entity<UserEntity>()
                 .HasIndex(x => x.Login)
                 .IsUnique(true);
-            */
+         
             modelBuilder.Entity<UserProjectEntity>()
                 .HasKey(x => new { x.ProjectId, x.UserId });
             modelBuilder.Entity<UserProjectEntity>()

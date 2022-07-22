@@ -1,14 +1,9 @@
 ﻿using DM.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DM.DAL.Entities
 {
     /// <summary>
-    /// Object .bim (ifc)
+    /// Object .bim, ifc, and png for tests
     /// </summary>
     public class ItemEntity : BaseEntity
     {

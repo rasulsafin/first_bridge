@@ -15,13 +15,18 @@ namespace DM.Controllers
     public class ItemController : ControllerBase
     {
         private readonly IItemService _itemService;
-        private static string path = @$"K:\BrioMRS\ОБМЕН. Временные файлы\dm test files\";
+        private static string path = @$"E:\others\";
+        //     private static string path = @$"K:\BrioMRS\ОБМЕН. Временные файлы\dm test files\"; Возможно постоянное использование этого пути
 
         public ItemController(IItemService itemService)
         {
             _itemService = itemService;
         }
 
+        /// <summary>
+        /// Get records about all documents
+        /// </summary>
+        /// <returns>list of items</returns>
         [Authorize]
         [HttpGet]
         public IActionResult GetAll()
@@ -30,30 +35,16 @@ namespace DM.Controllers
 
             return Ok(items);
         }
-        /*
-        [HttpGet("{itemId}")]
-        public IActionResult GetById(long itemId)
-        {
-            var item = _itemService.GetById(itemId);
 
-            return Ok(item);
-        }
-        */
-        /*
-        [HttpGet("download")]
-        public FileResult Download(string fileName)
-        {
-            var filepath = path + fileName;
-            byte[] fileBytes = System.IO.File.ReadAllBytes(filepath);
-            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
-        }
-        */
+        /// <summary>
+        /// Download file with Name specified in Db
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpGet("download")]
         public IActionResult Download(string fileName)
         {
-     /*       string remoteUri = "http://www.brio-dm.ru/library/"; */
-
             WebClient myWebClient = new WebClient();
             // Concatenate the domain with the Web resource filename.
             var myStringWebResource = path + fileName;
@@ -62,23 +53,35 @@ namespace DM.Controllers
 
             return Ok();
         }
+
+        /// <summary>
+        /// Upload file
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns>id of uploaded file</returns>
         [Authorize]
         [HttpPost, DisableRequestSizeLimit, Route("file")]
         public async Task<IActionResult> Post(IFormFile file)
         {
-            using (var fstream = new FileInfo(path + file.FileName).Create())
+            var fileExtension = Path.GetExtension(file.FileName);
+
+            if (fileExtension == ".jpg" || fileExtension == ".png" || fileExtension  == ".bim" || fileExtension  == "ifc")
             {
-                file.CopyTo(fstream);
+                using (var fstream = new FileInfo(path + file.FileName).Create())
+                {
+                    file.CopyTo(fstream);
+                }
+
+                var itemModel = new ItemModel()
+                {
+                    Name = file.FileName,
+                    RelativePath = path + file.FileName,
+                };
+                var item = await _itemService.Create(itemModel);
+                return Ok(item);
             }
-
-            var itemModel = new ItemModel()
-            {
-                Name = file.Name,
-                RelativePath = path + file.FileName,
-            };
-
-            var item = await _itemService.Create(itemModel);
-            return Ok(item);
+            else
+            { return BadRequest(new { message = "invalid file format" });}
         }
     }
 }

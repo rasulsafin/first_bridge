@@ -16,6 +16,7 @@ namespace DM.Controllers
         {
             _recordService = recordService;
         }
+
         [Authorize]
         [HttpGet]
         public IActionResult GetAll()
@@ -24,6 +25,7 @@ namespace DM.Controllers
 
             return Ok(users);
         }
+
         [Authorize]
         [HttpGet("{recordId}")]
         public IActionResult GetById(long recordId)
@@ -32,6 +34,7 @@ namespace DM.Controllers
 
             return Ok(record);
         }
+
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(RecordModel recordModel)
@@ -40,6 +43,7 @@ namespace DM.Controllers
 
             return Ok(id);
         }
+
         [Authorize]
         [HttpDelete]
         public async Task<IActionResult> Delete(long recordId)
