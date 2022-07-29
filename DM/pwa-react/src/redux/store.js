@@ -1,30 +1,31 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import thunk from "redux-thunk";
 import logger from 'redux-logger'
+import { persistStore, persistReducer, } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import usersReducer from '../services/usersSlice';
 import projectsReducer from '../services/projectsSlice';
 import recordsReducer from '../services/recordsSlice';
 import { authReducer } from "../services/authSlice";
-import offlineSync from "./offlineSync";
 
-
-
-if (localStorage.getItem("version") !== process.env.REACT_APP_VERSION) {
-  localStorage.removeItem("state");
+const persistConfig = {
+  key: 'root',
+  storage,
 }
 
-const preloadedState = JSON.parse(
-  localStorage.getItem("state"));
-
-const store = configureStore({
-  reducer: {
-    auth: authReducer,
-    users: usersReducer,
-    projects: projectsReducer,
-    records: recordsReducer,
-  },
-  middleware: [thunk, offlineSync, logger],
-  preloadedState,
+const rootReducer = combineReducers({
+  auth: authReducer,
+  users: usersReducer,
+  projects: projectsReducer,
+  records: recordsReducer,
 })
 
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const store = configureStore({
+  reducer: persistedReducer,
+  middleware: [thunk, logger],
+  })
+
+export const persistor = persistStore(store);
 export default store

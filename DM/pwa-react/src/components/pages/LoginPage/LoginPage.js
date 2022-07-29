@@ -49,6 +49,7 @@ export const LoginPage = () => {
       setPwd("");
       setAuth({ user, token });
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user",  response.data.name)
       setSuccess(true);
 
     } catch (err) {
