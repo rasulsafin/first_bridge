@@ -2,7 +2,7 @@ import * as React from "react";
 import { DataGrid, GridColDef, GridColumnHeaderParams, GridEvents } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProjects, selectAllProjects } from "../../../../services/projectsSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { GridEventListener } from "@mui/x-data-grid";
 
@@ -35,7 +35,11 @@ export default function ProjectsGrid() {
   const dispatch = useDispatch();
   const projects = useSelector(selectAllProjects);
   const navigate = useNavigate();
+  
+  
+  const [shawDrawer, setShawDrawer] = useState(false);
 
+  
   useEffect(() => {
     dispatch(fetchProjects());
   }, []);
@@ -43,6 +47,10 @@ export default function ProjectsGrid() {
   const handleRowDoubleClick: GridEventListener<GridEvents.rowClick> = ({ row }) => {
     navigate(`/project/${row.id}`);
   };
+
+  function handleRowClick() {
+    setShawDrawer(true);
+  }
 
   return (
     <div style={{
@@ -55,6 +63,7 @@ export default function ProjectsGrid() {
         columns={columns}
         pageSize={10}
         rowsPerPageOptions={[10]}
+        onRowClick={handleRowClick}
         onRowDoubleClick={handleRowDoubleClick}
         sx={{
           "& .MuiDataGrid-row:hover": {

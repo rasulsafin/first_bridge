@@ -89,6 +89,8 @@ namespace DM.Controllers
         /// <response code="400">User with the same login already exists OR one/multiple of required values is/are empty.</response>
         /// <response code="500">Something went wrong while creating new user.</response>
         [HttpPost]
+        [Authorize]
+
         public async Task<IActionResult> Create(UserModel userModel)
         {
             try

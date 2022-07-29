@@ -5,6 +5,7 @@
     justify-content: start;
     align-items: center;
     position: sticky;
+    width: 100vw;
 }
 
 .menu-bars {
@@ -88,7 +89,4 @@ span {
     width: 5vw;
 }
 
-.dropdown {
-    color: crimson;
-}
 

@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import {Link} from "react-router-dom";
 import { selectAllProjects } from "../../../../services/projectsSlice";
 import { selectAllUsers } from "../../../../services/usersSlice";
+import { BsArrowLeftSquareFill } from "react-icons/bs";
 
 export const ProjectDetailPage = () => {
   const { id } = useParams();
@@ -21,7 +22,7 @@ export const ProjectDetailPage = () => {
     <div className="p-4">
       <Link to="/projects">
         <span style={{ color: "black", textDecoration: "none" }}>
-          back
+         <BsArrowLeftSquareFill size={30} color="#1d62ad" />
         </span>
       </Link>
       <h1>Project Detail Page</h1>

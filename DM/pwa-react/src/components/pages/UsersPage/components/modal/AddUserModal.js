@@ -11,28 +11,25 @@ import {
   ModalHeader,
   Row
 } from "react-bootstrap";
+import { axiosInstance } from "../../../../../axios/axiosInstance";
 
 export class AddUserModal extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    fetch("https://localhost:5001/api/users", {
-      method: "POST",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        ProjectId: null,
+    axiosInstance.post("api/users",
+      {
         name: event.target.name.value,
         login: event.target.login.value,
-        email: event.target.email.value
-      })
-    });
+        email: event.target.email.value,
+        password: event.target.password.value,
+      }).then(r => console.log(r));
+    
+    
   }
 
   render() {
@@ -81,6 +78,17 @@ export class AddUserModal extends Component {
                       name="email"
                       required
                       placeholder="Email"
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <FormLabel>
+                      pass
+                    </FormLabel>
+                    <FormControl
+                      type="text"
+                      name="password"
+                      required
+                      placeholder="pass"
                     />
                   </FormGroup>
                   <FormGroup>

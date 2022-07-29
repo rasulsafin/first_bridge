@@ -3,7 +3,8 @@ export const ProfilePage = () => {
   return (
     <div>
       <h1>Profile Page</h1>
-      {/*<ProfileForm id={userId!} />*/}
+      <h2> {localStorage.getItem("user")}</h2>
+      
     </div>
   );
 };
