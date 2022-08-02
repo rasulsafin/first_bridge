@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using System.Security.Principal;
+using System.Security.Claims;
 
 namespace DM.Domain.Helpers
 {
@@ -25,7 +27,7 @@ namespace DM.Domain.Helpers
         public async Task Invoke(HttpContext context, IUserService userService)
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-        if (token != null)
+            if (token != null)
                 AttachUserToContext(context, userService, token);
 
             await _next(context);
@@ -50,7 +52,13 @@ namespace DM.Domain.Helpers
                 var jwtToken = (JwtSecurityToken)validatedToken;
                 var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
 
-                context.Items["User"] = userService.GetById(userId);
+                var user = userService.GetById(userId);
+                var claim = new Claim(ClaimTypes.Name, user.Name);
+                var claimRole = new Claim(ClaimTypes.Role, user.Roles ?? "User");
+                var identity = new ClaimsIdentity(new[] { claim, claimRole }, "jwt");
+                var principal = new ClaimsPrincipal(identity);
+
+                context.User = principal;
             }
             catch
             {

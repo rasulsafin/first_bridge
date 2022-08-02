@@ -5896,11 +5896,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\projects\\dm\\document-manager\\DM\\DM.Domain\\DM.Domain.csproj",
+      "projectUniqueName": "E:\\New DM\\document-manager\\DM\\DM.Domain\\DM.Domain.csproj",
       "projectName": "DM.Domain",
-      "projectPath": "C:\\projects\\dm\\document-manager\\DM\\DM.Domain\\DM.Domain.csproj",
+      "projectPath": "E:\\New DM\\document-manager\\DM\\DM.Domain\\DM.Domain.csproj",
       "packagesPath": "C:\\Users\\rhadiev\\.nuget\\packages\\",
-      "outputPath": "C:\\projects\\dm\\document-manager\\DM\\DM.Domain\\obj\\",
+      "outputPath": "E:\\New DM\\document-manager\\DM\\DM.Domain\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\rhadiev\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -5917,8 +5917,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\projects\\dm\\document-manager\\DM\\DM.DAL\\DM.DAL.csproj": {
-              "projectPath": "C:\\projects\\dm\\document-manager\\DM\\DM.DAL\\DM.DAL.csproj"
+            "E:\\New DM\\document-manager\\DM\\DM.DAL\\DM.DAL.csproj": {
+              "projectPath": "E:\\New DM\\document-manager\\DM\\DM.DAL\\DM.DAL.csproj"
             }
           }
         }

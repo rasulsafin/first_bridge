@@ -1,5 +1,6 @@
 ﻿using DM.Domain.Interfaces;
 using DM.Domain.Models;
+using DM.Entities;
 using DM.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace DM.Controllers
             _projectService = projectService;
         }
 
+        [Authorize(RoleConst.UserAdmin)]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -25,6 +27,7 @@ namespace DM.Controllers
             return Ok(projects);
         }
 
+        [Authorize(RoleConst.UserAdmin)]
         [HttpGet("{projectId}")]
         public IActionResult GetById(long projectId)
         {
@@ -33,10 +36,12 @@ namespace DM.Controllers
             return Ok(project);
         }
 
-        [Authorize]
+        [Authorize(RoleConst.UserAdmin)]
         [HttpPost]
         public async Task<IActionResult> Create(ProjectModel projectModel)
         {
+            var currentUser = (UserEntity)HttpContext.Items["User"];
+
             var id = await _projectService.Create(projectModel);
 
             return Ok(id);

@@ -28,3 +28,18 @@ C:\Users\rizmailov\RiderProjects\DocMan\DM\DM.Domain\obj\Debug\net5.0\DM.Domain.
 C:\Users\rizmailov\RiderProjects\DocMan\DM\DM.Domain\obj\Debug\net5.0\refint\DM.Domain.dll
 C:\Users\rizmailov\RiderProjects\DocMan\DM\DM.Domain\obj\Debug\net5.0\DM.Domain.pdb
 C:\Users\rizmailov\RiderProjects\DocMan\DM\DM.Domain\obj\Debug\net5.0\ref\DM.Domain.dll
+E:\New DM\document-manager\DM\DM.Domain\obj\Debug\net5.0\DM.Domain.csproj.AssemblyReference.cache
+E:\New DM\document-manager\DM\DM.Domain\obj\Debug\net5.0\DM.Domain.GeneratedMSBuildEditorConfig.editorconfig
+E:\New DM\document-manager\DM\DM.Domain\obj\Debug\net5.0\DM.Domain.AssemblyInfoInputs.cache
+E:\New DM\document-manager\DM\DM.Domain\obj\Debug\net5.0\DM.Domain.AssemblyInfo.cs
+E:\New DM\document-manager\DM\DM.Domain\obj\Debug\net5.0\DM.Domain.csproj.CoreCompileInputs.cache
+E:\New DM\document-manager\DM\DM.Domain\obj\Debug\net5.0\DM.Domain.dll
+E:\New DM\document-manager\DM\DM.Domain\obj\Debug\net5.0\refint\DM.Domain.dll
+E:\New DM\document-manager\DM\DM.Domain\obj\Debug\net5.0\DM.Domain.pdb
+E:\New DM\document-manager\DM\DM.Domain\bin\Debug\net5.0\DM.Domain.deps.json
+E:\New DM\document-manager\DM\DM.Domain\bin\Debug\net5.0\DM.Domain.dll
+E:\New DM\document-manager\DM\DM.Domain\bin\Debug\net5.0\DM.Domain.pdb
+E:\New DM\document-manager\DM\DM.Domain\bin\Debug\net5.0\DM.DAL.dll
+E:\New DM\document-manager\DM\DM.Domain\bin\Debug\net5.0\DM.DAL.pdb
+E:\New DM\document-manager\DM\DM.Domain\obj\Debug\net5.0\DM.Domain.csproj.CopyComplete
+E:\New DM\document-manager\DM\DM.Domain\obj\Debug\net5.0\ref\DM.Domain.dll
