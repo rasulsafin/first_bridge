@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DM.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,6 @@ namespace DM.DAL.Entities
 
         public string Name { get; set; }
 
-        public List<UserRoleEntity> Users { get; set; }
+        public List<UserEntity> Users { get; set; }
     }
 }

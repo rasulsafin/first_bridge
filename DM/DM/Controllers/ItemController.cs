@@ -27,7 +27,7 @@ namespace DM.Controllers
         /// Get records about all documents
         /// </summary>
         /// <returns>list of items</returns>
-        [Authorize]
+        [Authorize(RoleConst.UserAdmin)]
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -41,7 +41,7 @@ namespace DM.Controllers
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        [Authorize]
+        [Authorize(RoleConst.UserAdmin)]
         [HttpGet("download")]
         public IActionResult Download(string fileName)
         {
@@ -59,7 +59,7 @@ namespace DM.Controllers
         /// </summary>
         /// <param name="file"></param>
         /// <returns>id of uploaded file</returns>
-        [Authorize]
+        [Authorize(RoleConst.UserAdmin)]
         [HttpPost, DisableRequestSizeLimit, Route("file")]
         public async Task<IActionResult> Post(IFormFile file)
         {
