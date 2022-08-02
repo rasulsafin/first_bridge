@@ -7,11 +7,11 @@ namespace DM.DAL.Entities
     /// </summary>
     public class UserProjectEntity : BaseEntity
     {
-        public int UserId { get; set; }
+        public long UserId { get; set; }
 
         public UserEntity User { get; set; }
 
-        public int ProjectId { get; set; }
+        public long ProjectId { get; set; }
 
         public ProjectEntity Project { get; set; }
     }

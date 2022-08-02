@@ -31,7 +31,6 @@ namespace DM.repository
         public DbSet<UserProjectEntity> UserProjects { get; set; }
         public DbSet<ItemEntity> Items { get; set; }
         public DbSet<RoleEntity> Roles { get; set; }
-        public DbSet<UserRoleEntity> UserRoles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -40,17 +39,18 @@ namespace DM.repository
             modelBuilder.Entity<UserEntity>()
                 .HasIndex(x => x.Login)
                 .IsUnique(true);
-         
-            modelBuilder.Entity<UserProjectEntity>()
-                .HasKey(x => new { x.ProjectId, x.UserId });
-            modelBuilder.Entity<UserProjectEntity>()
-                .HasOne(x => x.User)
-                .WithMany(x => x.Projects)
-                .OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<UserProjectEntity>()
-                .HasOne(x => x.Project)
-                .WithMany(x => x.Users)
-                .OnDelete(DeleteBehavior.Cascade);
+            /*
+               modelBuilder.Entity<UserProjectEntity>()
+                   .HasKey(x => new { x.ProjectId, x.UserId });
+               modelBuilder.Entity<UserProjectEntity>()
+                   .HasOne(x => x.User)
+                   .WithMany(x => x.Projects)
+                   .OnDelete(DeleteBehavior.Cascade);
+               modelBuilder.Entity<UserProjectEntity>()
+                   .HasOne(x => x.Project)
+                   .WithMany(x => x.Users)
+                   .OnDelete(DeleteBehavior.Cascade);
+            */
 
             modelBuilder.Entity<ItemEntity>()
                     .HasOne(x => x.Project)

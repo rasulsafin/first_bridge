@@ -27,7 +27,7 @@ namespace DM.Domain.Implementations
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
         {
-            var user = _context.Users.FirstOrDefault(x => x.Login == model.Login);
+            var user = _context.Users.Include(x => x.Roles).FirstOrDefault(x => x.Login == model.Login);
 
             if (user == null)
             {

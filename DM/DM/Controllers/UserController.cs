@@ -118,7 +118,7 @@ namespace DM.Controllers
         /// <response code="404">User was not found.</response>
         /// <response code="500">Something went wrong while deleting user.</response>
         [HttpDelete]
-        [Authorize]
+        [Authorize(RoleConst.Admin)]
         public async Task<IActionResult> Delete(int userId)
         {
             try

@@ -1,6 +1,4 @@
 ﻿using DM.DAL.Entities;
-using System;
-using System.Collections.Generic;
 
 namespace DM.Entities
 {
@@ -11,8 +9,9 @@ namespace DM.Entities
         public string Login { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public List<UserProjectEntity> Projects { get; set; }
-        public List<UserRoleEntity> Roles { get; set; }
+        public RoleEntity Roles { get; set; }
+  //      public List<UserProjectEntity> Projects { get; set; }
+        
         //    public List<ObjectiveEntity> Objectives { get; set; }
     }
 }
