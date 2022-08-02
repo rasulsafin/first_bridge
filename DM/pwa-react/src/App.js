@@ -25,8 +25,7 @@ function App() {
           console.log(sidebar);
           setSidebar(sidebar);
         }} />
-        <main style={{backgroundColor: "#e3e3e5"}}>
-        <div className={`container ${!sidebar ? "inactive" : "active"}`}>
+        <main className={`container ${!sidebar ? "inactive" : "active"}`}>
           <Routes>
             <Route element={<RequireAuth />}>
             <Route index element={<Home />} />
@@ -42,7 +41,6 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/registration" element={<RegisterPage />} />
           </Routes>
-        </div>
         </main>
       </BrowserRouter>
     </>

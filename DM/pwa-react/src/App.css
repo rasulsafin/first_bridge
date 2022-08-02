@@ -5,16 +5,14 @@
 .container.active {
     margin-left: 200px;
     transition: 350ms;
-    background: #e3e3e5;
     width: 100vw;
     height: 92vh;
+    margin-top: 80px;
+
 }
 
 .container.inactive {
     margin-left: 0;
-    padding-left: 4vw;
     transition: 350ms;
-    background: #e3e3e5;
-    width: 100vw;
-    height: 100vh;
+    margin-top: 80px;
 }

@@ -44,17 +44,15 @@ function SideBar(props) {
           <div className="profile">
             <FaIcons.FaUserCircle size={40} className="avatar" />
             <DropdownButton className="dropdown" title={"Profile"}>
-              {!userAuth ?
-                <MenuItem onClick={toSignIn}>Sign in</MenuItem>
-                : null}
+              {!userAuth &&
+                <MenuItem onClick={toSignIn}>Sign in</MenuItem>}
               <MenuItem onClick={toProfile}>Profile</MenuItem>
               <MenuItem onClick={toSettings}>Settings</MenuItem>
-              {userAuth ?
+              {userAuth &&
                 <>
                   <MenuItem divider />
                   <MenuItem onClick={() => dispatch(removeAuthUser())}>Log out</MenuItem>
-                </>
-                : null}
+                </>}
             </DropdownButton>
           </div>
         </div>

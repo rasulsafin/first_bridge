@@ -1,11 +1,13 @@
 .navbar {
     background: #1d62ad;
-    height: 8vh;
+    height: 80px;
     display: flex;
     justify-content: start;
     align-items: center;
-    position: sticky;
+    position: absolute;
+    top: 0;
     width: 100vw;
+    z-index: 5;
 }
 
 .menu-bars {
@@ -18,7 +20,7 @@
     background-color: #262e3a;
     width: 200px;
     height: 92vh;
-    margin-top: 8vh;
+    margin-top: 80px;
     display: flex;
     justify-content: center;
     position: absolute;

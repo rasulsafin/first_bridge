@@ -4,15 +4,16 @@
     <projectFile profileName="IIS Express">DM/DM.csproj</projectFile>
     <projectFile profileName="DM">DM/DM.csproj</projectFile>
   </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="2e1f95ed-fc57-4af1-a92f-28dd04a71de3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/pwa-react/src/axios/jwt.interceptor.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pwa-react/src/components/RequireAuth/RequireAuth.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/ProjectsPage/components/ProjectDrawer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pwa-react/src/context/AuthProvider.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pwa-react/src/hooks/useAuth.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pwa-react/src/redux/offlineSync.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pwa-react/src/services/authSlice.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pwa-react/src/components/controls/Controls.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pwa-react/src/components/controls/Input.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/ProjectsPage/components/ProjectDrawer.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/UsersPage/components/modal/AddUserModal.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DM/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DM.DAL/bin/Debug/net5.0/DM.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/bin/Debug/net5.0/DM.DAL.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DM.DAL/bin/Debug/net5.0/DM.DAL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DM.DAL/bin/Debug/net5.0/DM.DAL.pdb" afterDir="false" />
@@ -46,8 +47,6 @@
       <change beforePath="$PROJECT_DIR$/DM.Domain/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/obj/project.nuget.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DM.Domain/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/obj/project.packagespec.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DM.Domain/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/DM.Domain/obj/rider.project.restore.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/Controllers/UserController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DM/Controllers/UserController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DM/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DM/Startup.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DM/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/DM/appsettings.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.DAL.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.DAL.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.DAL.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DM/bin/Debug/net5.0/DM.DAL.pdb" afterDir="false" />
@@ -73,29 +72,28 @@
       <change beforePath="$PROJECT_DIR$/DM/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/project.nuget.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DM/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/project.packagespec.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DM/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/DM/obj/rider.project.restore.info" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pwa-react/.env" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pwa-react/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pwa-react/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pwa-react/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/App.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pwa-react/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pwa-react/src/axios/axiosInstance.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/axios/axiosInstance.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pwa-react/src/components/pages/LoginPage/LoginPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/LoginPage/LoginPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pwa-react/src/axios/jwt.interceptor.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pwa-react/src/components/pages/HomePage/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/HomePage/Home.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pwa-react/src/components/pages/LoginPage/RegisterPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/LoginPage/RegisterPage.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pwa-react/src/components/pages/LoginPage/RegisterPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/LoginPage/RegisterPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pwa-react/src/components/pages/ProfilePage/ProfilePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/ProfilePage/ProfilePage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pwa-react/src/components/pages/ProjectsPage/Projects.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/ProjectsPage/Projects.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pwa-react/src/components/pages/ProjectsPage/components/ProjectDetailPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/ProjectsPage/components/ProjectDetailPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pwa-react/src/components/pages/ProjectsPage/components/ProjectDrawer.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/ProjectsPage/components/ProjectDrawer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pwa-react/src/components/pages/ProjectsPage/components/ProjectsGrid.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/ProjectsPage/components/ProjectsGrid.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pwa-react/src/components/pages/ProjectsPage/components/modal/AddProjectModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/ProjectsPage/components/modal/AddProjectModal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pwa-react/src/components/pages/RecordsPage/components/RecordDetailPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/RecordsPage/components/RecordDetailPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pwa-react/src/components/pages/UsersPage/components/UserDetailPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/UsersPage/components/UserDetailPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pwa-react/src/components/pages/RecordsPage/components/RecordsGrid.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/RecordsPage/components/RecordsGrid.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pwa-react/src/components/pages/UsersPage/Users.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/UsersPage/Users.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pwa-react/src/components/pages/UsersPage/components/UsersGrid.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/UsersPage/components/UsersGrid.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pwa-react/src/components/pages/UsersPage/components/modal/AddUserModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/UsersPage/components/modal/AddUserModal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pwa-react/src/components/pages/UsersPage/components/modal/EditUserModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/components/pages/UsersPage/components/modal/EditUserModal.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pwa-react/src/components/sidebar/Sidebar.css" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/components/sidebar/Sidebar.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pwa-react/src/components/sidebar/Sidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/components/sidebar/Sidebar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pwa-react/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pwa-react/src/redux/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/redux/store.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pwa-react/src/services/recordsSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/services/recordsSlice.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pwa-react/src/services/usersSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/services/usersSlice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pwa-react/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pwa-react/src/services/authSlice.js" beforeDir="false" afterPath="$PROJECT_DIR$/pwa-react/src/services/authSlice.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,6 +116,8 @@
     </option>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/DM/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/DM/wwwroot/lib/bootstrap/dist/js/bootstrap.js.map" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/DM/wwwroot/lib/jquery/dist/jquery.min.map" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/pwa-react/package-lock.json" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -140,6 +140,10 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\JetBrains Rider 2022.1.2\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external&quot;,
@@ -215,7 +219,9 @@
       <workItem from="1658901521127" duration="3094000" />
       <workItem from="1658904680249" duration="18817000" />
       <workItem from="1658988701399" duration="15766000" />
-      <workItem from="1659074382988" duration="1338000" />
+      <workItem from="1659074382988" duration="28067000" />
+      <workItem from="1659334643318" duration="24340000" />
+      <workItem from="1659420088688" duration="10478000" />
     </task>
     <task id="LOCAL-00001" summary="FirstSteps">
       <created>1657112582598</created>
@@ -266,7 +272,28 @@
       <option name="project" value="LOCAL" />
       <updated>1657867230579</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Auth in front, AuthSlice, store with localStorage">
+      <created>1659076698774</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1659076698774</updated>
+    </task>
+    <task id="LOCAL-00009" summary="added redux-persist">
+      <created>1659080111957</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1659080111957</updated>
+    </task>
+    <task id="LOCAL-00010" summary="fix axios.interceptor">
+      <created>1659082352551</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1659082352551</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -307,7 +334,10 @@
     <MESSAGE value="Add projectPage" />
     <MESSAGE value="redux toolkit" />
     <MESSAGE value="Back" />
-    <option name="LAST_COMMIT_MESSAGE" value="Back" />
+    <MESSAGE value="Auth in front, AuthSlice, store with localStorage" />
+    <MESSAGE value="added redux-persist" />
+    <MESSAGE value="fix axios.interceptor" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix axios.interceptor" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\projects\\dm\\document-manager\\DM\\DM.Domain\\DM.Domain.csproj": {}
+    "C:\\Users\\rizmailov\\RiderProjects\\DocMan\\DM\\DM.Domain\\DM.Domain.csproj": {}
   },
   "projects": {
-    "C:\\projects\\dm\\document-manager\\DM\\DM.DAL\\DM.DAL.csproj": {
+    "C:\\Users\\rizmailov\\RiderProjects\\DocMan\\DM\\DM.DAL\\DM.DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\projects\\dm\\document-manager\\DM\\DM.DAL\\DM.DAL.csproj",
+        "projectUniqueName": "C:\\Users\\rizmailov\\RiderProjects\\DocMan\\DM\\DM.DAL\\DM.DAL.csproj",
         "projectName": "DM.DAL",
-        "projectPath": "C:\\projects\\dm\\document-manager\\DM\\DM.DAL\\DM.DAL.csproj",
-        "packagesPath": "C:\\Users\\rhadiev\\.nuget\\packages\\",
-        "outputPath": "C:\\projects\\dm\\document-manager\\DM\\DM.DAL\\obj\\",
+        "projectPath": "C:\\Users\\rizmailov\\RiderProjects\\DocMan\\DM\\DM.DAL\\DM.DAL.csproj",
+        "packagesPath": "C:\\Users\\rizmailov\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\rizmailov\\RiderProjects\\DocMan\\DM\\DM.DAL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\rhadiev\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\rizmailov\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -78,17 +78,17 @@
         }
       }
     },
-    "C:\\projects\\dm\\document-manager\\DM\\DM.Domain\\DM.Domain.csproj": {
+    "C:\\Users\\rizmailov\\RiderProjects\\DocMan\\DM\\DM.Domain\\DM.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\projects\\dm\\document-manager\\DM\\DM.Domain\\DM.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\rizmailov\\RiderProjects\\DocMan\\DM\\DM.Domain\\DM.Domain.csproj",
         "projectName": "DM.Domain",
-        "projectPath": "C:\\projects\\dm\\document-manager\\DM\\DM.Domain\\DM.Domain.csproj",
-        "packagesPath": "C:\\Users\\rhadiev\\.nuget\\packages\\",
-        "outputPath": "C:\\projects\\dm\\document-manager\\DM\\DM.Domain\\obj\\",
+        "projectPath": "C:\\Users\\rizmailov\\RiderProjects\\DocMan\\DM\\DM.Domain\\DM.Domain.csproj",
+        "packagesPath": "C:\\Users\\rizmailov\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\rizmailov\\RiderProjects\\DocMan\\DM\\DM.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\rhadiev\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\rizmailov\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -102,8 +102,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\projects\\dm\\document-manager\\DM\\DM.DAL\\DM.DAL.csproj": {
-                "projectPath": "C:\\projects\\dm\\document-manager\\DM\\DM.DAL\\DM.DAL.csproj"
+              "C:\\Users\\rizmailov\\RiderProjects\\DocMan\\DM\\DM.DAL\\DM.DAL.csproj": {
+                "projectPath": "C:\\Users\\rizmailov\\RiderProjects\\DocMan\\DM\\DM.DAL\\DM.DAL.csproj"
               }
             }
           }

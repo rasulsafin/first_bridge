@@ -216,3 +216,4 @@ C:\Users\rizmailov\RiderProjects\DocMan\DM\DM\obj\Debug\net5.0\DM.pdb
 C:\Users\rizmailov\RiderProjects\DocMan\DM\DM\obj\Debug\net5.0\DM.genruntimeconfig.cache
 C:\Users\rizmailov\RiderProjects\DocMan\DM\DM\obj\Debug\net5.0\ref\DM.dll
 C:\projects\dm\document-manager\DM\DM\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\rizmailov\RiderProjects\DocMan\DM\DM\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

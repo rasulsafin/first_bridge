@@ -12,23 +12,17 @@ const columns: GridColDef[] = [
     width: 200,
     renderHeader: (params: GridColumnHeaderParams) => (
       <strong>
-        <h4>
-        {"Title"}
-      </h4>
+        <h4>{"Title"}</h4>
       </strong>
-    )
-  },
+    )},
   {
     field: "email",
     width: 200,
     renderHeader: (params: GridColumnHeaderParams) => (
       <strong>
-        <h4>
-        {"Description"}
-      </h4>
+        <h4>{"Description"}</h4>
       </strong>
-    )
-  }
+    )}
 ];
 
 export default function ProjectsGrid() {
@@ -36,20 +30,15 @@ export default function ProjectsGrid() {
   const projects = useSelector(selectAllProjects);
   const navigate = useNavigate();
   
-  
-  const [shawDrawer, setShawDrawer] = useState(false);
-
-  
   useEffect(() => {
     dispatch(fetchProjects());
-  }, []);
+  }, [dispatch]);
 
   const handleRowDoubleClick: GridEventListener<GridEvents.rowClick> = ({ row }) => {
     navigate(`/project/${row.id}`);
   };
 
   function handleRowClick() {
-    setShawDrawer(true);
   }
 
   return (
