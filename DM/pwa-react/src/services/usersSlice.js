@@ -10,13 +10,19 @@ export const fetchUsers = createAsyncThunk(
   return response.data;
 });
 
+export const addNewUser = createAsyncThunk(
+    'posts/addNewUser', async (newUser) => {
+  const response = await axiosInstance.post("api/users", newUser)
+  return response.data
+})
+
 export const usersSlice = createSlice({
   name: "users",
   initialState,
   reducers: {
-    addUser: (state, action) => {
-      state.users.push(action.payload);
-    }
+    // addUser: (state, action) => {
+    //   state.users.push(action.payload);
+    // }
   },
   extraReducers(builder) {
     builder

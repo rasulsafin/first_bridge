@@ -27,7 +27,7 @@ export class Users extends Component {
           {/*  Add user*/}
           {/*</Button>*/}
           <AddUserModal />
-          <button style={{ marginLeft: "40px"}}> Button</button>
+          {/*<button style={{ marginLeft: "40px"}}> Button</button>*/}
         </ButtonToolbar>
         <UsersGrid />
       </div>

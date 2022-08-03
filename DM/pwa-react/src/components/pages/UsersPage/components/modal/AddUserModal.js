@@ -6,8 +6,9 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Controls } from "../../../../controls/Controls";
 import "./AddUserModal.css";
-import { axiosInstance } from "../../../../../axios/axiosInstance";
-import { useState } from "react";
+import {useEffect, useState} from "react";
+import {useDispatch} from "react-redux";
+import {addNewUser, fetchUsers} from "../../../../../services/usersSlice";
 
 const initialValues = {
   name: "",
@@ -17,6 +18,7 @@ const initialValues = {
 };
 
 export function AddUserModal() {
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [values, setValues] = useState(initialValues);
 
@@ -26,18 +28,25 @@ export function AddUserModal() {
       ...values,
       [name]: value
     });
+    console.log(values.name);
+
   };
 
-  function createUser(e) {
-    e.preventDefault();
-    axiosInstance.post("api/users",
-      {
-        name: e.target.value,
-        login: e.target.value,
-        email: e.target.value,
-        password: e.target.value
-      }).then(r => console.log(r));
-  }
+    function createUser() {
+      dispatch(addNewUser({
+        name: values.name,
+        login: values.login,
+        email: values.email,
+        password: values.password
+      }))
+      setOpen(false);
+      setValues(initialValues);
+      dispatch(fetchUsers())
+    }
+
+  useEffect(() => {
+    handleClose()
+  }, []);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -56,8 +65,6 @@ export function AddUserModal() {
         <DialogTitle>Create user</DialogTitle>
         <DialogContent dividers>
           <div
-            id="modalForm"
-            onSubmit={createUser}
             className="modalContainer"
                style={{
                  width: "75%",
@@ -109,7 +116,7 @@ export function AddUserModal() {
             variant="contained"
             type="submit"
             form="modalForm"
-            // onClick={createUser}
+            onClick={createUser}
           >Create</Button>
         </DialogActions>
       </Dialog>
