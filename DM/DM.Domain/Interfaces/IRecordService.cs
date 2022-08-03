@@ -11,7 +11,7 @@ namespace DM.Domain.Interfaces
     {
         public List<RecordModel> GetAll();
         public RecordModel GetById(long recordId);
-        public Task<long> Create(RecordModel recordModel);
+        public Task<long> Create(RecordModelForCreate recordModel);
         public Task<bool> Delete(long recordId);
     }
 }

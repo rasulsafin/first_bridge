@@ -9,4 +9,11 @@ namespace DM.Domain.Models
         public long ProjectId { get; set; }
         public List<FieldsModel> Fields { get; set; }
     }
+
+    public class RecordModelForCreate
+    {
+        public string Name { get; set; }
+        public long ProjectId { get; set; }
+        public List<FieldsModelForCreate> Fields { get; set; }
+    }
 }
