@@ -29,7 +29,7 @@ namespace DM.Domain.Implementations
 
             foreach (var project in projects)
             {
-                projectModel.Add(new ProjectModel() { Title = project.Project.Title, User = new List<string> { project.User.Name } });
+                projectModel.Add(new ProjectModel() { Title = project.Project.Title, Description = project.Project.Description, User = new List<string> { project.User.Name } });
             }
          
             return projectModel;
@@ -38,7 +38,7 @@ namespace DM.Domain.Implementations
         public ProjectModel GetById(long projectId)
         {
             var project = _context.UserProjects.Include(x => x.User).Include(x => x.Project).Where(x => x.ProjectId == projectId).FirstOrDefault();
-            var projectModel = new ProjectModel() { Title = project.Project.Title, User = new List<string> { project.User.Name } };
+            var projectModel = new ProjectModel() { Title = project.Project.Title, Description = project.Project.Description, User = new List<string> { project.User.Name } };
 
             return projectModel;
         }

@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace DM
 {
-    public class RoleConst
+    public static class RoleConst
     {
-
         public const string UserAdmin = "User Admin";
         public const string Admin = "Admin";
     }
