@@ -1,4 +1,5 @@
 ﻿using DM.Domain.Models;
+using DM.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace DM.Domain.Interfaces
         public List<UserModel> GetAll();
         public UserModel GetById(long userId);
         public Task<long> Create(UserModel userModel);
+        public Task<bool> Update(UserModelForUpdate user);
         public Task<bool> Delete(long userId);
     }
 }

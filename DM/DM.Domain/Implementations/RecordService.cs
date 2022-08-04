@@ -44,6 +44,32 @@ namespace DM.Domain.Implementations
             await _context.SaveChangesAsync();
             return result.Entity.Id;
         }
+        /// <summary>
+        /// update fields attached to a record
+        /// </summary>
+        public async Task<bool> Update(FieldsModel fields)
+        {
+            var fieldForUpdate = await _context.Fields.FirstOrDefaultAsync(x => x.Id == fields.Id);
+
+            if (fieldForUpdate == null) 
+            {
+                return false;
+            }
+
+            _context.Fields.Attach(fieldForUpdate);
+
+            fieldForUpdate.Name = fields.Name;
+            fieldForUpdate.Description = fields.Description;
+            fieldForUpdate.State = fields.State;
+            fieldForUpdate.IssuerId = fields.IssuerId;
+            fieldForUpdate.AssigneeId = fields.AssigneeId;
+
+            await _context.SaveChangesAsync();
+
+            _context.Entry(fieldForUpdate).State = EntityState.Detached;
+            return true;
+        }
+
         //TODO: Add Checks
         public async Task<bool> Delete(long recordId)
         {
