@@ -5,6 +5,7 @@ namespace DM.Domain.Models
 {
     public class ProjectModel
     {
+        public long Id { get; set; }
         public string Title { get; set; }
         public List<string> User { get; set; }
 

@@ -8,7 +8,7 @@ export class Projects extends Component {
     super(props);
     this.state = {
       projects: [],
-      addModalShow: false
+      addModalShow: false,
     };
   }
 

@@ -10,35 +10,20 @@ const columns: GridColDef[] = [
     field: "name",
     width: 200,
     renderHeader: (params: GridColumnHeaderParams) => (
-      <strong>
-        <h4>
-        {"Name"}
-      </h4>
-      </strong>
-    )
-  },
+      <strong>{"Name"}</strong>
+    )},
   {
     field: "login",
     width: 200,
     renderHeader: (params: GridColumnHeaderParams) => (
-      <strong>
-        <h4>
-        {"Login"}
-      </h4>
-      </strong>
-    )
-  },
+      <strong>{"Login"}</strong>
+    )},
   {
     field: "email",
     width: 200,
     renderHeader: (params: GridColumnHeaderParams) => (
-      <strong>
-        <h4>
-        {"Email"}
-      </h4>
-      </strong>
-    )
-  }
+      <strong>{"Email"}</strong>
+    )}
 ];
 
 export default function UsersGrid() {
@@ -48,7 +33,7 @@ export default function UsersGrid() {
 
   useEffect(() => {
     dispatch(fetchUsers());
-  }, []);
+  }, [dispatch]);
 
   const handleRowDoubleClick: GridEventListener<GridEvents.rowClick> = ({ row }) => {
     navigate(`/user/${row.id}`);
@@ -70,10 +55,19 @@ export default function UsersGrid() {
           "& .MuiDataGrid-row:hover": {
             color: "green"
           },
+          '.MuiDataGrid-columnSeparator': {
+            display: 'none',
+          },
+          "& .MuiDataGrid-columnHeaders": {
+            backgroundColor: "rgb(29,97,172)",
+            color: "rgb(253,253,253)",
+            fontSize: 20,
+          },
           border: 2,
           boxShadow: 2,
           background: "white",
-          fontSize: 18
+          fontSize: 16,
+          cursor: 'pointer',
         }}
       />
     </div>
