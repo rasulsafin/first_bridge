@@ -6,12 +6,11 @@ const initialState = [];
 export const fetchUsers = createAsyncThunk(
   "users/fetchUsers", async () => {
   const response = await axiosInstance.get("api/users");
-  console.log(response.data);
   return response.data;
 });
 
 export const addNewUser = createAsyncThunk(
-    'posts/addNewUser', async (newUser) => {
+    'users/addNewUser', async (newUser) => {
   const response = await axiosInstance.post("api/users", newUser)
   return response.data
 })

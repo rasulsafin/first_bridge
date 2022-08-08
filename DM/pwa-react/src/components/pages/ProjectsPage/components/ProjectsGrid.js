@@ -58,10 +58,19 @@ export default function ProjectsGrid() {
           "& .MuiDataGrid-row:hover": {
             color: "green"
           },
+          '.MuiDataGrid-columnSeparator': {
+            display: 'none',
+          },
+          "& .MuiDataGrid-columnHeaders": {
+            backgroundColor: "rgb(29,97,172)",
+            color: "rgb(253,253,253)",
+            fontSize: 20,
+          },
           border: 2,
           boxShadow: 2,
           background: "white",
-          fontSize: 18
+          fontSize: 16,
+          cursor: 'pointer',
         }}
       />
     </div>

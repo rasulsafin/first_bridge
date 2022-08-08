@@ -13,23 +13,10 @@ export class Projects extends Component {
   }
 
   render() {
-    let addModalClose = () => this.setState({ addModalShow: false });
     return (
       <div className="p-4">
         <h1 className="mb-4">Projects</h1>
-        <ButtonToolbar>
-          <Button
-            variant="primary"
-            onClick={() => this.setState({ addModalShow: true })}
-          >
-            Add project
-          </Button>
-          <AddProjectModal
-            show={this.state.addModalShow}
-            onHide={addModalClose}
-          >
-          </AddProjectModal>
-        </ButtonToolbar>
+        <AddProjectModal />
         <ProjectsGrid />
       </div>
     );
