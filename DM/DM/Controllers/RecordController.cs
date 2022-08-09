@@ -37,7 +37,7 @@ namespace DM.Controllers
 
         [Authorize(RoleConst.UserAdmin)]
         [HttpPost]
-        public async Task<IActionResult> Create(RecordModel recordModel)
+        public async Task<IActionResult> Create(RecordModelForCreate recordModel)
         {
             var id = await _recordService.Create(recordModel);
 

@@ -30,12 +30,17 @@ namespace DM.Domain.Implementations
             var record = _context.Records.Include(f => f.Fields).FirstOrDefault(x => x.Id == recordId);
             return _mapper.Map<RecordModel>(record);
         }
-        public async Task<long> Create(RecordModel recordModel)
+        public async Task<long> Create(RecordModelForCreate recordModel)
         {
-            var record = _mapper.Map<RecordEntity>(recordModel);
+            var fields = new List<FieldsEntity>();
+            foreach (var c in recordModel.Fields)
+            {
+                fields.Add( new FieldsEntity() { Name = c.Name, Description = c.Description, AssigneeId = c.AssigneeId, IssuerId = c.IssuerId, State = c.State} );
+            }
+            var rec = new RecordEntity()
+            { Name = recordModel.Name, ProjectId = recordModel.ProjectId, Fields = fields };
 
-
-            var result = await _context.Records.AddAsync(record);
+            var result = await _context.Records.AddAsync(rec);
             await _context.SaveChangesAsync();
             return result.Entity.Id;
         }

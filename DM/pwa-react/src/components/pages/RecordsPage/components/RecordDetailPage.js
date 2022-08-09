@@ -2,6 +2,7 @@ import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { selectAllRecords } from "../../../../services/recordsSlice";
+import { BsArrowLeftSquareFill } from "react-icons/bs";
 
 export const RecordDetailPage = () => {
   const { id } = useParams();
@@ -14,7 +15,7 @@ export const RecordDetailPage = () => {
     <div className="p-4">
       <Link to="/records">
         <span style={{ color: "black", textDecoration: "none" }}>
-          back
+         <BsArrowLeftSquareFill size={30} color="#1d62ad" />
         </span>
       </Link>
       <h1>Record Detail Page</h1>

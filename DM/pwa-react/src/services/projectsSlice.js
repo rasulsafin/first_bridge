@@ -3,11 +3,17 @@ import { axiosInstance } from "../axios/axiosInstance";
 
 const initialState = [];
 
-export const fetchProjects = createAsyncThunk("projects/fetchProjects", async () => {
+export const fetchProjects = createAsyncThunk(
+  "projects/fetchProjects", async () => {
   const response = await axiosInstance.get("api/project");
-  console.log(response.data);
   return response.data;
 });
+
+export const addNewProject = createAsyncThunk(
+  'projects/addNewProject', async (newProject) => {
+    const response = await axiosInstance.post("api/project", newProject)
+    return response.data
+  })
 
 export const projectsSlice = createSlice({
   name: "projects",

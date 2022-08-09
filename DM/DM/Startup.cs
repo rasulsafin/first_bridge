@@ -90,6 +90,7 @@ namespace DM
                     policy.WithOrigins("http://localhost:3000");
                     policy.WithMethods("GET", "POST", "PUT", "DELETE");
                     policy.AllowAnyHeader();
+                    policy.AllowCredentials();
                 });
             });
         }

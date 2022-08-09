@@ -23,13 +23,16 @@ namespace DM.Domain.Implementations
 
         public async Task<List<ProjectModel>> GetAll()
         {
-            var projects = await _context.UserProjects.Include(x => x.User).Include(x => x.Project).ToListAsync();
+            var projects = await _context.UserProjects
+                .Include(x => x.User)
+                .Include(x => x.Project)
+                .ToListAsync();
 
             var projectModel = new List<ProjectModel>();
 
             foreach (var project in projects)
             {
-                projectModel.Add(new ProjectModel() { Title = project.Project.Title, User = new List<string> { project.User.Name } });
+                projectModel.Add(new ProjectModel() { Id = project.Project.Id, Title = project.Project.Title, User = new List<string> { project.User.Name } });
             }
          
             return projectModel;
@@ -37,8 +40,11 @@ namespace DM.Domain.Implementations
 
         public ProjectModel GetById(long projectId)
         {
-            var project = _context.UserProjects.Include(x => x.User).Include(x => x.Project).Where(x => x.ProjectId == projectId).FirstOrDefault();
-            var projectModel = new ProjectModel() { Title = project.Project.Title, User = new List<string> { project.User.Name } };
+            var project = _context.UserProjects
+                .Include(x => x.User)
+                .Include(x => x.Project)
+                .FirstOrDefault(x => x.ProjectId == projectId);
+            var projectModel = new ProjectModel() { Title = project?.Project.Title, User = new List<string> { project?.User.Name } };
 
             return projectModel;
         }

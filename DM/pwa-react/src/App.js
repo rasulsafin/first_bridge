@@ -13,9 +13,24 @@ import { UserDetailPage } from "./components/pages/UsersPage/components/UserDeta
 import { ProfilePage } from "./components/pages/ProfilePage/ProfilePage";
 import RegisterPage from "./components/pages/LoginPage/RegisterPage";
 import { RecordDetailPage } from "./components/pages/RecordsPage/components/RecordDetailPage";
+import { RequireAuth } from "./components/RequireAuth/RequireAuth";
 
 function App() {
   const [sidebar, setSidebar] = useState(false)
+
+  window.addEventListener('load', () => {
+
+    if ('serviceWorker' in navigator){
+
+      navigator.serviceWorker.register('./service-worker.js')
+        .then(registration => {
+          console.log('Service worker successfully registered', registration);
+        })
+        .catch(error => {
+          console.log('Service worker registration failed', error);
+        });
+    }
+  });
   
   return (
     <>
@@ -24,9 +39,9 @@ function App() {
           console.log(sidebar);
           setSidebar(sidebar);
         }} />
-        <main style={{backgroundColor: "#e3e3e5"}}>
-        <div className={`container ${!sidebar ? "inactive" : "active"}`}>
+        <main className={`container ${!sidebar ? "inactive" : "active"}`}>
           <Routes>
+            <Route element={<RequireAuth />}>
             <Route index element={<Home />} />
             <Route path="/users" element={<Users />} />
             <Route path="/user/:id" element={<UserDetailPage />} />
@@ -34,11 +49,12 @@ function App() {
             <Route path="/project/:id" element={<ProjectDetailPage />} />
             <Route path="/records" element={<Records />} />
             <Route path="/record/:id" element={<RecordDetailPage />} />
-            <Route path="/login" element={<LoginPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+            </Route>
+              
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/registration" element={<RegisterPage />} />
           </Routes>
-        </div>
         </main>
       </BrowserRouter>
     </>

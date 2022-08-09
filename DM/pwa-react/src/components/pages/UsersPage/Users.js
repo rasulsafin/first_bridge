@@ -20,17 +20,14 @@ export class Users extends Component {
         <div>
         </div>
         <ButtonToolbar>
-          <Button
-            variant="primary"
-            onClick={() => this.setState({ addModalShow: true })}
-          >
-            Add user
-          </Button>
-          <AddUserModal
-            show={this.state.addModalShow}
-            onHide={addModalClose}
-          >
-          </AddUserModal>
+          {/*<Button*/}
+          {/*  variant="primary"*/}
+          {/*  onClick={() => this.setState({ addModalShow: true })}*/}
+          {/*>*/}
+          {/*  Add user*/}
+          {/*</Button>*/}
+          <AddUserModal />
+          {/*<button style={{ marginLeft: "40px"}}> Button</button>*/}
         </ButtonToolbar>
         <UsersGrid />
       </div>
