@@ -67,10 +67,31 @@ namespace DM.Domain.Implementations
             return result.Entity.Id;
         }
 
+        public async Task<bool> Update(UserModelForUpdate user)
+        {
+            var userForUpdate = await _context.Users.FirstOrDefaultAsync(x => x.Id == user.UserId);
+
+            if (userForUpdate == null)
+            {
+                return false;
+            }
+
+            _context.Users.Attach(userForUpdate);
+
+            userForUpdate.Name = user.Name;
+            userForUpdate.Email = user.Email;
+            userForUpdate.Login = user.Login;
+
+            await _context.SaveChangesAsync();
+
+            _context.Entry(userForUpdate).State = EntityState.Detached;
+
+            return true;
+        }
+
         public async Task<bool> Delete(long userId)
         {
             // check that the fields do not contain users to be deleted
-            // TODO: fix user delete
             var fieldEntity = await _context.Fields.FirstOrDefaultAsync(x => x.Id == userId);
 
             _context.Fields.Attach(fieldEntity);
@@ -82,33 +103,15 @@ namespace DM.Domain.Implementations
             _context.Entry(fieldEntity).State = EntityState.Detached;
 
             var user = _context.Users.FirstOrDefault(q => q.Id == userId);
-            
 
             if (user == null)
             {
-              //  return false;
+                return false;
             }
             
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
             return true;
         }
-        /*
-        public AuthenticateResponse Authenticate(AuthenticateRequest model)
-        {
-            var user = _context.Users
-                .FirstOrDefault(x => x.Login == model.Login && x.Password == model.Password);
-
-            if (user == null)
-            {
-                // todo: need to add logger
-                return null;
-            }
-
-            var token = _configuration.GenerateJwtToken(user);
-
-            return new AuthenticateResponse(user, token);
-        }
-        */
     }
 }

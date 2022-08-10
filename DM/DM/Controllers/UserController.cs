@@ -1,6 +1,7 @@
 ﻿using DM.Domain.Exceptions;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
+using DM.Entities;
 using DM.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -97,6 +98,24 @@ namespace DM.Controllers
             {
                 var id = await _userService.Create(userModel);
                 return Ok(id);
+            }
+            catch (ArgumentValidationException ex)
+            {
+                return CreateProblemResult(this, 400, ex.Message);
+            }
+            catch (DocumentManagementException ex)
+            {
+                return CreateProblemResult(this, 500, ex.Message);
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(UserModelForUpdate user)
+        {
+            try
+            {
+                var checker = await _userService.Update(user);
+                return Ok(checker);
             }
             catch (ArgumentValidationException ex)
             {

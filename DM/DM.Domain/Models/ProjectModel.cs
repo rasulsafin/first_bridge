@@ -7,6 +7,7 @@ namespace DM.Domain.Models
     {
         public long Id { get; set; }
         public string Title { get; set; }
+        public string Description { get; set; }
         public List<string> User { get; set; }
 
         //    public List<ItemModel> Items { get; set; }
