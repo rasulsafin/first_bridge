@@ -7,6 +7,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import {useState} from "react";
 import axios from 'axios';
+import * as worker from "../../../../../public/service-worker";
 
 export default function CreateUser() {
     const [data, setData] = useState({
@@ -32,6 +33,13 @@ export default function CreateUser() {
             email: data.email
         })
         handleClose();
+        /*
+        if(!navigator.onLine){
+            service-worker.registerSync(); // register background sync request with tag name order
+            this.insertIntoDatabase(JSON.stringify(orderData)); // insert data into indexedb
+            this.setState({ orders: [...this.state.orders, orderData]});
+         */
+        }
     }
 
     function handle(e) {

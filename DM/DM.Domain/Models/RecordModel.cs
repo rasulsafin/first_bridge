@@ -2,15 +2,20 @@
 
 namespace DM.Domain.Models
 {
-    public class RecordModel : RecordModelForCreate
+    public class RecordModel : RecordModelBase
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
+        public List<FieldsModel> Fields { get; set; }
     }
 
-    public class RecordModelForCreate
+    public class RecordModelForCreate : RecordModelBase
+    {
+        public List<FieldsModelForCreate> Fields { get; set; }
+    }
+
+    public class RecordModelBase
     {
         public string Name { get; set; }
         public long ProjectId { get; set; }
-        public List<FieldsModelForCreate> Fields { get; set; }
     }
 }
