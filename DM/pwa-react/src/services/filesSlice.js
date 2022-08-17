@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { axiosInstance } from "../axios/axiosInstance";
+import fileDownload from "js-file-download";
 
 const initialState = [];
 
@@ -10,19 +11,34 @@ export const fetchFiles = createAsyncThunk(
   });
 
 export const uploadFileService = createAsyncThunk(
-  'files/uploadFile', async (selectedFile) => {
-    const response = await axiosInstance.post("/api/item/file", selectedFile)
-    return response.data
-  })
+  "files/uploadFile", async (selectedFile) => {
+    const response = await axiosInstance.post("/api/item/file", selectedFile);
+    return response.data;
+  });
+
+export const getFile = createAsyncThunk(
+  "files/getFile", async (fileName) => {
+    const response = await axiosInstance.get("/api/item/download", {
+      params: {
+        fileName: fileName
+      },
+      responseType: "blob"
+    }).then((response) => {
+      fileDownload(response.data, fileName)
+    });
+    // return response.data;
+  });
 
 export const filesSlice = createSlice({
   name: "files",
   initialState,
-  reducers: {
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
       .addCase(fetchFiles.fulfilled, (state, action) => {
+        return action.payload;
+      })
+      .addCase(getFile.fulfilled, (state, action) => {
         return action.payload;
       });
   }
