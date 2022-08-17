@@ -6,6 +6,7 @@ import storage from 'redux-persist/lib/storage';
 import usersReducer from '../services/usersSlice';
 import projectsReducer from '../services/projectsSlice';
 import recordsReducer from '../services/recordsSlice';
+import filesReducer from '../services/filesSlice';
 import { authReducer } from "../services/authSlice";
 
 const persistConfig = {
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   users: usersReducer,
   projects: projectsReducer,
   records: recordsReducer,
+  files: filesReducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
