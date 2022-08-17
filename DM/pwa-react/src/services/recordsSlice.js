@@ -3,7 +3,8 @@ import { axiosInstance } from "../axios/axiosInstance";
 
 const initialState = [];
 
-export const fetchRecords = createAsyncThunk("records/fetchRecords", async () => {
+export const fetchRecords = createAsyncThunk(
+  "records/fetchRecords", async () => {
   const response = await axiosInstance.get("api/record");
   console.log(response.data);
   return response.data;
