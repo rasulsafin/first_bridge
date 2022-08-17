@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import "./UploadFile.css";
 import { useDispatch } from "react-redux";
 import { uploadFileService } from "../../services/filesSlice";
+import { fileExtensions } from "../../constants/fileExtensions";
 
 export const UploadFile = () => {
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ export const UploadFile = () => {
         type="file"
         ref={filePicker}
         onChange={handleChange}
-        accept=".png, .jpg, .ifc, .bim"
+        accept={fileExtensions}
       />
       <button
         onClick={handleUpload}

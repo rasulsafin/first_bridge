@@ -1,0 +1,1 @@
+export const fileExtensions = ".jpg,.png,.ifc,.bim";
