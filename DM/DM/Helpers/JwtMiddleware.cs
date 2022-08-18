@@ -60,6 +60,7 @@ namespace DM.Domain.Helpers
 
                 context.User = principal;
             }
+            //TODO: Add catch exceptions
             catch
             {
                 // todo: need to add logger
