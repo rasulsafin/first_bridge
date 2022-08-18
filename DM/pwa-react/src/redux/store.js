@@ -1,33 +1,33 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit'
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
-import logger from 'redux-logger'
-import { persistStore, persistReducer, } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-import usersReducer from '../services/usersSlice';
-import projectsReducer from '../services/projectsSlice';
-import recordsReducer from '../services/recordsSlice';
-import filesReducer from '../services/filesSlice';
+import logger from "redux-logger";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import usersReducer from "../services/usersSlice";
+import projectsReducer from "../services/projectsSlice";
+import recordsReducer from "../services/recordsSlice";
+import filesReducer from "../services/filesSlice";
 import { authReducer } from "../services/authSlice";
 
 const persistConfig = {
-  key: 'root',
-  storage,
-}
+  key: "root",
+  storage
+};
 
 const rootReducer = combineReducers({
   auth: authReducer,
   users: usersReducer,
   projects: projectsReducer,
   records: recordsReducer,
-  files: filesReducer,
-})
+  files: filesReducer
+});
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
   reducer: persistedReducer,
-  middleware: [thunk, logger],
-  })
+  middleware: [thunk, logger]
+});
 
 export const persistor = persistStore(store);
-export default store
+export default store;

@@ -1,8 +1,7 @@
-import React from 'react'
+import React from "react";
 import { FormControl, InputLabel, MenuItem, Select as MuiSelect } from "@mui/material";
 
 export default function Select(props) {
-
   const { name, label, value, onChange, options, ...other } = props;
 
   return (
@@ -14,7 +13,6 @@ export default function Select(props) {
         value={value}
         onChange={onChange}
         fullWidth
-        
         {...other}
       >
         <MenuItem value="">None</MenuItem>
@@ -25,5 +23,5 @@ export default function Select(props) {
         }
       </MuiSelect>
     </FormControl>
-  )
+  );
 }

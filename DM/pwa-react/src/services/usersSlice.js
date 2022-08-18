@@ -5,26 +5,25 @@ const initialState = [];
 
 export const fetchUsers = createAsyncThunk(
   "users/fetchUsers", async () => {
-  const response = await axiosInstance.get("api/users");
-  return response.data;
-});
+    const response = await axiosInstance.get("api/users");
+    return response.data;
+  });
 
 export const addNewUser = createAsyncThunk(
-    'users/addNewUser', async (newUser) => {
-  const response = await axiosInstance.post("api/users", newUser)
-  return response.data
-})
+  "users/addNewUser", async (newUser) => {
+    const response = await axiosInstance.post("api/users", newUser);
+    return response.data;
+  });
 
 export const usersSlice = createSlice({
   name: "users",
   initialState,
-  reducers: {
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
       .addCase(fetchUsers.fulfilled, (state, action) => {
-      return action.payload;
-    });
+        return action.payload;
+      });
   }
 });
 
