@@ -1,16 +1,15 @@
 import * as React from "react";
-import { DataGrid, GridColDef, GridColumnHeaderParams, GridEvents } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProjects, selectAllProjects } from "../../../../services/projectsSlice";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { GridEventListener } from "@mui/x-data-grid";
 
-const columns: GridColDef[] = [
+const columns = [
   {
     field: "title",
     width: 200,
-    renderHeader: (params: GridColumnHeaderParams) => (
+    renderHeader: () => (
       <strong>
         <h4>{"Title"}</h4>
       </strong>
@@ -18,7 +17,7 @@ const columns: GridColDef[] = [
   {
     field: "email",
     width: 200,
-    renderHeader: (params: GridColumnHeaderParams) => (
+    renderHeader: () => (
       <strong>
         <h4>{"Description"}</h4>
       </strong>
@@ -34,7 +33,7 @@ export default function ProjectsGrid() {
     dispatch(fetchProjects());
   }, [dispatch]);
 
-  const handleRowDoubleClick: GridEventListener<GridEvents.rowClick> = ({ row }) => {
+  const handleRowDoubleClick = ({ row }) => {
     navigate(`/project/${row.id}`);
   };
 

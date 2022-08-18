@@ -1,27 +1,26 @@
-import { DataGrid, GridColDef, GridEventListener, GridEvents } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers, selectAllUsers } from "../../../../services/usersSlice";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { GridColumnHeaderParams } from "@mui/x-data-grid";
 
-const columns: GridColDef[] = [
+const columns = [
   {
     field: "name",
     width: 200,
-    renderHeader: (params: GridColumnHeaderParams) => (
+    renderHeader: () => (
       <strong>{"Name"}</strong>
     )},
   {
     field: "login",
     width: 200,
-    renderHeader: (params: GridColumnHeaderParams) => (
+    renderHeader: () => (
       <strong>{"Login"}</strong>
     )},
   {
     field: "email",
     width: 200,
-    renderHeader: (params: GridColumnHeaderParams) => (
+    renderHeader: () => (
       <strong>{"Email"}</strong>
     )}
 ];
@@ -35,7 +34,7 @@ export default function UsersGrid() {
     dispatch(fetchUsers());
   }, [dispatch]);
 
-  const handleRowDoubleClick: GridEventListener<GridEvents.rowClick> = ({ row }) => {
+  const handleRowDoubleClick = ({ row }) => {
     navigate(`/user/${row.id}`);
   };
 

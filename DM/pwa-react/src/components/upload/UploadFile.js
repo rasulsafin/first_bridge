@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import "./UploadFile.css";
 import { useDispatch } from "react-redux";
 import { uploadFileService } from "../../services/filesSlice";

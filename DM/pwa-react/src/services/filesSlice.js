@@ -18,15 +18,14 @@ export const uploadFileService = createAsyncThunk(
 
 export const getFile = createAsyncThunk(
   "files/getFile", async (fileName) => {
-    const response = await axiosInstance.get("/api/item/download", {
+    await axiosInstance.get("/api/item/download", {
       params: {
         fileName: fileName
       },
       responseType: "blob"
     }).then((response) => {
-      fileDownload(response.data, fileName)
+      fileDownload(response.data, fileName);
     });
-    // return response.data;
   });
 
 export const filesSlice = createSlice({
