@@ -1,14 +1,14 @@
-import { DataGrid, GridColDef, GridColumnHeaderParams, GridEventListener, GridEvents } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { fetchRecords, selectAllRecords } from "../../../../services/recordsSlice";
 
-const columns: GridColDef[] = [
+const columns = [
   {
     field: "name",
     width: 200,
-    renderHeader: (params: GridColumnHeaderParams) => (
+    renderHeader: () => (
       <strong>
         <h4>
           {"Name"}
@@ -27,7 +27,7 @@ export default function RecordsGrid() {
     dispatch(fetchRecords());
   }, [dispatch]);
 
-  const handleRowDoubleClick: GridEventListener<GridEvents.rowClick> = ({ row }) => {
+  const handleRowDoubleClick = ({ row }) => {
     navigate(`/record/${row.id}`);
   };
 

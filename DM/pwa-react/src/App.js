@@ -16,18 +16,16 @@ import { RecordDetailPage } from "./components/pages/RecordsPage/components/Reco
 import { RequireAuth } from "./components/RequireAuth/RequireAuth";
 
 function App() {
-  const [sidebar, setSidebar] = useState(false)
+  const [sidebar, setSidebar] = useState(false);
 
-  window.addEventListener('load', () => {
-
-    if ('serviceWorker' in navigator){
-
-      navigator.serviceWorker.register('./service-worker.js')
+  window.addEventListener("load", () => {
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./service-worker.js")
         .then(registration => {
-          console.log('Service worker successfully registered', registration);
+          console.log("Service worker successfully registered", registration);
         })
         .catch(error => {
-          console.log('Service worker registration failed', error);
+          console.log("Service worker registration failed", error);
         });
     }
   });
@@ -36,22 +34,21 @@ function App() {
     <>
       <BrowserRouter>
         <Sidebar onCollapse={(sidebar) => {
-          console.log(sidebar);
           setSidebar(sidebar);
         }} />
         <main className={`container ${!sidebar ? "inactive" : "active"}`}>
           <Routes>
             <Route element={<RequireAuth />}>
-            <Route index element={<Home />} />
-            <Route path="/users" element={<Users />} />
-            <Route path="/user/:id" element={<UserDetailPage />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/project/:id" element={<ProjectDetailPage />} />
-            <Route path="/records" element={<Records />} />
-            <Route path="/record/:id" element={<RecordDetailPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
+              <Route index element={<Home />} />
+              <Route path="/users" element={<Users />} />
+              <Route path="/user/:id" element={<UserDetailPage />} />
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/project/:id" element={<ProjectDetailPage />} />
+              <Route path="/records" element={<Records />} />
+              <Route path="/record/:id" element={<RecordDetailPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
             </Route>
-              
+
             <Route path="/login" element={<LoginPage />} />
             <Route path="/registration" element={<RegisterPage />} />
           </Routes>

@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = { 
+const initialState = {
   id: null,
   name: null,
   login: null,
   token: null,
-  email: null,
+  email: null
 };
 
 export const authSlice = createSlice({
@@ -27,7 +27,7 @@ export const authSlice = createSlice({
       state.email = null;
       localStorage.removeItem("token");
     }
-  },
+  }
 });
 
 export const { setAuthUser, removeAuthUser } = authSlice.actions;

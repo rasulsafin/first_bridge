@@ -5,15 +5,15 @@ const initialState = [];
 
 export const fetchProjects = createAsyncThunk(
   "projects/fetchProjects", async () => {
-  const response = await axiosInstance.get("api/project");
-  return response.data;
-});
+    const response = await axiosInstance.get("api/project");
+    return response.data;
+  });
 
 export const addNewProject = createAsyncThunk(
-  'projects/addNewProject', async (newProject) => {
-    const response = await axiosInstance.post("api/project", newProject)
-    return response.data
-  })
+  "projects/addNewProject", async (newProject) => {
+    const response = await axiosInstance.post("api/project", newProject);
+    return response.data;
+  });
 
 export const projectsSlice = createSlice({
   name: "projects",
