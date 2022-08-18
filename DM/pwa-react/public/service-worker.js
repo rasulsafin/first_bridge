@@ -1,5 +1,3 @@
-// sw have to be at public folder cuz it's invisible at src for some unknown reasons
-
 const staticCacheName = 'static-cache-v0';
 const dynamicCacheName = 'dynamic-cache-v0';
 
@@ -32,31 +30,17 @@ self.addEventListener('activate', async event => {
   console.log('Service worker has been activated');
 });
 
-self.addEventListener('fetch', event => {
-  console.log(`Trying to fetch ${event.request.url}`);
-   event.respondWith(checkCache(event.request));
-});
-
-
- async function checkCache(req) {
-   const cachedResponse = await caches.match(req);
-   return cachedResponse || checkOnline(req);
- }
-
- async function checkOnline(req) {
-   const cache = await caches.open(dynamicCacheName);
-   try {
-     const res = await fetch(req);
-     await cache.put(req, res.clone());
-    return res;
-  } catch (error) {
-    const cachedRes = await cache.match(req);
-    if (cachedRes) {
-      return cachedRes;
-    } else if (req.url.indexOf('.html') !== -1) {
-      return caches.match('./offline.html');
-    } else {
-      return caches.match('./images/no-image.jpg');
-    }
+self.addEventListener('fetch',  async event => {
+  if (navigator.onLine)
+  {
+    console.log("fetch is working");
+    await event.respondWith(
+        caches.open(dynamicCacheName)
+            .then(cache => fetch(event.request)
+                .then(response => {
+                    cache.put(event.request, response.clone())
+                    return response
+                }))
+    )
   }
-}
+})

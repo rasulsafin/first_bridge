@@ -11,4 +11,13 @@ namespace DM.Domain.Models
         public string Password { get; set; }
         public string Roles { get; set; }
     }
+    
+    public class UserModelForUpdate
+    {
+        public long UserId { get; set; }
+        public string Name { get; set; }
+        public string Login { get; set; }
+        public string Email { get; set; }
+    }
+
 }
