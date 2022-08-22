@@ -19,8 +19,6 @@ namespace DM.Domain
             CreateMap<UserModel, UserProjectEntity>().ReverseMap();
             CreateMap<RecordEntity, RecordModel>().ReverseMap();
 
-            CreateMap<FieldsEntity, FieldsModel>().ReverseMap();
-
             CreateMap<ProjectModel, ProjectEntity>();
             CreateMap<ProjectEntity, ProjectModel>();
         }

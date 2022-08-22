@@ -1,4 +1,5 @@
 ﻿using DM.DAL.Entities;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 
 namespace DM.Domain.Models
@@ -9,6 +10,7 @@ namespace DM.Domain.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public List<string> User { get; set; }
+        public JObject RecordTemplate { get; set; }
 
         //    public List<ItemModel> Items { get; set; }
         //    public List<ObjectiveEntity> Objectives { get; set; }

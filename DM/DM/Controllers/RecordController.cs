@@ -37,13 +37,13 @@ namespace DM.Controllers
 
         [Authorize(RoleConst.UserAdmin)]
         [HttpPost]
-        public async Task<IActionResult> Create(RecordModelForCreate recordModel)
+        public async Task<IActionResult> Create(RecordModel recordModel)
         {
             var id = await _recordService.Create(recordModel);
 
             return Ok(id);
         }
-
+        /*
         [Authorize(RoleConst.UserAdmin)]
         [HttpPut]
         public async Task<IActionResult> Update(FieldsModel fields)
@@ -52,7 +52,7 @@ namespace DM.Controllers
 
             return Ok(checker);
         }
-
+        */
         [Authorize(RoleConst.UserAdmin)]
         [HttpDelete]
         public async Task<IActionResult> Delete(long recordId)

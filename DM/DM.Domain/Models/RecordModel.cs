@@ -1,21 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using DM.DAL.Entities;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json;
 
 namespace DM.Domain.Models
 {
-    public class RecordModel : RecordModelBase
-    {
-        public long Id { get; set; }
-        public List<FieldsModel> Fields { get; set; }
-    }
-
-    public class RecordModelForCreate : RecordModelBase
-    {
-        public List<FieldsModelForCreate> Fields { get; set; }
-    }
-
-    public class RecordModelBase
+    public class RecordModel
     {
         public string Name { get; set; }
         public long ProjectId { get; set; }
+        [Column(TypeName = "jsonb")]
+        public JObject Fields { get; set; }
+    //    public List<ItemEntity> Items { get; set; }
     }
 }

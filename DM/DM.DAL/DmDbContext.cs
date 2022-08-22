@@ -24,7 +24,6 @@ namespace DM.repository
         public DmDbContext()
         { }
         public DbSet<UserEntity> Users { get; set; }
-        public DbSet<FieldsEntity> Fields { get; set; }
         public DbSet<ObjectiveEntity> Objective { get; set; }
         public DbSet<ProjectEntity> Projects { get; set; }
         public DbSet<RecordEntity> Records { get; set; }

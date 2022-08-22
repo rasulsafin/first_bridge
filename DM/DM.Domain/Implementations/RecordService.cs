@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
 using DM.DAL.Entities;
+using DM.Domain.Helpers;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
 using DM.repository;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace DM.Domain.Implementations
@@ -30,25 +33,24 @@ namespace DM.Domain.Implementations
             var record = _context.Records.Include(f => f.Fields).FirstOrDefault(x => x.Id == recordId);
             return _mapper.Map<RecordModel>(record);
         }
-        public async Task<long> Create(RecordModelForCreate recordModel)
+        public async Task<long> Create(RecordModel recordModel)
         {
-            var fields = new List<FieldsEntity>();
-            foreach (var c in recordModel.Fields)
-            {
-                fields.Add( new FieldsEntity() { Name = c.Name, Description = c.Description, AssigneeId = c.AssigneeId, IssuerId = c.IssuerId, State = c.State} );
-            }
-            var rec = new RecordEntity()
-            { Name = recordModel.Name, ProjectId = recordModel.ProjectId, Fields = fields };
+            var json = JsonDocument.Parse(recordModel.Fields.ToString());
 
-            var result = await _context.Records.AddAsync(rec);
+
+            var m = new RecordEntity { Name = recordModel.Name, Fields = json, ProjectId = recordModel.ProjectId };
+
+            var result = await _context.Records.AddAsync(m);
             await _context.SaveChangesAsync();
             return result.Entity.Id;
         }
         /// <summary>
         /// update fields attached to a record
         /// </summary>
+         /*
         public async Task<bool> Update(FieldsModel fields)
         {
+            
             var fieldForUpdate = await _context.Fields.FirstOrDefaultAsync(x => x.Id == fields.Id);
 
             if (fieldForUpdate == null) 
@@ -67,9 +69,10 @@ namespace DM.Domain.Implementations
             await _context.SaveChangesAsync();
 
             _context.Entry(fieldForUpdate).State = EntityState.Detached;
+            
             return true;
         }
-
+         */
         //TODO: Add Checks
         public async Task<bool> Delete(long recordId)
         {

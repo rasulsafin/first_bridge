@@ -6,6 +6,7 @@ using DM.repository;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace DM.Domain.Implementations
@@ -51,8 +52,16 @@ namespace DM.Domain.Implementations
 
         public async Task<long> Create(ProjectModel projectModel)
         {
-            var project = _mapper.Map<ProjectEntity>(projectModel);
-            var result = await _context.Projects.AddAsync(project);
+            var json = JsonDocument.Parse(projectModel.RecordTemplate.ToString());
+
+            var projMod = new ProjectEntity
+            {
+                Title = projectModel.Title,
+                Description = projectModel.Description,
+                RecordTemplate = json
+            };
+           // var project = _mapper.Map<ProjectEntity>(projectModel);
+            var result = await _context.Projects.AddAsync(projMod);
             await _context.SaveChangesAsync();
 
             foreach (var user in projectModel.User)
