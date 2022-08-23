@@ -37,7 +37,6 @@ namespace DM.Domain.Implementations
         {
             var json = JsonDocument.Parse(recordModel.Fields.ToString());
 
-
             var m = new RecordEntity { Name = recordModel.Name, Fields = json, ProjectId = recordModel.ProjectId };
 
             var result = await _context.Records.AddAsync(m);
@@ -47,24 +46,22 @@ namespace DM.Domain.Implementations
         /// <summary>
         /// update fields attached to a record
         /// </summary>
-         /*
-        public async Task<bool> Update(FieldsModel fields)
+         
+        public async Task<bool> Update(RecordModel record)
         {
-            
-            var fieldForUpdate = await _context.Fields.FirstOrDefaultAsync(x => x.Id == fields.Id);
+            var stringjson = record.Fields.ToString();
+            var fieldForUpdate = await _context.Records.FirstOrDefaultAsync(x => x.Name == record.Name);
 
             if (fieldForUpdate == null) 
             {
                 return false;
             }
 
-            _context.Fields.Attach(fieldForUpdate);
+            _context.Records.Attach(fieldForUpdate);
 
-            fieldForUpdate.Name = fields.Name;
-            fieldForUpdate.Description = fields.Description;
-            fieldForUpdate.State = fields.State;
-            fieldForUpdate.IssuerId = fields.IssuerId;
-            fieldForUpdate.AssigneeId = fields.AssigneeId;
+            fieldForUpdate.Name = record.Name;
+            fieldForUpdate.ProjectId = record.ProjectId;
+            fieldForUpdate.Fields = JsonDocument.Parse(stringjson);
 
             await _context.SaveChangesAsync();
 
@@ -72,7 +69,7 @@ namespace DM.Domain.Implementations
             
             return true;
         }
-         */
+         
         //TODO: Add Checks
         public async Task<bool> Delete(long recordId)
         {

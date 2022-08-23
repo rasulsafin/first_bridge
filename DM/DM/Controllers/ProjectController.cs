@@ -1,6 +1,5 @@
 ﻿using DM.Domain.Interfaces;
 using DM.Domain.Models;
-using DM.Entities;
 using DM.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -40,11 +39,19 @@ namespace DM.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ProjectModel projectModel)
         {
-            var currentUser = (UserEntity)HttpContext.Items["User"];
-
             var id = await _projectService.Create(projectModel);
 
             return Ok(id);
+        }
+
+        [Authorize(RoleConst.UserAdmin)]
+        [HttpGet("{projectIdForTemplate}/template")]
+        public async Task<IActionResult> GetProjectTemplateOfRecord(long projectIdForTemplate)
+        {
+            var jsonDoc = await _projectService.GetProjectTemplateOfRecord(projectIdForTemplate);
+            var rootElement = jsonDoc.RootElement.ToString();
+
+            return Ok(rootElement);
         }
     }
 }

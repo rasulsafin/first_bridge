@@ -54,14 +54,14 @@ namespace DM.Domain.Implementations
         {
             var json = JsonDocument.Parse(projectModel.RecordTemplate.ToString());
 
-            var projMod = new ProjectEntity
+            var project = new ProjectEntity
             {
                 Title = projectModel.Title,
                 Description = projectModel.Description,
                 RecordTemplate = json
             };
-           // var project = _mapper.Map<ProjectEntity>(projectModel);
-            var result = await _context.Projects.AddAsync(projMod);
+
+            var result = await _context.Projects.AddAsync(project);
             await _context.SaveChangesAsync();
 
             foreach (var user in projectModel.User)
@@ -77,7 +77,13 @@ namespace DM.Domain.Implementations
             await _context.SaveChangesAsync();
 
             return result.Entity.Id;
-            
+        }
+
+        public async Task<JsonDocument> GetProjectTemplateOfRecord(long projectId)
+        {
+            var project = await _context.Projects.Where(x => x.Id == projectId).Select(q => q.RecordTemplate).FirstOrDefaultAsync();
+
+            return project;
         }
 
     }

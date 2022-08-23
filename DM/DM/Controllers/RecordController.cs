@@ -43,16 +43,17 @@ namespace DM.Controllers
 
             return Ok(id);
         }
-        /*
+        
         [Authorize(RoleConst.UserAdmin)]
         [HttpPut]
-        public async Task<IActionResult> Update(FieldsModel fields)
+        public async Task<IActionResult> Update(RecordModel recordModel)
         {
-            var checker = await _recordService.Update(fields);
+            var checker = await _recordService.Update(recordModel);
 
             return Ok(checker);
         }
-        */
+
+        
         [Authorize(RoleConst.UserAdmin)]
         [HttpDelete]
         public async Task<IActionResult> Delete(long recordId)

@@ -91,17 +91,7 @@ namespace DM.Domain.Implementations
 
         public async Task<bool> Delete(long userId)
         {
-            // check that the fields do not contain users to be deleted
-            /*
-            var fieldEntity = await _context.Fields.FirstOrDefaultAsync(x => x.Id == userId);
-
-            _context.Fields.Attach(fieldEntity);
-
-            fieldEntity.AssigneeId = null;
-            fieldEntity.IssuerId = null;
-            await _context.SaveChangesAsync();
-
-            _context.Entry(fieldEntity).State = EntityState.Detached;
+            //TODO: check that the Records/fields do'nt contain users to be deleted
 
             var user = _context.Users.FirstOrDefault(q => q.Id == userId);
 
@@ -112,7 +102,7 @@ namespace DM.Domain.Implementations
             
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
-            */
+            
             return true;
         }
     }
