@@ -7,7 +7,7 @@ const initialState = [];
 export const fetchFiles = createAsyncThunk(
   "files/fetchFiles", async () => {
     const response = await axiosInstance.get("/api/item");
-    return response.data;
+    return response.data.data;
   });
 
 export const uploadFileService = createAsyncThunk(
