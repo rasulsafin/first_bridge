@@ -5,6 +5,7 @@ using DM.Domain.Interfaces;
 using DM.Domain.Models;
 using DM.repository;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace DM.Domain.Implementations
     {
         private readonly DmDbContext _context;
         private readonly IMapper _mapper;
+        private readonly string _checker = "[]!@#$%^&*+=~`";
 
         public RecordService(DmDbContext context, IMapper mapper)
         {
@@ -25,12 +27,25 @@ namespace DM.Domain.Implementations
         }
         public List<RecordModel> GetAll()
         {
-            var records = _context.Records.Include(f => f.Fields).ToList();
-            return _mapper.Map<List<RecordModel>>(records);
+            var records = _context.Records.ToList();
+
+            var recordModels = new List<RecordModel>();
+
+            foreach (var r in records)
+            {
+                recordModels.Add(new RecordModel()
+                {
+                    Name = r.Name,
+                    ProjectId = r.ProjectId,
+                    Fields = JObject.Parse(r.Fields.RootElement.ToString())
+                });
+            }
+
+            return recordModels;
         }
         public RecordModel GetById(long recordId)
         {
-            var record = _context.Records.Include(f => f.Fields).FirstOrDefault(x => x.Id == recordId);
+            var record = _context.Records.FirstOrDefault(x => x.Id == recordId);
             return _mapper.Map<RecordModel>(record);
         }
         public async Task<long> Create(RecordModel recordModel)
@@ -49,6 +64,17 @@ namespace DM.Domain.Implementations
          
         public async Task<bool> Update(RecordModel record)
         {
+            foreach (var j in record.Fields) // Валидация специальных символов
+            {
+                foreach (var s in _checker)
+                {
+                    if (j.Value.ToString().Contains(s))
+                    {
+                        return false;
+                    }
+                }   
+            }    
+
             var stringjson = record.Fields.ToString();
             var fieldForUpdate = await _context.Records.FirstOrDefaultAsync(x => x.Name == record.Name);
 

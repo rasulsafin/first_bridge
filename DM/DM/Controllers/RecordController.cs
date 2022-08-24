@@ -50,6 +50,11 @@ namespace DM.Controllers
         {
             var checker = await _recordService.Update(recordModel);
 
+            if (checker == false)
+            {
+                return BadRequest("the fields must not contain invalid characters");
+            }
+
             return Ok(checker);
         }
 

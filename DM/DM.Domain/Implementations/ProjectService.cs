@@ -4,6 +4,8 @@ using DM.Domain.Interfaces;
 using DM.Domain.Models;
 using DM.repository;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
@@ -33,7 +35,13 @@ namespace DM.Domain.Implementations
 
             foreach (var project in projects)
             {
-                projectModel.Add(new ProjectModel() { Id = project.Project.Id, Title = project.Project.Title, User = new List<string> { project.User.Name } });
+                projectModel.Add(new ProjectModel() { 
+                    Id = project.Project.Id, 
+                    Title = project.Project.Title, 
+                    User = new List<string> { project.User.Name }, 
+                    Description = project.Project.Description, 
+                    RecordTemplate = JObject.Parse(project.Project.RecordTemplate.RootElement.ToString())
+                });
             }
          
             return projectModel;
