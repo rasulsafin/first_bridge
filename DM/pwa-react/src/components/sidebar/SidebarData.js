@@ -66,4 +66,13 @@ export const SidebarData = [
     sName: 'sidebar-item',
     nName: 'nav-item',
   },
+  {
+    id: 7,
+    title: 'Generate Form',
+    path: '/generate-form',
+    icon: <IoIcons.IoMdHelpCircle />,
+    cName: 'nav-text',
+    sName: 'sidebar-item',
+    nName: 'nav-item',
+  },
 ]

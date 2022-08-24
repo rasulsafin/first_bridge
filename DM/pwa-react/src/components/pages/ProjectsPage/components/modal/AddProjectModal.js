@@ -70,14 +70,13 @@ export function AddProjectModal() {
       <Button variant="contained" onClick={handleClickOpen}>
         Add Project
       </Button>
-      <Dialog maxWidth="sm" open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Create project</DialogTitle>
         <DialogContent dividers>
           <div
             className="modalContainer"
             style={{
-              width: "75%",
-              margin: "5px"
+              margin: 5
             }}>
             <Controls.Input
               name="name"
@@ -93,7 +92,6 @@ export function AddProjectModal() {
               onChange={handleChange}
               options={users}
               autoWidth={false}
-              fullwidth
             />
             {/*<FormControl size="small">*/}
             {/*  <InputLabel id="demo-simple-select-label">User</InputLabel>*/}

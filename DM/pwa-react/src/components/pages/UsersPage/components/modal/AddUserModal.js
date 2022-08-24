@@ -67,7 +67,6 @@ export function AddUserModal() {
           <div
             className="modalContainer"
                style={{
-                 width: "75%",
                  margin: "5px"
                }}>
             <Controls.Input
