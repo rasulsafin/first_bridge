@@ -46,7 +46,18 @@ namespace DM.Domain.Implementations
         public RecordModel GetById(long recordId)
         {
             var record = _context.Records.FirstOrDefault(x => x.Id == recordId);
-            return _mapper.Map<RecordModel>(record);
+            if (record == null)
+            {
+                return null;
+            }
+
+            var recordModel = new RecordModel()
+            {
+                Name = record.Name,
+                ProjectId = record.ProjectId,
+                Fields = JObject.Parse(record.Fields.RootElement.ToString())
+            };
+            return recordModel;
         }
         public async Task<long> Create(RecordModel recordModel)
         {
@@ -99,8 +110,11 @@ namespace DM.Domain.Implementations
         //TODO: Add Checks
         public async Task<bool> Delete(long recordId)
         {
-            var result = await _context.Records.Include(x => x.Fields).FirstOrDefaultAsync(x => x.Id == recordId);
-            // if result.length == 0 Throw New Exception
+            var result = await _context.Records.FirstOrDefaultAsync(x => x.Id == recordId);
+             if (result == null)
+            {
+                return false;
+            }
 
             _context.Records.Remove(result);
             await _context.SaveChangesAsync();

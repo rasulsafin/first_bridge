@@ -53,7 +53,18 @@ namespace DM.Domain.Implementations
                 .Include(x => x.User)
                 .Include(x => x.Project)
                 .FirstOrDefault(x => x.ProjectId == projectId);
-            var projectModel = new ProjectModel() { Title = project?.Project.Title, User = new List<string> { project?.User.Name } };
+
+            if (project == null)
+            {
+                return null;
+            }
+
+            var projectModel = new ProjectModel() 
+            {   Title = project?.Project.Title,
+                User = new List<string> { project?.User.Name },
+                Description = project.Project.Description,
+                RecordTemplate = JObject.Parse(project.Project.RecordTemplate.RootElement.ToString())
+            };
 
             return projectModel;
         }

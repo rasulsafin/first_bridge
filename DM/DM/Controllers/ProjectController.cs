@@ -31,6 +31,8 @@ namespace DM.Controllers
         public IActionResult GetById(long projectId)
         {
             var project = _projectService.GetById(projectId);
+            if (project == null)
+                return NotFound();
 
             return Ok(project);
         }

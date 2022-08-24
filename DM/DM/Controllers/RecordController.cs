@@ -31,6 +31,8 @@ namespace DM.Controllers
         public IActionResult GetById(long recordId)
         {
             var record = _recordService.GetById(recordId);
+            if (record == null)
+                return NotFound();
 
             return Ok(record);
         }
@@ -63,9 +65,14 @@ namespace DM.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(long recordId)
         {
-            var id = await _recordService.Delete(recordId);
+            var checker = await _recordService.Delete(recordId);
 
-            return Ok(id);
+            if (checker == false)
+            {
+                return NotFound();
+            }
+
+            return Ok(checker);
         }
     }
 }
