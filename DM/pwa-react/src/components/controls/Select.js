@@ -22,10 +22,10 @@ export default function Select(props) {
         autoWidth={false}
         {...other}
       >
-        <MenuItem value="">None</MenuItem>
+        <MenuItem></MenuItem>
         {
           options.map(
-            item => (<MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>)
+            item => (<MenuItem key={item.id} value={item.name}>{item.name}</MenuItem>)
           )
         }
       </MuiSelect>
