@@ -14,7 +14,7 @@ namespace DM.DAL.Entities
         public string Description { get; set; }
         public List<ItemEntity> Items { get; set; }
         public List<RecordEntity> Records { get; set; }
-        [Column(TypeName = "jsonb")]
-        public JsonDocument RecordTemplate { get; set; }
+        public List<TemplateEntity> Template { get; set; }
+
     }
 }

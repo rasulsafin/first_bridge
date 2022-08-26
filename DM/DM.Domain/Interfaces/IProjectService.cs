@@ -10,6 +10,5 @@ namespace DM.Domain.Interfaces
         public Task<List<ProjectModel>> GetAll();
         public ProjectModel GetById(long projectId);
         public Task<long> Create(ProjectModel projectModel);
-        public Task<JsonDocument> GetProjectTemplateOfRecord(long projectId);
     }
 }

@@ -45,15 +45,5 @@ namespace DM.Controllers
 
             return Ok(id);
         }
-
-        [Authorize(RoleConst.UserAdmin)]
-        [HttpGet("{projectIdForTemplate}/template")]
-        public async Task<IActionResult> GetProjectTemplateOfRecord(long projectIdForTemplate)
-        {
-            var jsonDoc = await _projectService.GetProjectTemplateOfRecord(projectIdForTemplate);
-            var rootElement = jsonDoc.RootElement.ToString();
-
-            return Ok(rootElement);
-        }
     }
 }

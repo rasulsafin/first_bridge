@@ -4,11 +4,8 @@ using DM.Domain.Interfaces;
 using DM.Domain.Models;
 using DM.repository;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace DM.Domain.Implementations
@@ -26,21 +23,17 @@ namespace DM.Domain.Implementations
 
         public async Task<List<ProjectModel>> GetAll()
         {
-            var projects = await _context.UserProjects
-                .Include(x => x.User)
-                .Include(x => x.Project)
+            var projects = await _context.Projects
+                .Include(x => x.Template)
                 .ToListAsync();
 
             var projectModel = new List<ProjectModel>();
 
             foreach (var project in projects)
             {
-                projectModel.Add(new ProjectModel() { 
-                    Id = project.Project.Id, 
-                    Title = project.Project.Title, 
-                    User = new List<string> { project.User.Name }, 
-                    Description = project.Project.Description, 
-                    RecordTemplate = JObject.Parse(project.Project.RecordTemplate.RootElement.ToString())
+                projectModel.Add(new ProjectModel() {
+                    Title = project.Title, 
+                    Description = project.Description, 
                 });
             }
          
@@ -49,10 +42,8 @@ namespace DM.Domain.Implementations
 
         public ProjectModel GetById(long projectId)
         {
-            var project = _context.UserProjects
-                .Include(x => x.User)
-                .Include(x => x.Project)
-                .FirstOrDefault(x => x.ProjectId == projectId);
+            var project = _context.Projects.Include(x => x.Template)
+                .FirstOrDefault(x => x.Id == projectId);
 
             if (project == null)
             {
@@ -60,10 +51,8 @@ namespace DM.Domain.Implementations
             }
 
             var projectModel = new ProjectModel() 
-            {   Title = project?.Project.Title,
-                User = new List<string> { project?.User.Name },
-                Description = project.Project.Description,
-                RecordTemplate = JObject.Parse(project.Project.RecordTemplate.RootElement.ToString())
+            {   Title = project?.Title,
+                Description = project.Description,
             };
 
             return projectModel;
@@ -71,39 +60,18 @@ namespace DM.Domain.Implementations
 
         public async Task<long> Create(ProjectModel projectModel)
         {
-            var json = JsonDocument.Parse(projectModel.RecordTemplate.ToString());
+         //   var json = JsonDocument.Parse(projectModel.RecordTemplate.ToString());
 
             var project = new ProjectEntity
             {
                 Title = projectModel.Title,
-                Description = projectModel.Description,
-                RecordTemplate = json
+                Description = projectModel.Description
             };
 
             var result = await _context.Projects.AddAsync(project);
             await _context.SaveChangesAsync();
 
-            foreach (var user in projectModel.User)
-            {
-                var userProj = new UserProjectEntity
-                {
-                    UserId = await _context.Users.Where(x => x.Login == user).Select(x => x.Id).FirstOrDefaultAsync(),
-                    ProjectId = result.Entity.Id
-                };
-
-                await _context.UserProjects.AddAsync(userProj);
-            }
-            await _context.SaveChangesAsync();
-
             return result.Entity.Id;
         }
-
-        public async Task<JsonDocument> GetProjectTemplateOfRecord(long projectId)
-        {
-            var project = await _context.Projects.Where(x => x.Id == projectId).Select(q => q.RecordTemplate).FirstOrDefaultAsync();
-
-            return project;
-        }
-
     }
 }

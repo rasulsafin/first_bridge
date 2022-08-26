@@ -32,6 +32,7 @@ namespace DM
             services.AddScoped<IItemService, ItemService>();
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IRecordService, RecordService>();
+            services.AddScoped<ITemplateService, TemplateService>();
 
             services.AddDbContext<DmDbContext>(options =>
             {
@@ -39,7 +40,6 @@ namespace DM
                 {
                     builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
                 });
-                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
 
             services.AddControllers();
