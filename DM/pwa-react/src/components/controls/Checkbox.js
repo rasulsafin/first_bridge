@@ -5,19 +5,13 @@ export default function Checkbox(props) {
 
   const { name, label, value, onChange } = props;
 
-  const convertToDefEventPara = (name, value) => ({
-    target: {
-      name, value
-    }
-  });
-
   return (
     <FormControl>
       <FormControlLabel
         control={<MuiCheckbox
           name={name}
           checked={value}
-          onChange={e => onChange(convertToDefEventPara(name, e.target.checked))}
+          onChange={onChange}
         />}
         label={label}
       />
