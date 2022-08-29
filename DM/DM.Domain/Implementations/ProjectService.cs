@@ -32,7 +32,7 @@ namespace DM.Domain.Implementations
             foreach (var project in projects)
             {
                 projectModel.Add(new ProjectModel() {
-                    OrganizationId = project.OrganizationId,
+                    Id = project.OrganizationId,
                     Title = project.Title, 
                     Description = project.Description, 
                 });
@@ -53,7 +53,7 @@ namespace DM.Domain.Implementations
 
             var projectModel = new ProjectModel() 
             {   
-                OrganizationId = project.OrganizationId,
+                Id = project.OrganizationId,
                 Title = project?.Title,
                 Description = project.Description,
             };
@@ -71,7 +71,7 @@ namespace DM.Domain.Implementations
                 Description = projectModel.Description
             };
 
-            var organization = _context.Organization.Include(x => x.Projects).First(x => x.Id == projectModel.OrganizationId);
+            var organization = _context.Organization.Include(x => x.Projects).First(x => x.Id == projectModel.Id); //projectModel.Id == OrganizationId
 
             if (organization == null)
             {

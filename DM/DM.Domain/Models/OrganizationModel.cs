@@ -8,6 +8,8 @@ namespace DM.Domain.Models
 {
     public class OrganizationModel
     {
+        public long Id { get; set; }
+
         public string Name { get; set; }
 
         /// <summary>
