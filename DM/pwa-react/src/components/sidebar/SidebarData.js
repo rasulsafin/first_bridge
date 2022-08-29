@@ -23,6 +23,15 @@ export const SidebarData = [
   },
   {
     id: 3,
+    title: 'Organizations',
+    path: '/organizations',
+    icon: <IoIcons.IoIosPaper />,
+    cName: 'nav-text',
+    sName: 'sidebar-item',
+    nName: 'nav-item',
+  },
+  {
+    id: 4,
     title: 'Projects',
     path: '/projects',
     icon: <FaIcons.FaCartPlus />,
@@ -31,7 +40,7 @@ export const SidebarData = [
     nName: 'nav-item',
   },
   {
-    id: 4,
+    id: 5,
     title: 'Records',
     path: '/records',
     icon: <IoIcons.IoMdPeople />,
@@ -40,7 +49,7 @@ export const SidebarData = [
     nName: 'nav-item',
   },
   {
-    id: 5,
+    id: 6,
     title: 'Items',
     path: '/items',
     icon: <FaIcons.FaEnvelopeOpenText />,
@@ -49,7 +58,7 @@ export const SidebarData = [
     nName: 'nav-item',
   },
   {
-    id: 6,
+    id: 7,
     title: 'Support',
     path: '/support',
     icon: <IoIcons.IoMdHelpCircle />,
@@ -58,7 +67,7 @@ export const SidebarData = [
     nName: 'nav-item',
   },
   {
-    id: 6,
+    id: 8,
     title: 'Login',
     path: '/login',
     icon: <IoIcons.IoMdHelpCircle />,
@@ -67,7 +76,7 @@ export const SidebarData = [
     nName: 'nav-item',
   },
   {
-    id: 7,
+    id: 9,
     title: 'Generate Form',
     path: '/generate-form',
     icon: <IoIcons.IoMdHelpCircle />,

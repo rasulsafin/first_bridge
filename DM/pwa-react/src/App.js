@@ -15,6 +15,8 @@ import RegisterPage from "./components/pages/LoginPage/RegisterPage";
 import { RecordDetailPage } from "./components/pages/RecordsPage/components/RecordDetailPage";
 import { RequireAuth } from "./components/RequireAuth/RequireAuth";
 import { GenerateFormPage } from "./components/pages/GenerateFormPage/GenerateFormPage";
+import { Organizations } from "./components/pages/OrganizationsPage/Organizations";
+import { OrganizationDetailPage } from "./components/pages/OrganizationsPage/components/OrganizationDetailPage";
 
 function App() {
   const [sidebar, setSidebar] = useState(false);
@@ -43,6 +45,8 @@ function App() {
               <Route index element={<Home />} />
               <Route path="/users" element={<Users />} />
               <Route path="/user/:id" element={<UserDetailPage />} />
+              <Route path="/organizations" element={<Organizations />} />
+              <Route path="/organization/:id" element={<OrganizationDetailPage />} />
               <Route path="/projects" element={<Projects />} />
               <Route path="/project/:id" element={<ProjectDetailPage />} />
               <Route path="/records" element={<Records />} />
