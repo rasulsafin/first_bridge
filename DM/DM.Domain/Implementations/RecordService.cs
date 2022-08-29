@@ -33,6 +33,7 @@ namespace DM.Domain.Implementations
             {
                 recordModels.Add(new RecordModel()
                 {
+                    Id = r.Id,
                     Name = r.Name,
                     ProjectId = r.ProjectId,
                     Fields = JObject.Parse(r.Fields.RootElement.ToString())

@@ -32,6 +32,7 @@ namespace DM.Domain.Implementations
             foreach (var project in projects)
             {
                 projectModel.Add(new ProjectModel() {
+                    Id = project.Id,
                     Title = project.Title, 
                     Description = project.Description, 
                 });
