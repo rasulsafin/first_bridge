@@ -9,6 +9,8 @@ namespace DM.Domain
     {
         public MappingProfile()
         {
+            CreateMap<OrganizationEntity, OrganizationModel>().ReverseMap();
+
             CreateMap<UserEntity, UserModel>().ForMember(a => a.Roles, b => b.MapFrom(c => c.Roles.Name));
             CreateMap<UserModel, UserEntity>();
             CreateMap<ItemModel, ItemEntity>().ReverseMap();

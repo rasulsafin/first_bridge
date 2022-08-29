@@ -31,6 +31,7 @@ namespace DM.repository
         public DbSet<ItemEntity> Items { get; set; }
         public DbSet<RoleEntity> Roles { get; set; }
         public DbSet<TemplateEntity> Template { get; set; }
+        public DbSet<OrganizationEntity> Organization { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -39,9 +40,23 @@ namespace DM.repository
                 .HasIndex(x => x.Login)
                 .IsUnique(true);
 
+            modelBuilder.Entity<OrganizationEntity>()
+                .HasIndex(x => x.Inn)
+                .IsUnique(true);
+
             modelBuilder.Entity<ProjectEntity>()
                 .HasMany(c => c.Template)
                 .WithOne(e => e.Project)
+                .IsRequired();
+
+            modelBuilder.Entity<OrganizationEntity>()
+                .HasMany(c => c.Projects)
+                .WithOne(e => e.Organization)
+                .IsRequired();
+
+            modelBuilder.Entity<OrganizationEntity>()
+                .HasMany(c => c.Users)
+                .WithOne(e => e.Organization)
                 .IsRequired();
 
             /*

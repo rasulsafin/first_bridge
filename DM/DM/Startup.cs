@@ -33,6 +33,7 @@ namespace DM
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IRecordService, RecordService>();
             services.AddScoped<ITemplateService, TemplateService>();
+            services.AddScoped<IOrganizationService, OrganizationService>();
 
             services.AddDbContext<DmDbContext>(options =>
             {

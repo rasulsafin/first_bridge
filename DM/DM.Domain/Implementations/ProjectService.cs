@@ -32,6 +32,7 @@ namespace DM.Domain.Implementations
             foreach (var project in projects)
             {
                 projectModel.Add(new ProjectModel() {
+                    OrganizationId = project.OrganizationId,
                     Title = project.Title, 
                     Description = project.Description, 
                 });
@@ -51,7 +52,9 @@ namespace DM.Domain.Implementations
             }
 
             var projectModel = new ProjectModel() 
-            {   Title = project?.Title,
+            {   
+                OrganizationId = project.OrganizationId,
+                Title = project?.Title,
                 Description = project.Description,
             };
 
@@ -68,10 +71,19 @@ namespace DM.Domain.Implementations
                 Description = projectModel.Description
             };
 
-            var result = await _context.Projects.AddAsync(project);
+            var organization = _context.Organization.Include(x => x.Projects).First(x => x.Id == projectModel.OrganizationId);
+
+            if (organization == null)
+            {
+                return 0;
+            }
+
+            // добавление зависимой сущности
+            organization.Projects.Add(project);
+
             await _context.SaveChangesAsync();
 
-            return result.Entity.Id;
+            return project.Id;
         }
     }
 }
