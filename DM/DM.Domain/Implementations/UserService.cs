@@ -55,16 +55,34 @@ namespace DM.Domain.Implementations
             var user = _context.Users.FirstOrDefault(x => x.Id == userId);
             return _mapper.Map<UserModel>(user);
         }
-        public async Task<long> Create(UserModel userModel)
+        public async Task<bool> Create(UserModel userModel)
         {
             var hashedPass = PasswordHelper.HashPassword(userModel.Password);
             var user = _mapper.Map<UserEntity>(new UserModel
-            { Login = userModel.Login, Name = userModel.Name, Email = userModel.Email, Password = hashedPass });
+            { 
+                Login = userModel.Login,
+                Name = userModel.Name,
+                LastName = userModel.LastName,
+                FathersName = userModel.FathersName,
+                Email = userModel.Email,
+                Birthdate = userModel.Birthdate,
+                Snils = userModel.Snils,
+                Position = userModel.Position,
+                OrganizationId = userModel.OrganizationId,
+                Password = hashedPass });
 
+            var organization = _context.Organization.Include(x => x.Users).First(x => x.Id == userModel.OrganizationId);
 
-            var result = await _context.Users.AddAsync(user);
+            if (organization == null)
+            {
+                return false;
+            }
+
+            // добавление зависимой сущности
+            organization.Users.Add(user);
+
             await _context.SaveChangesAsync();
-            return result.Entity.Id;
+            return true;
         }
 
         public async Task<bool> Update(UserModelForUpdate user)
