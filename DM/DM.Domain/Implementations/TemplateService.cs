@@ -80,7 +80,10 @@ namespace DM.Domain.Implementations
         public async Task<string> GetTemplatesOfProject(long projectId)
         {
             var projectsForOutput = ""; 
-            var projects = await _context.Template.Where(x => x.ProjectId == projectId).Select(q => q.RecordTemplate).ToListAsync();
+            var projects = await _context.Template
+                .Where(x => x.ProjectId == projectId)
+                .Select(q => q.RecordTemplate)
+                .ToListAsync();
 
             foreach (var p in projects)
             {

@@ -8,6 +8,8 @@ import projectsReducer from "../services/projectsSlice";
 import recordsReducer from "../services/recordsSlice";
 import filesReducer from "../services/filesSlice";
 import { authReducer } from "../services/authSlice";
+import recordTemplatesReducer from "../services/recordTemplatesSlice";
+
 
 const persistConfig = {
   key: "root",
@@ -19,6 +21,7 @@ const rootReducer = combineReducers({
   users: usersReducer,
   projects: projectsReducer,
   records: recordsReducer,
+  recordTemplates: recordTemplatesReducer,
   files: filesReducer
 });
 
