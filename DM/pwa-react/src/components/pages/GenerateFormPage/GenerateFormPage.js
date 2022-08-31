@@ -3,12 +3,26 @@ import { Controls } from "../../controls/Controls";
 import { Button } from "react-bootstrap";
 import { useState } from "react";
 import { inputTypes } from "../../../constants/inputTypes";
+import { useDispatch, useSelector } from "react-redux";
+import { addNewTemplate } from "../../../services/recordTemplatesSlice";
+import { selectAllProjects } from "../../../services/projectsSlice";
+
+const initialProject = {
+  id: 0,
+  title: ""
+};
 
 export function GenerateFormPage() {
+  const dispatch = useDispatch();
   const [required, setRequired] = useState(false);
   const [inputType, setInputType] = useState("");
   const [inputTitle, setInputTitle] = useState("");
   const [inputList, setInputList] = useState([]);
+  const [recordName, setRecordName] = useState("");
+  const [project, setProject] = useState(initialProject);
+
+  const projects = useSelector(selectAllProjects);
+  console.log(projects);
 
   const handleInputChange = (e) => {
     console.log(e.target.value);
@@ -30,7 +44,7 @@ export function GenerateFormPage() {
       alert("Choose your destiny!");
       return;
     }
-    
+
     setInputList([...inputList, {
       title: inputTitle,
       type: inputType,
@@ -52,12 +66,20 @@ export function GenerateFormPage() {
   };
 
   const handleSaveTemplate = () => {
-    console.log(inputList)
-  }
+    console.log(project);
+    dispatch(addNewTemplate({
+      name: recordName,
+      projectId: project,
+      recordTemplate: { ...inputList }
+    }));
+  };
+
+  const recordTemplate = inputList.map(item => item.index);
 
   function handleResetClick() {
     setInputType("");
     setInputTitle("");
+    console.log(recordTemplate);
   }
 
   return (
@@ -107,15 +129,34 @@ export function GenerateFormPage() {
         </div>
         <div style={styleDiv}>
           <h2>View</h2>
+          <div>
+            <Controls.Input
+              name="title"
+              label="RecordName"
+              type="text"
+              value={recordName}
+              onChange={(event) => setRecordName(event.target.value)}
+              required
+            />
+            <Controls.SelectProject
+              name="project"
+              label="project"
+              value={project}
+              onChange={(event) => setProject(event.target.value)}
+              options={projects}
+              autoWidth={false}
+            />
+          </div>
+
           {inputList.map((x, i) => {
             return (
-              <div 
+              <div
                 key={i.index}
                 style={{
-                alignItems: "center",
-                justifyContent: "flex-start",
-                display: "flex"
-              }}>
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                  display: "flex"
+                }}>
                 {i >= 0 && <>
                   <Controls.Input
                     label={x.title}
