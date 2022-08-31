@@ -61,8 +61,8 @@ namespace DM.Domain.Implementations
                 return false;
             }
 
-            var templateForUpdate = project.Template.Where(x => x.Id == templateModelForEdit.TemplateId)
-                .FirstOrDefault();
+            var templateForUpdate = project.Template
+                .FirstOrDefault(x => x.Id == templateModelForEdit.TemplateId);
 
             if (templateForUpdate == null)
             {

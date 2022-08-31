@@ -13,7 +13,7 @@ export class Organizations extends Component {
   render() {
     return (
       <div className="p-4">
-        <h1 className="mb-4">Projects</h1>
+        <h1 className="mb-4">Organizations</h1>
         {/*<AddProjectModal />*/}
         <OrganizationsGrid />
       </div>

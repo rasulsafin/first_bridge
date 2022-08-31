@@ -10,6 +10,12 @@ export const fetchRecordTemplates = createAsyncThunk(
     return response.data;
   });
 
+export const addNewTemplate = createAsyncThunk(
+  "recordTemplates/addNewProject", async (newTemplate) => {
+    const response = await axiosInstance.post("api/template", newTemplate);
+    return response.data;
+  });
+
 export const recordTemplatesSlice = createSlice({
   name: "recordTemplates",
   initialState,
