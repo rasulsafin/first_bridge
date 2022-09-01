@@ -11,7 +11,7 @@ namespace DM.Domain.Interfaces
 {
     public interface ITemplateService
     {
-        public Task<string> GetTemplatesOfProject(long projectId);
+        public Task<List<TemplateModel>> GetTemplatesOfProject(long projectId);
         public bool AddTemplateToProject(TemplateModel templateModel);
         public bool EditExistingTemplateOfProject(TemplateModelForEdit templateModelForEdit);
     }
