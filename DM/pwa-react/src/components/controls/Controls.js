@@ -4,6 +4,7 @@ import DatePicker from "./DatePicker";
 import Checkbox from "./Checkbox";
 import RadioGroup from "./RadioGroup";
 import SelectProject from "./SelectProject";
+import SelectTemplate from "./SelectTemplate";
 
 export const Controls = {
   Input,
@@ -11,5 +12,6 @@ export const Controls = {
   Checkbox,
   DatePicker,
   RadioGroup,
-  SelectProject
+  SelectProject,
+  SelectTemplate
 }

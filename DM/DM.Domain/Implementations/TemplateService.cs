@@ -1,15 +1,13 @@
-﻿using AutoMapper;
-using DM.DAL.Entities;
+﻿using DM.DAL.Entities;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
 using DM.repository;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace DM.Domain.Implementations
 {
@@ -47,13 +45,6 @@ namespace DM.Domain.Implementations
 
         public bool EditExistingTemplateOfProject(TemplateModelForEdit templateModelForEdit)
         {
-            var template = new TemplateEntity()
-            {
-                Name = templateModelForEdit.Name,
-                ProjectId = templateModelForEdit.ProjectId,
-                RecordTemplate = JsonDocument.Parse(templateModelForEdit.RecordTemplate.ToString())
-            };
-
             var project = _context.Projects.Where(x => x.Id == templateModelForEdit.ProjectId).Include(x => x.Template).First();
 
             if (project == null)
@@ -77,20 +68,20 @@ namespace DM.Domain.Implementations
             return true;
         }
 
-        public async Task<string> GetTemplatesOfProject(long projectId)
+        public async Task<List<TemplateModel>> GetTemplatesOfProject(long projectId)
         {
-            var projectsForOutput = ""; 
-            var projects = await _context.Template
+            var templates = await _context.Template
                 .Where(x => x.ProjectId == projectId)
-                .Select(q => q.RecordTemplate)
                 .ToListAsync();
 
-            foreach (var p in projects)
-            {
-                projectsForOutput += p.RootElement + "\n";
-            }
-
-            return projectsForOutput;
+            return templates
+                .Select(template => new TemplateModel()
+                {
+                    Id = template.Id, 
+                    Name = template.Name, 
+                    ProjectId = template.ProjectId, 
+                    RecordTemplate = JObject.Parse(template.RecordTemplate.RootElement.ToString())
+                }).ToList();
         }
     }
 }

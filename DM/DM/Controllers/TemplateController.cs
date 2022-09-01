@@ -22,10 +22,9 @@ namespace DM.Controllers
         [HttpGet()]
         public async Task<IActionResult> GetProjectTemplateOfRecord(long projectId)
         {
-            var jsonDoc = await _templateService.GetTemplatesOfProject(projectId);
-            var rootElement = jsonDoc.ToString();
+            var templates = await _templateService.GetTemplatesOfProject(projectId);
 
-            return Ok(rootElement);
+            return Ok(templates);
         }
 
         [Authorize(RoleConst.UserAdmin)]

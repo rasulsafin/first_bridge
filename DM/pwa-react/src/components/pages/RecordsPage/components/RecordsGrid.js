@@ -25,8 +25,8 @@ export default function RecordsGrid() {
 
   useEffect(() => {
     dispatch(fetchRecords());
-  }, [dispatch]);
-
+  }, [dispatch]);  
+ 
   const handleRowDoubleClick = ({ row }) => {
     navigate(`/record/${row.id}`);
   };
