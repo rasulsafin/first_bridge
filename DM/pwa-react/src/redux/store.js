@@ -4,10 +4,13 @@ import logger from "redux-logger";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import usersReducer from "../services/usersSlice";
+import organizationsReducer from "../services/organizationsSlice";
 import projectsReducer from "../services/projectsSlice";
 import recordsReducer from "../services/recordsSlice";
 import filesReducer from "../services/filesSlice";
 import { authReducer } from "../services/authSlice";
+import recordTemplatesReducer from "../services/recordTemplatesSlice";
+
 
 const persistConfig = {
   key: "root",
@@ -17,8 +20,10 @@ const persistConfig = {
 const rootReducer = combineReducers({
   auth: authReducer,
   users: usersReducer,
+  organizations: organizationsReducer,
   projects: projectsReducer,
   records: recordsReducer,
+  recordTemplates: recordTemplatesReducer,
   files: filesReducer
 });
 

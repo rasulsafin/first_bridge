@@ -1,8 +1,9 @@
+import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { fetchRecords, selectAllRecords } from "../../../../services/recordsSlice";
+import { fetchOrganizations, selectAllOrganizations } from "../../../../services/organizationsSlice";
 
 const columns = [
   {
@@ -10,26 +11,34 @@ const columns = [
     width: 200,
     renderHeader: () => (
       <strong>
-        <h4>
-          {"Name"}
-        </h4>
+        <h4>{"Title"}</h4>
       </strong>
-    )
-  }
+    )},
+  {
+    field: "inn",
+    width: 200,
+    renderHeader: () => (
+      <strong>
+        <h4>{"INN"}</h4>
+      </strong>
+    )}
 ];
 
-export default function RecordsGrid() {
+export default function OrganizationsGrid() {
   const dispatch = useDispatch();
-  const records = useSelector(selectAllRecords);
+  const projects = useSelector(selectAllOrganizations);
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(fetchRecords());
-  }, [dispatch]);  
- 
+    dispatch(fetchOrganizations());
+  }, [dispatch]);
+
   const handleRowDoubleClick = ({ row }) => {
-    navigate(`/record/${row.id}`);
+    navigate(`/organization/${row.id}`);
   };
+
+  function handleRowClick() {
+  }
 
   return (
     <div style={{
@@ -38,10 +47,11 @@ export default function RecordsGrid() {
       marginTop: 20
     }}>
       <DataGrid
-        rows={records}
+        rows={projects}
         columns={columns}
         pageSize={10}
         rowsPerPageOptions={[10]}
+        onRowClick={handleRowClick}
         onRowDoubleClick={handleRowDoubleClick}
         sx={{
           "& .MuiDataGrid-row:hover": {
