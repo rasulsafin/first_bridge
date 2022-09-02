@@ -9,6 +9,6 @@ namespace DM.Domain.Interfaces
     {
         public Task<List<OrganizationEntity>> GetAll();
         public Task<OrganizationEntity> GetById(long organizationId);
-        public Task<bool> Create(OrganizationModel organizationModel);
+        public Task<bool> Create(OrganizationModelForCreate organizationModel);
     }
 }

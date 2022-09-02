@@ -11,7 +11,7 @@ namespace DM.Domain
         {
             CreateMap<OrganizationEntity, OrganizationModel>().ReverseMap();
 
-            CreateMap<UserEntity, UserModel>().ForMember(a => a.Roles, b => b.MapFrom(c => c.Roles.Name));
+            CreateMap<UserEntity, UserModel>().ForMember(a => a.Roles, b => b.MapFrom(c => c.Roles));
             CreateMap<UserModel, UserEntity>();
             CreateMap<ItemModel, ItemEntity>().ReverseMap();
 

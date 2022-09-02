@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using DM.Entities;
+using DM.Domain.Helpers;
 
 namespace DM.Domain.Implementations
 {
@@ -17,22 +19,36 @@ namespace DM.Domain.Implementations
         private readonly DmDbContext _context;
         private readonly IMapper _mapper;
         private readonly string _checker = "[]!@#$%^&*+=~`";
+        private readonly UserEntity _currentUser;
 
-        public RecordService(DmDbContext context, IMapper mapper)
+        public RecordService(DmDbContext context, IMapper mapper, CurrentUserService userService)
         {
             _context = context;
             _mapper = mapper;
+            _currentUser = userService.CurrentUser;
         }
         public List<RecordModel> GetAll()
         {
-            var records = _context.Records.ToList();
-
             var recordModels = new List<RecordModel>();
+            var records = _context.Records.ToList();
 
             foreach (var r in records)
             {
+                // вынести проверку разрешений в контроллер
+                if (_currentUser.Roles != "Admin")
+                {
+                    var permission = _context.Permissions
+                        .FirstOrDefault(x => x.Type == PermissionType.Record && x.UserId == _currentUser.Id && x.ObjectId == r.Id);
+
+                    if (permission == null || !permission.Read)
+                    {
+                        continue;
+                    }
+                }
+
                 recordModels.Add(new RecordModel()
                 {
+                    Id = r.Id,
                     Name = r.Name,
                     ProjectId = r.ProjectId,
                     Fields = JObject.Parse(r.Fields.RootElement.ToString())
@@ -43,6 +59,9 @@ namespace DM.Domain.Implementations
         }
         public RecordModel GetById(long recordId)
         {
+            var permission = _context.Permissions.FirstOrDefault(x =>
+                x.Type == PermissionType.Record && x.UserId == _currentUser.Id && x.ObjectId == recordId);
+
             var record = _context.Records.FirstOrDefault(x => x.Id == recordId);
             if (record == null)
             {
@@ -70,7 +89,7 @@ namespace DM.Domain.Implementations
         /// <summary>
         /// update fields attached to a record
         /// </summary>
-         
+
         public async Task<bool> Update(RecordModel record)
         {
             foreach (var j in record.Fields) // Валидация специальных символов
@@ -81,13 +100,13 @@ namespace DM.Domain.Implementations
                     {
                         return false;
                     }
-                }   
-            }    
+                }
+            }
 
             var stringjson = record.Fields.ToString();
             var fieldForUpdate = await _context.Records.FirstOrDefaultAsync(x => x.Name == record.Name);
 
-            if (fieldForUpdate == null) 
+            if (fieldForUpdate == null)
             {
                 return false;
             }
@@ -101,15 +120,15 @@ namespace DM.Domain.Implementations
             await _context.SaveChangesAsync();
 
             _context.Entry(fieldForUpdate).State = EntityState.Detached;
-            
+
             return true;
         }
-         
+
         //TODO: Add Checks
         public async Task<bool> Delete(long recordId)
         {
             var result = await _context.Records.FirstOrDefaultAsync(x => x.Id == recordId);
-             if (result == null)
+            if (result == null)
             {
                 return false;
             }

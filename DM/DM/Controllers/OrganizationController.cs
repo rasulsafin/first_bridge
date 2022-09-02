@@ -28,7 +28,7 @@ namespace DM.Controllers
 
         //[Authorize(RoleConst.UserAdmin)]
         [HttpPost]
-        public async Task<IActionResult> Create(OrganizationModel organizationModel)
+        public async Task<IActionResult> Create(OrganizationModelForCreate organizationModel)
         {
             var id = await _organizationService.Create(organizationModel);
 

@@ -29,9 +29,9 @@ namespace DM.repository
         public DbSet<RecordEntity> Records { get; set; }
         public DbSet<UserProjectEntity> UserProjects { get; set; }
         public DbSet<ItemEntity> Items { get; set; }
-        public DbSet<RoleEntity> Roles { get; set; }
         public DbSet<TemplateEntity> Template { get; set; }
         public DbSet<OrganizationEntity> Organization { get; set; }
+        public DbSet<PermissionEntity> Permissions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -59,24 +59,10 @@ namespace DM.repository
                 .WithOne(e => e.Organization)
                 .IsRequired();
 
-            /*
-               modelBuilder.Entity<UserProjectEntity>()
-                   .HasKey(x => new { x.ProjectId, x.UserId });
-               modelBuilder.Entity<UserProjectEntity>()
-                   .HasOne(x => x.User)
-                   .WithMany(x => x.Projects)
-                   .OnDelete(DeleteBehavior.Cascade);
-               modelBuilder.Entity<UserProjectEntity>()
-                   .HasOne(x => x.Project)
-                   .WithMany(x => x.Users)
-                   .OnDelete(DeleteBehavior.Cascade);
-            */
-
             modelBuilder.Entity<ItemEntity>()
                     .HasOne(x => x.Project)
                     .WithMany(x => x.Items)
                     .OnDelete(DeleteBehavior.Cascade);
         }
-
     }
 }

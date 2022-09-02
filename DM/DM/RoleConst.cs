@@ -9,5 +9,6 @@ namespace DM
     {
         public const string UserAdmin = "User Admin";
         public const string Admin = "Admin";
+        public const string SuperAdmin = "User Admin SuperAdmin";
     }
 }

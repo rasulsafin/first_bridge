@@ -76,7 +76,7 @@ namespace DM.Controllers
         /// <returns>id of uploaded file</returns>
         [Authorize(RoleConst.UserAdmin)]
         [HttpPost, DisableRequestSizeLimit, Route("file")]
-        public async Task<IActionResult> Post(IFormFile file)
+        public async Task<IActionResult> Post(long project, IFormFile file)
         {
             var fileExtension = Path.GetExtension(file.FileName);
             var fileNameWithoutExtension = file.FileName.Remove(file.FileName.Length - 4); // Folder Name
@@ -115,6 +115,7 @@ namespace DM.Controllers
                 {
                     Name = file.FileName + lastVersion,
                     RelativePath = pathForCreate,
+                    ProjectId = project
                 };
                 var item = await _itemService.Create(itemModel); // Adding a Record about new Item
                 return Ok(item);

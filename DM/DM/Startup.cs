@@ -34,6 +34,9 @@ namespace DM
             services.AddScoped<IRecordService, RecordService>();
             services.AddScoped<ITemplateService, TemplateService>();
             services.AddScoped<IOrganizationService, OrganizationService>();
+            services.AddScoped<IPermissionService, PermissionService>();
+            services.AddScoped<CurrentUserService>();
+            //   services.AddScoped<IPermissionService, PermissionService>();
 
             services.AddDbContext<DmDbContext>(options =>
             {
@@ -45,7 +48,7 @@ namespace DM
 
             services.AddControllers();
 
-    //        services.AddLocalization(options => options.ResourcesPath = "translations-folder (not exists yet)");
+            //        services.AddLocalization(options => options.ResourcesPath = "translations-folder (not exists yet)");
 
             services.AddControllersWithViews().AddNewtonsoftJson(options =>
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
@@ -110,7 +113,7 @@ namespace DM
 
             //app.UseAuthentication();
             app.UseAuthorization();
- 
+
             app.UseMiddleware<JwtMiddleware>();
 
             app.UseEndpoints(endpoints =>
@@ -120,8 +123,3 @@ namespace DM
         }
     }
 }
-
-/*
-options.AddPolicy("ElevatedRights", policy =>
-      policy.RequireRole("Administrator", "PowerUser", "BackupAdministrator"));
-*/

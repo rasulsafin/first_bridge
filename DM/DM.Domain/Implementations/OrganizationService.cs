@@ -15,12 +15,10 @@ namespace DM.Domain.Implementations
     public class OrganizationService : IOrganizationService
     {
         private readonly DmDbContext _context;
-        private readonly IMapper _mapper;
 
-        public OrganizationService(DmDbContext context, IMapper mapper)
+        public OrganizationService(DmDbContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
         public async Task<List<OrganizationEntity>> GetAll()
@@ -35,7 +33,7 @@ namespace DM.Domain.Implementations
             return result;
         }
 
-        public async Task<bool> Create(OrganizationModel organizationModel)
+        public async Task<bool> Create(OrganizationModelForCreate organizationModel)
         {
             var organization = new OrganizationEntity()
             {

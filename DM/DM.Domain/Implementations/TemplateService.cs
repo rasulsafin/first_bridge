@@ -1,13 +1,9 @@
-﻿using AutoMapper;
-using DM.DAL.Entities;
+﻿using DM.DAL.Entities;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
 using DM.repository;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -80,11 +76,12 @@ namespace DM.Domain.Implementations
         public async Task<string> GetTemplatesOfProject(long projectId)
         {
             var projectsForOutput = ""; 
-            var projects = await _context.Template.Where(x => x.ProjectId == projectId).Select(q => q.RecordTemplate).ToListAsync();
+            var projects = await _context.Template.Where(x => x.ProjectId == projectId).ToListAsync();
 
             foreach (var p in projects)
             {
-                projectsForOutput += p.RootElement + "\n";
+                projectsForOutput += "TemplateId: " + p.Id + ", Name: " + p.Name + ", ProjectId: " 
+                    + p.ProjectId + ", Template: " + p.RecordTemplate.RootElement + ";" + "\n";
             }
 
             return projectsForOutput;

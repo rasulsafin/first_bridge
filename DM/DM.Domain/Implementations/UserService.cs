@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using DM.Domain.Helpers;
+using DM.DAL.Entities;
 
 namespace DM.Domain.Implementations
 {
@@ -27,7 +28,7 @@ namespace DM.Domain.Implementations
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
         {
-            var user = _context.Users.Include(x => x.Roles).FirstOrDefault(x => x.Login == model.Login);
+            var user = _context.Users.FirstOrDefault(x => x.Login == model.Login);
 
             if (user == null)
             {
@@ -67,6 +68,7 @@ namespace DM.Domain.Implementations
                 Email = userModel.Email,
                 Birthdate = userModel.Birthdate,
                 Snils = userModel.Snils,
+                Roles = userModel.Roles,
                 Position = userModel.Position,
                 OrganizationId = userModel.OrganizationId,
                 Password = hashedPass });
@@ -82,6 +84,9 @@ namespace DM.Domain.Implementations
             organization.Users.Add(user);
 
             await _context.SaveChangesAsync();
+
+
+
             return true;
         }
 
