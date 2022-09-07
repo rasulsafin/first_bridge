@@ -1,9 +1,9 @@
 ﻿using DM.Domain.Exceptions;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
-using DM.Entities;
 using DM.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 using static DM.Validators.ServiceResponsesValidator;
 
@@ -91,13 +91,16 @@ namespace DM.Controllers
         /// <response code="500">Something went wrong while creating new user.</response>
         [HttpPost]
         // [Authorize]
-
         public async Task<IActionResult> Create(UserModel userModel)
         {
             try
             {
                 var id = await _userService.Create(userModel);
                 return Ok(id);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest("Organization does not exist:" + ex.Message);
             }
             catch (ArgumentValidationException ex)
             {

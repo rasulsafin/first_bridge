@@ -37,7 +37,6 @@ namespace DM
             services.AddScoped<IPermissionService, PermissionService>();
             services.AddScoped<CurrentUserService>();
             //   services.AddScoped<IPermissionService, PermissionService>();
-
             services.AddDbContext<DmDbContext>(options =>
             {
                 options.UseNpgsql(Configuration.GetConnectionString("Db"), builder =>

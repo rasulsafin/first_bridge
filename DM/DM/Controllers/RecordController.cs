@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using DM.DAL.Entities;
 using DM.repository;
+using DM.Domain.Helpers;
+using DM.Domain.Implementations;
+using DM.Entities;
 
 namespace DM.Controllers
 {
@@ -15,20 +18,28 @@ namespace DM.Controllers
     {
         public readonly IRecordService _recordService;
         public readonly DmDbContext _context;
+        private readonly UserEntity _currentUser;
 
-        public RecordController(IRecordService recordService, DmDbContext context)
+        public RecordController(IRecordService recordService, DmDbContext context, CurrentUserService userService)
         {
             _recordService = recordService;
             _context = context;
+            _currentUser = userService.CurrentUser;
         }
 
-        [Authorize(RoleConst.UserAdmin)]
+        [Authorize(RoleConst.SuperAdmin)]
         [HttpGet]
         public IActionResult GetAll()
         {
-            var users = _recordService.GetAll();
+            // логика проверки доступа для GetAll перенесена в сервис
+            var records = _recordService.GetAll();
 
-            return Ok(users);
+            if (records.Count == 0)
+            {
+                return Ok("No records available at the moment");
+            }
+
+            return Ok(records);
         }
 
         [Authorize(RoleConst.UserAdmin)]
@@ -37,11 +48,11 @@ namespace DM.Controllers
         {
             var userId = HttpContext.GetUserId();
 
-            var permission = _context.Permissions.FirstOrDefault(x =>
-                x.Type == PermissionType.Record && x.UserId == userId && x.ObjectId == recordId);
+            var permission = AuthorizationHelper.CheckUsersPermissionsById(_context, _currentUser, PermissionType.Record, recordId);
+
             if (permission == null || !permission.Read)
             {
-                return BadRequest("you have no permissions to watch this record");
+                return StatusCode(403);
             }
 
             var record = _recordService.GetById(recordId);
@@ -55,7 +66,19 @@ namespace DM.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(RecordModel recordModel)
         {
+            var permission = AuthorizationHelper.CheckUsersPermissionsForCreate(_context, _currentUser, PermissionType.Record);
+
+            if (permission == null)
+            {
+                return StatusCode(403);
+            }
+
             var id = await _recordService.Create(recordModel);
+
+            if (id == 0)
+            {
+                return BadRequest();
+            }
 
             return Ok(id);
         }
@@ -64,6 +87,13 @@ namespace DM.Controllers
         [HttpPut]
         public async Task<IActionResult> Update(RecordModel recordModel)
         {
+            var permission = AuthorizationHelper.CheckUsersPermissionsForUpdate(_context, _currentUser, PermissionType.Record, recordModel.Id);
+
+            if (permission == null)
+            {
+                return StatusCode(403);
+            }
+
             var checker = await _recordService.Update(recordModel);
 
             if (checker == false)
@@ -79,6 +109,13 @@ namespace DM.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(long recordId)
         {
+            var permission = AuthorizationHelper.CheckUsersPermissionsForDelete(_context, _currentUser, PermissionType.Record, recordId);
+
+            if (permission == null)
+            {
+                return StatusCode(403);
+            }
+
             var checker = await _recordService.Delete(recordId);
 
             if (checker == false)

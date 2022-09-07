@@ -17,9 +17,9 @@ namespace DM.Domain.Implementations
 
         public UserEntity CurrentUser { get; set; }
 
-        public async void SetCurrentUser(long userId)
+        public void SetCurrentUser(long userId)
         {
-            CurrentUser = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            CurrentUser = _context.Users.FirstOrDefault(x => x.Id == userId);
         }
     }
 }

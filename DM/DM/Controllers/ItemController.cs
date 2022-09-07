@@ -1,8 +1,14 @@
-﻿using DM.Domain.Interfaces;
+﻿using DM.DAL.Entities;
+using DM.Domain.Helpers;
+using DM.Domain.Implementations;
+using DM.Domain.Interfaces;
 using DM.Domain.Models;
+using DM.Entities;
 using DM.Helpers;
+using DM.repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
 using System.Linq;
@@ -16,22 +22,27 @@ namespace DM.Controllers
     public class ItemController : ControllerBase
     {
         private readonly IItemService _itemService;
+        public readonly DmDbContext _context;
+        private readonly UserEntity _currentUser;
         private static string pathServerStorage = @$"E:\others\";
         private int lastVersion = 1;  // variable for version tracking
 
-        public ItemController(IItemService itemService)
+        public ItemController(IItemService itemService, DmDbContext context, CurrentUserService userService)
         {
             _itemService = itemService;
+            _context = context;
+            _currentUser = userService.CurrentUser;
         }
 
         /// <summary>
         /// Get records about all documents
         /// </summary>
         /// <returns>list of items</returns>
-        [Authorize(RoleConst.UserAdmin)]
+        [Authorize(RoleConst.SuperAdmin)]
         [HttpGet]
         public IActionResult GetAll()
         {
+            // логика проверки доступа для GetAll перенесена в сервис
             var items = _itemService.GetAll();
 
             if (items.Count == 0)
@@ -47,8 +58,16 @@ namespace DM.Controllers
         /// </summary>
         [Authorize(RoleConst.UserAdmin)]
         [HttpGet("download")]
-        public IActionResult Download(string fileName, string osType)
+        public async Task<IActionResult> Download(string fileName, string osType)
         {
+            var fileId = await _context.Items.Where(x => x.Name == fileName).Select(q => q.Id).FirstOrDefaultAsync(); 
+            var permission = AuthorizationHelper.CheckUsersPermissionsById(_context, _currentUser, PermissionType.Item, fileId);
+
+            if (permission == null || !permission.Read)
+            {
+                return StatusCode(403);
+            }
+            
             if (fileName == null || osType == null)
             {
                 return BadRequest("osType is incorrect");
@@ -78,6 +97,13 @@ namespace DM.Controllers
         [HttpPost, DisableRequestSizeLimit, Route("file")]
         public async Task<IActionResult> Post(long project, IFormFile file)
         {
+            var permission = AuthorizationHelper.CheckUsersPermissionsForCreate(_context, _currentUser, PermissionType.Item);
+
+            if (permission == null)
+            {
+                return StatusCode(403);
+            }
+
             var fileExtension = Path.GetExtension(file.FileName);
             var fileNameWithoutExtension = file.FileName.Remove(file.FileName.Length - 4); // Folder Name
             var pathSaveFile = pathServerStorage + fileNameWithoutExtension;
@@ -113,7 +139,7 @@ namespace DM.Controllers
 
                 var itemModel = new ItemModel()
                 {
-                    Name = file.FileName + lastVersion,
+                    Name = fileNameWithoutExtension + " v" + lastVersion + fileExtension,
                     RelativePath = pathForCreate,
                     ProjectId = project
                 };

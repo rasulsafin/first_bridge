@@ -34,11 +34,9 @@ namespace DM.Domain.Implementations
 
             foreach (var r in records)
             {
-                // вынести проверку разрешений в контроллер
-                if (_currentUser.Roles != "Admin")
+                if (_currentUser.Roles != "SuperAdmin")
                 {
-                    var permission = _context.Permissions
-                        .FirstOrDefault(x => x.Type == PermissionType.Record && x.UserId == _currentUser.Id && x.ObjectId == r.Id);
+                    var permission = AuthorizationHelper.CheckUsersPermissionsById(_context, _currentUser, PermissionType.Record, r.Id);
 
                     if (permission == null || !permission.Read)
                     {
@@ -57,11 +55,9 @@ namespace DM.Domain.Implementations
 
             return recordModels;
         }
+
         public RecordModel GetById(long recordId)
         {
-            var permission = _context.Permissions.FirstOrDefault(x =>
-                x.Type == PermissionType.Record && x.UserId == _currentUser.Id && x.ObjectId == recordId);
-
             var record = _context.Records.FirstOrDefault(x => x.Id == recordId);
             if (record == null)
             {

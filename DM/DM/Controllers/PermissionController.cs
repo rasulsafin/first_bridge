@@ -2,6 +2,7 @@
 using DM.Domain.Models;
 using DM.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace DM.Controllers
 {
@@ -18,27 +19,27 @@ namespace DM.Controllers
 
         [Authorize(RoleConst.SuperAdmin)]
         [HttpGet]
-        public IActionResult GetAllPermissionsOfUser(long userId)
+        public async Task<IActionResult> GetAllPermissionsOfUser(long userId)
         {
-            var permissions = _permissionService.GetAllPermissionsOfUser(userId);
+            var permissions = await _permissionService.GetAllPermissionsOfUser(userId);
 
             return Ok(permissions);
         }
 
         [Authorize(RoleConst.SuperAdmin)]
         [HttpPost]
-        public IActionResult AddPermissionToUser(PermissionModel permissionModel)
+        public async Task<IActionResult> AddPermissionToUser(PermissionModel permissionModel)
         {
-            var permissions = _permissionService.AddPermissionToUser(permissionModel);
+            var permissions = await _permissionService.AddPermissionToUser(permissionModel);
 
             return Ok(true);
         }
 
         [Authorize(RoleConst.SuperAdmin)]
         [HttpDelete]
-        public IActionResult DeletePermissionOfUser(PermissionModel permissionModel)
+        public async Task<IActionResult> DeletePermissionOfUser(PermissionModel permissionModel)
         {
-            var result = _permissionService.RemovePermissionFromUser(permissionModel);
+            var result = await _permissionService.RemovePermissionFromUser(permissionModel);
 
             return Ok(result);
         }

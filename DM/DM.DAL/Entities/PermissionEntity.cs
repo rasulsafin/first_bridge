@@ -16,6 +16,6 @@ namespace DM.DAL.Entities
 
     public enum PermissionType
     {
-        Project = 1, Item, Record
+        Project = 1, Item = 2, Record = 3
     }
 }

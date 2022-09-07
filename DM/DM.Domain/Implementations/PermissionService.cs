@@ -30,6 +30,7 @@ namespace DM.Domain.Implementations
                     Update = permissionModel.Update,
                     Delete = permissionModel.Delete
                 });
+
             await _context.SaveChangesAsync();
 
             return true;

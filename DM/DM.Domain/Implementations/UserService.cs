@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using DM.Domain.Helpers;
-using DM.DAL.Entities;
 
 namespace DM.Domain.Implementations
 {
@@ -74,6 +73,7 @@ namespace DM.Domain.Implementations
                 Password = hashedPass });
 
             var organization = _context.Organization.Include(x => x.Users).First(x => x.Id == userModel.OrganizationId);
+
 
             if (organization == null)
             {

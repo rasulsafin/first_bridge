@@ -17,7 +17,7 @@ namespace DM.Controllers
             _organizationService = organizationService;
         }
 
-        [Authorize(RoleConst.UserAdmin)]
+        [Authorize(RoleConst.OnlySuperAdmin)]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -26,7 +26,7 @@ namespace DM.Controllers
             return Ok(organizations);
         }
 
-        //[Authorize(RoleConst.UserAdmin)]
+        //[Authorize(RoleConst.OnlySuperAdmin)]
         [HttpPost]
         public async Task<IActionResult> Create(OrganizationModelForCreate organizationModel)
         {

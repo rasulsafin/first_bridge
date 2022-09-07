@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using DM.DAL.Entities;
+using DM.Domain.Helpers;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
+using DM.Entities;
 using DM.repository;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -14,11 +16,13 @@ namespace DM.Domain.Implementations
     {
         private readonly DmDbContext _context;
         private readonly IMapper _mapper;
+        private readonly UserEntity _currentUser;
 
-        public ProjectService(DmDbContext context, IMapper mapper)
+        public ProjectService(DmDbContext context, IMapper mapper, CurrentUserService userService)
         {
             _context = context;
             _mapper = mapper;
+            _currentUser = userService.CurrentUser;
         }
 
         public async Task<List<ProjectModel>> GetAll()
@@ -31,20 +35,31 @@ namespace DM.Domain.Implementations
 
             foreach (var project in projects)
             {
-                projectModel.Add(new ProjectModel() {
+                if (_currentUser.Roles != "SuperAdmin")
+                {
+                    var permission = AuthorizationHelper.CheckUsersPermissionsById(_context, _currentUser, PermissionType.Record, project.Id);
+
+                    if (permission == null || !permission.Read)
+                    {
+                        continue;
+                    }
+                }
+
+                projectModel.Add(new ProjectModel()
+                {
                     Id = project.OrganizationId,
-                    Title = project.Title, 
-                    Description = project.Description, 
+                    Title = project.Title,
+                    Description = project.Description,
                 });
             }
          
             return projectModel;
         }
 
-        public ProjectModel GetById(long projectId)
+        public async Task<ProjectModel> GetById(long projectId)
         {
-            var project = _context.Projects.Include(x => x.Template)
-                .FirstOrDefault(x => x.Id == projectId);
+            var project = await _context.Projects.Include(x => x.Template)
+                .FirstOrDefaultAsync(x => x.Id == projectId);
 
             if (project == null)
             {
