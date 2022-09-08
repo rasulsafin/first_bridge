@@ -17,6 +17,7 @@ import { RequireAuth } from "./components/RequireAuth/RequireAuth";
 import { GenerateFormPage } from "./components/pages/GenerateFormPage/GenerateFormPage";
 import { Organizations } from "./components/pages/OrganizationsPage/Organizations";
 import { OrganizationDetailPage } from "./components/pages/OrganizationsPage/components/OrganizationDetailPage";
+import { AdminPage } from "./components/pages/AdminPage/AdminPage";
 
 function App() {
   const [sidebar, setSidebar] = useState(false);
@@ -32,7 +33,7 @@ function App() {
         });
     }
   });
-  
+
   return (
     <>
       <BrowserRouter>
@@ -53,6 +54,7 @@ function App() {
               <Route path="/record/:id" element={<RecordDetailPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/generate-form" element={<GenerateFormPage />} />
+              <Route path="/admin" element={<AdminPage />} />
             </Route>
 
             <Route path="/login" element={<LoginPage />} />

@@ -84,4 +84,13 @@ export const SidebarData = [
     sName: 'sidebar-item',
     nName: 'nav-item',
   },
+  {
+    id: 10,
+    title: 'Admin',
+    path: '/admin',
+    icon: <IoIcons.IoMdHelpCircle />,
+    cName: 'nav-text',
+    sName: 'sidebar-item',
+    nName: 'nav-item',
+  },
 ]
