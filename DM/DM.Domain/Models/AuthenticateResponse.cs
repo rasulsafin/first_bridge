@@ -14,6 +14,7 @@ namespace DM.Domain.Models
         public string Login { get; set; }
         public string Email { get; set; }
         public string Token { get; set; }
+        public string Role { get; set; }
 
         public AuthenticateResponse(UserEntity user, string token)
         {
@@ -21,6 +22,7 @@ namespace DM.Domain.Models
             Name = user.Name;
             Login = user.Login;
             Email = user.Email;
+            Role = user.Roles;
             Token = token;
         }
     }

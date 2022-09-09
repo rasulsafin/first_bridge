@@ -10,7 +10,7 @@ import recordsReducer from "../services/recordsSlice";
 import filesReducer from "../services/filesSlice";
 import { authReducer } from "../services/authSlice";
 import recordTemplatesReducer from "../services/recordTemplatesSlice";
-
+import permissionsReducer from "../services/permissionsSlice";
 
 const persistConfig = {
   key: "root",
@@ -20,6 +20,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   auth: authReducer,
   users: usersReducer,
+  permissions: permissionsReducer,
   organizations: organizationsReducer,
   projects: projectsReducer,
   records: recordsReducer,
