@@ -15,6 +15,7 @@ export const LoginPage = () => {
 
   const dispatch = useDispatch();
   const userName = useSelector((state) => state.auth.name);
+  const userRole = useSelector((state) => state.auth.role);
   
   useEffect(() => {
     setErrMsg("");
@@ -36,7 +37,8 @@ export const LoginPage = () => {
         name: response.data.name,
         email: response.data.email,
         token: response.data.token,
-        login: response.data.login
+        login: response.data.login,
+        role: response.data.role
       }));
 
       console.log(JSON.stringify(response?.data));
@@ -49,7 +51,8 @@ export const LoginPage = () => {
       setPwd("");
       setAuth({ user, token });
       localStorage.setItem("token", response.data.token);
-      localStorage.setItem("user",  response.data.name)
+      localStorage.setItem("user",  response.data.name);
+      localStorage.setItem("role",  response.data.role);
       setSuccess(true);
 
     } catch (err) {
@@ -70,6 +73,7 @@ export const LoginPage = () => {
       {success ? (
         <section>
           <h1>You are logged in, {userName}!</h1>
+          <h1>Your role is {userRole}!</h1>
           <br />
         </section>
       ) : (
