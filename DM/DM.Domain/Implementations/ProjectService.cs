@@ -37,7 +37,7 @@ namespace DM.Domain.Implementations
             {
                 if (_currentUser.Roles != "SuperAdmin")
                 {
-                    var permission = AuthorizationHelper.CheckUsersPermissionsById(_context, _currentUser, PermissionType.Record, project.Id);
+                    var permission = AuthorizationHelper.CheckUsersPermissionsById(_context, _currentUser, PermissionType.Project, project.Id);
 
                     if (permission == null || !permission.Read)
                     {
@@ -47,7 +47,8 @@ namespace DM.Domain.Implementations
 
                 projectModel.Add(new ProjectModel()
                 {
-                    Id = project.OrganizationId,
+                    Id = project.Id,
+                    OrganizationId = project.OrganizationId,
                     Title = project.Title,
                     Description = project.Description,
                 });
@@ -68,7 +69,7 @@ namespace DM.Domain.Implementations
 
             var projectModel = new ProjectModel() 
             {   
-                Id = project.OrganizationId,
+                OrganizationId = project.OrganizationId,
                 Title = project?.Title,
                 Description = project.Description,
             };
@@ -82,11 +83,12 @@ namespace DM.Domain.Implementations
 
             var project = new ProjectEntity
             {
+                OrganizationId = projectModel.OrganizationId,
                 Title = projectModel.Title,
                 Description = projectModel.Description
             };
 
-            var organization = _context.Organization.Include(x => x.Projects).First(x => x.Id == projectModel.Id); //projectModel.Id == OrganizationId
+            var organization = _context.Organization.Include(x => x.Projects).First(x => x.Id == projectModel.OrganizationId);
 
             if (organization == null)
             {
