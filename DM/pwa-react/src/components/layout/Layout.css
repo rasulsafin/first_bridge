@@ -1,0 +1,14 @@
+.container.active {
+    margin-left: 200px;
+    transition: 350ms;
+    width: 100vw;
+    height: 92vh;
+    margin-top: 60px;
+
+}
+
+.container.inactive {
+    margin-left: 70px;
+    transition: 350ms;
+    margin-top: 60px;
+}

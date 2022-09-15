@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -8,7 +8,6 @@ import { Projects } from "./components/pages/ProjectsPage/Projects";
 import { ProjectDetailPage } from "./components/pages/ProjectsPage/components/ProjectDetailPage";
 import { Records } from "./components/pages/RecordsPage/Records";
 import { LoginPage } from "./components/pages/LoginPage/LoginPage";
-import Sidebar from "./components/sidebar/Sidebar";
 import { UserDetailPage } from "./components/pages/UsersPage/components/UserDetailPage";
 import { ProfilePage } from "./components/pages/ProfilePage/ProfilePage";
 import RegisterPage from "./components/pages/LoginPage/RegisterPage";
@@ -18,10 +17,9 @@ import { GenerateFormPage } from "./components/pages/GenerateFormPage/GenerateFo
 import { Organizations } from "./components/pages/OrganizationsPage/Organizations";
 import { OrganizationDetailPage } from "./components/pages/OrganizationsPage/components/OrganizationDetailPage";
 import { AdminPage } from "./components/pages/AdminPage/AdminPage";
+import { Layout } from "./components/layout/Layout";
 
 function App() {
-  const [sidebar, setSidebar] = useState(false);
-
   window.addEventListener("load", () => {
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("./service-worker.js")
@@ -37,30 +35,27 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Sidebar onCollapse={(sidebar) => {
-          setSidebar(sidebar);
-        }} />
-        <main className={`container ${!sidebar ? "inactive" : "active"}`}>
           <Routes>
-            <Route element={<RequireAuth />}>
-              <Route index element={<Home />} />
-              <Route path="/users" element={<Users />} />
-              <Route path="/user/:id" element={<UserDetailPage />} />
-              <Route path="/organizations" element={<Organizations />} />
-              <Route path="/organization/:id" element={<OrganizationDetailPage />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/project/:id" element={<ProjectDetailPage />} />
-              <Route path="/records" element={<Records />} />
-              <Route path="/record/:id" element={<RecordDetailPage />} />
-              <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/generate-form" element={<GenerateFormPage />} />
-              <Route path="/admin" element={<AdminPage />} />
-            </Route>
+            <Route path="/" element={<Layout />}>
+              <Route element={<RequireAuth />}>
+                <Route index element={<Home />} />
+                <Route path="/users" element={<Users />} />
+                <Route path="/user/:id" element={<UserDetailPage />} />
+                <Route path="/organizations" element={<Organizations />} />
+                <Route path="/organization/:id" element={<OrganizationDetailPage />} />
+                <Route path="/projects" element={<Projects />} />
+                <Route path="/project/:id" element={<ProjectDetailPage />} />
+                <Route path="/records" element={<Records />} />
+                <Route path="/record/:id" element={<RecordDetailPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/generate-form" element={<GenerateFormPage />} />
+                <Route path="/admin" element={<AdminPage />} />
+              </Route>
 
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/registration" element={<RegisterPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/registration" element={<RegisterPage />} />
+            </Route>
           </Routes>
-        </main>
       </BrowserRouter>
     </>
   );

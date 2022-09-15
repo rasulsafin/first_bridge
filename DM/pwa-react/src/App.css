@@ -2,17 +2,7 @@
     text-align: center;
 }
 
-.container.active {
-    margin-left: 200px;
-    transition: 350ms;
-    width: 100vw;
-    height: 92vh;
-    margin-top: 80px;
-
-}
-
-.container.inactive {
-    margin-left: 0;
-    transition: 350ms;
-    margin-top: 80px;
+body {
+    margin: 0;
+    padding: 0;
 }
