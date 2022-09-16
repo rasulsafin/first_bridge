@@ -19,6 +19,12 @@ namespace DM.Domain.Implementations
         }
         public async Task<bool> AddPermissionToUser(PermissionModel permissionModel)
         {
+            var userChecker = await _context.Users.FirstOrDefaultAsync(x => x.Id == permissionModel.UserId);
+            if (userChecker == null)
+            {
+                return false;
+            }
+            
             _context.Permissions
                 .Add(new PermissionEntity()
                 {

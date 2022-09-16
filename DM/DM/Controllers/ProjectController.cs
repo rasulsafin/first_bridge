@@ -16,7 +16,7 @@ namespace DM.Controllers
     public class ProjectController : ControllerBase
     {
         private readonly IProjectService _projectService;
-        public readonly DmDbContext _context;
+        private readonly DmDbContext _context;
         private readonly UserEntity _currentUser;
 
         public ProjectController(IProjectService projectService, DmDbContext context, CurrentUserService userService)

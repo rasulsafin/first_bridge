@@ -24,6 +24,8 @@ namespace DM.Controllers
         {
             var templates = await _templateService.GetTemplatesOfProject(projectId);
 
+            if (templates == null) return NotFound();
+
             return Ok(templates);
         }
 
@@ -31,6 +33,7 @@ namespace DM.Controllers
         [HttpPost()]
         public IActionResult AddTemplateToProject(TemplateModel templateModel)
         {
+            if (templateModel == null) return BadRequest("Invalid Request");
             var template = _templateService.AddTemplateToProject(templateModel);
             return Ok(template);
         }

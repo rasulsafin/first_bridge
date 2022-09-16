@@ -23,6 +23,11 @@ namespace DM.Controllers
         {
             var permissions = await _permissionService.GetAllPermissionsOfUser(userId);
 
+            if (permissions == null)
+            {
+                return NotFound();
+            }
+
             return Ok(permissions);
         }
 
@@ -30,7 +35,9 @@ namespace DM.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPermissionToUser(PermissionModel permissionModel)
         {
+            if (permissionModel == null) return BadRequest("Invalid Request");
             var permissions = await _permissionService.AddPermissionToUser(permissionModel);
+            if (permissions == false) return BadRequest("No Such User Here");
 
             return Ok(true);
         }

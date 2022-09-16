@@ -3,14 +3,17 @@ using System.Threading.Tasks;
 using DM.Controllers;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
+using DM.Tests.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
 namespace DM.Tests.UnitTests
 {
-    public class UserServiceUnitTests
+    public class UserUnitTests
     {
+        #region Const
+
         private const string UserName = "Robert",
             LastName = "Reiter",
             FathersName = "J",
@@ -23,6 +26,10 @@ namespace DM.Tests.UnitTests
         
         private const long OrganizationId = 1;
 
+        #endregion
+
+        #region CreateUserReturnsOkPositiveTesting
+
         [Fact]
         public async Task CreateUserReturnsOkPositiveTesting()
         {
@@ -32,8 +39,8 @@ namespace DM.Tests.UnitTests
 
             var userModel = new UserModel()
             { Name = UserName, LastName = LastName, FathersName = FathersName, Birthdate = DateTime.Now, 
-                  Email = Email, Login = Login, OrganizationId = OrganizationId, Password = Password,
-                  Roles = Role, Position = Position, Snils = Snils };
+                Email = Email, Login = Login, OrganizationId = OrganizationId, Password = Password,
+                Roles = Role, Position = Position, Snils = Snils };
             
             // execution
             userRepo.Setup(x => x.Create(userModel))
@@ -46,7 +53,11 @@ namespace DM.Tests.UnitTests
             Assert.IsType<OkObjectResult>(result);
             Assert.Equal(true, actualResult?.Value);
         }
-        
+
+        #endregion
+
+        #region CreateUserReturnsBadRequestByNotExistingRoleTest
+
         [Fact]
         public async Task CreateUserReturnsBadRequestByNotExistingRoleTest()
         {
@@ -68,7 +79,11 @@ namespace DM.Tests.UnitTests
             Assert.Equal("The Role does not exist", actualResult?.Value);
             Assert.IsType<BadRequestObjectResult>(result);
         }
-        
+
+        #endregion
+
+        #region CreateUserReturnsBadRequestByNullTest
+
         [Fact]
         public async Task CreateUserReturnsBadRequestByNullTest()
         {
@@ -82,9 +97,13 @@ namespace DM.Tests.UnitTests
             var actualResult = result as BadRequestObjectResult;
 
             // examination
-            Assert.Equal("Bad Request", actualResult?.Value);
+            Assert.Equal(ErrorList.BadRequest, actualResult?.Value);
             Assert.IsType<BadRequestObjectResult>(result);
         }
+
+        #endregion
+
+        #region AuthenticateRequestReturnsBadRequestForEmptyContext
 
         [Fact]
         public void AuthenticateRequestReturnsBadRequestForEmptyContext()
@@ -97,5 +116,7 @@ namespace DM.Tests.UnitTests
             
             Assert.IsType<BadRequestObjectResult>(result.Result);
         }
+
+        #endregion
     }
     }

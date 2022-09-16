@@ -12,8 +12,9 @@ using Xunit;
 
 namespace DM.Tests.UnitTests
 {
-    public class OrganizationServiceUnitTests
+    public class OrganizationUnitTests
     {
+        #region CreateOrganizationPositiveTesting
         [Fact]
         public async Task CreateOrganizationPositiveTesting()
         {
@@ -39,6 +40,11 @@ namespace DM.Tests.UnitTests
             Assert.Equal(true, actualResult?.Value);
         }
         
+
+        #endregion
+
+        #region GetOrganizationPositiveTesting
+
         [Fact]
         public async Task GetOrganizationPositiveTesting()
         {
@@ -68,5 +74,7 @@ namespace DM.Tests.UnitTests
             Assert.Equal(organizationName, fieldOfReceivedObject);
             Assert.Equal(organizationName2, fieldOfSecondReceivedObject);
         }
+
+        #endregion
     }
 }

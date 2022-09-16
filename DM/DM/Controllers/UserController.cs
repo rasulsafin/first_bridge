@@ -92,7 +92,7 @@ namespace DM.Controllers
         {
             if (userModel == null)
             {
-                return BadRequest("Bad Request");
+                return BadRequest("Invalid Request");
             }
             if (!RoleConst.SuperAdmin.Contains(userModel.Roles))
             {
