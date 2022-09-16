@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProjects, selectAllProjects } from "../../../services/projectsSlice";
 import { useEffect } from "react";
 import "./Projects.css";
-import { Link } from "react-router-dom";
 import { Toolbar, Button } from "@mui/material";
 import { useNavigate } from "react-router";
 import ProjectsGrid from "./components/ProjectsGrid";
@@ -31,23 +30,7 @@ export function Projects() {
       </Toolbar></div>
       <h3 className="mb-2">Projects</h3>
       
-      
-      {/*<AddProjectModal />*/}
       <ProjectsGrid />
-
-      {/*<div>*/}
-      {/*  {projects.map(item =>*/}
-      {/*    <>*/}
-      {/*      <div className="card-project" key={item.id}>*/}
-      {/*        <Link style={{*/}
-      {/*          textDecoration: "none",*/}
-      {/*          color: "black"*/}
-      {/*        }} to={`/project/${item.id}`}> {item.title} </Link>*/}
-      {/*      </div>*/}
-      {/*      <hr />*/}
-      {/*    </>*/}
-      {/*  )}*/}
-      {/*</div>*/}
     </div>
   );
 }

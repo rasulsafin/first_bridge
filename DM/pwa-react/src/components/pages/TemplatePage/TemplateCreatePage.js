@@ -12,7 +12,7 @@ const initialProject = {
   title: ""
 };
 
-export function GenerateFormPage() {
+export function TemplateCreatePage() {
   const dispatch = useDispatch();
   const [required, setRequired] = useState(false);
   const [inputType, setInputType] = useState("");
@@ -53,14 +53,6 @@ export function GenerateFormPage() {
     handleResetClick();
   };
 
-  const styleDiv = {
-    margin: "5px",
-    padding: "5px",
-    border: "1px solid black",
-    height: "70vh",
-    width: "calc(50% - 20px)"
-  };
-
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRequired(event.target.checked);
   };
@@ -84,14 +76,69 @@ export function GenerateFormPage() {
 
   return (
     <div>
-      <h1>Generate Form</h1>
+      <h3>Create template</h3>
       <div style={{
         display: "flex",
-        justifyContent: "space-evenly"
+        flexDirection: "column"
       }}>
-        <div style={styleDiv}>
+        <Controls.Input
+          name="title"
+          label="RecordName"
+          type="text"
+          value={recordName}
+          onChange={(event) => setRecordName(event.target.value)}
+          required
+        />
+        <Controls.SelectProject
+          name="project"
+          label="project"
+          value={project}
+          onChange={(event) => setProject(event.target.value)}
+          options={projects}
+          autoWidth={false}
+        />
+
+        {inputList.map((x, i) => {
+          return (
+            <div
+              key={i.index}
+              style={{
+                alignItems: "center",
+                justifyContent: "flex-start",
+                display: "flex"
+              }}>
+              {i >= 0 && <>
+                <Controls.Input
+                  label={x.title}
+                  name="name"
+                  type={x.type}
+                  required={x.required}
+                  onChange={e => handleInputChange(e)}
+                />
+                <button
+                  style={{
+                    margin: "5px",
+                    padding: "5px",
+                    backgroundColor: "crimson",
+                    height: "30px",
+                    width: "30px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    border: "1px black solid"
+                  }}
+                  onClick={() => handleRemoveClick(i)}>x
+                </button>
+              </>}
+            </div>
+          );
+        })}
+        <div style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center"
+        }}>
           <form>
-            <h2>Consructor</h2>
             <Controls.Input
               name="title"
               label="title"
@@ -127,68 +174,11 @@ export function GenerateFormPage() {
             </div>
           </form>
         </div>
-        <div style={styleDiv}>
-          <h2>View</h2>
-          <div>
-            <Controls.Input
-              name="title"
-              label="RecordName"
-              type="text"
-              value={recordName}
-              onChange={(event) => setRecordName(event.target.value)}
-              required
-            />
-            <Controls.SelectProject
-              name="project"
-              label="project"
-              value={project}
-              onChange={(event) => setProject(event.target.value)}
-              options={projects}
-              autoWidth={false}
-            />
-          </div>
-
-          {inputList.map((x, i) => {
-            return (
-              <div
-                key={i.index}
-                style={{
-                  alignItems: "center",
-                  justifyContent: "flex-start",
-                  display: "flex"
-                }}>
-                {i >= 0 && <>
-                  <Controls.Input
-                    label={x.title}
-                    name="name"
-                    type={x.type}
-                    required={x.required}
-                    onChange={e => handleInputChange(e)}
-                  />
-                  <button
-                    style={{
-                      margin: "5px",
-                      padding: "5px",
-                      backgroundColor: "crimson",
-                      height: "30px",
-                      width: "30px",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      border: "1px black solid"
-                    }}
-                    onClick={() => handleRemoveClick(i)}>x
-                  </button>
-                </>}
-              </div>
-            );
-          })}
-          <Button
-            type="submit"
-            text="Submit"
-            onClick={handleSaveTemplate}>Save changes</Button>
-        </div>
       </div>
+      <Button
+        type="submit"
+        text="Submit"
+        onClick={handleSaveTemplate}>Save changes</Button>
     </div>
   );
 }

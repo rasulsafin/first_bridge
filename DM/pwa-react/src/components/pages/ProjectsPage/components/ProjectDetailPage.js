@@ -7,9 +7,14 @@ import { Button, Toolbar } from "@mui/material";
 import RecordsGrid from "../../RecordsPage/components/RecordsGrid";
 
 export const ProjectDetailPage = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const projects = useSelector(selectAllProjects);
   const project = projects.find(project => project.id === Number(id));
+
+  function handleToCreateTemplatePage() {
+    navigate(`/template/create`);
+  }
 
   return (
     <div className="p-3">
@@ -21,7 +26,7 @@ export const ProjectDetailPage = () => {
         </span>
           </Link>
           <Button className="ml-o m-3" size="small" variant="outlined">Add Record</Button>
-          <Button className="m-3" size="small" variant="outlined">Add Template</Button>
+          <Button className="m-3" size="small" variant="outlined" onClick={handleToCreateTemplatePage}>Add Template</Button>
           <Button className="m-3" size="small" variant="outlined">Add User</Button>
           <Button className="m-3" size="small" variant="outlined">Add Item</Button>
         </Toolbar></div>
