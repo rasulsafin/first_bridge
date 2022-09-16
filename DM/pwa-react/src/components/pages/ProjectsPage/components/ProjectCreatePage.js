@@ -12,15 +12,21 @@ export const ProjectCreatePage = () => {
   const organizationId = localStorage.getItem("organizationId");
 
   function createProject() {
-    console.log(title)
-    dispatch(addNewProject({
-      title: title,
-      description: desc,
-      organizationId: organizationId,
+    if (title !== "" && desc !== "")
+    {
+      dispatch(addNewProject({
+        title: title,
+        description: desc,
+        organizationId: organizationId,
 
-    }))
-    setTitle("");
-    setDesc("");
+      }))
+      setTitle("");
+      setDesc("");
+    }
+    else
+    {
+     alert("fill out a form") 
+    }
   }
   
   return (
@@ -35,12 +41,14 @@ export const ProjectCreatePage = () => {
           label="title"
           type="text"
           onChange={(event) => setTitle(event.target.value)}
+          required
         />
         <Controls.Input
           name="description"
           label="description"
           type="text"
           onChange={(event) => setDesc(event.target.value)}
+          required
         />
       </div>
       <Button 
