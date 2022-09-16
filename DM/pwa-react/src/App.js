@@ -13,11 +13,12 @@ import { ProfilePage } from "./components/pages/ProfilePage/ProfilePage";
 import RegisterPage from "./components/pages/LoginPage/RegisterPage";
 import { RecordDetailPage } from "./components/pages/RecordsPage/components/RecordDetailPage";
 import { RequireAuth } from "./components/RequireAuth/RequireAuth";
-import { GenerateFormPage } from "./components/pages/GenerateFormPage/GenerateFormPage";
 import { Organizations } from "./components/pages/OrganizationsPage/Organizations";
 import { OrganizationDetailPage } from "./components/pages/OrganizationsPage/components/OrganizationDetailPage";
 import { AdminPage } from "./components/pages/AdminPage/AdminPage";
 import { Layout } from "./components/layout/Layout";
+import { ProjectCreatePage } from "./components/pages/ProjectsPage/components/ProjectCreatePage";
+import { TemplateCreatePage } from "./components/pages/TemplatePage/TemplateCreatePage";
 
 function App() {
   window.addEventListener("load", () => {
@@ -45,10 +46,11 @@ function App() {
                 <Route path="/organization/:id" element={<OrganizationDetailPage />} />
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/project/:id" element={<ProjectDetailPage />} />
+                <Route path="/project/create" element={<ProjectCreatePage />} />
                 <Route path="/records" element={<Records />} />
                 <Route path="/record/:id" element={<RecordDetailPage />} />
+                <Route path="/template/create" element={<TemplateCreatePage />} />
                 <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/generate-form" element={<GenerateFormPage />} />
                 <Route path="/admin" element={<AdminPage />} />
               </Route>
 

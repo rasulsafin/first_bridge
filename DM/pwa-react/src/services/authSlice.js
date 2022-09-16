@@ -6,7 +6,8 @@ const initialState = {
   login: null,
   token: null,
   email: null,
-  role: null
+  role: null,
+  organizationId: null,
 };
 
 export const authSlice = createSlice({
@@ -20,6 +21,7 @@ export const authSlice = createSlice({
       state.token = action.payload.token;
       state.email = action.payload.email;
       state.role = action.payload.role;
+      state.organizationId = action.payload.organizationId;
     },
     removeAuthUser(state) {
       state.id = null;
@@ -28,6 +30,7 @@ export const authSlice = createSlice({
       state.token = null;
       state.email = null;
       state.role = null;
+      state.organizationId = null;
       localStorage.removeItem("token");
     }
   }

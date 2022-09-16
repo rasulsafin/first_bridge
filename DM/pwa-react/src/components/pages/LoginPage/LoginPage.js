@@ -38,7 +38,8 @@ export const LoginPage = () => {
         email: response.data.email,
         token: response.data.token,
         login: response.data.login,
-        role: response.data.role
+        role: response.data.role,
+        organizationId: response.data.organizationId,
       }));
 
       console.log(JSON.stringify(response?.data));
@@ -53,6 +54,7 @@ export const LoginPage = () => {
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user",  response.data.name);
       localStorage.setItem("role",  response.data.role);
+      localStorage.setItem("organizationId",  response.data.organizationId);
       setSuccess(true);
 
     } catch (err) {
