@@ -42,7 +42,7 @@ export default function ProjectsGrid() {
 
   return (
     <div style={{
-      height: 650,
+      height: 550,
       width: "100%",
       marginTop: 20
     }}>
@@ -61,12 +61,10 @@ export default function ProjectsGrid() {
             display: 'none',
           },
           "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: "rgb(29,97,172)",
-            color: "rgb(253,253,253)",
-            fontSize: 20,
+            fontSize: 18,
           },
-          border: 2,
-          boxShadow: 2,
+          border: 0,
+          boxShadow: 0,
           background: "white",
           fontSize: 16,
           cursor: 'pointer',

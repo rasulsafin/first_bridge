@@ -18,11 +18,24 @@ const columns = [
   }
 ];
 
-export default function RecordsGrid() {
+export default function RecordsGrid(props) {
   const dispatch = useDispatch();
   const records = useSelector(selectAllRecords);
   const navigate = useNavigate();
-
+  const projectId = props.projectId;
+  const recordsOfProject = [];
+  let index,
+    len;
+  
+  if (props.projectId !== undefined)
+  {
+    for (index = 0, len = records.length; index < len; ++index) {
+      if (records[index].projectId === Number(projectId)) {
+        recordsOfProject.push(records[index]);
+      }
+    }
+  }
+ 
   useEffect(() => {
     dispatch(fetchRecords());
   }, [dispatch]);  
@@ -33,12 +46,12 @@ export default function RecordsGrid() {
 
   return (
     <div style={{
-      height: 650,
+      height: 450,
       width: "100%",
       marginTop: 20
     }}>
       <DataGrid
-        rows={records}
+        rows={recordsOfProject}
         columns={columns}
         pageSize={10}
         rowsPerPageOptions={[10]}
@@ -51,11 +64,9 @@ export default function RecordsGrid() {
             display: 'none',
           },
           "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: "rgb(29,97,172)",
-            color: "rgb(253,253,253)",
             fontSize: 20,
           },
-          border: 2,
+          border: 0,
           boxShadow: 2,
           background: "white",
           fontSize: 16,

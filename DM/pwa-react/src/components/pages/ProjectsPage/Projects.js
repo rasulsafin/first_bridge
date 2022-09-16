@@ -1,24 +1,53 @@
-import { Component } from "react";
-import { Button, ButtonToolbar } from "react-bootstrap";
-import { AddProjectModal } from "./components/modal/AddProjectModal";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProjects, selectAllProjects } from "../../../services/projectsSlice";
+import { useEffect } from "react";
+import "./Projects.css";
+import { Link } from "react-router-dom";
+import { Toolbar, Button } from "@mui/material";
+import { useNavigate } from "react-router";
 import ProjectsGrid from "./components/ProjectsGrid";
 
-export class Projects extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      projects: [],
-      addModalShow: false,
-    };
+export function Projects() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const projects = useSelector(selectAllProjects);
+
+  useEffect(() => {
+    dispatch(fetchProjects());
+  }, [dispatch]);
+
+  function handleToCreatePage() {
+    navigate(`/project/create`);
   }
 
-  render() {
-    return (
-      <div className="p-4">
-        <h1 className="mb-4">Projects</h1>
-        <AddProjectModal />
-        <ProjectsGrid />
-      </div>
-    );
-  }
+  return (
+    <div className="p-3 pt-0">
+      <div>
+        <Toolbar>
+        <Button className="ml-o m-3" size="small" variant="outlined" onClick={handleToCreatePage}>Add Project</Button>
+        <Button className="m-3" size="small" variant="outlined">Add Something</Button>
+        <Button className="m-3" size="small" variant="outlined">Something else</Button>
+        <Button className="m-3" size="small" variant="outlined">WAT</Button>
+      </Toolbar></div>
+      <h3 className="mb-2">Projects</h3>
+      
+      
+      {/*<AddProjectModal />*/}
+      <ProjectsGrid />
+
+      {/*<div>*/}
+      {/*  {projects.map(item =>*/}
+      {/*    <>*/}
+      {/*      <div className="card-project" key={item.id}>*/}
+      {/*        <Link style={{*/}
+      {/*          textDecoration: "none",*/}
+      {/*          color: "black"*/}
+      {/*        }} to={`/project/${item.id}`}> {item.title} </Link>*/}
+      {/*      </div>*/}
+      {/*      <hr />*/}
+      {/*    </>*/}
+      {/*  )}*/}
+      {/*</div>*/}
+    </div>
+  );
 }

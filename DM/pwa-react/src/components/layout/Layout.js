@@ -16,6 +16,13 @@ export const Layout = () => {
         setSidebar(sidebar);
       }} />
       <main className={`container ${!sidebar ? "inactive" : "active"}`}>
+      {/*  <div className="sub-menu" */}
+      {/*       style={{*/}
+      {/*    backgroundColor: "orange",*/}
+      {/*    height: "60px",*/}
+      {/*    width: "100vw",*/}
+      {/*  }}>*/}
+      {/*  </div>*/}
         <Outlet />
       </main>
       <footer style={{
