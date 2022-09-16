@@ -143,11 +143,9 @@ export default function ProjectsPermissionsGrid(props) {
             display: "none"
           },
           "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: "rgb(29,97,172)",
-            color: "rgb(253,253,253)",
-            fontSize: 20
+            fontSize: 18
           },
-          border: 2,
+          border: 0,
           boxShadow: 2,
           background: "white",
           fontSize: 16,

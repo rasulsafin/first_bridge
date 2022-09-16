@@ -1,0 +1,11 @@
+.card-project {
+    font-size: 20px;
+    padding-left: 5px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.project-container {
+background-color: lightgray;
+}

@@ -10,8 +10,9 @@ export const RecordDetailPage = () => {
 
   const record = records.find(record => record.id === Number(id));
 
-  const fields = record.fields.map(field => <div><p>NameField: {field.name}</p> <p>Description: {field.description}</p>
-  </div>);
+  // const fields = record.fields.map(field => <div><p>NameField: {field.name}</p> <p>Description: {field.description}</p>
+  // </div>);
+  
   return (
     <div className="p-4">
       <Link to="/records">
@@ -30,7 +31,7 @@ export const RecordDetailPage = () => {
       </div>
       <h3>Fields:</h3>
       <p>
-        {fields}
+        {/*{fields}*/}
       </p>
     </div>
   );

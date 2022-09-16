@@ -11,11 +11,12 @@ export function Sidebar(props) {
 
   const toggleOpen = () => {
     setOpen(!open);
+    props.onCollapse(!open);
   };
-
-  useEffect(() => {
-    props.onCollapse(open);
-  }, [open]);
+  //
+  // useEffect(() => {
+  //  
+  // }, [open]);
 
   return (
     <>

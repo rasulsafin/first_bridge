@@ -18,6 +18,7 @@ import { Organizations } from "./components/pages/OrganizationsPage/Organization
 import { OrganizationDetailPage } from "./components/pages/OrganizationsPage/components/OrganizationDetailPage";
 import { AdminPage } from "./components/pages/AdminPage/AdminPage";
 import { Layout } from "./components/layout/Layout";
+import { ProjectCreatePage } from "./components/pages/ProjectsPage/components/ProjectCreatePage";
 
 function App() {
   window.addEventListener("load", () => {
@@ -45,6 +46,7 @@ function App() {
                 <Route path="/organization/:id" element={<OrganizationDetailPage />} />
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/project/:id" element={<ProjectDetailPage />} />
+                <Route path="/project/create" element={<ProjectCreatePage />} />
                 <Route path="/records" element={<Records />} />
                 <Route path="/record/:id" element={<RecordDetailPage />} />
                 <Route path="/profile" element={<ProfilePage />} />

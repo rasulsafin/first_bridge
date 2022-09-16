@@ -31,7 +31,7 @@ export const UserDetailPage = () => {
       case "project":
         return <ProjectsPermissionsGrid userId={user.id} type={1} />;
       case "record":
-        return <tr>Records</tr>; //<RecordsPermissionsGrid />
+        return <tr>Records</tr>; //<RecordsPermissionsGrid />   
       case "item":
         return <tr>Item</tr>;
       default:
