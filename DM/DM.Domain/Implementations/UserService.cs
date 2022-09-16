@@ -25,9 +25,9 @@ namespace DM.Domain.Implementations
             _configuration = configuration;
         }
 
-        public AuthenticateResponse Authenticate(AuthenticateRequest model)
+        public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest model)
         {
-            var user = _context.Users.FirstOrDefault(x => x.Login == model.Login);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Login == model.Login);
 
             if (user == null)
             {
@@ -52,6 +52,8 @@ namespace DM.Domain.Implementations
         }
         public UserModel GetById(long userId)
         {
+            if (userId < 1) return null;
+
             var user = _context.Users.FirstOrDefault(x => x.Id == userId);
             return _mapper.Map<UserModel>(user);
         }

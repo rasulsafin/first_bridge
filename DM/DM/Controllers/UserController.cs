@@ -42,10 +42,9 @@ namespace DM.Controllers
 
 
         [HttpPost("authenticate")]
-        public IActionResult Authenticate(AuthenticateRequest model)
+        public async Task<IActionResult> Authenticate(AuthenticateRequest model)
         {
-            var response = _userService.Authenticate(model);
-            
+            var response = await _userService.Authenticate(model);
 
             if (response == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
@@ -78,7 +77,6 @@ namespace DM.Controllers
             {
                 return CreateProblemResult(this, 500, ex.Message);
             }
-
         }
 
         /// <summary>
@@ -86,13 +84,21 @@ namespace DM.Controllers
         /// </summary>
         /// <param name="userModel"></param>
         /// <returns>Id of created user</returns>
-        /// <response code="201">Returns created user id.</response>
         /// <response code="400">User with the same login already exists OR one/multiple of required values is/are empty.</response>
         /// <response code="500">Something went wrong while creating new user.</response>
         [HttpPost]
         // [Authorize]
         public async Task<IActionResult> Create(UserModel userModel)
         {
+            if (userModel == null)
+            {
+                return BadRequest("Bad Request");
+            }
+            if (!RoleConst.SuperAdmin.Contains(userModel.Roles))
+            {
+                return BadRequest("The Role does not exist");
+            }
+                
             try
             {
                 var id = await _userService.Create(userModel);

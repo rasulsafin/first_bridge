@@ -11,16 +11,6 @@ namespace DM.repository
             Database.EnsureCreated();
         }
 
-        public void Detach<T>(DbContext context, T entry)
-        {
-            if (entry == null)
-            {
-                return;
-            }
-
-            context.Entry(entry).State = EntityState.Detached;
-        }
-
         public DmDbContext()
         { }
         public DbSet<UserEntity> Users { get; set; }
@@ -35,6 +25,10 @@ namespace DM.repository
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<RecordEntity>()
+                .Property(b => b.Fields)
+                .HasColumnType("jsonb");
+            
             // Users should have unique logins
             modelBuilder.Entity<UserEntity>()
                 .HasIndex(x => x.Login)

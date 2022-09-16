@@ -10,7 +10,7 @@ namespace DM.Domain.Interfaces
 {
     public interface IUserService
     {
-        AuthenticateResponse Authenticate(AuthenticateRequest model);
+        public Task<AuthenticateResponse> Authenticate(AuthenticateRequest model);
         public List<UserModel> GetAll();
         public UserModel GetById(long userId);
         public Task<bool> Create(UserModel userModel);
