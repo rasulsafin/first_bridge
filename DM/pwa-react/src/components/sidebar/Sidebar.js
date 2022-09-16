@@ -1,78 +1,41 @@
 import { Link } from "react-router-dom";
-import * as FaIcons from "react-icons/fa";
 import { React, useEffect, useState } from "react";
 import { SidebarData } from "./SidebarData";
 import { IconContext } from "react-icons";
 import "./Sidebar.css";
-import { DropdownButton } from "react-bootstrap";
-import { MenuItem } from "@mui/material";
-import { useNavigate } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
-import { removeAuthUser } from "../../services/authSlice";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 
-function SideBar(props) {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [sidebar, setSidebar] = useState(false);
-  const showSidebar = () => setSidebar(!sidebar);
-  const userAuth = useSelector((state) => state.auth.name);
+export function Sidebar(props) {
+  const [open, setOpen] = useState(false);
+
+  const toggleOpen = () => {
+    setOpen(!open);
+  };
 
   useEffect(() => {
-    props.onCollapse(sidebar);
-  }, [sidebar]);
-
-  const toSignIn = () => {
-    navigate(`/login`);
-  };
-
-  const toProfile = () => {
-    navigate(`/profile`);
-  };
-
-  const toSettings = () => {
-    navigate(`/settings`);
-  };
+    props.onCollapse(open);
+  }, [open]);
 
   return (
     <>
-      <IconContext.Provider value={{ color: "aliceblue" }}>
-        <div className="navbar">
-          <Link to="#" className="menu-bars">
-            <FaIcons.FaBars onClick={showSidebar} />
-          </Link>
+      <IconContext.Provider value={{ color: "aliceblue", size: 28 }}>
+        <div className={open ? "sidenav" : "sidenavClosed"}>
 
-          <div className="profile">
-            <FaIcons.FaUserCircle size={40} className="avatar" />
-            <DropdownButton className="dropdown" title={"Profile"}>
-              {!userAuth &&
-                <MenuItem onClick={toSignIn}>Sign in</MenuItem>}
-              <MenuItem onClick={toProfile}>Profile</MenuItem>
-              <MenuItem onClick={toSettings}>Settings</MenuItem>
-              {userAuth &&
-                <>
-                  <MenuItem divider />
-                  <MenuItem onClick={() => dispatch(removeAuthUser())}>Log out</MenuItem>
-                </>}
-            </DropdownButton>
-          </div>
+          {SidebarData.map(item => {
+            return <Link key={item.id} className="sideItem" to={item.path}>
+              {item.icon}
+              {open &&
+                <span className="linkText">{item.title}</span>
+              }
+            </Link>;
+          })}
+
+          <button className="menuBtn" onClick={toggleOpen}>
+            {open ? <KeyboardDoubleArrowLeftIcon /> : <KeyboardDoubleArrowRightIcon />}
+          </button>
         </div>
-        <nav className={sidebar ? "nav-menu active" : "nav-menu"}>
-          <ul className="nav-menu-items">
-            {SidebarData.map((item, index) => {
-              return (
-                <li key={index} className={item.cName}>
-                  <Link to={item.path} onClick={showSidebar}>
-                    {item.icon}
-                    <span>{item.title}</span>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
       </IconContext.Provider>
     </>
   );
 }
-
-export default SideBar;

@@ -53,10 +53,10 @@ export function AddRecordModal() {
     setValues(initialValues);
     dispatch(fetchRecordTemplates())
   }
-  
-  useEffect( () => {
-    dispatch(fetchRecordTemplates(project))
-  }, [dispatch]);
+    //
+    // useEffect( () => {
+    //   dispatch(fetchRecordTemplates(project))
+    // }, [dispatch]);
   
   const templates = useSelector(selectAllRecordTemplates)
   
@@ -72,7 +72,42 @@ export function AddRecordModal() {
     setOpen(false);
   };
 
-  // const templateForm = templates.find(t => t.id === Number(template));
+  const templateForm = templates.find(t => t.id === Number(template));
+  
+  // console.log(templateForm["recordTemplate"]);
+
+
+  if (templateForm) {
+    const forms = templateForm["recordTemplate"];
+
+    let recordForm = document.createElement('div');
+    
+    let formArray = [];
+    
+    for (let key in forms) {
+      console.log(forms[key]);
+      console.log(forms[key].type);
+
+      recordForm.innerHTML += `<span>${forms[key].type}</span>`
+      
+      // recordForm.innerHTML += `<input type={${forms[key].type}}></input>`
+      
+      recordForm.innerHTML += `<Controls.Input type={${forms[key].type}} />`
+    }
+    
+    const parentDiv = document.getElementById('form')
+    parentDiv.appendChild(recordForm);
+  }
+  
+  // const form = templateForm["recordTemplate"].map(item =>
+  //   <Controls.Input
+  //     name={item.title}
+  //     label={item.title}
+  //     type={item.type}
+  //     required
+  //   />
+  // )
+  
   
   return (
     <div>
@@ -119,6 +154,7 @@ export function AddRecordModal() {
             />
           </div>
           <div
+            id="form"
             className="modalContainer"
             style={{
               margin: "5px",
@@ -132,6 +168,7 @@ export function AddRecordModal() {
             {/*    label={item.title}*/}
             {/*    type={item.type}*/}
             {/*  />)}*/}
+            {/*{recordForm}*/}
           </div>
           </div>
 

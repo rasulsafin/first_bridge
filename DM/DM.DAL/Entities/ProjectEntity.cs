@@ -1,7 +1,5 @@
 ﻿using DM.Entities;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json;
 
 namespace DM.DAL.Entities
 {
@@ -11,7 +9,7 @@ namespace DM.DAL.Entities
     public class ProjectEntity : BaseEntity
     {
         /// <summary>
-        /// Название проека
+        /// Название проекта
         /// </summary>
         public string Title { get; set; }
         /// <summary>
@@ -35,6 +33,5 @@ namespace DM.DAL.Entities
         /// </summary>
         public long OrganizationId { get; set; }
         public OrganizationEntity Organization { get; set; }
-
     }
 }

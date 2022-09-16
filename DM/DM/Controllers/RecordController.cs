@@ -34,11 +34,6 @@ namespace DM.Controllers
             // логика проверки доступа для GetAll перенесена в сервис
             var records = _recordService.GetAll();
 
-            if (records.Count == 0)
-            {
-                return Ok("No records available at the moment");
-            }
-
             return Ok(records);
         }
 
