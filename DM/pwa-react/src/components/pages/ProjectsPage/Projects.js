@@ -1,5 +1,5 @@
-import { useDispatch, useSelector } from "react-redux";
-import { fetchProjects, selectAllProjects } from "../../../services/projectsSlice";
+import { useDispatch } from "react-redux";
+import { fetchProjects } from "../../../services/projectsSlice";
 import { useEffect } from "react";
 import "./Projects.css";
 import { Toolbar, Button } from "@mui/material";
@@ -9,8 +9,7 @@ import ProjectsGrid from "./components/ProjectsGrid";
 export function Projects() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const projects = useSelector(selectAllProjects);
-
+  
   useEffect(() => {
     dispatch(fetchProjects());
   }, [dispatch]);
@@ -18,7 +17,7 @@ export function Projects() {
   function handleToCreatePage() {
     navigate(`/project/create`);
   }
-
+  
   return (
     <div className="p-3 pt-0">
       <div>
@@ -28,8 +27,8 @@ export function Projects() {
         <Button className="m-3" size="small" variant="outlined">Something else</Button>
         <Button className="m-3" size="small" variant="outlined">WAT</Button>
       </Toolbar></div>
+      <hr />
       <h3 className="mb-2">Projects</h3>
-      
       <ProjectsGrid />
     </div>
   );

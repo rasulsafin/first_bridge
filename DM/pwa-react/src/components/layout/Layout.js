@@ -3,6 +3,8 @@ import { Appbar } from "../appbar/Appbar";
 import { Sidebar } from "../sidebar/Sidebar";
 import React, { useState } from "react";
 import "./Layout.css";
+import { ErrorFallback } from "../ErrorFallback/ErrorFallback";
+import { ErrorBoundary } from "react-error-boundary";
 
 export const Layout = () => {
   const [sidebar, setSidebar] = useState(false);
@@ -16,23 +18,13 @@ export const Layout = () => {
         setSidebar(sidebar);
       }} />
       <main className={`container ${!sidebar ? "inactive" : "active"}`}>
-      {/*  <div className="sub-menu" */}
-      {/*       style={{*/}
-      {/*    backgroundColor: "orange",*/}
-      {/*    height: "60px",*/}
-      {/*    width: "100vw",*/}
-      {/*  }}>*/}
-      {/*  </div>*/}
+        <ErrorBoundary
+          FallbackComponent={ErrorFallback}
+        >
         <Outlet />
+        </ErrorBoundary>
       </main>
-      <footer style={{
-        backgroundColor: "orange",
-        height: "20px",
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        right: 0
-      }}>
+      <footer>
       </footer>
     </>
   );

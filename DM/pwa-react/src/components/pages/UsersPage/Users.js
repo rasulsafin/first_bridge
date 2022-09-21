@@ -13,21 +13,13 @@ export class Users extends Component {
   }
 
   render() {
-    let addModalClose = () => this.setState({ addModalShow: false });
     return (
-      <div className="p-4">
+      <div className="p-3">
         <h1 className="mb-4">User</h1>
         <div>
         </div>
         <ButtonToolbar>
-          {/*<Button*/}
-          {/*  variant="primary"*/}
-          {/*  onClick={() => this.setState({ addModalShow: true })}*/}
-          {/*>*/}
-          {/*  Add user*/}
-          {/*</Button>*/}
           <AddUserModal />
-          {/*<button style={{ marginLeft: "40px"}}> Button</button>*/}
         </ButtonToolbar>
         <UsersGrid />
       </div>
