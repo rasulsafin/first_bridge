@@ -9,6 +9,12 @@ export const fetchRecords = createAsyncThunk(
     return response.data;
   });
 
+export const addNewRecord = createAsyncThunk(
+  "records/addNewRecord", async (newRecord) => {
+    const response = await axiosInstance.post("api/record", newRecord);
+    return response.data;
+  });
+
 export const recordsSlice = createSlice({
   name: "records",
   initialState,

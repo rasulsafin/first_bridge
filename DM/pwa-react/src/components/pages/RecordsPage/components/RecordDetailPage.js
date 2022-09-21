@@ -1,25 +1,28 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { selectAllRecords } from "../../../../services/recordsSlice";
-import { BsArrowLeftSquareFill } from "react-icons/bs";
+import { Button, Toolbar } from "@mui/material";
+import { BiArrowBack } from "react-icons/bi";
+import * as React from "react";
 
 export const RecordDetailPage = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const records = useSelector(selectAllRecords);
 
+  const goBack = () => {
+    navigate(-1);
+  };
+  
   const record = records.find(record => record.id === Number(id));
-
-  // const fields = record.fields.map(field => <div><p>NameField: {field.name}</p> <p>Description: {field.description}</p>
-  // </div>);
   
   return (
-    <div className="p-4">
-      <Link to="/records">
-        <span style={{ color: "black", textDecoration: "none" }}>
-         <BsArrowLeftSquareFill size={30} color="#1d62ad" />
-        </span>
-      </Link>
+    <div className="p-3">
+      <Toolbar>
+        <Button onClick={goBack} size="small" variant="outlined">
+          <BiArrowBack size={24} color="#1d62ad" /></Button>
+      </Toolbar>
+      <hr />
       <h1>Record Detail Page</h1>
       <div style={{
         border: "black solid 2px",

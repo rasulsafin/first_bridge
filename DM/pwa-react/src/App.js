@@ -19,6 +19,8 @@ import { AdminPage } from "./components/pages/AdminPage/AdminPage";
 import { Layout } from "./components/layout/Layout";
 import { ProjectCreatePage } from "./components/pages/ProjectsPage/components/ProjectCreatePage";
 import { TemplateCreatePage } from "./components/pages/TemplatePage/TemplateCreatePage";
+import { RecordCreatePage } from "./components/pages/RecordsPage/components/RecordCreatePage";
+import { FilesPage } from "./components/pages/FilesPage/FilesPage";
 
 function App() {
   window.addEventListener("load", () => {
@@ -46,9 +48,11 @@ function App() {
                 <Route path="/organization/:id" element={<OrganizationDetailPage />} />
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/project/:id" element={<ProjectDetailPage />} />
+                <Route path="/project/:id/files" element={<FilesPage />} />
                 <Route path="/project/create" element={<ProjectCreatePage />} />
                 <Route path="/records" element={<Records />} />
                 <Route path="/record/:id" element={<RecordDetailPage />} />
+                <Route path="/record/create" element={<RecordCreatePage />} />
                 <Route path="/template/create" element={<TemplateCreatePage />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/admin" element={<AdminPage />} />
