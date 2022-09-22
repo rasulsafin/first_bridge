@@ -1,12 +1,9 @@
-import { useLocation, useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { selectAllProjects } from "../../../../services/projectsSlice";
-import { BsArrowLeftSquareFill } from "react-icons/bs";
 import { Button, Toolbar } from "@mui/material";
 import RecordsGrid from "../../RecordsPage/components/RecordsGrid";
 import { BiArrowBack } from "react-icons/bi";
-import { FilesPage } from "../../FilesPage/FilesPage";
 
 export const ProjectDetailPage = () => {
   const navigate = useNavigate();
@@ -37,10 +34,10 @@ export const ProjectDetailPage = () => {
         <Toolbar>
             <Button className="ml-o m-3" onClick={goBack} size="small" variant="outlined">
               <BiArrowBack size={24} color="#1d62ad" /></Button>
+          <Button className="m-3" size="small" variant="outlined">Edit project</Button>
           <Button className="m-3" size="small" variant="outlined" onClick={handleToCreateRecordPage}>Add Record</Button>
           <Button className="m-3" size="small" variant="outlined" onClick={handleToCreateTemplatePage}>Add Template</Button>
           <Button className="m-3" size="small" variant="outlined"  onClick={handleToFilesPage}>Files</Button>
-          <Button className="m-3" size="small" variant="outlined">Add Item</Button>
         </Toolbar>
       </div>
      <hr />

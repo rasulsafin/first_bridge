@@ -32,7 +32,7 @@ export const RecordCreatePage = () => {
       fields: data
     }));
   };
-  
+
   useEffect(() => {
     dispatch(fetchRecordTemplates(projectId));
   }, [dispatch]);
@@ -84,11 +84,11 @@ export const RecordCreatePage = () => {
         width: "300px"
       }}>
         {inputFields}
-        <Button onClick={handleSubmit(onSubmit)} variant={"contained"}>
+        <Button className="m-2" onClick={handleSubmit(onSubmit)} variant={"outlined"}>
           {" "}
           Submit{" "}
         </Button>
-        <Button onClick={() => reset()} variant={"outlined"}>
+        <Button className="m-2" onClick={() => reset()} variant={"outlined"}>
           {" "}
           Reset{" "}
         </Button>

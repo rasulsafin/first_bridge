@@ -19,7 +19,7 @@ export function Projects() {
   }
   
   return (
-    <div className="p-3 pt-0">
+    <div className="p-3">
       <div>
         <Toolbar>
         <Button className="ml-o m-3" size="small" variant="outlined" onClick={handleToCreatePage}>Add Project</Button>

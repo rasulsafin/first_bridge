@@ -1,22 +1,25 @@
-import { Component } from "react";
 import OrganizationsGrid from "./components/OrganizationsGrid";
+import { Button, Toolbar } from "@mui/material";
+import { BiArrowBack } from "react-icons/bi";
+import * as React from "react";
+import { useNavigate } from "react-router";
 
-export class Organizations extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      organizations: [],
-      addModalShow: false,
-    };
-  }
-
-  render() {
-    return (
-      <div className="p-4">
-        <h1 className="mb-4">Organizations</h1>
-        {/*<AddProjectModal />*/}
-        <OrganizationsGrid />
-      </div>
-    );
-  }
+export const Organizations = () => {
+  const navigate = useNavigate();
+  
+  const goBack = () => {
+    navigate(-1);
+  };
+  
+  return (
+    <div className="p-3">
+      <Toolbar>
+        <Button onClick={goBack} size="small" variant="outlined">
+          <BiArrowBack size={24} color="#1d62ad" /></Button>
+      </Toolbar>
+      <hr />
+      <h3 className="mb-4">Organizations</h3>
+      <OrganizationsGrid />
+    </div>
+  )
 }

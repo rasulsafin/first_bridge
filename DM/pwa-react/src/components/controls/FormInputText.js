@@ -22,13 +22,18 @@ export const FormInputText = ({ name, control, label }: FormInputProps) => {
                  formState,
                }) => (
         <TextField
+          sx={{
+            width: { sm: 200, md: 300 },
+            "& .MuiInputBase-root": {
+              height: 60
+            }
+          }}
           helperText={error ? error.message : null}
-          size="small"
           error={!!error}
           onChange={onChange}
           value={value}
-          fullWidth
           label={label}
+          margin="normal"
           variant="outlined"
         />
       )}
