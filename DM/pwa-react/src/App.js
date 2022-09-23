@@ -21,6 +21,9 @@ import { ProjectCreatePage } from "./components/pages/ProjectsPage/components/Pr
 import { TemplateCreatePage } from "./components/pages/TemplatePage/TemplateCreatePage";
 import { RecordCreatePage } from "./components/pages/RecordsPage/components/RecordCreatePage";
 import { FilesPage } from "./components/pages/FilesPage/FilesPage";
+import { ProjectEditPage } from "./components/pages/ProjectsPage/components/ProjectEditPage";
+import { NotFoundPage } from "./components/pages/NotFoundPage/NotFoundPage";
+import { UserCreatePage } from "./components/pages/UsersPage/components/UserCreatePage";
 
 function App() {
   window.addEventListener("load", () => {
@@ -42,17 +45,25 @@ function App() {
             <Route path="/" element={<Layout />}>
               <Route element={<RequireAuth />}>
                 <Route index element={<Home />} />
+                
                 <Route path="/users" element={<Users />} />
                 <Route path="/user/:id" element={<UserDetailPage />} />
+                <Route path="/user/:id/edit" element={<UserDetailPage />} />
+                <Route path="/user/create" element={<UserCreatePage />} />
+                
                 <Route path="/organizations" element={<Organizations />} />
                 <Route path="/organization/:id" element={<OrganizationDetailPage />} />
+                
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/project/:id" element={<ProjectDetailPage />} />
                 <Route path="/project/:id/files" element={<FilesPage />} />
                 <Route path="/project/create" element={<ProjectCreatePage />} />
+                <Route path="/project/:id/edit" element={<ProjectEditPage />} />
+                
                 {/*<Route path="/records" element={<Records />} />*/}
                 <Route path="/record/:id" element={<RecordDetailPage />} />
                 <Route path="/record/create" element={<RecordCreatePage />} />
+                
                 <Route path="/template/create" element={<TemplateCreatePage />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/admin" element={<AdminPage />} />
@@ -60,6 +71,8 @@ function App() {
 
               <Route path="/login" element={<LoginPage />} />
               <Route path="/registration" element={<RegisterPage />} />
+
+              <Route path="*" element={<NotFoundPage />} />
             </Route>
           </Routes>
       </BrowserRouter>

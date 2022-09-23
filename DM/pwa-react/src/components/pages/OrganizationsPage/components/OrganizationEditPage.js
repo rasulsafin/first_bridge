@@ -1,20 +1,14 @@
 import { Button, Toolbar } from "@mui/material";
 import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router";
 
-export const ProjectEditPage = () => {
+export const OrganizationEditPage = () => {
   const navigate = useNavigate();
-
-  const { id } = useParams();
-
 
   const goBack = () => {
     navigate(-1);
   };
-  
-  console.log(id);
-  
+
   return (
     <div  className="p-3">
       <Toolbar>
@@ -23,8 +17,7 @@ export const ProjectEditPage = () => {
         </Button>
       </Toolbar>
       <hr />
-      <h3>Edit project</h3>
-      
+      <h3>Edit Organization</h3>
     </div>
   )
 }

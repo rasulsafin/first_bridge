@@ -4,6 +4,7 @@ import { selectAllProjects } from "../../../../services/projectsSlice";
 import { Button, Toolbar } from "@mui/material";
 import RecordsGrid from "../../RecordsPage/components/RecordsGrid";
 import { BiArrowBack } from "react-icons/bi";
+import { ProjectEditPage } from "./ProjectEditPage";
 
 export const ProjectDetailPage = () => {
   const navigate = useNavigate();
@@ -28,13 +29,18 @@ export const ProjectDetailPage = () => {
     navigate(`/project/${id}/files`);
   }
 
+  function handleToProjectEditPage() {
+    navigate(`/project/${id}/edit`);
+  }
+  
   return (
     <div className="p-3">
       <div>
         <Toolbar>
             <Button className="ml-o m-3" onClick={goBack} size="small" variant="outlined">
               <BiArrowBack size={24} color="#1d62ad" /></Button>
-          <Button className="m-3" size="small" variant="outlined">Edit project</Button>
+          <Button className="m-3" size="small" variant="outlined" onClick={handleToProjectEditPage}>Edit project</Button>
+          <Button className="m-3" size="small" variant="outlined" color="error">Delete project</Button>
           <Button className="m-3" size="small" variant="outlined" onClick={handleToCreateRecordPage}>Add Record</Button>
           <Button className="m-3" size="small" variant="outlined" onClick={handleToCreateTemplatePage}>Add Template</Button>
           <Button className="m-3" size="small" variant="outlined"  onClick={handleToFilesPage}>Files</Button>
@@ -44,7 +50,8 @@ export const ProjectDetailPage = () => {
       <div style={{
         padding: 5
       }}>
-        <p><span style={{ fontSize: 24 }}> {project.title}</span></p>
+        <p>Project: <span style={{ fontSize: 24 }}>{project.title}</span></p>
+        <p>Description: <span style={{ fontSize: 24 }}>{project.description}</span></p>
       </div>
       <div style={{
         marginTop: 10,

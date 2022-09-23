@@ -1,4 +1,3 @@
-import UsersGrid from "../UsersPage/components/UsersGrid";
 import { Button, Toolbar } from "@mui/material";
 import { useNavigate } from "react-router";
 
@@ -24,8 +23,8 @@ export const AdminPage = () => {
         </Toolbar>
       </div>
       <hr />
-      <h1>Admin Page</h1>
-      <h2> {localStorage.getItem("user")}</h2>
+      <h3>Admin Page</h3>
+      <h3> {localStorage.getItem("user")}</h3>
     </div>
   );
 };

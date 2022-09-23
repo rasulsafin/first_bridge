@@ -15,6 +15,15 @@ export const addNewPermission = createAsyncThunk(
     return response.data;
   });
 
+export const deletePermission = createAsyncThunk(
+  "permissions/deletePermission", async () => {
+    await axiosInstance.delete("api/permission", {
+      params: {
+      }
+    }).then(() => console.log("Delete successfully"));
+  }
+)
+
 export const permissionsSlice = createSlice({
   name: "permissions",
   initialState,
