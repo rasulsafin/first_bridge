@@ -15,6 +15,16 @@ export const addNewUser = createAsyncThunk(
     return response.data;
   });
 
+export const deleteUser = createAsyncThunk(
+  "users/deleteUser", async (id) => {
+    await axiosInstance.delete("api/users", {
+      params: {
+        userId: id
+      }
+    }).then(() => console.log("Delete successfully"));
+  }
+)
+
 export const usersSlice = createSlice({
   name: "users",
   initialState,

@@ -13,7 +13,7 @@ export const RecordDetailPage = () => {
   const goBack = () => {
     navigate(-1);
   };
-  
+
   const record = records.find(record => record.id === Number(id));
   
   return (

@@ -80,7 +80,7 @@ export function Appbar() {
             component="div"
             sx={{ display: { sm: 'block' } }}
           >
-            PROJECT
+            BRIO
             
           </Typography>
           
