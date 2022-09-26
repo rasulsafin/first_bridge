@@ -16,6 +16,12 @@ export const addNewOrganization = createAsyncThunk(
     return response.data;
   });
 
+export const editOrganization = createAsyncThunk(
+  "organizations/editOrganization", async (editableOrg) => {
+    const response = await axiosInstance.put("api/organization", editableOrg);
+    return response.data;
+  });
+
 export const organizationsSlice = createSlice({
   name: "organizations",
   initialState,

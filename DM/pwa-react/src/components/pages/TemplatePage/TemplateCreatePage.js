@@ -7,7 +7,7 @@ import { addNewTemplate } from "../../../services/recordTemplatesSlice";
 import { selectAllProjects } from "../../../services/projectsSlice";
 import { Button, Toolbar } from "@mui/material";
 import { BiArrowBack } from "react-icons/bi";
-import { useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 const initialProject = {
   id: 0,
@@ -28,9 +28,6 @@ export function TemplateCreatePage() {
   const goBack = () => {
     navigate(-1);
   };
-
-  console.log(useLocation());
-
 
   const handleInputChange = (e) => {
     console.log(e.target.value);
@@ -191,10 +188,10 @@ export function TemplateCreatePage() {
         </div>
       </div>
       <Button
-      type="submit"
-      size="small"
-      variant="outlined"
-      onClick={handleSaveTemplate}
+        type="submit"
+        size="small"
+        variant="outlined"
+        onClick={handleSaveTemplate}
       >Save changes</Button>
     </div>
   );

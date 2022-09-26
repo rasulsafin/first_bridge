@@ -24,6 +24,7 @@ import { FilesPage } from "./components/pages/FilesPage/FilesPage";
 import { ProjectEditPage } from "./components/pages/ProjectsPage/components/ProjectEditPage";
 import { NotFoundPage } from "./components/pages/NotFoundPage/NotFoundPage";
 import { UserCreatePage } from "./components/pages/UsersPage/components/UserCreatePage";
+import { UserEditPage } from "./components/pages/UsersPage/components/UserEditPage";
 
 function App() {
   window.addEventListener("load", () => {
@@ -48,7 +49,7 @@ function App() {
                 
                 <Route path="/users" element={<Users />} />
                 <Route path="/user/:id" element={<UserDetailPage />} />
-                <Route path="/user/:id/edit" element={<UserDetailPage />} />
+                <Route path="/user/:id/edit" element={<UserEditPage />} />
                 <Route path="/user/create" element={<UserCreatePage />} />
                 
                 <Route path="/organizations" element={<Organizations />} />

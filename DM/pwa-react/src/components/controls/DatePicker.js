@@ -2,8 +2,8 @@ import React from "react";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import Stack from '@mui/material/Stack';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
 import TextField from "@mui/material/TextField";
+import { DesktopDatePicker } from "@mui/x-date-pickers";
 
 export default function DatePicker(props) {
 
@@ -17,13 +17,20 @@ export default function DatePicker(props) {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Stack spacing={3}>
-        <MobileTimePicker
-          label="For mobile"
+      <Stack  
+        sx={{
+        width: { sm: 200, md: 300 },
+        "& .MuiInputBase-root": {
+          height: 60,
+          marginRight: 3,
+        }
+      }}>
+        <DesktopDatePicker
+          name={name}
+          label={label}
+          inputFormat="dd/MM/yyyy"
           value={value}
-          onChange={(newValue) => {
-            console.log(newValue);
-          }}
+          onChange={date =>onChange(convertToDefEventPara(name,date))}
           renderInput={(params) => <TextField {...params} />}
         />
       </Stack>
