@@ -12,7 +12,7 @@ export const OrganizationDetailPage = () => {
   const { id } = useParams();
   const organizations = useSelector(selectAllOrganizations);
 
-  const organization = organizations.find(organization => organization.id === Number(id));
+  const organization = organizations.find(org => org.id === Number(id));
 
   const goBack = () => {
     navigate(-1);
