@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
-import { addNewUser, fetchUsers } from "../../../../services/usersSlice";
+import { addNewUser } from "../../../../services/usersSlice";
 import * as React from "react";
 
 const initialValues = {
@@ -65,8 +65,12 @@ export const UserCreatePage = () => {
       </Toolbar>
       <hr />
       <h3>Create user</h3>
-      <div>
-        <form>
+      <div className="col-10" style={{
+        display: "flex",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        flexWrap: "wrap"
+      }}>
           <Controls.Input
             name="name"
             label="Name"
@@ -116,13 +120,19 @@ export const UserCreatePage = () => {
             value={values.roles}
             onChange={handleInputChange}
           />
-          <Controls.Input
+          <Controls.DatePicker
             name="birthdate"
             label="birthdate"
-            type="text"
             value={values.birthdate}
             onChange={handleInputChange}
           />
+          {/*<Controls.Input*/}
+          {/*  name="birthdate"*/}
+          {/*  label="birthdate"*/}
+          {/*  type="text"*/}
+          {/*  value={values.birthdate}*/}
+          {/*  onChange={handleInputChange}*/}
+          {/*/>*/}
           <Controls.Input
             name="snils"
             label="snils"
@@ -144,14 +154,16 @@ export const UserCreatePage = () => {
             value={values.organizationId}
             onChange={handleInputChange}
           />
-          <Button
-            className="m-3"
-            size="small"
-            variant="outlined"
-            onClick={createUser}>
-            Add User
-          </Button>
-        </form>
+     
+      </div>
+      <div>
+        <Button
+          className="m-3"
+          size="small"
+          variant="outlined"
+          onClick={createUser}>
+          Add User
+        </Button>
       </div>
     </div>
   );
