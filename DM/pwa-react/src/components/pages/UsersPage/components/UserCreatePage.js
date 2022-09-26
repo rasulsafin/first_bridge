@@ -126,13 +126,6 @@ export const UserCreatePage = () => {
             value={values.birthdate}
             onChange={handleInputChange}
           />
-          {/*<Controls.Input*/}
-          {/*  name="birthdate"*/}
-          {/*  label="birthdate"*/}
-          {/*  type="text"*/}
-          {/*  value={values.birthdate}*/}
-          {/*  onChange={handleInputChange}*/}
-          {/*/>*/}
           <Controls.Input
             name="snils"
             label="snils"

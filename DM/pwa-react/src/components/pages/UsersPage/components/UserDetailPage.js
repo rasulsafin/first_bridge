@@ -64,7 +64,7 @@ export const UserDetailPage = () => {
   }
 
   function handleToEditPage() {
-    navigate(`/users`);
+    navigate(`/user/${id}/edit`);
   }
 
   return (
