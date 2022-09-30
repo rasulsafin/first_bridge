@@ -30,7 +30,7 @@ export const recordTemplatesSlice = createSlice({
     });
   }
 });
-
+ 
 export const selectAllRecordTemplates = (state) => state.recordTemplates;
 
 export default recordTemplatesSlice.reducer;

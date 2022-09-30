@@ -25,6 +25,7 @@ import { ProjectEditPage } from "./components/pages/ProjectsPage/components/Proj
 import { NotFoundPage } from "./components/pages/NotFoundPage/NotFoundPage";
 import { UserCreatePage } from "./components/pages/UsersPage/components/UserCreatePage";
 import { UserEditPage } from "./components/pages/UsersPage/components/UserEditPage";
+import { OrganizationCreatePage } from "./components/pages/OrganizationsPage/components/OrganizationCreatePage";
 
 function App() {
   window.addEventListener("load", () => {
@@ -54,6 +55,7 @@ function App() {
                 
                 <Route path="/organizations" element={<Organizations />} />
                 <Route path="/organization/:id" element={<OrganizationDetailPage />} />
+                <Route path="/organization/create" element={<OrganizationCreatePage />} />
                 
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/project/:id" element={<ProjectDetailPage />} />

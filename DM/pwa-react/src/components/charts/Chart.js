@@ -8,12 +8,12 @@ import {
 } from "recharts";
 
 const data = [
-  { name: "January", Total: 1200 },
-  { name: "February", Total: 2100 },
-  { name: "March", Total: 800 },
-  { name: "April", Total: 1600 },
-  { name: "May", Total: 900 },
-  { name: "June", Total: 1700 },
+  { name: "January", Total: 12 },
+  { name: "February", Total: 21 },
+  { name: "March", Total: 8 },
+  { name: "April", Total: 16 },
+  { name: "May", Total: 9 },
+  { name: "June", Total: 17 },
 ];
 
 const Chart = ({ aspect, title }) => {

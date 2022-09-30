@@ -12,6 +12,7 @@ import { authReducer } from "../services/authSlice";
 import recordTemplatesReducer from "../services/recordTemplatesSlice";
 import permissionsReducer from "../services/permissionsSlice";
 import { controlSidebarReducer } from "../services/controlSidebarSlice";
+import snackbarReducer from "../services/snackbarSlice";
 
 const persistConfig = {
   key: "root",
@@ -27,7 +28,8 @@ const rootReducer = combineReducers({
   records: recordsReducer,
   recordTemplates: recordTemplatesReducer,
   files: filesReducer,
-  controlSidebar: controlSidebarReducer
+  controlSidebar: controlSidebarReducer,
+  snackbar: snackbarReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
