@@ -6,33 +6,53 @@ import { addNewProject } from "../../../../services/projectsSlice";
 import { useNavigate } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
 import { addNewOrganization } from "../../../../services/organizationsSlice";
+import { openSnackbar } from "../../../../services/snackbarSlice";
+import SuccessSnackbar from "../../../snackbar/SuccessSnackbar";
+
+const initialValues = {
+  name: "",
+  address: "",
+  inn: "",
+  ogrn: "",
+  kpp: "",
+  phone: "",
+  email: "",
+};
 
 export const OrganizationCreatePage = () => {
   const dispatch = useDispatch();
-  const [title, setTitle] = useState("");
-  const [desc, setDesc] = useState("");
   const navigate = useNavigate();
+  const [values, setValues] = useState(initialValues);
 
   const goBack = () => {
     navigate(-1);
   };
 
-  const organizationId = localStorage.getItem("organizationId");
-
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setValues({
+      ...values,
+      [name]: value
+    });
+  };
+  
   function createOrg() {
       dispatch(addNewOrganization({
-        name: title,
-        address: desc,
-        inn: organizationId,
-        ogrn: organizationId,
-        kpp: organizationId,
-        phone: organizationId,
-        email: organizationId,
+        name: values.name,
+        address: values.address,
+        inn: values.inn,
+        ogrn: values.ogrn,
+        kpp: values.kpp,
+        phone: values.phone,
+        email: values.email,
       }))
+    dispatch(openSnackbar());
+    navigate(`/organizations`);
   }
 
   return (
     <div  className="p-3">
+      <SuccessSnackbar />
       <Toolbar>
         <Button onClick={goBack} size="small" variant="outlined">
           <BiArrowBack size={24} color="#1d62ad" /></Button>
@@ -44,17 +64,52 @@ export const OrganizationCreatePage = () => {
       }}>
         <h3>Create organization</h3>
         <Controls.Input
-          name="title"
-          label="title"
+          name="name"
+          label="name"
           type="text"
-          onChange={(event) => setTitle(event.target.value)}
+          onChange={handleInputChange}
           required
         />
         <Controls.Input
-          name="description"
-          label="description"
+          name="address"
+          label="address"
           type="text"
-          onChange={(event) => setDesc(event.target.value)}
+          onChange={handleInputChange}
+          required
+        />
+        <Controls.Input
+          name="inn"
+          label="inn"
+          type="number"
+          onChange={handleInputChange}
+          required
+        />
+        <Controls.Input
+          name="ogrn"
+          label="ogrn"
+          type="number"
+          onChange={handleInputChange}
+          required
+        />
+        <Controls.Input
+          name="kpp"
+          label="kpp"
+          type="number"
+          onChange={handleInputChange}
+          required
+        />
+        <Controls.Input
+          name="phone"
+          label="phone"
+          type="text"
+          onChange={handleInputChange}
+          required
+        />
+        <Controls.Input
+          name="email"
+          label="email"
+          type="email"
+          onChange={handleInputChange}
           required
         />
       </div>

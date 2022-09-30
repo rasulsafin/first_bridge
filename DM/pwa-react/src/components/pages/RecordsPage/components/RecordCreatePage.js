@@ -27,7 +27,7 @@ export const RecordCreatePage = () => {
   const { handleSubmit, reset, control, setValue, watch } = methods;
   const onSubmit = (data) => {
     dispatch(addNewRecord({
-      name: template,
+      name: templateForm.name,
       projectId: projectId,
       fields: data
     }));

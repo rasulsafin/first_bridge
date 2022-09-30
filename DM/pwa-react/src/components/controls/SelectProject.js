@@ -10,7 +10,8 @@ export default function SelectProject(props) {
       sx={{
         width: { sm: 200, md: 300 },
         "& .MuiInputBase-root": {
-          height: 60
+          height: 60,
+          marginRight: 3,
         }
       }}>
       <InputLabel>{label}</InputLabel>

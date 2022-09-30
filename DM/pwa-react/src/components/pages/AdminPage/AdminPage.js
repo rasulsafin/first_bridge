@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 
 export const AdminPage = () => {
   const navigate = useNavigate();
-
+  
   function handleToUsersPage() {
     navigate(`/users`);
   }
@@ -11,7 +11,7 @@ export const AdminPage = () => {
   function handleToOrgPage() {
     navigate(`/organizations`);
   }
-  
+
   return (
     <div className="p-3">
       <div>
