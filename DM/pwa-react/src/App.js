@@ -26,6 +26,7 @@ import { NotFoundPage } from "./components/pages/NotFoundPage/NotFoundPage";
 import { UserCreatePage } from "./components/pages/UsersPage/components/UserCreatePage";
 import { UserEditPage } from "./components/pages/UsersPage/components/UserEditPage";
 import { OrganizationCreatePage } from "./components/pages/OrganizationsPage/components/OrganizationCreatePage";
+import { RecordEditPage } from "./components/pages/RecordsPage/components/RecordEditPage";
 
 function App() {
   window.addEventListener("load", () => {
@@ -65,6 +66,7 @@ function App() {
                 
                 {/*<Route path="/records" element={<Records />} />*/}
                 <Route path="/record/:id" element={<RecordDetailPage />} />
+                <Route path="/record/:id/edit" element={<RecordEditPage />} />
                 <Route path="/record/create" element={<RecordCreatePage />} />
                 
                 <Route path="/template/create" element={<TemplateCreatePage />} />
