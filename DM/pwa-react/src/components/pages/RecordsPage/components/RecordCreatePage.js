@@ -22,7 +22,7 @@ export const RecordCreatePage = () => {
   const goBack = () => {
     navigate(-1);
   };
-  
+
   const methods = useForm();
   const { handleSubmit, reset, control, setValue, watch } = methods;
   const onSubmit = (data) => {
@@ -60,8 +60,12 @@ export const RecordCreatePage = () => {
   return (
     <div className="p-3">
       <Toolbar>
-        <Button onClick={goBack} size="small" variant="outlined">
-          <BiArrowBack size={24} color="#1d62ad" /></Button>
+        <Button
+          onClick={goBack}
+          size="small"
+          variant="outlined">
+          <BiArrowBack size={24} color="#1d62ad" />
+        </Button>
       </Toolbar>
       <hr />
       <h3>Create record</h3>
@@ -84,13 +88,17 @@ export const RecordCreatePage = () => {
         width: "300px"
       }}>
         {inputFields}
-        <Button className="m-2" onClick={handleSubmit(onSubmit)} variant={"outlined"}>
-          {" "}
-          Submit{" "}
+        <Button
+          className="m-2"
+          onClick={handleSubmit(onSubmit)}
+          variant={"outlined"}>
+          Submit
         </Button>
-        <Button className="m-2" onClick={() => reset()} variant={"outlined"}>
-          {" "}
-          Reset{" "}
+        <Button
+          className="m-2"
+          onClick={() => reset()}
+          variant={"outlined"}>
+          Reset
         </Button>
       </div>
     </div>
