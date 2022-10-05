@@ -1,11 +1,13 @@
 import * as React from "react";
 import { Controls } from "../../controls/Controls";
-import { Button } from "react-bootstrap";
 import { useState } from "react";
 import { inputTypes } from "../../../constants/inputTypes";
 import { useDispatch, useSelector } from "react-redux";
 import { addNewTemplate } from "../../../services/recordTemplatesSlice";
 import { selectAllProjects } from "../../../services/projectsSlice";
+import { Button, Toolbar } from "@mui/material";
+import { BiArrowBack } from "react-icons/bi";
+import { useNavigate } from "react-router";
 
 const initialProject = {
   id: 0,
@@ -14,15 +16,18 @@ const initialProject = {
 
 export function TemplateCreatePage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [required, setRequired] = useState(false);
   const [inputType, setInputType] = useState("");
   const [inputTitle, setInputTitle] = useState("");
   const [inputList, setInputList] = useState([]);
   const [recordName, setRecordName] = useState("");
   const [project, setProject] = useState(initialProject);
-
   const projects = useSelector(selectAllProjects);
-  console.log(projects);
+
+  const goBack = () => {
+    navigate(-1);
+  };
 
   const handleInputChange = (e) => {
     console.log(e.target.value);
@@ -75,7 +80,12 @@ export function TemplateCreatePage() {
   }
 
   return (
-    <div>
+    <div className="p-3">
+      <Toolbar>
+        <Button onClick={goBack} size="small" variant="outlined">
+          <BiArrowBack size={24} color="#1d62ad" /></Button>
+      </Toolbar>
+      <hr />
       <h3>Create template</h3>
       <div style={{
         display: "flex",
@@ -163,12 +173,14 @@ export function TemplateCreatePage() {
             <div>
               <Button
                 type="reset"
-                text="reset"
+                size="small"
+                variant="outlined"
                 onClick={handleResetClick}
               >Reset</Button>
               <Button
-                text="submit"
-                color="default"
+                type="submit"
+                size="small"
+                variant="outlined"
                 onClick={handleAddClick}
               >Add</Button>
             </div>
@@ -177,8 +189,10 @@ export function TemplateCreatePage() {
       </div>
       <Button
         type="submit"
-        text="Submit"
-        onClick={handleSaveTemplate}>Save changes</Button>
+        size="small"
+        variant="outlined"
+        onClick={handleSaveTemplate}
+      >Save changes</Button>
     </div>
   );
 }

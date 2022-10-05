@@ -9,6 +9,22 @@ export const fetchRecords = createAsyncThunk(
     return response.data;
   });
 
+export const addNewRecord = createAsyncThunk(
+  "records/addNewRecord", async (newRecord) => {
+    const response = await axiosInstance.post("api/record", newRecord);
+    return response.data;
+  });
+
+export const deleteRecord = createAsyncThunk(
+  "records/deleteRecord", async (id) => {
+    await axiosInstance.delete("api/record", {
+      params: {
+        recordId: id
+      }
+    }).then(() => console.log("Delete successfully"));
+  }
+)
+
 export const recordsSlice = createSlice({
   name: "records",
   initialState,

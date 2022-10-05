@@ -19,6 +19,14 @@ export default function ProjectsPermissionsGrid(props) {
 
   const columns = [
     {
+      field: "id",
+      renderHeader: () => (
+        <strong>
+          <h4>{"Id"}</h4>
+        </strong>
+      )
+    },
+    {
       field: "title",
       width: 250,
       renderHeader: () => (
@@ -76,13 +84,15 @@ export default function ProjectsPermissionsGrid(props) {
       renderCell: () => (
         <Checkbox
           checked={deletePermission}
-          onChange={handleDeleteChange}
+          onChange={event => setDeletePermission(event.target.checked)}
         />
       )
     }
   ];
 
-  const handleDeleteChange = (event) => {
+  const handleDeleteChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // setDeletePermission(event.target.checked);
+    // const checked = !this.state.value;
     setDeletePermission(event.target.checked);
   };
 
@@ -135,6 +145,7 @@ export default function ProjectsPermissionsGrid(props) {
         rowsPerPageOptions={[10]}
         onRowClick={handleRowClick}
         onRowDoubleClick={handleRowDoubleClick}
+        checkboxSelection
         sx={{
           "& .MuiDataGrid-row:hover": {
             color: "green"

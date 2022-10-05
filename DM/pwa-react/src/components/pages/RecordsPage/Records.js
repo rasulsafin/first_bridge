@@ -1,7 +1,5 @@
 import { Component } from "react";
-import { Button, ButtonToolbar } from "react-bootstrap";
 import RecordsGrid from "./components/RecordsGrid";
-import { AddRecordModal } from "./components/modal/AddRecordModal";
 
 export class Records extends Component {
   constructor(props) {
@@ -18,9 +16,6 @@ export class Records extends Component {
         <h1 className="mb-4">Records</h1>
         <div>
         </div>
-        <ButtonToolbar>
-          <AddRecordModal />
-        </ButtonToolbar>
         <RecordsGrid />
       </div>
     );
