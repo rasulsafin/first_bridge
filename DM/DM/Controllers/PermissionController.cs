@@ -48,6 +48,8 @@ namespace DM.Controllers
         {
             var result = await _permissionService.RemovePermissionFromUser(permissionModel);
 
+            if (result == false) return BadRequest("something went wrong");
+
             return Ok(result);
         }
     }
