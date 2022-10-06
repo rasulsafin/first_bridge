@@ -25,7 +25,7 @@ export const FormInputText = ({ name, control, label }: FormInputProps) => {
           sx={{
             width: { sm: 200, md: 300 },
             "& .MuiInputBase-root": {
-              height: 60
+              height: 45
             }
           }}
           helperText={error ? error.message : null}

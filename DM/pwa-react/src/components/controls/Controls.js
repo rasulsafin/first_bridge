@@ -5,9 +5,11 @@ import Checkbox from "./Checkbox";
 import RadioGroup from "./RadioGroup";
 import SelectProject from "./SelectProject";
 import SelectTemplate from "./SelectTemplate";
+import TextArea from "./TextArea";
 
 export const Controls = {
   Input,
+  TextArea,
   Select,
   Checkbox,
   DatePicker,

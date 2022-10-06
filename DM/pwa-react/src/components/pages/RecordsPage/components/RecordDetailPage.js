@@ -10,6 +10,8 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
+import { openSnackbar } from "../../../../services/snackbarSlice";
+import SuccessSnackbar from "../../../snackbar/SuccessSnackbar";
 
 export const RecordDetailPage = () => {
   const [open, setOpen] = useState(false);
@@ -42,11 +44,13 @@ export const RecordDetailPage = () => {
 
   function handleDeleteRecord() {
     dispatch(deleteRecord(id));
+    dispatch(openSnackbar());
     navigate(`/projects`);
   }
 
   return (
     <div className="p-3">
+      <SuccessSnackbar />
       <Toolbar>
         <Button className="ml-o m-3" onClick={goBack} size="small" variant="outlined">
           <BiArrowBack size={24} color="#1d62ad" /></Button>
@@ -61,7 +65,7 @@ export const RecordDetailPage = () => {
           label="Name"
           type="text"
           value={record.name}
-          disabled
+          inputProps={{ readOnly: true }}
         />
         <div>
           {fields.map(([key, value]) => {
@@ -71,7 +75,7 @@ export const RecordDetailPage = () => {
                   label={key}
                   type="text"
                   value={value}
-                  disabled
+                  inputProps={{ readOnly: true }}
                 />
               </div>
             );

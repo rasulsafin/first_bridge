@@ -8,7 +8,7 @@ export const Home = () => {
   const percentage1 = 47;
   return (
     <div className="p-4">
-      <h1> This is Home page. </h1>
+      <h3> Dashboard </h3>
 
       <div style={{
         display: "flex",
@@ -19,7 +19,7 @@ export const Home = () => {
         {/*<PdfViewer />*/}
         {/*<PdfCreate />*/}
         <div className="col-6">
-          <Chart title="Last 6 Months (Revenue)" aspect={2 / 1} />
+          <Chart title="Last 6 Months" aspect={2 / 1} />
         </div>
 
         <div className="col-2 p-3">
@@ -68,7 +68,6 @@ export const Home = () => {
             })}
           />
         </div>
-
       </div>
     </div>
     

@@ -15,6 +15,12 @@ export const addNewRecord = createAsyncThunk(
     return response.data;
   });
 
+export const editRecord = createAsyncThunk(
+  "records/editRecord", async (editableRec) => {
+    await axiosInstance.put("api/record", editableRec);
+  }
+)
+
 export const deleteRecord = createAsyncThunk(
   "records/deleteRecord", async (id) => {
     await axiosInstance.delete("api/record", {
