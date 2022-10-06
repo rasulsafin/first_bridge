@@ -6,6 +6,7 @@ import RadioGroup from "./RadioGroup";
 import SelectProject from "./SelectProject";
 import SelectTemplate from "./SelectTemplate";
 import TextArea from "./TextArea";
+import { Button } from "./Button";
 
 export const Controls = {
   Input,
@@ -15,5 +16,6 @@ export const Controls = {
   DatePicker,
   RadioGroup,
   SelectProject,
-  SelectTemplate
+  SelectTemplate,
+  Button
 }

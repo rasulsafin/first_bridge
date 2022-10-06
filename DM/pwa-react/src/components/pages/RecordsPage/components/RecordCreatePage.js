@@ -55,23 +55,20 @@ export const RecordCreatePage = () => {
 
   const inputFields = arrayFields.map(item =>
     <FormInputText
-      name={item.title.toString()}
+      name={item.title}
       control={control}
-      label={item.title.toString()}
+      label={item.title}
       key={item.index}
-      type={item.type.toString()}
+      type={item.type}
       onChange={(event) => console.log(event.target.value)}
     />);
 
   return (
     <div className="p-3">
       <Toolbar>
-        <Button
-          onClick={goBack}
-          size="small"
-          variant="outlined">
+        <Controls.Button onClick={goBack}>
           <BiArrowBack size={24} color="#1d62ad" />
-        </Button>
+        </Controls.Button>
       </Toolbar>
       <hr />
       <h3>Create record</h3>
