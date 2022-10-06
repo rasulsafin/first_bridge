@@ -19,94 +19,73 @@ export default function ProjectsPermissionsGrid(props) {
 
   const columns = [
     {
-      field: "id",
-      renderHeader: () => (
-        <strong>
-          <h4>{"Id"}</h4>
-        </strong>
-      )
-    },
-    {
       field: "title",
+      headerName: "Title",
       width: 250,
-      renderHeader: () => (
-        <strong>
-          <h4>{"Title"}</h4>
-        </strong>
-      )
-    },
-    {
-      field: "email",
-      width: 250,
-      renderHeader: () => (
-        <strong>
-          <h4>{"Description"}</h4>
-        </strong>
-      )
     },
     {
       field: "create",
-      headerName: "create",
+      headerName: "Create",
       width: 100,
       renderCell: () => (
         <Checkbox
           checked={createPermission}
-          onChange={handleCreateChange}
+          // onChange={handleCreateChange}
         />
       )
     },
     {
       field: "read",
-      headerName: "read",
+      headerName: "Read",
       width: 100,
       renderCell: () => (
         <Checkbox
           checked={readPermission}
-          onChange={handleReadChange}
+          // onChange={handleReadChange}
         />
       )
     },
     {
       field: "update",
-      headerName: "update",
+      headerName: "Update",
       width: 100,
       renderCell: () => (
         <Checkbox
           checked={updatePermission}
-          onChange={handleUpdateChange}
+          // onChange={handleUpdateChange}
         />
       )
     },
     {
       field: "delete",
-      headerName: "delete",
+      headerName: "Delete",
       width: 100,
       renderCell: () => (
         <Checkbox
           checked={deletePermission}
-          onChange={event => setDeletePermission(event.target.checked)}
+          // onChange={event => setDeletePermission(event.target.checked)}
         />
       )
     }
   ];
 
-  const handleDeleteChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // setDeletePermission(event.target.checked);
-    // const checked = !this.state.value;
-    setDeletePermission(event.target.checked);
-  };
-
-  const handleReadChange = (event) => {
-    setReadPermission(event.target.checked);
-  };
-
-  const handleCreateChange = (event) => {
-    setCreatePermission(event.target.checked);
-  };
-
-  const handleUpdateChange = (event) => {
-    setUpdatePermission(event.target.checked);
-  };
+  // const handleDeleteChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   // setDeletePermission(event.target.checked);
+  //   // const checked = !this.state.value;
+  //   setDeletePermission(event.target.checked);
+  // };
+  //
+  // const handleReadChange = (event) => {
+  //   setReadPermission(event.target.checked);
+  // };
+  //
+  // const handleCreateChange = (event) => {
+  //   setCreatePermission(event.target.checked);
+  // };
+  //
+  // const handleUpdateChange = (event) => {
+  //   setUpdatePermission(event.target.checked);
+  // };
 
   useEffect(() => {
     dispatch(fetchProjects());
@@ -141,8 +120,8 @@ export default function ProjectsPermissionsGrid(props) {
       <DataGrid
         rows={projects}
         columns={columns}
-        pageSize={10}
-        rowsPerPageOptions={[10]}
+        pageSize={5}
+        rowsPerPageOptions={[5]}
         onRowClick={handleRowClick}
         onRowDoubleClick={handleRowDoubleClick}
         checkboxSelection

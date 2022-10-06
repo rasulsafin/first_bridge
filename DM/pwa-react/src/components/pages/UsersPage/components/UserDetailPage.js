@@ -11,6 +11,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
+import { PermissionTable } from "../../AdminPage/PermissionTable";
 // import RecordsPermissionsGrid from "../../AdminPage/RecordsPermissionsGrid";
 
 export const UserDetailPage = () => {
@@ -78,20 +79,90 @@ export const UserDetailPage = () => {
       </Toolbar>
       <hr />
       <h3>User Detail Page</h3>
-
       <div>
-        <div style={{
-          border: "black solid 2px",
-          width: "40vh",
-          background: "whitesmoke",
-          padding: 5,
-          marginBottom: 30
-        }}>
-          <p>Name: <span style={{ fontSize: 24 }}> {user.name}</span></p>
-          <p>Login: <span style={{ fontSize: 24 }}> {user.login}</span></p>
-          <p>Role: <span style={{ fontSize: 24 }}> {user.roles}</span></p>
-          <p>Email: <span style={{ fontSize: 24 }}> {user.email}</span></p>
-        </div>
+          <div className="col-10" style={{
+            display: "flex",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            flexWrap: "wrap"
+          }}>
+            <Controls.Input
+              name="name"
+              label="Name"
+              type="text"
+              value={user.name}
+              inputProps={{ readOnly: true }}
+            />
+            <Controls.Input
+              name="lastName"
+              label="lastName"
+              type="text"
+              value={user.lastName}
+              inputProps={{ readOnly: true }}
+            />
+            <Controls.Input
+              name="fathersName"
+              label="fathersName"
+              type="text"
+              value={user.fathersName}
+              inputProps={{ readOnly: true }}
+            />
+            <Controls.Input
+              name="login"
+              label="Login"
+              type="text"
+              value={user.login}
+              inputProps={{ readOnly: true }}
+            />
+            <Controls.Input
+              name="email"
+              label="Email"
+              type="email"
+              value={user.email}
+              inputProps={{ readOnly: true }}
+            />
+            <Controls.Input
+              name="password"
+              label="Password"
+              type="text"
+              value={user.password}
+              inputProps={{ readOnly: true }}
+            />
+            <Controls.Input
+              name="roles"
+              label="roles"
+              type="text"
+              value={user.roles}
+              inputProps={{ readOnly: true }}
+            />
+            <Controls.DatePicker
+              name="birthdate"
+              label="birthdate"
+              value={user.birthdate}
+              inputProps={{ readOnly: true }}
+            />
+            <Controls.Input
+              name="snils"
+              label="snils"
+              type="text"
+              value={user.snils}
+              inputProps={{ readOnly: true }}
+            />
+            <Controls.Input
+              name="position"
+              label="position"
+              type="text"
+              value={user.position}
+              inputProps={{ readOnly: true }}
+            />
+            <Controls.Input
+              name="organizationId"
+              label="organizationId"
+              type="text"
+              value={user.organizationId}
+              inputProps={{ readOnly: true }}
+            />
+          </div>
         <Dialog
           open={open}
           onClose={handleClose}
@@ -150,6 +221,7 @@ export const UserDetailPage = () => {
       <div>
         {objects()}
       </div>
+      <PermissionTable />
     </div>
   );
 };

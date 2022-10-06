@@ -8,6 +8,8 @@ import { selectAllProjects } from "../../../services/projectsSlice";
 import { Button, Toolbar } from "@mui/material";
 import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from "react-router";
+import { TiDeleteOutline } from "react-icons/ti";
+import { openSnackbar } from "../../../services/snackbarSlice";
 
 const initialProject = {
   id: 0,
@@ -27,10 +29,6 @@ export function TemplateCreatePage() {
 
   const goBack = () => {
     navigate(-1);
-  };
-
-  const handleInputChange = (e) => {
-    console.log(e.target.value);
   };
 
   const handleRemoveClick = index => {
@@ -63,20 +61,18 @@ export function TemplateCreatePage() {
   };
 
   const handleSaveTemplate = () => {
-    console.log(project);
     dispatch(addNewTemplate({
       name: recordName,
       projectId: project,
       recordTemplate: { ...inputList }
     }));
+    dispatch(openSnackbar());
+    navigate(`/projects`);
   };
-
-  const recordTemplate = inputList.map(item => item.index);
 
   function handleResetClick() {
     setInputType("");
     setInputTitle("");
-    console.log(recordTemplate);
   }
 
   return (
@@ -123,26 +119,30 @@ export function TemplateCreatePage() {
                   name="name"
                   type={x.type}
                   required={x.required}
-                  onChange={e => handleInputChange(e)}
+                  inputProps={{ readOnly: true }}
                 />
-                <button
-                  style={{
-                    margin: "5px",
-                    padding: "5px",
-                    backgroundColor: "crimson",
-                    height: "30px",
-                    width: "30px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    border: "1px black solid"
+                <Button
+                  sx={{
+                    minHeight: 0,
+                    minWidth: 0,
+                    padding: 0
                   }}
-                  onClick={() => handleRemoveClick(i)}>x
-                </button>
+                >
+                  <TiDeleteOutline
+                    size={25}
+                    color="#dc143c"
+                    onClick={() => handleRemoveClick(i)}
+                  />
+                </Button>
               </>}
             </div>
           );
         })}
+        <hr
+          style={{
+            width: "28vh"
+          }}
+        />
         <div style={{
           display: "flex",
           flexDirection: "row",

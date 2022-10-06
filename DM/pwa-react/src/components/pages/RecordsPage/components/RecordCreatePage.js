@@ -8,13 +8,17 @@ import { useForm } from "react-hook-form";
 import { FormInputText } from "../../../controls/FormInputText";
 import { addNewRecord } from "../../../../services/recordsSlice";
 import { BiArrowBack } from "react-icons/bi";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
+import { maxNumberOfFields } from "../../../../constants/recordFields";
+import { openSnackbar } from "../../../../services/snackbarSlice";
 
 export const RecordCreatePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const projectId = location.state.id;
+
   const [template, setTemplate] = useState();
-  const projectId = localStorage.getItem("projectId");
   const templates = useSelector(selectAllRecordTemplates);
   const templateForm = templates.find(t => t.id === Number(template));
   let arrayFields = [];
@@ -31,6 +35,8 @@ export const RecordCreatePage = () => {
       projectId: projectId,
       fields: data
     }));
+    dispatch(openSnackbar());
+    navigate(`/project/${projectId}`)
   };
 
   useEffect(() => {
@@ -40,7 +46,7 @@ export const RecordCreatePage = () => {
   if (templateForm !== undefined) {
     const fieldsObj = templateForm.recordTemplate;
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < maxNumberOfFields; i++) {
       if (fieldsObj[i] !== undefined) {
         arrayFields.push(fieldsObj[i]);
       }

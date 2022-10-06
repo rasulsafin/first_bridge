@@ -1,12 +1,13 @@
 import { useNavigate, useParams } from "react-router";
-import { useSelector } from "react-redux";
-import { selectAllRecords } from "../../../../services/recordsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addNewRecord, editRecord, selectAllRecords } from "../../../../services/recordsSlice";
 import { Button, Toolbar } from "@mui/material";
 import { BiArrowBack } from "react-icons/bi";
 import * as React from "react";
 import { Controls } from "../../../controls/Controls";
 
 export const RecordEditPage = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
   const records = useSelector(selectAllRecords);
@@ -21,6 +22,14 @@ export const RecordEditPage = () => {
 
   const fields = Object.entries(fieldsObj);
 
+  const onSubmit = (data) => {
+    dispatch(editRecord({
+      // name: re.name,
+      fields: data
+    }));
+    navigate(`/record/${id}`);
+  };
+
   return (
     <div className="p-3">
       <Toolbar>
@@ -28,7 +37,7 @@ export const RecordEditPage = () => {
           <BiArrowBack size={24} color="#1d62ad" /></Button>
       </Toolbar>
       <hr />
-      <h3>Record Detail Page</h3>
+      <h3>Record Edit Page</h3>
       <div>
         <Controls.Input
           label="Name"
@@ -47,6 +56,12 @@ export const RecordEditPage = () => {
               </div>
             );
           })}
+          <Button
+            className="m-2"
+            // onClick={handleSubmit(onSubmit)}
+            variant={"outlined"}>
+            Submit
+          </Button>
         </div>
       </div>
     </div>
