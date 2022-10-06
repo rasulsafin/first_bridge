@@ -1,10 +1,9 @@
 import { useNavigate, useParams } from "react-router";
 import { useSelector } from "react-redux";
 import { selectAllProjects } from "../../../../services/projectsSlice";
-import { Button, Toolbar } from "@mui/material";
+import { Toolbar } from "@mui/material";
 import RecordsGrid from "../../RecordsPage/components/RecordsGrid";
 import { BiArrowBack } from "react-icons/bi";
-import { ProjectEditPage } from "./ProjectEditPage";
 import { Controls } from "../../../controls/Controls";
 import * as React from "react";
 
@@ -14,7 +13,7 @@ export const ProjectDetailPage = () => {
   const projects = useSelector(selectAllProjects);
   const project = projects.find(project => project.id === Number(id));
   const projectId = id;
-  
+
   const goBack = () => {
     navigate(-1);
   };
@@ -24,7 +23,7 @@ export const ProjectDetailPage = () => {
   }
 
   function handleToCreateRecordPage() {
-    navigate(`/record/create`, {state: {id: projectId}});
+    navigate(`/record/create`, { state: { id: projectId } });
   }
 
   function handleToFilesPage() {
@@ -37,19 +36,16 @@ export const ProjectDetailPage = () => {
 
   return (
     <div className="p-3">
-      <div>
-        <Toolbar>
-          <Button className="ml-o m-3" onClick={goBack} size="small" variant="outlined">
-            <BiArrowBack size={24} color="#1d62ad" /></Button>
-          <Button className="m-3" size="small" variant="outlined" onClick={handleToProjectEditPage}>Edit
-            project</Button>
-          <Button className="m-3" size="small" variant="outlined" color="error">Delete project</Button>
-          <Button className="m-3" size="small" variant="outlined" onClick={handleToCreateRecordPage}>Add Record</Button>
-          <Button className="m-3" size="small" variant="outlined" onClick={handleToCreateTemplatePage}>Add
-            Template</Button>
-          <Button className="m-3" size="small" variant="outlined" onClick={handleToFilesPage}>Files</Button>
-        </Toolbar>
-      </div>
+      <Toolbar>
+        <Controls.Button onClick={goBack}>
+          <BiArrowBack size={24} color="#1d62ad" />
+        </Controls.Button>
+        <Controls.Button onClick={handleToProjectEditPage}>Edit project</Controls.Button>
+        <Controls.Button color="error">Delete project</Controls.Button>
+        <Controls.Button onClick={handleToCreateRecordPage}>Add Record</Controls.Button>
+        <Controls.Button onClick={handleToCreateTemplatePage}>Add Template</Controls.Button>
+        <Controls.Button onClick={handleToFilesPage}>Files</Controls.Button>
+      </Toolbar>
       <hr />
       <div style={{
         padding: 5,
@@ -80,11 +76,6 @@ export const ProjectDetailPage = () => {
         display: "flex",
         flexDirection: "row"
       }}>
-        <p><span
-          style={{
-            fontSize: 24,
-            paddingRight: 15
-          }}>Records:</span></p>
       </div>
       <RecordsGrid projectId={id} />
     </div>

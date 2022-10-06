@@ -71,11 +71,11 @@ export const UserDetailPage = () => {
   return (
     <div className="p-3">
       <Toolbar>
-        <Button className="m-3" onClick={goBack} size="small" variant="outlined">
+        <Controls.Button onClick={goBack}>
           <BiArrowBack size={24} color="#1d62ad" />
-        </Button>
-        <Button className="m-3" size="small" variant="outlined"  onClick={handleToEditPage}>Edit user</Button>
-        <Button className="m-3" size="small" variant="outlined" color="error" onClick={handleClickOpen}>Delete user</Button>
+        </Controls.Button>
+        <Controls.Button onClick={handleToEditPage}>Edit user</Controls.Button>
+        <Controls.Button color="error" onClick={handleClickOpen}>Delete user</Controls.Button>
       </Toolbar>
       <hr />
       <h3>User Detail Page</h3>

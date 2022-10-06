@@ -78,8 +78,9 @@ export function TemplateCreatePage() {
   return (
     <div className="p-3">
       <Toolbar>
-        <Button onClick={goBack} size="small" variant="outlined">
-          <BiArrowBack size={24} color="#1d62ad" /></Button>
+        <Controls.Button onClick={goBack}>
+          <BiArrowBack size={24} color="#1d62ad" />
+        </Controls.Button>
       </Toolbar>
       <hr />
       <h3>Create template</h3>
@@ -171,28 +172,25 @@ export function TemplateCreatePage() {
               onChange={handleCheckboxChange}
             />
             <div>
-              <Button
+              <Controls.Button
+                className="m-1"
                 type="reset"
-                size="small"
-                variant="outlined"
                 onClick={handleResetClick}
-              >Reset</Button>
-              <Button
+              >Reset</Controls.Button>
+              <Controls.Button
+                className="m-1"
                 type="submit"
-                size="small"
-                variant="outlined"
                 onClick={handleAddClick}
-              >Add</Button>
+              >Add</Controls.Button>
             </div>
           </form>
         </div>
       </div>
-      <Button
+      <Controls.Button
+        className="m-1"
         type="submit"
-        size="small"
-        variant="outlined"
         onClick={handleSaveTemplate}
-      >Save changes</Button>
+      >Save changes</Controls.Button>
     </div>
   );
 }

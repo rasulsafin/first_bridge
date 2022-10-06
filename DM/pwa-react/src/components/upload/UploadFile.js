@@ -3,6 +3,7 @@ import "./UploadFile.css";
 import { useDispatch } from "react-redux";
 import { uploadFileService } from "../../services/filesSlice";
 import { fileExtensions } from "../../constants/fileExtensions";
+import { Controls } from "../controls/Controls";
 
 export const UploadFile = () => {
   const dispatch = useDispatch();
@@ -29,10 +30,10 @@ export const UploadFile = () => {
 
   return (
     <>
-      <button
+      <Controls.Button
         onClick={handleClick}
       > Pick File
-      </button>
+      </Controls.Button>
       <input
         className="hidden"
         type="file"
@@ -40,10 +41,10 @@ export const UploadFile = () => {
         onChange={handleChange}
         accept={fileExtensions}
       />
-      <button
+      <Controls.Button
         onClick={handleUpload}
       > Upload
-      </button>
+      </Controls.Button>
       {selectedFile && (
         <ul>
           <li> Name: {selectedFile.name}</li>

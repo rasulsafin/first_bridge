@@ -1,8 +1,7 @@
 import { Controls } from "../../../controls/Controls";
-import { Button, Toolbar } from "@mui/material";
+import { Toolbar } from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addNewProject } from "../../../../services/projectsSlice";
 import { useNavigate } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
 import { addNewOrganization } from "../../../../services/organizationsSlice";
@@ -54,15 +53,18 @@ export const OrganizationCreatePage = () => {
     <div  className="p-3">
       <SuccessSnackbar />
       <Toolbar>
-        <Button onClick={goBack} size="small" variant="outlined">
-          <BiArrowBack size={24} color="#1d62ad" /></Button>
+        <Controls.Button onClick={goBack}>
+          <BiArrowBack size={24} color="#1d62ad" />
+        </Controls.Button>
       </Toolbar>
       <hr />
-      <div style={{
-        display: "flex",
-        flexDirection: "column"
-      }}>
         <h3>Create organization</h3>
+        <div className="col-10" style={{
+          display: "flex",
+          justifyContent: "flex-start",
+          alignItems: "center",
+          flexWrap: "wrap"
+        }}>
         <Controls.Input
           name="name"
           label="name"
@@ -113,13 +115,10 @@ export const OrganizationCreatePage = () => {
           required
         />
       </div>
-      <Button
-        className="m-3"
-        size="small"
-        variant="outlined"
+      <Controls.Button
         onClick={createOrg}>
         Add organization
-      </Button>
+      </Controls.Button>
     </div>
   );
 };

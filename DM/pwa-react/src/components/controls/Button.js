@@ -1,18 +1,17 @@
 import React from "react";
 import { Button as MuiButton } from "@mui/material";
-export default function Button(props) {
 
-  const { text, size, color, variant, onClick, ...other } = props;
+export function Button(props) {
+  const { size, color, variant, ...other } = props;
 
   return (
     <MuiButton
-      variant={variant || "contained"}
-      size={size || "large"}
+      className="m-3"
+      variant={"outlined"}
+      size={"small"}
       color={color || "primary"}
-      onClick={onClick}
       {...other}
       >
-      {text}
     </MuiButton>
   );
 }
