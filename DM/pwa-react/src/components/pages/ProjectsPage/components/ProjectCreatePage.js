@@ -36,8 +36,9 @@ export const ProjectCreatePage = () => {
   return (
     <div  className="p-3">
       <Toolbar>
-        <Button onClick={goBack} size="small" variant="outlined">
-          <BiArrowBack size={24} color="#1d62ad" /></Button>
+        <Controls.Button onClick={goBack}>
+          <BiArrowBack size={24} color="#1d62ad" />
+        </Controls.Button>
       </Toolbar>
       <hr />
       <div style={{
@@ -60,13 +61,10 @@ export const ProjectCreatePage = () => {
           required
         />
       </div>
-      <Button
-        className="m-3"
-        size="small"
-        variant="outlined"
+      <Controls.Button
         onClick={createProject}>
         Add Project
-      </Button>
+      </Controls.Button>
     </div>
   );
 };

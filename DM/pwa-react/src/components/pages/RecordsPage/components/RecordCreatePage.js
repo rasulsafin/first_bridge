@@ -8,13 +8,17 @@ import { useForm } from "react-hook-form";
 import { FormInputText } from "../../../controls/FormInputText";
 import { addNewRecord } from "../../../../services/recordsSlice";
 import { BiArrowBack } from "react-icons/bi";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
+import { maxNumberOfFields } from "../../../../constants/recordFields";
+import { openSnackbar } from "../../../../services/snackbarSlice";
 
 export const RecordCreatePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const projectId = location.state.id;
+
   const [template, setTemplate] = useState();
-  const projectId = localStorage.getItem("projectId");
   const templates = useSelector(selectAllRecordTemplates);
   const templateForm = templates.find(t => t.id === Number(template));
   let arrayFields = [];
@@ -31,6 +35,8 @@ export const RecordCreatePage = () => {
       projectId: projectId,
       fields: data
     }));
+    dispatch(openSnackbar());
+    navigate(`/project/${projectId}`)
   };
 
   useEffect(() => {
@@ -40,7 +46,7 @@ export const RecordCreatePage = () => {
   if (templateForm !== undefined) {
     const fieldsObj = templateForm.recordTemplate;
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < maxNumberOfFields; i++) {
       if (fieldsObj[i] !== undefined) {
         arrayFields.push(fieldsObj[i]);
       }
@@ -49,23 +55,20 @@ export const RecordCreatePage = () => {
 
   const inputFields = arrayFields.map(item =>
     <FormInputText
-      name={item.title.toString()}
+      name={item.title}
       control={control}
-      label={item.title.toString()}
+      label={item.title}
       key={item.index}
-      type={item.type.toString()}
+      type={item.type}
       onChange={(event) => console.log(event.target.value)}
     />);
 
   return (
     <div className="p-3">
       <Toolbar>
-        <Button
-          onClick={goBack}
-          size="small"
-          variant="outlined">
+        <Controls.Button onClick={goBack}>
           <BiArrowBack size={24} color="#1d62ad" />
-        </Button>
+        </Controls.Button>
       </Toolbar>
       <hr />
       <h3>Create record</h3>

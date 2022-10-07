@@ -21,7 +21,7 @@ export default function DatePicker(props) {
         sx={{
         width: { sm: 200, md: 300 },
         "& .MuiInputBase-root": {
-          height: 60,
+          height: 45,
           marginRight: 3,
         }
       }}>

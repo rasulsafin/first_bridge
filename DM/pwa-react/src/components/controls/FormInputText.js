@@ -2,16 +2,7 @@ import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 
-
-export interface FormInputProps {
-  name: string;
-  control: any;
-  label: string;
-  setValue?: any;
-}
-
-
-export const FormInputText = ({ name, control, label }: FormInputProps) => {
+export const FormInputText = ({ name, control, label, type }) => {
   return (
     <Controller
       name={name}
@@ -25,7 +16,7 @@ export const FormInputText = ({ name, control, label }: FormInputProps) => {
           sx={{
             width: { sm: 200, md: 300 },
             "& .MuiInputBase-root": {
-              height: 60
+              height: 45
             }
           }}
           helperText={error ? error.message : null}
@@ -33,6 +24,7 @@ export const FormInputText = ({ name, control, label }: FormInputProps) => {
           onChange={onChange}
           value={value}
           label={label}
+          type={type}
           margin="normal"
           variant="outlined"
         />

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers, selectAllUsers } from "../../../../services/usersSlice";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
+import SuccessSnackbar from "../../../snackbar/SuccessSnackbar";
 
 const columns = [
   {
@@ -44,6 +45,7 @@ export default function UsersGrid() {
       width: "100%",
       marginTop: 20
     }}>
+      <SuccessSnackbar />
       <DataGrid
         rows={users}
         columns={columns}
@@ -61,7 +63,6 @@ export default function UsersGrid() {
             fontSize: 20,
           },
           border: 0,
-          boxShadow: 2,
           background: "white",
           fontSize: 16,
           cursor: 'pointer',

@@ -10,9 +10,9 @@ const columns = [
     width: 200,
     renderHeader: () => (
       <strong>
-        <h4>
-          {"Name"}
-        </h4>
+        <h5>
+          {"Records"}
+        </h5>
       </strong>
     )
   }
@@ -67,7 +67,6 @@ export default function RecordsGrid(props) {
             fontSize: 20,
           },
           border: 0,
-          boxShadow: 2,
           background: "white",
           fontSize: 16,
           cursor: 'pointer',

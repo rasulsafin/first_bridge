@@ -64,7 +64,6 @@ export default function OrganizationsGrid() {
             fontSize: 20,
           },
           border: 0,
-          boxShadow: 2,
           background: "white",
           fontSize: 16,
           cursor: 'pointer',

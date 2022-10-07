@@ -7,6 +7,7 @@ import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { EditUser, selectAllUsers } from "../../../../services/usersSlice";
 import { useState } from "react";
+import { openSnackbar } from "../../../../services/snackbarSlice";
 
 export const UserEditPage = () => {
   const navigate = useNavigate();
@@ -55,6 +56,7 @@ export const UserEditPage = () => {
       // position: values.position,
       // organizationId: values.organizationId
     }));
+    dispatch(openSnackbar());
     navigate(`/users`);
   }
 

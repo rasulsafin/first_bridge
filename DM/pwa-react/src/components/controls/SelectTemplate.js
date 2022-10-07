@@ -10,7 +10,7 @@ export default function SelectTemplate(props) {
       sx={{
         width: { sm: 200, md: 300 },
         "& .MuiInputBase-root": {
-          height: 60
+          height: 45
         }
       }}>
       <InputLabel>{label}</InputLabel>
