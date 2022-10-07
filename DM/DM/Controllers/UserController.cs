@@ -40,18 +40,6 @@ namespace DM.Controllers
             }
         }
 
-
-        [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate(AuthenticateRequest model)
-        {
-            var response = await _userService.Authenticate(model);
-
-            if (response == null)
-                return BadRequest(new { message = "Username or password is incorrect" });
-
-            return Ok(response);
-        }
-
         /// <summary>
         /// Get user by their id
         /// </summary>
@@ -162,6 +150,17 @@ namespace DM.Controllers
             {
                 return CreateProblemResult(this, 500, ex.Message);
             }
+        }
+        
+        [HttpPost("authenticate")]
+        public async Task<IActionResult> Authenticate(AuthenticateRequest model)
+        {
+            var response = await _userService.Authenticate(model);
+
+            if (response == null)
+                return BadRequest(new { message = "Username or password is incorrect" });
+
+            return Ok(response);
         }
     }
 }

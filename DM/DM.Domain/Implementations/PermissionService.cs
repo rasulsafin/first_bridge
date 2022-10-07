@@ -24,7 +24,26 @@ namespace DM.Domain.Implementations
             {
                 return false;
             }
+
+            var fieldForUpdate = await _context.Permissions
+                .Where(q => q.UserId == permissionModel.UserId
+                                                                  && q.ObjectId == permissionModel.ObjectId &&
+                                                                  q.Type == permissionModel.Type).FirstOrDefaultAsync();
+            if (fieldForUpdate != null) // обновляем запись, в случае если она существует
+            {
+                _context.Permissions.Attach(fieldForUpdate);
+
+                fieldForUpdate.Create = permissionModel.Create;
+                fieldForUpdate.Read = permissionModel.Read;
+                fieldForUpdate.Update = permissionModel.Update;
+                fieldForUpdate.Delete = permissionModel.Delete;
+
+                await _context.SaveChangesAsync();
+
+                _context.Entry(fieldForUpdate).State = EntityState.Detached;
+            }
             
+            // иначе добавляем новую
             _context.Permissions
                 .Add(new PermissionEntity()
                 {

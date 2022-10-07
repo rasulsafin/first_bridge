@@ -73,7 +73,7 @@ namespace DM.Tests.UnitTests
 
             var model = new PermissionModel() { UserId = 1, Create = true };
 
-            var result = await permissionController.AddPermissionToUser(model);
+            var result = await permissionController.AddPermissionToUserOrUpdateIfExist(model);
             Assert.IsType<BadRequestObjectResult>(result);
             Assert.Equal(ErrorList.NotFoundUser,  result.GetPropertyValue("Value"));
         }
@@ -88,7 +88,7 @@ namespace DM.Tests.UnitTests
             var permissionRepo = new Mock<IPermissionService>();
             var permissionController = new PermissionController(permissionRepo.Object);
 
-            var result = await permissionController.AddPermissionToUser(null);
+            var result = await permissionController.AddPermissionToUserOrUpdateIfExist(null);
             Assert.IsType<BadRequestObjectResult>(result);
             Assert.Equal(ErrorList.BadRequest,  result.GetPropertyValue("Value"));
         }

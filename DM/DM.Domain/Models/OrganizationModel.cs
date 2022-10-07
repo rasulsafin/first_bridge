@@ -6,41 +6,9 @@ using System.Threading.Tasks;
 
 namespace DM.Domain.Models
 {
-    public class OrganizationModel
+    public class OrganizationModel : OrganizationModelForCreate
     {
         public long Id { get; set; }
-
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Адрес
-        /// </summary>
-        public string Address { get; set; }
-
-        /// <summary>
-        /// ИНН
-        /// </summary>
-        public string Inn { get; set; }
-
-        /// <summary>
-        /// ОГРН
-        /// </summary>
-        public string Ogrn { get; set; }
-
-        /// <summary>
-        /// КПП
-        /// </summary>
-        public string Kpp { get; set; }
-
-        /// <summary>
-        /// Телефон
-        /// </summary>
-        public string Phone { get; set; }
-
-        /// <summary>
-        /// Email
-        /// </summary>
-        public string Email { get; set; }
 
         /// <summary>
         /// Список пользователей организации
@@ -51,6 +19,11 @@ namespace DM.Domain.Models
         /// Коллекция проектов
         /// </summary>
         public List<ProjectModel> Projects { get; set; }
+    }
+    
+    public class OrganizationModelForUpdate : OrganizationModelForCreate
+    {
+        public long Id { get; set; }
     }
 
     public class OrganizationModelForCreate

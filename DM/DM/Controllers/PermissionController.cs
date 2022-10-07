@@ -33,7 +33,7 @@ namespace DM.Controllers
 
         [Authorize(RoleConst.SuperAdmin)]
         [HttpPost]
-        public async Task<IActionResult> AddPermissionToUser(PermissionModel permissionModel)
+        public async Task<IActionResult> AddPermissionToUserOrUpdateIfExist(PermissionModel permissionModel)
         {
             if (permissionModel == null) return BadRequest("Invalid Request");
             var permissions = await _permissionService.AddPermissionToUser(permissionModel);
