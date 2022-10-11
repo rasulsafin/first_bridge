@@ -1,5 +1,4 @@
-﻿using DM.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace DM.DAL.Entities
 {

@@ -1,12 +1,12 @@
 ﻿using DM.DAL.Entities;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
-using DM.repository;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using DM.DAL;
 using Newtonsoft.Json.Linq;
 
 namespace DM.Domain.Implementations

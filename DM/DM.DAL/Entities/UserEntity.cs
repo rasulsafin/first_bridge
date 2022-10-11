@@ -1,8 +1,6 @@
-﻿using DM.DAL.Entities;
-using System;
-using System.Collections.Generic;
+﻿using System;
 
-namespace DM.Entities
+namespace DM.DAL.Entities
 {
     public class UserEntity : BaseEntity
     {

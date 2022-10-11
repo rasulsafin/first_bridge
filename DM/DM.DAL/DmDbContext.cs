@@ -1,8 +1,7 @@
 ﻿using DM.DAL.Entities;
-using DM.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace DM.repository
+namespace DM.DAL
 {
     public class DmDbContext : DbContext
     {
@@ -33,9 +32,25 @@ namespace DM.repository
             modelBuilder.Entity<UserEntity>()
                 .HasIndex(x => x.Login)
                 .IsUnique(true);
+            
+            modelBuilder.Entity<UserEntity>()
+                .HasIndex(x => x.Email)
+                .IsUnique(true);
 
             modelBuilder.Entity<OrganizationEntity>()
                 .HasIndex(x => x.Inn)
+                .IsUnique(true);
+            
+            modelBuilder.Entity<OrganizationEntity>()
+                .HasIndex(x => x.Name)
+                .IsUnique(true);
+            
+            modelBuilder.Entity<OrganizationEntity>()
+                .HasIndex(x => x.Ogrn)
+                .IsUnique(true);
+            
+            modelBuilder.Entity<OrganizationEntity>()
+                .HasIndex(x => x.Email)
                 .IsUnique(true);
 
             modelBuilder.Entity<ProjectEntity>()

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using DM.DAL.Entities;
 using DM.Domain.Models;
-using DM.Entities;
 
 namespace DM.Domain
 {

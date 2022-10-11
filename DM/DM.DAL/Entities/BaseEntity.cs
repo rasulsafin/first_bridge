@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DM.Entities
+namespace DM.DAL.Entities
 {
     public class BaseEntity
     {

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using DM.Entities;
 
 namespace DM.DAL.Entities
 {

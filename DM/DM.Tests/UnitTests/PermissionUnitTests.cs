@@ -6,7 +6,6 @@ using DM.Controllers;
 using DM.DAL.Entities;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
-using DM.Entities;
 using DM.Tests.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;

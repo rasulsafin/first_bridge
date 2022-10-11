@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
-using DM.Entities;
-using DM.repository;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DM.DAL;
+using DM.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using DM.Domain.Helpers;
@@ -116,7 +116,14 @@ namespace DM.Domain.Implementations
 
         public async Task<bool> Delete(long userId)
         {
-            //TODO: check that the Records/fields do'nt contain users to be deleted
+            var usersPermissions = await _context.Permissions.Where(x => x.UserId == userId).ToListAsync();
+
+            foreach (var permission in usersPermissions)
+            {
+                _context.Permissions.Remove(permission);
+            }
+
+            await _context.SaveChangesAsync();
 
             var user = _context.Users.FirstOrDefault(q => q.Id == userId);
 

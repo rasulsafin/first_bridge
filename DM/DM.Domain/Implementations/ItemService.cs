@@ -3,11 +3,10 @@ using DM.DAL.Entities;
 using DM.Domain.Helpers;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
-using DM.Entities;
-using DM.repository;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DM.DAL;
 
 namespace DM.Domain.Implementations
 {

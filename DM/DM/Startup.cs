@@ -1,7 +1,6 @@
 using DM.Domain;
 using DM.Domain.Implementations;
 using DM.Domain.Interfaces;
-using DM.repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +11,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using DM.Domain.Helpers;
 using System.Collections.Generic;
+using DM.DAL;
 
 namespace DM
 {

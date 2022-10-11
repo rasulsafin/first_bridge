@@ -1,7 +1,7 @@
 ﻿using System.Linq;
+using DM.DAL;
+using DM.DAL.Entities;
 using DM.Domain.Interfaces;
-using DM.Entities;
-using DM.repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace DM.Domain.Implementations

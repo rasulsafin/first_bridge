@@ -1,7 +1,6 @@
 ﻿using DM.DAL.Entities;
-using DM.Entities;
-using DM.repository;
 using System.Linq;
+using DM.DAL;
 
 namespace DM.Domain.Helpers
 {

@@ -1,6 +1,4 @@
-﻿using DM.Entities;
-
-namespace DM.DAL.Entities
+﻿namespace DM.DAL.Entities
 {
     /// <summary>
     /// Object .bim, ifc, and png for tests

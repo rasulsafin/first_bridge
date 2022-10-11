@@ -1,6 +1,4 @@
-﻿using DM.Entities;
-
-namespace DM.DAL.Entities
+﻿namespace DM.DAL.Entities
 {
     public class PermissionEntity : BaseEntity
     {

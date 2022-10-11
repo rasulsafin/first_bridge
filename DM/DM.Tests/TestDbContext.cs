@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using DM.DAL.Entities;
 using DM.Domain.Implementations;
 using DM.Domain.Models;
-using DM.repository;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 using System.Linq;
+using DM.DAL;
 using DM.Domain.Helpers;
 
 namespace DM.Tests

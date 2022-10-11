@@ -4,11 +4,10 @@ using DM.Domain.Models;
 using DM.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using DM.DAL;
 using DM.DAL.Entities;
-using DM.repository;
 using DM.Domain.Helpers;
 using DM.Domain.Implementations;
-using DM.Entities;
 
 namespace DM.Controllers
 {
