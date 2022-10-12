@@ -1,91 +1,96 @@
 import { Form, Formik } from "formik";
 import { Controls } from "../../../controls/Controls";
-import { projectValidationSchema } from "../utils/validationSchema";
+import { userValidationSchema } from "../utils/validationSchema";
 import { Button } from "@mui/material";
 
-const initialValues = {
-  name: "",
-  lastName: "",
-  fathersName: "",
-  login: "",
-  email: "",
-  password: "",
-  roles: "",
-  birthdate: "",
-  snils: "",
-  position: "",
-  organizationId: ""
-};
-
 const CreateUserForm = (props) => {
-  const { onSubmit } = props;
+  const { onSubmit, initialValues } = props;
 
   return (
-    <div className="col-12"
-         style={{
-           display: "flex",
-           flexDirection: "row",
-           // justifyContent: "flex-start",
-           // alignItems: "center",
-           // flexWrap: "wrap"
-         }}>
+    <>
       <Formik
         initialValues={initialValues}
-        validationSchema={projectValidationSchema}
+        validationSchema={userValidationSchema}
         onSubmit={onSubmit}
       >
-        {({isValid, dirty }) => (
-          <div>
+        {({ isValid, dirty }) => (
           <Form>
-            <Controls.ValidationFormTextfield
-              name="name"
-              type="name"
-              label="Name"
-              required
-            />
-            <Controls.ValidationFormTextfield
-              name="lastName"
-              type="lastName"
-              label="LastName"
-              required
-            />
-            <Controls.ValidationFormTextfield
-              name="fathersName"
-              type="fathersName"
-              label="FathersName"
-              required
-            />
-            <Controls.ValidationFormTextfield
-              name="login"
-              type="login"
-              label="Login"
-              required
-            />
-            <Controls.ValidationFormTextfield
-              name="email"
-              type="email"
-              label="Email"
-              required
-            />
-            <Controls.ValidationFormTextfield
-              name="password"
-              type="password"
-              label="Password"
-              required
-            />
-            <Controls.ValidationFormTextfield
-              name="roles"
-              type="roles"
-              label="Role"
-              required
-            />
+            <div
+              className="col-10 flex"
+              style={{
+                display: "flex",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                flexWrap: "wrap"
+              }}
+            >
+              <Controls.ValidationFormTextfield
+                className="col-4"
+                name="name"
+                type="name"
+                label="Name"
+                required
+              />
+              <Controls.ValidationFormTextfield
+                name="lastName"
+                type="lastName"
+                label="LastName"
+                required
+              />
+              <Controls.ValidationFormTextfield
+                name="fathersName"
+                type="fathersName"
+                label="FathersName"
+                required
+              />
+              <Controls.ValidationFormTextfield
+                InputLabelProps={{ shrink: true }}
+                name="birthdate"
+                type="date"
+                label="Birthdate"
+                required
+              />
+              <Controls.ValidationFormTextfield
+                name="login"
+                type="login"
+                label="Login"
+                required
+              />
+              <Controls.ValidationFormTextfield
+                name="email"
+                type="email"
+                label="Email"
+                required
+              />
+              <Controls.ValidationFormTextfield
+                name="password"
+                type="password"
+                label="Password"
+                required
+              />
+              <Controls.ValidationFormTextfield
+                name="roles"
+                type="roles"
+                label="Role"
+                required
+              />
+              <Controls.ValidationFormTextfield
+                name="snils"
+                type="snils"
+                label="Snils"
+                required
+              />
+              <Controls.ValidationFormTextfield
+                name="position"
+                type="position"
+                label="Position"
+                required
+              />
+            </div>
             <Button
               sx={{
                 width: { sm: 100, md: 150 },
-                "& .MuiInputBase-root": {
-                  height: 45,
-                  marginRight: 3,
-                },
+                marginTop: 3
               }}
               type="submit"
               variant="contained"
@@ -96,10 +101,9 @@ const CreateUserForm = (props) => {
               Submit
             </Button>
           </Form>
-          </div>
         )}
       </Formik>
-    </div>
+    </>
   );
 };
 
