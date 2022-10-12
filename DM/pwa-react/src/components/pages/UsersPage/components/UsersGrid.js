@@ -13,10 +13,16 @@ const columns = [
       <strong>{"Name"}</strong>
     )},
   {
-    field: "login",
+    field: "lastName",
     width: 200,
     renderHeader: () => (
-      <strong>{"Login"}</strong>
+      <strong>{"LastName"}</strong>
+    )},
+  {
+    field: "position",
+    width: 200,
+    renderHeader: () => (
+      <strong>{"Position"}</strong>
     )},
   {
     field: "email",
@@ -33,7 +39,7 @@ export default function UsersGrid() {
 
   useEffect(() => {
     dispatch(fetchUsers());
-  }, [dispatch]);
+  }, []);
 
   const handleRowDoubleClick = ({ row }) => {
     navigate(`/user/${row.id}`);

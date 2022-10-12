@@ -7,6 +7,7 @@ import SelectProject from "./SelectProject";
 import SelectTemplate from "./SelectTemplate";
 import TextArea from "./TextArea";
 import { Button } from "./Button";
+import ValidationFormTextfield from "./ValidationFormTextfield";
 
 export const Controls = {
   Input,
@@ -17,5 +18,6 @@ export const Controls = {
   RadioGroup,
   SelectProject,
   SelectTemplate,
-  Button
+  Button,
+  ValidationFormTextfield
 }

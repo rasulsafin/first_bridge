@@ -12,6 +12,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import { PermissionTable } from "../../AdminPage/PermissionTable";
+import { openSnackbar } from "../../../../services/snackbarSlice";
 // import RecordsPermissionsGrid from "../../AdminPage/RecordsPermissionsGrid";
 
 export const UserDetailPage = () => {
@@ -61,6 +62,7 @@ export const UserDetailPage = () => {
 
   function handleDeleteUser() {
     dispatch(deleteUser(id));
+    dispatch(openSnackbar());
     navigate(`/users`);
   }
 
@@ -209,18 +211,18 @@ export const UserDetailPage = () => {
       <div>
         <h3>Permissions</h3>
       </div>
-      <div>
-        <Controls.Select
-          name="type"
-          label="type"
-          options={objectTypes}
-          onChange={(event) => handleChange(event)}
-          required
-        />
-      </div>
-      <div>
-        {objects()}
-      </div>
+      {/*<div>*/}
+      {/*  <Controls.Select*/}
+      {/*    name="type"*/}
+      {/*    label="type"*/}
+      {/*    options={objectTypes}*/}
+      {/*    onChange={(event) => handleChange(event)}*/}
+      {/*    required*/}
+      {/*  />*/}
+      {/*</div>*/}
+      {/*<div>*/}
+      {/*  {objects()}*/}
+      {/*</div>*/}
       <PermissionTable />
     </div>
   );

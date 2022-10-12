@@ -7,8 +7,8 @@ export function Button(props) {
   return (
     <MuiButton
       className="m-3"
-      variant={"outlined"}
-      size={"small"}
+      variant={variant || "outlined"}
+      size={size || "small"}
       color={color || "primary"}
       {...other}
       >
