@@ -21,7 +21,6 @@ export default function Input(props) {
       autoFocus
       margin="normal"
       InputProps={{ style: { fontSize: 18 } }}
-      // InputLabelProps={{ style: { fontSize: 20 } }}
       {...other}
     />
   )

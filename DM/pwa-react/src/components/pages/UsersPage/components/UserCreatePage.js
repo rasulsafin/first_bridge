@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
 import { addNewUser } from "../../../../services/usersSlice";
 import * as React from "react";
+import { openSnackbar } from "../../../../services/snackbarSlice";
 
 const initialValues = {
   name: "",
@@ -48,14 +49,14 @@ export const UserCreatePage = () => {
       position: values.position,
       organizationId: values.organizationId
     }));
+    dispatch(openSnackbar());
+    navigate(`/users`);
     setValues(initialValues);
   }
 
   const goBack = () => {
     navigate(-1);
   };
-
-  const organizationId = localStorage.getItem("organizationId");
 
   return (
     <div className="p-3">

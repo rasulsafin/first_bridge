@@ -49,7 +49,6 @@ export function PermissionTable() {
 
   return (
     <div>
-      <h1>PermissionTable</h1>
       <table className="permission-table">
         <thead className="permission-thead">
         <tr>
