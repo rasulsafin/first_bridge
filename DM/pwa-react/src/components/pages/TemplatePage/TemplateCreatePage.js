@@ -90,7 +90,7 @@ export function TemplateCreatePage() {
       }}>
         <Controls.Input
           name="title"
-          label="RecordName"
+          label="TemplateName"
           type="text"
           value={recordName}
           onChange={(event) => setRecordName(event.target.value)}

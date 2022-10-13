@@ -57,17 +57,27 @@ namespace DM.Domain.Implementations
 
         public RecordModel GetById(long recordId)
         {
-            var record = _context.Records.FirstOrDefault(x => x.Id == recordId);
+            var record = _context.Records.Include(x => x.Comments)
+                .FirstOrDefault(x => x.Id == recordId);
             if (record == null)
             {
                 return null;
             }
 
+            var listOfComments = new List<CommentModelForGet>();
+
+            foreach (var comment in record.Comments)
+            {
+                listOfComments.Add(new CommentModelForGet() { Text = comment.Text, UserName = comment.User.Name});
+            }
+
             var recordModel = new RecordModel()
             {
+                Id = record.Id,
                 Name = record.Name,
                 ProjectId = record.ProjectId,
-                Fields = JObject.Parse(record.Fields.RootElement.ToString())
+                Fields = JObject.Parse(record.Fields.RootElement.ToString()),
+                Comments = listOfComments
             };
             return recordModel;
         }
@@ -118,8 +128,7 @@ namespace DM.Domain.Implementations
 
             return true;
         }
-
-        //TODO: Add Checks
+        
         public async Task<bool> Delete(long recordId)
         {
             var result = await _context.Records.FirstOrDefaultAsync(x => x.Id == recordId);

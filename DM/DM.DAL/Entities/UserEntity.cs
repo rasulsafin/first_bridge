@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DM.DAL.Entities
 {
     public class UserEntity : BaseEntity
     {
-        /// TODO: PASSWORDHASH
         public string Name { get; set; }
         public string LastName { get; set; }
         public string FathersName { get; set; }
@@ -26,10 +26,10 @@ namespace DM.DAL.Entities
         /// </summary>
         public string Position { get; set; }
         /// <summary>
-        /// Организация
+        /// Организация 
         /// </summary>
         public long OrganizationId { get; set; }
         public OrganizationEntity Organization { get; set; }
-
+        public List<ProjectEntity> Projects { get; set; }
     }
 }

@@ -13,5 +13,6 @@ namespace DM.Domain.Models
         public long ProjectId { get; set; }
         [Column(TypeName = "jsonb")]
         public JObject Fields { get; set; }
+        public List<CommentModelForGet> Comments { get; set; }
     }
 }

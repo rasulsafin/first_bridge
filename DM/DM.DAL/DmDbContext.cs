@@ -13,14 +13,15 @@ namespace DM.DAL
         public DmDbContext()
         { }
         public DbSet<UserEntity> Users { get; set; }
-        public DbSet<ObjectiveEntity> Objective { get; set; }
+  //      public DbSet<ObjectiveEntity> Objective { get; set; }
         public DbSet<ProjectEntity> Projects { get; set; }
         public DbSet<RecordEntity> Records { get; set; }
-        public DbSet<UserProjectEntity> UserProjects { get; set; }
+  //      public DbSet<UserProjectEntity> UserProjects { get; set; }
         public DbSet<ItemEntity> Items { get; set; }
         public DbSet<TemplateEntity> Template { get; set; }
         public DbSet<OrganizationEntity> Organization { get; set; }
         public DbSet<PermissionEntity> Permissions { get; set; }
+        public DbSet<CommentEntity> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

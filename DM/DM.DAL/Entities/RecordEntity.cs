@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
 
 namespace DM.DAL.Entities
@@ -12,5 +13,6 @@ namespace DM.DAL.Entities
         public long ProjectId { get; set; }
         [Column(TypeName = "jsonb")]
         public JsonDocument Fields { get; set; }
+        public List<CommentEntity> Comments { get; set; }
     }
 }
