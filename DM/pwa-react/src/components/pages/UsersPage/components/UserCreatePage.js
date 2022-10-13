@@ -6,7 +6,7 @@ import { BiArrowBack } from "react-icons/bi";
 import { addNewUser } from "../../../../services/usersSlice";
 import * as React from "react";
 import { openSnackbar } from "../../../../services/snackbarSlice";
-import CreateUserForm from "./UserForm";
+import UserForm from "./UserForm";
 import { getInitialValues } from "../utils/getInitialValues";
 
 export const UserCreatePage = () => {
@@ -14,7 +14,7 @@ export const UserCreatePage = () => {
   const navigate = useNavigate();
   const initialValues = getInitialValues();
   const textButton = "Add User";
-
+  
   const goBack = () => {
     navigate(-1);
   };
@@ -28,7 +28,7 @@ export const UserCreatePage = () => {
       </Toolbar>
       <hr />
       <h3>Create user</h3>
-      <CreateUserForm
+      <UserForm
         textButton={textButton}
         initialValues={initialValues}
         onSubmit={(values, formikHelpers) => {

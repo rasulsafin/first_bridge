@@ -3,7 +3,7 @@ import { Controls } from "../../../controls/Controls";
 import { userValidationSchema } from "../utils/validationSchema";
 import { Button } from "@mui/material";
 
-const CreateUserForm = (props) => {
+const UserForm = (props) => {
   const { onSubmit, initialValues, textButton } = props;
 
   return (
@@ -112,4 +112,4 @@ const CreateUserForm = (props) => {
   );
 };
 
-export default CreateUserForm;
+export default UserForm;
