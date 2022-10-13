@@ -4,7 +4,7 @@ import { userValidationSchema } from "../utils/validationSchema";
 import { Button } from "@mui/material";
 
 const CreateUserForm = (props) => {
-  const { onSubmit, initialValues } = props;
+  const { onSubmit, initialValues, textButton } = props;
 
   return (
     <>
@@ -25,7 +25,6 @@ const CreateUserForm = (props) => {
               }}
             >
               <Controls.ValidationFormTextfield
-                className="col-4"
                 name="name"
                 type="name"
                 label="Name"
@@ -86,6 +85,12 @@ const CreateUserForm = (props) => {
                 label="Position"
                 required
               />
+              <Controls.ValidationFormTextfield
+                name="organizationId"
+                type="organizationId"
+                label="OrganizationId"
+                required
+              />
             </div>
             <Button
               sx={{
@@ -98,7 +103,7 @@ const CreateUserForm = (props) => {
               margin="normal"
               disabled={!isValid || !dirty}
             >
-              Submit
+              {textButton}
             </Button>
           </Form>
         )}

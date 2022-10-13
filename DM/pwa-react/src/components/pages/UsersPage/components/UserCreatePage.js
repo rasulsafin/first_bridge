@@ -1,6 +1,5 @@
 import { Controls } from "../../../controls/Controls";
-import { Button, Toolbar } from "@mui/material";
-import { useState } from "react";
+import { Toolbar } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
@@ -13,9 +12,9 @@ import { getInitialValues } from "../utils/getInitialValues";
 export const UserCreatePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const initialValues = getInitialValues();
-  
+  const textButton = "Add User";
+
   const goBack = () => {
     navigate(-1);
   };
@@ -23,30 +22,18 @@ export const UserCreatePage = () => {
   return (
     <div className="p-3">
       <Toolbar>
-        <Button onClick={goBack} size="small" variant="outlined">
-          <BiArrowBack size={24} color="#1d62ad" /></Button>
+        <Controls.Button onClick={goBack}>
+          <BiArrowBack size={24} color="#1d62ad" />
+        </Controls.Button>
       </Toolbar>
       <hr />
       <h3>Create user</h3>
       <CreateUserForm
+        textButton={textButton}
         initialValues={initialValues}
         onSubmit={(values, formikHelpers) => {
           console.log(values);
-          dispatch(addNewUser({
-            name: values.name,
-            lastName: values.lastName,
-            fathersName: values.fathersName,
-            login: values.login,
-            email: values.email,
-            password: values.password,
-            roles: values.roles,
-            birthdate: values.birthdate,
-            snils: values.snils,
-            position: values.position,
-
-            //TODO to get orgId
-            organizationId: "1"
-          }));
+          dispatch(addNewUser(values));
           dispatch(openSnackbar());
           formikHelpers.resetForm();
           navigate(`/users`);
