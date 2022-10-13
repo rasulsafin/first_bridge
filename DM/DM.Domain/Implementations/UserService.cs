@@ -104,8 +104,16 @@ namespace DM.Domain.Implementations
             _context.Users.Attach(userForUpdate);
 
             userForUpdate.Name = user.Name;
+            userForUpdate.LastName = user.LastName;
+            userForUpdate.FathersName = user.FathersName;
             userForUpdate.Email = user.Email;
             userForUpdate.Login = user.Login;
+            userForUpdate.Password = user.Password;
+            userForUpdate.Birthdate = user.Birthdate;
+            userForUpdate.Position = user.Position;
+            userForUpdate.Snils = user.Snils;
+            userForUpdate.Roles = user.Roles;
+            userForUpdate.OrganizationId = user.OrganizationId;
 
             await _context.SaveChangesAsync();
 
