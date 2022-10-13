@@ -15,11 +15,35 @@ const columns = [
       </strong>
     )},
   {
+    field: "address",
+    width: 250,
+    renderHeader: () => (
+      <strong>
+        <h4>{"Address"}</h4>
+      </strong>
+    )},
+  {
     field: "inn",
     width: 200,
     renderHeader: () => (
       <strong>
-        <h4>{"INN"}</h4>
+        <h4>{"Inn"}</h4>
+      </strong>
+    )},
+  {
+    field: "phone",
+    width: 200,
+    renderHeader: () => (
+      <strong>
+        <h4>{"Phone"}</h4>
+      </strong>
+    )},
+  {
+    field: "email",
+    width: 200,
+    renderHeader: () => (
+      <strong>
+        <h4>{"Email"}</h4>
       </strong>
     )}
 ];

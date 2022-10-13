@@ -4,6 +4,8 @@ import { axiosInstance } from "../../../axios/axiosInstance";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { setAuthUser } from "../../../services/authSlice";
+import { Controls } from "../../controls/Controls";
+import { Button } from "@mui/material";
 
 export const LoginPage = () => {
   const { setAuth } = useAuth();
@@ -82,30 +84,42 @@ export const LoginPage = () => {
         <section>
           <h1>Sign In</h1>
           <form onSubmit={handleSubmit}>
-            <label htmlFor="username">Username:</label>
-            <input
+            <Controls.Input
               type="text"
               id="username"
+              label="Login"
               autoComplete="off"
               onChange={(e) => setUser(e.target.value)}
               value={user}
               required
             />
-
-            <label htmlFor="password">Password:</label>
-            <input
+            <Controls.Input
               type="password"
               id="password"
+              label="Password"
               onChange={(e) => setPwd(e.target.value)}
               value={pwd}
               required
             />
-            <button>Sign In</button>
+            <Button
+              sx={{
+                width: { sm: 100, md: 150 },
+                "& .MuiInputBase-root": {
+                  height: 45,
+                  marginRight: 3,
+                },
+              }}
+              type="submit"
+              variant="contained"
+              size="small"
+              margin="normal">
+              Sign In
+            </Button>
           </form>
           <p>
             Need an Account?<br />
             <span className="line">
-              <Link to="/registration">
+              <Link style={{ color: "black"}}  to="/registration">
                 Sign Up 
               </Link>
             </span>

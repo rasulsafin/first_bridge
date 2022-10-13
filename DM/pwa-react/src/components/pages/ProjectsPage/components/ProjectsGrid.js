@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProjects, selectAllProjects } from "../../../../services/projectsSlice";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
+import SuccessSnackbar from "../../../snackbar/SuccessSnackbar";
 
 const columns = [
   {
@@ -13,7 +14,8 @@ const columns = [
       <strong>
         <h4>{"Title"}</h4>
       </strong>
-    )},
+    )
+  },
   {
     field: "email",
     width: 200,
@@ -21,14 +23,15 @@ const columns = [
       <strong>
         <h4>{"Description"}</h4>
       </strong>
-    )}
+    )
+  }
 ];
 
 export default function ProjectsGrid() {
   const dispatch = useDispatch();
   const projects = useSelector(selectAllProjects);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     dispatch(fetchProjects());
   }, [dispatch]);
@@ -46,6 +49,7 @@ export default function ProjectsGrid() {
       width: "100%",
       marginTop: 20
     }}>
+      <SuccessSnackbar />
       <DataGrid
         rows={projects}
         columns={columns}
@@ -57,17 +61,17 @@ export default function ProjectsGrid() {
           "& .MuiDataGrid-row:hover": {
             color: "green"
           },
-          '.MuiDataGrid-columnSeparator': {
-            display: 'none',
+          ".MuiDataGrid-columnSeparator": {
+            display: "none"
           },
           "& .MuiDataGrid-columnHeaders": {
-            fontSize: 18,
+            fontSize: 18
           },
           border: 0,
           boxShadow: 0,
           background: "white",
           fontSize: 16,
-          cursor: 'pointer',
+          cursor: "pointer"
         }}
       />
     </div>
