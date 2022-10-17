@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Authenticators;
-using Wrapper.Models;
 using WrapperDM.Helpers;
+using WrapperDM.Models;
 
 namespace WrapperDM;
 

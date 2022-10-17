@@ -1,7 +1,6 @@
 ﻿using System;
-using WrapperDM.Entities;
 
-namespace TestWrapperDMApplication
+namespace WrapperDM.Models
 {
     public class AuthenticateResponse
     {

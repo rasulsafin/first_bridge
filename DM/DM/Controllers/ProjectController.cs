@@ -68,5 +68,48 @@ namespace DM.Controllers
 
             return Ok(id);
         }
+        
+        [Authorize(RoleConst.UserAdmin)]
+        [HttpPut]
+        public async Task<IActionResult> Update(ProjectModel projectModel)
+        {
+            var permission = AuthorizationHelper.CheckUsersPermissionsForUpdate(_context, _currentUser, PermissionType.Project, projectModel.Id);
+
+            if (permission == null)
+            {
+                return StatusCode(403);
+            }
+
+            var checker = await _projectService.Update(projectModel);
+
+            if (checker == false)
+            {
+                return BadRequest("the fields must not contain invalid characters");
+            }
+
+            return Ok(checker);
+        }
+
+
+        [Authorize(RoleConst.UserAdmin)]
+        [HttpDelete]
+        public async Task<IActionResult> Delete(long projectId)
+        {
+            var permission = AuthorizationHelper.CheckUsersPermissionsForDelete(_context, _currentUser, PermissionType.Record, projectId);
+
+            if (permission == null)
+            {
+                return StatusCode(403);
+            }
+
+            var checker = await _projectService.Delete(projectId);
+
+            if (checker == false)
+            {
+                return NotFound();
+            }
+
+            return Ok(checker);
+        }
     }
 }

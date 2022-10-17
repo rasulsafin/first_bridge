@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json.Linq;
 
-namespace Wrapper.Models
+namespace WrapperDM.Models
 {
     public class RecordModel
     {

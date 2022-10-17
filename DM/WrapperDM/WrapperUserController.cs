@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Authenticators;
-using TestWrapperDMApplication;
 using WrapperDM.Helpers;
 using WrapperDM.Models;
 
