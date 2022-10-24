@@ -13,6 +13,10 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using DM.DAL;
+using Xbim.Ifc;
+using Xbim.ModelGeometry.Scene;
+using Xbim.Geometry.Engine;
+using SO=System.IO.File;
 
 namespace DM.Controllers
 {
@@ -24,6 +28,7 @@ namespace DM.Controllers
         public readonly DmDbContext _context;
         private readonly UserEntity _currentUser;
         private static string pathServerStorage = @$"E:\others\";
+        private static string currentPathServerStorage = "E:\\full-project\\document-manager\\DM\\DM\\";
         private int lastVersion = 1;  // variable for version tracking
 
         public ItemController(IItemService itemService, DmDbContext context, CurrentUserService userService)
@@ -57,7 +62,7 @@ namespace DM.Controllers
         /// </summary>
         [Authorize(RoleConst.UserAdmin)]
         [HttpGet("download")]
-        public async Task<IActionResult> Download(string fileName, string osType)
+        public async Task<IActionResult> Download(string fileName)
         {
             var fileId = await _context.Items.Where(x => x.Name == fileName).Select(q => q.Id).FirstOrDefaultAsync(); 
             var permission = AuthorizationHelper.CheckUsersPermissionsById(_context, _currentUser, PermissionType.Item, fileId);
@@ -67,9 +72,9 @@ namespace DM.Controllers
                 return StatusCode(403);
             }
             
-            if (fileName == null || osType == null)
+            if (fileName == null)
             {
-                return BadRequest("osType is incorrect");
+                return BadRequest("fileName is empty");
             }
 
             WebClient myWebClient = new WebClient();
@@ -86,6 +91,74 @@ namespace DM.Controllers
             }
 
             return Ok();
+        }
+        
+        [Authorize(RoleConst.UserAdmin)]
+        [HttpGet("downloadWexBim")]
+        public async Task<IActionResult> DownloadWexBim(string fileName) // название файла вместе с расширением .ifc
+        {
+            var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
+            var fileId = await _context.Items.Where(x => x.Name.Contains(fileNameWithoutExtension)).Select(q => q.Id).FirstOrDefaultAsync();
+
+            if (fileId == 0)
+            {
+                return BadRequest("Such file does not exist");
+            }
+            
+            //TODO: вернуть пермишны перед деплоем
+            
+            /*
+            var permission = AuthorizationHelper.CheckUsersPermissionsById(_context, _currentUser, PermissionType.Item, fileId);
+            
+            if (permission == null || !permission.Read)
+            {
+                return StatusCode(403);
+            }
+            */
+            
+            if (fileName == null)
+            {
+                return BadRequest("fileName is empty");
+            }
+            
+            // проверка формата файла
+            if (Path.GetExtension(fileName) != ".ifc")
+            {
+                return BadRequest("Incorrect file format");
+            }
+
+            var storagePath = pathServerStorage + fileName;
+            
+            
+            // проверка существования готового wexBim
+
+            var pathIfExist = currentPathServerStorage + Path.GetFileNameWithoutExtension(fileName) + ".wexBim";
+            if (SO.Exists(pathIfExist))
+            {
+                var resultIfExist = SO.OpenRead(pathIfExist);
+                return File(resultIfExist, "application/octet-stream", "file.wexBim");
+            }
+            
+            
+            // конвертация из ifc в wexBim
+            using var model = IfcStore.Open(storagePath);
+            var context = new Xbim3DModelContext(model);
+            context.CreateContext();
+
+            var wexBimFilename = Path.ChangeExtension(fileName, "wexBim");
+
+            var newStoragePath = currentPathServerStorage + wexBimFilename;
+
+            await using var wexBimFile = SO.Create(wexBimFilename);
+
+            await using var wexBimBinaryWriter = new BinaryWriter(wexBimFile);
+            model.SaveAsWexBim(wexBimBinaryWriter);
+            wexBimBinaryWriter.Close();
+
+            
+            var result = SO.OpenRead(newStoragePath);
+
+            return File(result,"application/octet-stream", "file.wexBim");
         }
 
         /// <summary>
