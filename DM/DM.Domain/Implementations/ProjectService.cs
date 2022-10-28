@@ -101,5 +101,44 @@ namespace DM.Domain.Implementations
 
             return project.Id;
         }
+
+        public async Task<bool> Update(ProjectModel projectModel)
+        {
+            var fieldForUpdate = await _context.Projects.FirstOrDefaultAsync(x => x.Id == projectModel.Id);
+
+            if (fieldForUpdate == null)
+            {
+                return false;
+            }
+
+            _context.Projects.Attach(fieldForUpdate);
+
+            fieldForUpdate.Title = projectModel.Title;
+            fieldForUpdate.Description = projectModel.Description;
+
+            await _context.SaveChangesAsync();
+
+            _context.Entry(fieldForUpdate).State = EntityState.Detached;
+
+            return true;
+        }
+
+        public async Task<bool> Delete(long projectId)
+        {
+            var result = await _context.Projects
+                .Include(x => x.Items)
+                .Include(x => x.Records)
+                .Include(x => x.Template)
+                .FirstOrDefaultAsync(x => x.Id == projectId);
+            
+            if (result == null)
+            {
+                return false;
+            }
+
+            _context.Projects.Remove(result);
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }

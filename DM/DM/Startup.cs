@@ -35,6 +35,7 @@ namespace DM
             services.AddScoped<ITemplateService, TemplateService>();
             services.AddScoped<IOrganizationService, OrganizationService>();
             services.AddScoped<IPermissionService, PermissionService>();
+            services.AddScoped<ICommentService, CommentService>();
             services.AddScoped<CurrentUserService>();
             //   services.AddScoped<IPermissionService, PermissionService>();
             services.AddDbContext<DmDbContext>(options =>
