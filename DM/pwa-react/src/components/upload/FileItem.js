@@ -4,7 +4,7 @@ import { getFile } from "../../services/filesSlice";
 export const FileItem = (file) => {
   const dispatch = useDispatch();
 
-  const handleDownload = async () => {
+  const handleDownload = () => {
     dispatch(getFile(file.file.name));
   };
 
