@@ -11,7 +11,7 @@ export function Button(props) {
       size={size || "small"}
       color={color || "primary"}
       {...other}
-      >
+      >{props.children}
     </MuiButton>
   );
 }

@@ -1,10 +1,11 @@
 import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { addNewRecord, editRecord, selectAllRecords } from "../../../../services/recordsSlice";
+import { editRecord, selectAllRecords } from "../../../../services/recordsSlice";
 import { Button, Toolbar } from "@mui/material";
 import { BiArrowBack } from "react-icons/bi";
 import * as React from "react";
 import { Controls } from "../../../controls/Controls";
+import { useState } from "react";
 
 export const RecordEditPage = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,8 @@ export const RecordEditPage = () => {
 
   const fields = Object.entries(fieldsObj);
 
+  console.log("fieldsobj", fieldsObj);
+  
   const onSubmit = (data) => {
     dispatch(editRecord({
       // name: re.name,
@@ -30,11 +33,27 @@ export const RecordEditPage = () => {
     navigate(`/record/${id}`);
   };
 
+  const [values, setValues] = useState();
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setValues({
+      ...values,
+      [name]: value
+    });
+    console.log(values);
+  };
+
+  const initialValues = fields.map(([key, value]) => [{key, value}])
+  
+  console.log(initialValues);
+  
   return (
     <div className="p-3">
       <Toolbar>
-        <Button className="ml-o m-3" onClick={goBack} size="small" variant="outlined">
-          <BiArrowBack size={24} color="#1d62ad" /></Button>
+        <Controls.Button onClick={goBack}>
+          <BiArrowBack size={24} color="#1d62ad" />
+        </Controls.Button>
       </Toolbar>
       <hr />
       <h3>Record Edit Page</h3>
@@ -52,13 +71,14 @@ export const RecordEditPage = () => {
                   label={key}
                   type="text"
                   value={value}
+                  onChange={handleInputChange}
                 />
               </div>
             );
           })}
           <Button
             className="m-2"
-            // onClick={handleSubmit(onSubmit)}
+            onClick={onSubmit}
             variant={"outlined"}>
             Submit
           </Button>
