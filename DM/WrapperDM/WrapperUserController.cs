@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Sockets;
 using System.Threading.Tasks;
+using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Authenticators;
@@ -10,33 +14,77 @@ namespace WrapperDM;
 
 public class WrapperUserController
 {
+   MemoryCache<UserModel> _usersCache = new();
    private const string Path = "api/users";
    
    public async Task<AuthenticateResponse> Authenticate(string login, string password)
    {
-      var resClient = new RestClient(UrlHelper.DmApiUrl + Path + "/authenticate");
-      var request = new RestRequest();
-
-      var reqModel = new AuthenticateRequest();
-      reqModel.Login = login;
-      reqModel.Password = password;
-      request.AddJsonBody(reqModel);
+      if (!OfflineHelper.CheckForInternetConnection())
+      {
+         // TODO: добавить кэширование токена
+      }
       
-      var response = await resClient.PostAsync(request);
-      var deserializedResponse = JsonConvert.DeserializeObject<AuthenticateResponse>(response.Content);
-      return deserializedResponse;
+      var resClient = new RestClient();
+      var requestPath = UrlHelper.DmApiUrl + Path + "/authenticate";
+      var request = new RestRequest(requestPath);
+      request.AddHeader("login", $"{login}");
+      request.AddHeader("password", $"{password}");
+      request.Method = Method.Post;
+
+      try
+      {
+         var response = await resClient.ExecuteAsync(request);
+         var deserializedResponse = JsonConvert.DeserializeObject<AuthenticateResponse>(response.Content);
+         return deserializedResponse;
+      }
+      catch (SocketException e)
+      {
+         Console.WriteLine(e);
+         return null;
+      }
    }
 
    public async Task<List<UserModel>> GetAllUsers(string token)
    {
-      var resClient = new RestClient(UrlHelper.DmApiUrl + Path)
-         {
-            Authenticator = new JwtAuthenticator(token!)
-         };
-         var request = new RestRequest();
-         var response = await resClient.GetAsync(request);
+      var resClient = new RestClient();
+      var requestPath = UrlHelper.DmApiUrl + Path;
+      var request = new RestRequest(requestPath);
+      request.AddHeader("Authentication", $"Bearer {token!}");
+      request.Method = Method.Get;
+
+      if (!OfflineHelper.CheckForInternetConnection()) // !OfflineHelper.CheckForInternetConnection()
+      {
+
+         var users = _usersCache;
+         
+         // var result = users.GetOrCreate();
+         // return result;
+      }
+      
+      try
+      {
+         var response = await resClient.ExecuteAsync(request);
          var deserializedResponse = JsonConvert.DeserializeObject<List<UserModel>>(response.Content);
+
+         foreach (var userModel in deserializedResponse)
+         {
+            var modelForCaching = new UserModel();
+            modelForCaching.Name = userModel.Name;
+            modelForCaching.Login = userModel.Login;
+            modelForCaching.Position = userModel.Position;
+            modelForCaching.Email = userModel.Email;
+            modelForCaching.Birthdate = userModel.Birthdate;
+            
+            _usersCache.GetOrCreate(userModel.Id, () => modelForCaching);
+         }
          return deserializedResponse;
+      }
+      catch (SocketException)
+      {
+         Console.WriteLine("отловлен SocketException");
+            
+         return null;
+      }
    }
    
    public async Task<UserModel> GetUserById(long userId, string token)
@@ -63,21 +111,52 @@ public class WrapperUserController
       var request = new RestRequest();
       request.AddJsonBody(userModel);
       
-      var response = await resClient.PostAsync(request);
+      var response = await resClient.ExecutePostAsync(request);
       var deserializedResponse = JsonConvert.DeserializeObject<bool>(response.Content);
       return deserializedResponse;
    }
    
    public async Task<object> DeleteUser(int userId, string token)
    {
-      var resClient = new RestClient(UrlHelper.DmApiUrl + Path + $"?userId ={userId}")
-      {
-         Authenticator = new JwtAuthenticator(token!)
-      };
-      var request = new RestRequest();
-      request.AddParameter("userId", userId);
+      var resClient = new RestClient();
+      var requestPath = UrlHelper.DmApiUrl + Path + $"?userId={userId}";
+      var request = new RestRequest(requestPath);
+      request.AddHeader("Authentication", $"Bearer {token!}");
+      request.Method = Method.Delete;
 
-      var response = await resClient.DeleteAsync(request);
-      return response;
+      // TODO: поменять условие
+      if (!OfflineHelper.CheckForInternetConnection()) // !OfflineHelper.CheckForInternetConnection()
+      {
+         var headers = request.Parameters
+            .Where(x => x.Type == ParameterType.HttpHeader)
+            .Select(x => new KeyValuePair<string,string>(x.Name, x.Value.ToString()))
+            .ToList(); // в RestSharpе хэдэры приватные и нельзя вытащить напрямую
+         
+         using (var connection = new SqliteConnection($"Data Source={SqliteDatabaseContext.DatabaseName}"))
+         {
+            connection.Open();
+
+            var headersForSQLite = headers[0].ToString().Replace("[", string.Empty).Replace("]", string.Empty);
+            SqliteCommand command = new SqliteCommand();
+            command.Connection = connection;
+            command.CommandText =
+               $"INSERT INTO SavedRequests (Body, Headers, Path, Method) VALUES " +
+               $"({userId}, \"{headersForSQLite}\", \"{requestPath}\", \"{request.Method.ToString()}\")";
+            command.ExecuteNonQuery();
+         }
+
+         return null;
+      }
+
+      try
+      {
+         var response = await resClient.ExecuteAsync(request);
+         return null;
+      }
+      catch (SocketException e)
+      {
+         Console.WriteLine(e);
+         return null;
+      }
    }
 }

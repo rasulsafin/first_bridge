@@ -129,16 +129,13 @@ namespace DM.Controllers
 
             var storagePath = pathServerStorage + fileName;
             
-            
             // проверка существования готового wexBim
-
             var pathIfExist = currentPathServerStorage + Path.GetFileNameWithoutExtension(fileName) + ".wexBim";
             if (SO.Exists(pathIfExist))
             {
                 var resultIfExist = SO.OpenRead(pathIfExist);
                 return File(resultIfExist, "application/octet-stream", "file.wexBim");
             }
-            
             
             // конвертация из ifc в wexBim
             using var model = IfcStore.Open(storagePath);

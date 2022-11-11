@@ -1,4 +1,5 @@
-﻿namespace WrapperDM.Entities
+﻿#nullable enable
+namespace WrapperDM.Entities
 {
     /// <summary>
     /// Object .bim, ifc, and png for tests

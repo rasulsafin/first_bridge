@@ -4,7 +4,6 @@ namespace WrapperDM.Entities
 {
     public class UserEntity : BaseEntity
     {
-        /// TODO: PASSWORDHASH
         public string? Name { get; set; }
         public string? LastName { get; set; }
         public string? FathersName { get; set; }
