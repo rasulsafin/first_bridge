@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace WrapperDM.Helpers;
@@ -19,5 +21,11 @@ public class MemoryCache<TItem>
             _cache.Set(key, cacheEntry);
         }
         return cacheEntry;
+    }
+    
+    public TItem GetSection(string key)
+    {
+        var memoryCacheObject = _cache.Get(key);
+        return (TItem)memoryCacheObject;
     }
 }

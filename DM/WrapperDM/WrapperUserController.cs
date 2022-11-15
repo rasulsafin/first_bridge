@@ -14,7 +14,8 @@ namespace WrapperDM;
 
 public class WrapperUserController
 {
-   MemoryCache<UserModel> _usersCache = new();
+   MemoryCache<Dictionary<long, UserModel>> _usersCache = new();
+   private const string UsersKey = "userCache";
    private const string Path = "api/users";
    
    public async Task<AuthenticateResponse> Authenticate(string login, string password)
@@ -52,13 +53,12 @@ public class WrapperUserController
       request.AddHeader("Authentication", $"Bearer {token!}");
       request.Method = Method.Get;
 
-      if (!OfflineHelper.CheckForInternetConnection()) // !OfflineHelper.CheckForInternetConnection()
+      // получаем из кэша
+      if (!OfflineHelper.CheckForInternetConnection())
       {
+         var users = _usersCache.GetSection(UsersKey).Values.ToList();
 
-         var users = _usersCache;
-         
-         // var result = users.GetOrCreate();
-         // return result;
+         return users;
       }
       
       try
@@ -66,17 +66,24 @@ public class WrapperUserController
          var response = await resClient.ExecuteAsync(request);
          var deserializedResponse = JsonConvert.DeserializeObject<List<UserModel>>(response.Content);
 
-         foreach (var userModel in deserializedResponse)
+         // добавляем в кэш
+         var userDictionary = new Dictionary<long, UserModel>();
+
+         foreach (var userModel in deserializedResponse) // добавляем в словарь ключ/значение
          {
             var modelForCaching = new UserModel();
+            modelForCaching.Id = userModel.Id;
             modelForCaching.Name = userModel.Name;
             modelForCaching.Login = userModel.Login;
             modelForCaching.Position = userModel.Position;
             modelForCaching.Email = userModel.Email;
             modelForCaching.Birthdate = userModel.Birthdate;
             
-            _usersCache.GetOrCreate(userModel.Id, () => modelForCaching);
+            userDictionary.Add(modelForCaching.Id, modelForCaching);
          }
+         
+         _usersCache.GetOrCreate("userCache", () => userDictionary);
+         
          return deserializedResponse;
       }
       catch (SocketException)
@@ -86,7 +93,14 @@ public class WrapperUserController
          return null;
       }
    }
-   
+
+   public async Task<List<UserModel>> GetFromCacheChecker() // для проверки
+   {
+      var users = _usersCache.GetSection(UsersKey).Values.ToList();
+
+      return users;
+   }
+
    public async Task<UserModel> GetUserById(long userId, string token)
    {
       var resClient = new RestClient(UrlHelper.DmApiUrl + Path + $"/{userId}")
