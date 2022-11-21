@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 using DM.DAL;
 using Xbim.Ifc;
 using Xbim.ModelGeometry.Scene;
-using Xbim.Geometry.Engine;
 using SO=System.IO.File;
 
 namespace DM.Controllers

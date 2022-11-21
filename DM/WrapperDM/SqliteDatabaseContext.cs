@@ -17,6 +17,7 @@ public static class SqliteDatabaseContext
             return;
         }
         
+        // TODO: поменять на ORM при необходимости
         using (var connection = new SqliteConnection($"Data Source={DatabaseName}"))
         {
             connection.Open();
@@ -24,7 +25,7 @@ public static class SqliteDatabaseContext
             SqliteCommand command = new SqliteCommand();
             command.Connection = connection;
             command.CommandText = "CREATE TABLE SavedRequests(_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +
-                                  "Body TEXT NOT NULL, Headers TEXT NOT NULL, Path TEXT NOT NULL, Method TEXT NOT NULL)";
+                                  "Body TEXT NOT NULL, Headers TEXT, Path TEXT NOT NULL, Method TEXT NOT NULL)";
             command.ExecuteNonQuery();
 
             command.CommandText =

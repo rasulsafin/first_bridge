@@ -1,13 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace WrapperDM.Helpers;
 
 public class MemoryCache<TItem>
 {
-    private MemoryCache _cache = new MemoryCache(new MemoryCacheOptions());
+    private static MemoryCache _cache = new MemoryCache(new MemoryCacheOptions());
  
     public TItem GetOrCreate(object key, Func<TItem> createItem)
     {

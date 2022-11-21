@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
@@ -14,6 +11,7 @@ namespace WrapperDM;
 
 public class BackgroundTaskManager // POST, PUT, DELETE
 {
+    public const string SavedRequestsTable = "SavedRequests";
     public void StartWorker()
     {
         var delay = TimeSpan.FromSeconds(10);
@@ -35,7 +33,7 @@ public class BackgroundTaskManager // POST, PUT, DELETE
             }
         );
     }
-    
+
     public async Task Execute()
     {
         var limit = 10;
@@ -44,17 +42,17 @@ public class BackgroundTaskManager // POST, PUT, DELETE
             connection.Open();
             var command = new SqliteCommand();
             command.Connection = connection;
-            
-            command.CommandText = @$"SELECT * FROM SavedRequests ORDER BY CreatedAt LIMIT {limit}";
-            
+
+            command.CommandText = @$"SELECT * FROM {SavedRequestsTable} ORDER BY CreatedAt LIMIT {limit}";
+
             var reader = command.ExecuteReader();
             var savedRequests = new List<SavedRequestEntity>();
 
             using (reader)
             {
                 if (!reader.HasRows) return; // если нет данных
-                
-                while (reader.Read())   // построчно считываем данные
+
+                while (reader.Read()) // построчно считываем данные
                 {
                     var savedRequest = new SavedRequestEntity();
                     foreach (var f in reader)
@@ -62,6 +60,7 @@ public class BackgroundTaskManager // POST, PUT, DELETE
                         savedRequest.Body = (string)reader[0]; // body
                         //заполнить все поля
                     }
+
                     Console.WriteLine(savedRequest);
                     savedRequests.Add(savedRequest);
                 }
@@ -72,16 +71,49 @@ public class BackgroundTaskManager // POST, PUT, DELETE
                 using var client = new RestClient();
                 var request = new RestRequest(item.Path);
                 request.Method = item.Method;
-                var headers = JsonConvert.DeserializeObject<List<KeyValuePair<string,string>>>(item.Headers);
-                request.AddHeaders(headers);
-
-                if (!string.IsNullOrWhiteSpace(item.Body))
+                
+                if (item.Headers == null && !string.IsNullOrEmpty(item.Body)) // для CREATE запросов
                 {
-                    request.AddStringBody(item.Body, DataFormat.Json);
+                    request.AddJsonBody(item.Body); // AddStringBody если не работает
+                }
+                
+                var headers = JsonConvert.DeserializeObject<List<KeyValuePair<string, string>>>(item.Headers);
+
+                if (headers != null) // DELETE
+                {
+                    request.AddHeaders(headers);
+
+                    if (!string.IsNullOrEmpty(item.Body))
+                    {
+                        request.AddStringBody(item.Body, DataFormat.Json);
+                    }
                 }
 
-                var response = await client.ExecuteAsync(request);
+                try
+                {
+                    await client.ExecuteAsync(request);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+                
             }
+            connection.Close(); // нужно ли?
+        }
+
+        // TODO: Проверить работоспособность
+        // удаление всех записей после того, как запросы отработали
+        using (var connection = new SqliteConnection($"Data Source={SqliteDatabaseContext.DatabaseName}"))
+        {
+            connection.Open();
+            var command = new SqliteCommand();
+            command.Connection = connection;
+
+            command.CommandText = @$"DELETE * FROM {SavedRequestsTable}";
+
+            command.ExecuteNonQuery();
+
         }
     }
 }
