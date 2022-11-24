@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using Microsoft.Data.Sqlite;
 
@@ -27,7 +26,8 @@ public static class SqliteDatabaseContext
             command.CommandText = "CREATE TABLE SavedRequests(_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, " +
                                   "Body TEXT NOT NULL, Headers TEXT, Path TEXT NOT NULL, Method TEXT NOT NULL)";
             command.ExecuteNonQuery();
-
+            
+            /*
             command.CommandText =
                 "CREATE TABLE Users(_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, Name TEXT NOT NULL, LastName TEXT NOT NULL," +
                 "FathersName TEXT NOT NULL, Login TEXT, Email TEXT, Roles TEXT, Birthdate TEXT, Snils NOT NULL)";
@@ -39,6 +39,7 @@ public static class SqliteDatabaseContext
 
             command.CommandText = "CREATE TABLE Projects(_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, Title TEXT, Description TEXT)";
             command.ExecuteNonQuery();
+            */
             // command.Dispose();
 
             Console.WriteLine($"Таблица {DatabaseName} создана");
