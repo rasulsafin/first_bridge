@@ -10,7 +10,7 @@ import { AuthProvider } from "./context/AuthProvider";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
       <AuthProvider>
@@ -18,7 +18,7 @@ root.render(
       </AuthProvider>
       </PersistGate>
     </Provider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
 // If you want your app to work offline and load faster, you can change

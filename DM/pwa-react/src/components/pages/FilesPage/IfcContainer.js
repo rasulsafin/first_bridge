@@ -1,95 +1,76 @@
-import React, { useEffect, createRef, useState, forwardRef } from 'react';
-
-import {
-  Popover,
-  Grid,
-  Typography,
-} from '@mui/material';
-
-import { IFCSLAB } from "web-ifc";
-import { IfcViewerAPI } from 'web-ifc-viewer';
-
-interface IfcRecord {
-  [key: string]: string;
-}
+import React, { forwardRef, useState } from "react";
 
 const IfcContainer = forwardRef((props, ref) => {
-
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [curIfcRecords, setIfcRecords] = useState();
-
+  const [expressId, setExpressId] = useState("");
+  const [currentModel, setCurrentModel] = useState();
   const viewer = props.viewer;
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  
 
   const ifcOnClick = async (event) => {
     if (viewer) {
       const result = await viewer.IFC.pickIfcItem(true);
+      setCurrentModel(result)
       if (result) {
-        const props = await viewer.IFC.getProperties(result.modelID, result.id, false);
+        const props = await viewer.IFC.getProperties(result.modelID, result.id, true, true);
         console.log(props);
         const type = viewer.IFC.loader.ifcManager.getIfcType(result.modelID, result.id);
-        // convert props to record
-        if (props) {
-          let ifcRecords: IfcRecord = {};
-          ifcRecords['Entity Type'] = type;
-          ifcRecords['GlobalId'] = props.GlobalId && props.GlobalId?.value;
-          ifcRecords['Name'] = props.Name && props.Name?.value;
-          ifcRecords['ObjectType'] = props.ObjectType && props.ObjectType?.value;
-          ifcRecords['PredefinedType'] = props.PredefinedType && props.PredefinedType?.value;
-          setIfcRecords(ifcRecords);
-        }
-
-        setAnchorEl(event.target);
+        console.log("type", viewer, type, result.modelID, result.id);
+        
+        const structure = await viewer.IFC.getSpatialStructure(result.modelID, true)
+        console.log(structure)
+        // const items = await viewer.IFC.getAllItemsOfType(result.modelID, props.type, true)
+        // console.log("items", items);
       }
     }
   };
 
-  const ifcOnRightClick = async () => {
+  console.log(currentModel)
+  const selectItemById = async () => {
     if (viewer) {
-      viewer.clipper.deleteAllPlanes();
-      viewer.clipper.createPlane();
+      const modelID = viewer.IFC.getModelID();
+
+      const itemById = await viewer.IFC.selector.pickIfcItemsByID(modelID, 39385, true);
+      console.log(itemById)
     }
+    
   }
 
+  const getAllItems = async () => {
+    if (viewer) {
+      console.log(currentModel.id)
+      const items = await viewer.IFC.getAllItemsOfType(currentModel.id, props.type, true)
+      console.log("items", items);
+    }
+
+  }
+  
   return (
     <>
-      <div className={'ifcContainer'}
+      <div>
+        <input 
+          type="text" 
+          width="100px"
+          onChange={event => setExpressId(event.target.value)}
+        ></input>
+        <button
+        onClick={selectItemById}
+        >select by id</button>
+          <button
+            onClick={getAllItems}
+          >get all items</button>
+      </div>
+      <div
+        style={{
+          position: "relative",
+          width: "80vw",
+          height: "80vh",
+          overflow: "hidden"
+        }}
+        className="ifcContainer"
            ref={ref}
            onDoubleClick={ifcOnClick}
-           onContextMenu={ifcOnRightClick}
            onMouseMove={viewer && (() => viewer.IFC.selector.prePickIfcItem())}
       />
-      <Popover
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-      >
-        <Grid
-          container
-          component='dl'
-          spacing={2}
-          sx={{ p: 2 }}>
-          <Grid item>
-            {curIfcRecords && Object.keys(curIfcRecords).map((key) =>
-              curIfcRecords[key] &&
-              <React.Fragment key={key}>
-                <Typography component='dt' variant='body2'>{key}</Typography>
-                <Typography sx={{ pb: 1 }} component='dd'>{curIfcRecords[key]}</Typography>
-              </React.Fragment>
-            )}
-          </Grid>
-        </Grid>
-      </Popover>
     </>
   );
 });
