@@ -34,6 +34,10 @@ export const ProjectDetailPage = () => {
     navigate(`/project/${id}/edit`);
   }
 
+  function handleToIfc() {
+    navigate(`/ifc`);
+  }
+
   return (
     <div className="p-3">
       <Toolbar>
@@ -45,6 +49,7 @@ export const ProjectDetailPage = () => {
         <Controls.Button onClick={handleToCreateRecordPage}>Add Record</Controls.Button>
         <Controls.Button onClick={handleToCreateTemplatePage}>Add Template</Controls.Button>
         <Controls.Button onClick={handleToFilesPage}>Files</Controls.Button>
+        <Controls.Button onClick={handleToIfc}>ifc</Controls.Button>
       </Toolbar>
       <hr />
       <div style={{

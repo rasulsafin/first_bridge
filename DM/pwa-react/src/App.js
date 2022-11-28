@@ -27,6 +27,7 @@ import { UserCreatePage } from "./components/pages/UsersPage/components/UserCrea
 import { UserEditPage } from "./components/pages/UsersPage/components/UserEditPage";
 import { OrganizationCreatePage } from "./components/pages/OrganizationsPage/components/OrganizationCreatePage";
 import { RecordEditPage } from "./components/pages/RecordsPage/components/RecordEditPage";
+import ViewerIfc from "./components/pages/FilesPage/ViewerIfc";
 
 function App() {
   window.addEventListener("load", () => {
@@ -72,6 +73,9 @@ function App() {
                 <Route path="/template/create" element={<TemplateCreatePage />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/admin" element={<AdminPage />} />
+
+                <Route path="/ifc" element={<ViewerIfc />} />
+
               </Route>
 
               <Route path="/login" element={<LoginPage />} />
