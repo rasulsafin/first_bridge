@@ -42,6 +42,11 @@ export function Appbar() {
   const toSettings = () => {
     navigate(`/settings`);
   };
+  
+  const logOut = () => {
+    dispatch(removeAuthUser())
+    navigate(`/login`);
+  }
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -65,7 +70,7 @@ export function Appbar() {
       <MenuItem onClick={toProfile}>Profile</MenuItem>
       <MenuItem onClick={toSettings}>Settings</MenuItem>
       {userAuth &&
-        <MenuItem onClick={() => dispatch(removeAuthUser())}>Log out</MenuItem>}
+        <MenuItem onClick={logOut}>Log out</MenuItem>}
     </Menu>
   );
 

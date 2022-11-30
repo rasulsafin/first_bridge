@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { axiosInstance } from "../axios/axiosInstance";
-import { Organizations } from "../components/pages/OrganizationsPage/Organizations";
 
 const initialState = [];
 
@@ -21,6 +20,16 @@ export const editOrganization = createAsyncThunk(
     const response = await axiosInstance.put("api/organization", editableOrg);
     return response.data;
   });
+
+export const deleteOrganization = createAsyncThunk(
+  "organizations/deleteOrganization", async (id) => {
+    await axiosInstance.delete("api/organization", {
+      params: {
+        organizationId: id
+      }
+    }).then(() => console.log("Delete successfully"));
+  }
+)
 
 export const organizationsSlice = createSlice({
   name: "organizations",
