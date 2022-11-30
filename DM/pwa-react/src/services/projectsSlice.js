@@ -15,6 +15,16 @@ export const addNewProject = createAsyncThunk(
     return response.data;
   });
 
+export const deleteProject = createAsyncThunk(
+  "projects/deleteProject", async (id) => {
+    await axiosInstance.delete("api/project", {
+      params: {
+        projectId: id
+      }
+    }).then(() => console.log("Delete successfully"));
+  }
+)
+
 export const projectsSlice = createSlice({
   name: "projects",
   initialState,

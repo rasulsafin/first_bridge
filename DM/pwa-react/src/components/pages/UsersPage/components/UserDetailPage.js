@@ -180,27 +180,6 @@ export const UserDetailPage = () => {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} variant="outlined" color="error">Delete</Button>
-            <Button onClick={handleClose} variant="outlined" autoFocus>
-              Cancel
-            </Button>
-          </DialogActions>
-        </Dialog>
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            {"You really delete this User?"}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Are you sure?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
             <Button onClick={handleDeleteUser} variant="outlined" color="error">Delete</Button>
             <Button onClick={handleClose} variant="outlined" autoFocus>
               Cancel

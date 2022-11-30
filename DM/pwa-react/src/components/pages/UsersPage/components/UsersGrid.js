@@ -39,7 +39,7 @@ export default function UsersGrid() {
 
   useEffect(() => {
     dispatch(fetchUsers());
-  }, []);
+  }, [dispatch]);
 
   const handleRowDoubleClick = ({ row }) => {
     navigate(`/user/${row.id}`);

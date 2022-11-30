@@ -28,6 +28,7 @@ import { UserEditPage } from "./components/pages/UsersPage/components/UserEditPa
 import { OrganizationCreatePage } from "./components/pages/OrganizationsPage/components/OrganizationCreatePage";
 import { RecordEditPage } from "./components/pages/RecordsPage/components/RecordEditPage";
 import ViewerIfc from "./components/pages/FilesPage/ViewerIfc";
+import { OrganizationEditPage } from "./components/pages/OrganizationsPage/components/OrganizationEditPage";
 
 function App() {
   window.addEventListener("load", () => {
@@ -58,7 +59,8 @@ function App() {
                 <Route path="/organizations" element={<Organizations />} />
                 <Route path="/organization/:id" element={<OrganizationDetailPage />} />
                 <Route path="/organization/create" element={<OrganizationCreatePage />} />
-                
+                <Route path="/organization/:id/edit" element={<OrganizationEditPage />} />
+
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/project/:id" element={<ProjectDetailPage />} />
                 <Route path="/project/:id/files" element={<FilesPage />} />

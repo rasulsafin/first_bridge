@@ -97,7 +97,7 @@ export const RecordDetailPage = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} variant="outlined" color="error">Delete</Button>
+          <Button onClick={handleDeleteRecord} variant="outlined" color="error">Delete</Button>
           <Button onClick={handleClose} variant="outlined" autoFocus>
             Cancel
           </Button>
