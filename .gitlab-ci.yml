@@ -1,0 +1,92 @@
+stages:
+  - build
+  - test
+  - push
+  - deploy
+  - clean
+
+variables:
+  IMAGE_NAME_FRONTEND: $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:backend-${CI_COMMIT_REF_SLUG}.$CI_PIPELINE_ID
+  IMAGE_NAME_BACKEND: $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:frontend-${CI_COMMIT_REF_SLUG}.$CI_PIPELINE_ID
+
+.deploy_prox0_tmpl:
+  image:
+    name: docker/compose:alpine-1.29.2
+  variables:
+    DOCKER_HOST: ssh://dev@$DEPLOY_HOST
+  before_script:
+    # Setup SSH credentials and known host
+    - which ssh-agent ||  apk add --no-cache openssh-client
+    - mkdir -p ~/.ssh
+    - echo "$GIT_DEPLOY_KEY" | base64 -d | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - eval "$(ssh-agent -s)"
+    - ssh-add ~/.ssh/id_rsa
+    - ssh-keyscan $DEPLOY_HOST >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+
+
+build_back:
+  stage: build
+  tags:
+    - git2-docker-on-host
+  script:
+    - env
+    - docker build -t $IMAGE_NAME_BACKEND ./DM/
+
+build_front:
+  stage: build
+  tags:
+    - git2-docker-on-host
+  script:
+    - docker build -t $IMAGE_NAME_FRONTEND ./DM/pwa-react/
+
+tests:
+  stage: test
+  tags:
+    - git2-docker-on-host
+  script:
+    - docker run --rm --entrypoint "dotnet" -t  $IMAGE_NAME_BACKEND   DM.Tests.dll
+
+
+push:
+  stage: push
+  tags:
+    - git2-docker-on-host
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+  script:
+    - docker push $IMAGE_NAME_BACKEND
+    - docker push $IMAGE_NAME_FRONTEND
+
+
+start_test_stand:
+  extends: .deploy_prox0_tmpl
+  stage: deploy
+  tags:
+    - git2-docker-on-host
+  script:
+    - docker info
+    - docker pull $IMAGE_NAME_FRONTEND
+    - docker pull $IMAGE_NAME_BACKEND
+    - docker-compose -f ./DM/docker-compose-dev.yml up -d
+  when: manual
+
+stop_test_stand:
+  extends: .deploy_prox0_tmpl
+  stage: deploy
+  tags:
+    - git2-docker-on-host
+  script:
+    - docker-compose -f ./DM/docker-compose-dev.yml down
+    - docker image rm $IMAGE_NAME_FRONTEND $IMAGE_NAME_BACKEND
+  when: manual
+
+clean_img:
+  stage: clean
+  tags:
+    - git2-docker-on-host
+  script:
+    - docker image rm $IMAGE_NAME_FRONTEND $IMAGE_NAME_BACKEND
+  when: always
