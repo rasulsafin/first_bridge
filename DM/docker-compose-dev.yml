@@ -23,6 +23,12 @@ services:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "avanger1"
       POSTGRES_DB: "dm"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.tcp.routers.db-test-port-5010.entryPoints=db-test1"
+      - "traefik.tcp.routers.db-test-port-5010.rule=ClientIP(`192.168.0.0/16`)"
+      - "traefik.tcp.routers.db-test-port-5010.service=db-test-service"
+      - "traefik.tcp.services.db-test-service.loadbalancer.server.port=5432"
 
   pwa-react:
     container_name:  dm_pwa-react
