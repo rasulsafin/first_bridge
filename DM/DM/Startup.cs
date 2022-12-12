@@ -12,6 +12,7 @@ using System;
 using DM.Domain.Helpers;
 using System.Collections.Generic;
 using DM.DAL;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace DM
 {
@@ -91,11 +92,17 @@ namespace DM
             {
                 options.AddPolicy("cors", policy =>
                 {
-                    policy.WithOrigins("http://localhost:3000");
+                    policy.WithOrigins("http://localhost:3000", "http://dm-dev.briogroup.ru");
                     policy.WithMethods("GET", "POST", "PUT", "DELETE");
                     policy.AllowAnyHeader();
                     policy.AllowCredentials();
                 });
+            });
+            
+            services.Configure<FormOptions>(o => {
+                o.ValueLengthLimit = int.MaxValue;
+                o.MultipartBodyLengthLimit = int.MaxValue;
+                o.MemoryBufferThreshold = int.MaxValue;
             });
         }
 

@@ -25,7 +25,7 @@ namespace DM.Controllers
             _currentUser = userService.CurrentUser;
         }
 
-        [Authorize(RoleConst.SuperAdmin)]
+        [Authorize(RoleConst.Admin)]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -35,7 +35,7 @@ namespace DM.Controllers
             return Ok(projects);
         }
 
-        [Authorize(RoleConst.UserAdmin)]
+        [Authorize(RoleConst.Admin)]
         [HttpGet("{projectId}")]
         public async Task<IActionResult> GetById(long projectId)
         {
@@ -53,7 +53,7 @@ namespace DM.Controllers
             return Ok(project);
         }
 
-        [Authorize(RoleConst.UserAdmin)]
+        [Authorize(RoleConst.Admin)]
         [HttpPost]
         public async Task<IActionResult> Create(ProjectModel projectModel)
         {
@@ -69,7 +69,7 @@ namespace DM.Controllers
             return Ok(id);
         }
         
-        [Authorize(RoleConst.UserAdmin)]
+        [Authorize(RoleConst.Admin)]
         [HttpPut]
         public async Task<IActionResult> Update(ProjectModel projectModel)
         {
@@ -91,12 +91,12 @@ namespace DM.Controllers
         }
 
 
-        [Authorize(RoleConst.UserAdmin)]
+        [Authorize(RoleConst.Admin)]
         [HttpDelete]
         public async Task<IActionResult> Delete(long projectId)
         {
             var permission = AuthorizationHelper.CheckUsersPermissionsForDelete(_context, _currentUser, PermissionType.Record, projectId);
-
+            
             if (permission == null)
             {
                 return StatusCode(403);

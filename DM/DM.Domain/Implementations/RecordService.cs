@@ -33,7 +33,7 @@ namespace DM.Domain.Implementations
 
             foreach (var r in records)
             {
-                if (_currentUser.Roles != "SuperAdmin")
+                if (_currentUser.Roles != "Admin")
                 {
                     var permission = AuthorizationHelper.CheckUsersPermissionsById(_context, _currentUser, PermissionType.Record, r.Id);
 
