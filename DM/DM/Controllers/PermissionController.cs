@@ -17,7 +17,7 @@ namespace DM.Controllers
             _permissionService = permissionService;
         }
 
-        [Authorize(RoleConst.SuperAdmin)]
+        [Authorize(RoleConst.Admin)]
         [HttpGet]
         public async Task<IActionResult> GetAllPermissionsOfUser(long userId)
         {
@@ -31,7 +31,7 @@ namespace DM.Controllers
             return Ok(permissions);
         }
 
-        [Authorize(RoleConst.SuperAdmin)]
+        [Authorize(RoleConst.Admin)]
         [HttpPost]
         public async Task<IActionResult> AddPermissionToUserOrUpdateIfExist(PermissionModel permissionModel)
         {
@@ -42,7 +42,7 @@ namespace DM.Controllers
             return Ok(true);
         }
 
-        [Authorize(RoleConst.SuperAdmin)]
+        [Authorize(RoleConst.Admin)]
         [HttpDelete]
         public async Task<IActionResult> DeletePermissionOfUser(PermissionModel permissionModel)
         {
