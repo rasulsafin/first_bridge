@@ -4,6 +4,7 @@ using DM.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using DM.Helpers;
 using static DM.Validators.ServiceResponsesValidator;
 
 namespace DM.Controllers
@@ -133,7 +134,7 @@ namespace DM.Controllers
         /// <response code="404">User was not found.</response>
         /// <response code="500">Something went wrong while deleting user.</response>
         [HttpDelete]
-       // [Authorize(RoleConst.UserAdmin)]
+       [Authorize(RoleConst.Admin)]
         public async Task<IActionResult> Delete(int userId)
         {
             try

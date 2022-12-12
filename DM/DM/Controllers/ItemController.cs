@@ -26,7 +26,7 @@ namespace DM.Controllers
         private readonly IItemService _itemService;
         public readonly DmDbContext _context;
         private readonly UserEntity _currentUser;
-        private static string pathServerStorage = @$"E:\others\";
+        private static string pathServerStorage = @$"C:\others\";
         private static string currentPathServerStorage = "E:\\full-project\\document-manager\\DM\\DM\\";
         private int lastVersion = 1;  // variable for version tracking
 
@@ -41,7 +41,7 @@ namespace DM.Controllers
         /// Get records about all documents
         /// </summary>
         /// <returns>list of items</returns>
-        [Authorize(RoleConst.SuperAdmin)]
+        [Authorize(RoleConst.Admin)]
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -59,17 +59,19 @@ namespace DM.Controllers
         /// <summary>
         /// Download file with Name specified in Db
         /// </summary>
-        [Authorize(RoleConst.UserAdmin)]
+        [Authorize(RoleConst.Admin)]
         [HttpGet("download")]
         public async Task<IActionResult> Download(string fileName)
         {
             var fileId = await _context.Items.Where(x => x.Name == fileName).Select(q => q.Id).FirstOrDefaultAsync(); 
             var permission = AuthorizationHelper.CheckUsersPermissionsById(_context, _currentUser, PermissionType.Item, fileId);
 
-            if (permission == null || !permission.Read)
-            {
-                return StatusCode(403);
-            }
+            var folderName = fileName.Remove(fileName.Length - 4);
+            
+            // if (permission == null || !permission.Read)
+            // {
+            //     return StatusCode(403);
+            // }
             
             if (fileName == null)
             {
@@ -79,6 +81,7 @@ namespace DM.Controllers
             WebClient myWebClient = new WebClient();
             // Concatenate the domain with the Web resource filename.
             var myStringWebResource = pathServerStorage + fileName;
+            // var myStringWebResource = pathServerStorage + folderName + @$"\" + fileName;
             // Download the Web resource and save it into the current filesystem folder.
             try
             {
@@ -92,7 +95,7 @@ namespace DM.Controllers
             return Ok();
         }
         
-        [Authorize(RoleConst.UserAdmin)]
+        [Authorize(RoleConst.Admin)]
         [HttpGet("downloadWexBim")]
         public async Task<IActionResult> DownloadWexBim(string fileName) // название файла вместе с расширением .ifc
         {
@@ -161,7 +164,7 @@ namespace DM.Controllers
         /// Upload file with versioning
         /// </summary>
         /// <returns>id of uploaded file</returns>
-        [Authorize(RoleConst.UserAdmin)]
+        [Authorize(RoleConst.Admin)]
         [HttpPost, DisableRequestSizeLimit, Route("file")]
         public async Task<IActionResult> Post(long project, IFormFile file)
         {

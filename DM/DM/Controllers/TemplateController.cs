@@ -18,7 +18,7 @@ namespace DM.Controllers
         }
 
 
-        [Authorize(RoleConst.UserAdmin)]
+        [Authorize(RoleConst.Admin)]
         [HttpGet()]
         public async Task<IActionResult> GetProjectTemplateOfRecord(long projectId)
         {
@@ -29,7 +29,7 @@ namespace DM.Controllers
             return Ok(templates);
         }
 
-        [Authorize(RoleConst.UserAdmin)]
+        [Authorize(RoleConst.Admin)]
         [HttpPost()]
         public IActionResult AddTemplateToProject(TemplateModel templateModel)
         {
@@ -38,7 +38,7 @@ namespace DM.Controllers
             return Ok(template);
         }
 
-        [Authorize(RoleConst.UserAdmin)]
+        [Authorize(RoleConst.Admin)]
         [HttpPut()]
         public IActionResult EditExistingTemplateOfProject(TemplateModelForEdit templateModelForEdit)
         {
