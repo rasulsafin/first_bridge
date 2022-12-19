@@ -12,6 +12,12 @@ services:
     image: $IMAGE_NAME_BACKEND
     environment:
       - TZ=Europe/Moscow
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dm-app.entryPoints=http"
+      - "traefik.http.routers.dm-app.rule=Host(`dm-dev.briogroup.ru`) && PathPrefix(`/api/`)"
+      - "traefik.http.routers.dm-app.service=dm-app-service"
+      - "traefik.http.services.dm-app-service.loadbalancer.server.port=80"
 
   database:
     container_name: dm_db
