@@ -92,7 +92,7 @@ namespace DM
             {
                 options.AddPolicy("cors", policy =>
                 {
-                    policy.WithOrigins("http://localhost:3000", "http://dm-dev.briogroup.ru");
+                    policy.WithOrigins("http://localhost:3000", "http://dm-dev.briogroup.ru", "http://dm-dev.briogroup.ru:443");
                     policy.WithMethods("GET", "POST", "PUT", "DELETE");
                     policy.AllowAnyHeader();
                     policy.AllowCredentials();
