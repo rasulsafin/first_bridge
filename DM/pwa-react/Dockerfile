@@ -5,16 +5,12 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 
-COPY ./src ./src
-
 COPY ./public ./public
 
 RUN npm install  --omit=dev
 
 COPY . .
 
-EXPOSE 3000
-
-RUN npm build
+EXPOSE 80
 
 CMD [ "npm", "start" ]

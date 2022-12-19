@@ -15,7 +15,7 @@ export const addNewUser = createAsyncThunk(
     return response.data;
   });
 
-export const EditUser = createAsyncThunk(
+export const editUser = createAsyncThunk(
   "users/editUser", async (editableUser) => {
     const response = await axiosInstance.put("api/users", editableUser);
     return response.data;

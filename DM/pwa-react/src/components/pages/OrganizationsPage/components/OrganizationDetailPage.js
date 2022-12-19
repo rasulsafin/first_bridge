@@ -48,7 +48,7 @@ export const OrganizationDetailPage = () => {
         <Button className="m-3" size="small" variant="outlined" color="error" onClick={handleClickOpen}>Delete organization</Button>
       </Toolbar>
       <hr />
-      <h3>Project Detail Page</h3>
+      <h3>Organization Detail Page</h3>
       <div style={{
         border: "black solid 2px",
         width: "40vh",
