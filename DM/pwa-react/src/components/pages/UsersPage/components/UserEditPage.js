@@ -5,7 +5,7 @@ import { useParams } from "react-router";
 import { Controls } from "../../../controls/Controls";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { EditUser, selectAllUsers } from "../../../../services/usersSlice";
+import { editUser, selectAllUsers } from "../../../../services/usersSlice";
 import { openSnackbar } from "../../../../services/snackbarSlice";
 import { getUpdateInputDataFromValues } from "../utils/getUpdateInputDataFromValues";
 import UserForm from "./UserForm";
@@ -37,7 +37,7 @@ export const UserEditPage = () => {
         initialValues={initialValues}
         onSubmit={(values, formikHelpers) => {
           console.log(values);
-          dispatch(EditUser(values));
+          dispatch(editUser(values));
           dispatch(openSnackbar());
           formikHelpers.resetForm();
           navigate(`/users`);

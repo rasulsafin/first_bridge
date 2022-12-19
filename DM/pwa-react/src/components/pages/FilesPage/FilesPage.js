@@ -1,5 +1,5 @@
-import { Button, ListItem, ListItemIcon, ListItemText, Toolbar } from "@mui/material";
-import { createRef, useEffect, useState } from "react";
+import { Toolbar } from "@mui/material";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as React from "react";
 import { BiArrowBack } from "react-icons/bi";
@@ -8,9 +8,6 @@ import { fetchFiles, selectAllFiles } from "../../../services/filesSlice";
 import { UploadFile } from "../../upload/UploadFile";
 import { FileItem } from "../../upload/FileItem";
 import { Controls } from "../../controls/Controls";
-import { ViewerXbim } from "./ViewerXbim";
-import ViewerIfc from "./ViewerIfc";
-// import { ViewerIFC } from "./ViewerIFC";
 
 export const FilesPage = () => {
   const dispatch = useDispatch();
@@ -25,8 +22,6 @@ export const FilesPage = () => {
     dispatch(fetchFiles());
   }, [dispatch]);
 
-  console.log(files);
-  
   return (
     <div className="p-3">
       <Toolbar>
@@ -36,11 +31,7 @@ export const FilesPage = () => {
       <hr />
       <h3>Files</h3>
       <UploadFile />
-      {/*{files.map(file => <FileItem file={file} />)}*/}
-      {/*<hr />*/}
-      {/*<ViewerXbim />*/}
-      <hr />
-      {/*<ViewerIfc />*/}
+      {files.map(file => <FileItem file={file} />)}
     </div>
   );
 };
