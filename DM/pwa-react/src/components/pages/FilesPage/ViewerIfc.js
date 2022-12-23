@@ -3,12 +3,16 @@ import { IfcContainer } from "./IfcContainer";
 import { Color } from "three";
 import { IfcViewerAPI } from "web-ifc-viewer";
 import { FolderOpenOutlined } from "@mui/icons-material";
+import { Backdrop, CircularProgress } from "@mui/material";
 
 const ViewerIfc = () => {
   const ifcContainer = createRef();
   const [viewer, setViewer] = useState();
   const [instanceViewer, setInstanceViewer] = useState(false);
-
+  const [ids, setIds] = useState([]);
+  const [fileName, setFileName] = useState();
+  const [stateLoading, setStateLoading] = useState(false);
+  
   useEffect(() => {
     if (instanceViewer === false) {
       setInstanceViewer(true);
@@ -27,15 +31,22 @@ const ViewerIfc = () => {
 
   const ifcOnLoad = async (e) => {
     const file = e && e.target && e.target.files && e.target.files[0];
+    setStateLoading(true)
     if (file && viewer) {
-
-      await viewer.IFC.loadIfc(file, true);
+      const ifcModel = await viewer.IFC.loadIfc(file, true);
+      setFileName(file.name);
+      const allIds = getAllIds(ifcModel);
+    setIds(allIds);
+    console.log(allIds);
+    setStateLoading(false)
     }
   };
 
-  function getAllItems() {
-    console.log("get all items")
-  }
+  function getAllIds(model) {
+  return Array.from(
+    new Set(model.geometry.attributes.expressID.array),
+  );
+}
 
   return (
     <div>
@@ -52,8 +63,20 @@ const ViewerIfc = () => {
       </label>
       <IfcContainer
         ref={ifcContainer}
-        viewer={viewer} />
-      
+        viewer={viewer}
+        file={fileName}
+      />
+      <Backdrop
+        style={{
+          zIndex: 100,
+          display: "flex",
+          alignItems: "center",
+          alignContent: "center"
+        }}
+        open={stateLoading}
+      >
+        <CircularProgress/>
+      </Backdrop>
     </div>
   );
 };

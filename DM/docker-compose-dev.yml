@@ -40,6 +40,9 @@ services:
     container_name:  dm_pwa-react
     image: $IMAGE_NAME_FRONTEND
     restart: always
+    environment:
+      # Fixes bug where websocket connection is fixed to default port 3000
+      - WDS_SOCKET_PORT=0
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dm-dev.rule=Host(`dm-dev.briogroup.ru`)"
