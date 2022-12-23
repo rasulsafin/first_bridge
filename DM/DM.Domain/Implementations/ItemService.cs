@@ -29,15 +29,15 @@ namespace DM.Domain.Implementations
 
             foreach (var i in items)
             {
-                if (_currentUser.Roles != "SuperAdmin")
-                {
-                    var permission = AuthorizationHelper.CheckUsersPermissionsById(_context, _currentUser, PermissionType.Item, i.Id);
-
-                    if (permission == null || !permission.Read)
-                    {
-                        continue;
-                    }
-                }
+                // if (_currentUser.Roles != "SuperAdmin")
+                // {
+                //     var permission = AuthorizationHelper.CheckUsersPermissionsById(_context, _currentUser, PermissionType.Item, i.Id);
+                //
+                //     if (permission == null || !permission.Read)
+                //     {
+                //         continue;
+                //     }
+                // }
 
                 listItemModel.Add(_mapper.Map<ItemModel>(i));
             }
