@@ -14,13 +14,13 @@ export const UserCreatePage = () => {
   const navigate = useNavigate();
   const initialValues = getInitialValues();
   const textButton = "Add User";
-  
+
   const goBack = () => {
     navigate(-1);
   };
 
   return (
-    <div className="p-3">
+    <div>
       <Toolbar>
         <Controls.Button onClick={goBack}>
           <BiArrowBack size={24} color="#1d62ad" />

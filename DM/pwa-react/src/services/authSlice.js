@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { axiosInstance } from "../axios/axiosInstance";
 
 const initialState = {
   id: null,
@@ -9,6 +10,26 @@ const initialState = {
   role: null,
   organizationId: null,
 };
+
+// TODO
+// export const registerUser = createAsyncThunk(
+//   "api/users/authenticate", async ({ user, password }, { rejectWithValue }) => {
+//     try {
+//       await axiosInstance.post("api/users/authenticate",
+//         JSON.stringify({ user, password }),
+//         {
+//           headers: { "Content-Type": "application/json-patch+json" },
+//           withCredentials: true
+//         })
+//     } catch (error) {
+//       // return custom error message from backend if present
+//       if (error.response && error.response.data.message) {
+//         return rejectWithValue(error.response.data.message)
+//       } else {
+//         return rejectWithValue(error.message)
+//       }
+//     }
+//   })
 
 export const authSlice = createSlice({
   name: "auth",

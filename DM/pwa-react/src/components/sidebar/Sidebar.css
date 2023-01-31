@@ -2,7 +2,7 @@
     width: 200px;
     transition: width 0.3s ease-in-out;
     height: 100vh;
-    background-color: rgb(10,25,41);
+    background-color: #FFFFFF;
     position: fixed;
     z-index: 1;
 }
@@ -10,37 +10,41 @@
 .sidenavClosed {
     composes: sidenav;
     transition: width 0.3s;
-    width: 70px;
+    width: 60px;
     position: fixed;
-    background-color: rgb(10,25,41);
+    background-color: #FFFFFF;
     height: 100vh;
     z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-items: flex-start;
 }
 
 .sideItem {
-    display: flex;
-    align-items: center;
-    justify-items: flex-start;
-    padding: 10px 20px;
+    padding: 10px 0 0 12px;
     cursor: pointer;
-    color: #B2BAC2;
+    color: #B3B3B3;
     text-decoration: none;
     overflow: hidden;
+    margin: 10px 0 0 0;
+}
+
+.sideItem:hover {
+    border-left: 3px solid #C32A2A;
+    color: #C32A2A;
+    padding: 10px 0 0 9px;
+    margin: 10px 0 0 0;
 }
 
 .linkText {
     padding-left: 25px;
 }
 
-.sideItem:hover {
-    background-color: #1d60ab;
-}
-
 .menuBtn {
-    align-self: center;
     align-self: flex-start;
     justify-self: flex-end;
-    color: #B2BAC2;
+    color: #B3B3B3;
     background-color: transparent;
     border: none;
     cursor: pointer;
@@ -48,5 +52,14 @@
     overflow: hidden;
 }
 
+.box-items {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-items: flex-start;
+    flex-grow: 1;
+}
 
-
+.avatar-sidebar {
+    margin: 10px 0 24px 10px;
+}

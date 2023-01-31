@@ -31,21 +31,22 @@ export const OrganizationDetailPage = () => {
   const handleClickOpen = () => {
     setOpen(true);
   };
-  
+
   function handleDeleteOrganization() {
     dispatch(deleteOrganization(id));
     dispatch(openSnackbar());
     navigate(`/organizations`);
   }
-  
+
   return (
-    <div className="p-3">
+    <div>
       <Toolbar>
         <Button className="m-3" onClick={goBack} size="small" variant="outlined">
           <BiArrowBack size={24} color="#1d62ad" />
         </Button>
         <Button className="m-3" size="small" variant="outlined">Edit organization</Button>
-        <Button className="m-3" size="small" variant="outlined" color="error" onClick={handleClickOpen}>Delete organization</Button>
+        <Button className="m-3" size="small" variant="outlined" color="error" onClick={handleClickOpen}>Delete
+          organization</Button>
       </Toolbar>
       <hr />
       <h3>Organization Detail Page</h3>

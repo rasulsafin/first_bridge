@@ -15,7 +15,7 @@ const initialValues = {
   ogrn: "",
   kpp: "",
   phone: "",
-  email: "",
+  email: ""
 };
 
 export const OrganizationCreatePage = () => {
@@ -34,23 +34,23 @@ export const OrganizationCreatePage = () => {
       [name]: value
     });
   };
-  
+
   function createOrg() {
-      dispatch(addNewOrganization({
-        name: values.name,
-        address: values.address,
-        inn: values.inn,
-        ogrn: values.ogrn,
-        kpp: values.kpp,
-        phone: values.phone,
-        email: values.email,
-      }))
+    dispatch(addNewOrganization({
+      name: values.name,
+      address: values.address,
+      inn: values.inn,
+      ogrn: values.ogrn,
+      kpp: values.kpp,
+      phone: values.phone,
+      email: values.email
+    }));
     dispatch(openSnackbar());
     navigate(`/organizations`);
   }
 
   return (
-    <div  className="p-3">
+    <div>
       <SuccessSnackbar />
       <Toolbar>
         <Controls.Button onClick={goBack}>
@@ -58,13 +58,13 @@ export const OrganizationCreatePage = () => {
         </Controls.Button>
       </Toolbar>
       <hr />
-        <h3>Create organization</h3>
-        <div className="col-10" style={{
-          display: "flex",
-          justifyContent: "flex-start",
-          alignItems: "center",
-          flexWrap: "wrap"
-        }}>
+      <h3>Create organization</h3>
+      <div className="col-10" style={{
+        display: "flex",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        flexWrap: "wrap"
+      }}>
         <Controls.Input
           name="name"
           label="name"

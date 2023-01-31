@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router";
 import { Controls } from "../../../controls/Controls";
 
-
 export const ProjectEditPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -14,7 +13,7 @@ export const ProjectEditPage = () => {
   };
 
   return (
-    <div className="p-3">
+    <div>
       <Toolbar>
         <Controls.Button onClick={goBack} size="small" variant="outlined">
           <BiArrowBack size={24} color="#1d62ad" />

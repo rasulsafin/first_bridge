@@ -4,22 +4,36 @@ import { Color } from "three";
 import { IfcViewerAPI } from "web-ifc-viewer";
 import { FolderOpenOutlined } from "@mui/icons-material";
 import { Backdrop, CircularProgress } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { selectIfcModel, selectViewerInstance, setIfcModel, setViewerInstance } from "../../../services/ifcModelSlice";
+import { selectAllProjects } from "../../../services/projectsSlice";
 
-const ViewerIfc = () => {
+const ViewerIfc = (props) => {
   const ifcContainer = createRef();
   const [viewer, setViewer] = useState();
   const [instanceViewer, setInstanceViewer] = useState(false);
   const [ids, setIds] = useState([]);
   const [fileName, setFileName] = useState();
   const [stateLoading, setStateLoading] = useState(false);
+  const [modelTest, setModelTest] = useState();
+  const dispatch = useDispatch();
+  const model = useSelector(selectIfcModel);
+  
+  const deleteModelHandle = () => {
+    viewer.dispose();
+    // viewer = null;
+    // viewer = new IfcViewerAPI({ container });
+    // viewer.IFC.setWasmPath("../../../");
+    // addStats();
+  }
   
   useEffect(() => {
     if (instanceViewer === false) {
       setInstanceViewer(true);
       const container = ifcContainer.current;
       const ifcViewer = new IfcViewerAPI({ container, backgroundColor: new Color(0xffffff) });
-      ifcViewer.grid.setGrid(50, 20, new Color(0xcccccc), new Color(0xaaaaaa));
-      ifcViewer.axes.setAxes(10);
+      // ifcViewer.grid.setGrid(50, 20, new Color(0xcccccc), new Color(0xaaaaaa));
+      ifcViewer.axes.setAxes();
       ifcViewer.IFC.setWasmPath("../../");
       ifcViewer.IFC.loader.ifcManager.applyWebIfcConfig({
         COORDINATE_TO_ORIGIN: true,
@@ -31,15 +45,23 @@ const ViewerIfc = () => {
 
   const ifcOnLoad = async (e) => {
     const file = e && e.target && e.target.files && e.target.files[0];
-    setStateLoading(true)
+    setStateLoading(true);
     if (file && viewer) {
+      console.log(file);
       const ifcModel = await viewer.IFC.loadIfc(file, true);
       setFileName(file.name);
+
+      const ifcProject = await viewer.IFC.getSpatialStructure(ifcModel.modelID);
+
+      setModelTest(ifcProject);
+
+      dispatch(setIfcModel(ifcModel));
+
       const allIds = getAllIds(ifcModel);
-    setIds(allIds);
-    console.log(allIds);
-    setStateLoading(false)
+      setIds(allIds);
+      console.log(allIds);
     }
+    setStateLoading(false);
   };
 
   function getAllIds(model) {
@@ -61,6 +83,10 @@ const ViewerIfc = () => {
         <FolderOpenOutlined />
         Open File
       </label>
+    <br/>
+      {/*<button*/}
+      {/*onClick={() => deleteModelHandle()}*/}
+      {/*>delete</button>*/}
       <IfcContainer
         ref={ifcContainer}
         viewer={viewer}
@@ -71,7 +97,6 @@ const ViewerIfc = () => {
           zIndex: 100,
           display: "flex",
           alignItems: "center",
-          alignContent: "center"
         }}
         open={stateLoading}
       >

@@ -16,7 +16,7 @@ export const Users = () => {
   }
 
   return (
-    <div className="p-3">
+    <div className="component-container">
       <Toolbar>
         <Button className="m-3" onClick={goBack} size="small" variant="outlined">
           <BiArrowBack size={24} color="#1d62ad" /></Button>

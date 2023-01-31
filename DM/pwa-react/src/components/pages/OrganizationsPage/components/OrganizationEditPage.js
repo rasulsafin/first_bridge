@@ -10,7 +10,7 @@ export const OrganizationEditPage = () => {
   };
 
   return (
-    <div  className="p-3">
+    <div>
       <Toolbar>
         <Button onClick={goBack} size="small" variant="outlined">
           <BiArrowBack size={24} color="#1d62ad" />
@@ -19,5 +19,5 @@ export const OrganizationEditPage = () => {
       <hr />
       <h3>Edit Organization</h3>
     </div>
-  )
-}
+  );
+};

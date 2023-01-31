@@ -23,7 +23,7 @@ export const FilesPage = () => {
   }, [dispatch]);
 
   return (
-    <div className="p-3">
+    <div className="component-container">
       <Toolbar>
         <Controls.Button onClick={goBack} size="small" variant="outlined">
           <BiArrowBack size={24} color="#1d62ad" /></Controls.Button>
@@ -31,7 +31,15 @@ export const FilesPage = () => {
       <hr />
       <h3>Files</h3>
       <UploadFile />
-      {files.map(file => <FileItem file={file} />)}
+      <div 
+        className="col-8"
+      style={{
+        display: "flex",
+        flexWrap: "wrap"
+      }}
+      >
+        {files.map(file => <FileItem file={file} />)}
+      </div>
     </div>
   );
 };

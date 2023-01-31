@@ -49,8 +49,7 @@ export const RecordDetailPage = () => {
   }
 
   return (
-    <div className="p-3">
-      <SuccessSnackbar />
+    <div>
       <Toolbar>
         <Button className="ml-o m-3" onClick={goBack} size="small" variant="outlined">
           <BiArrowBack size={24} color="#1d62ad" /></Button>
@@ -124,6 +123,7 @@ export const RecordDetailPage = () => {
           </Button>
         </DialogActions>
       </Dialog>
+      <SuccessSnackbar />
     </div>
   );
 };

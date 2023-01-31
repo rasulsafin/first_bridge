@@ -20,14 +20,26 @@ export function Projects() {
   }
 
   return (
-    <div className="p-3">
+    <div className="component-container">
       <SuccessSnackbar />
+      <h3 className="mb-2">Проекты</h3>
       <Toolbar>
-        <Controls.Button onClick={handleToCreatePage}>Add Project</Controls.Button>
-        <Controls.Button>Add Something</Controls.Button>
+        <Controls.Button
+          style={{
+            backgroundColor: "#2D2926",
+            color: "#FFF",
+            border: "none"
+          }}
+        >Сначала новые</Controls.Button>
+        <Controls.Button
+          style={{
+            backgroundColor: "#FFF",
+            color: "#2D2926",
+            border: "none"
+          }}
+        >Сначала старые</Controls.Button>
       </Toolbar>
       <hr />
-      <h3 className="mb-2">Projects</h3>
       <ProjectsGrid />
     </div>
   );
