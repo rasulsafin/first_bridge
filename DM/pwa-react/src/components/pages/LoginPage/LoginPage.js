@@ -18,7 +18,7 @@ export const LoginPage = () => {
   const dispatch = useDispatch();
   const userName = useSelector((state) => state.auth.name);
   const userRole = useSelector((state) => state.auth.role);
-  
+
   useEffect(() => {
     setErrMsg("");
   }, [user, pwd]);
@@ -33,7 +33,7 @@ export const LoginPage = () => {
           withCredentials: true
         }
       );
-      
+
       dispatch(setAuthUser({
         id: response.data.id,
         name: response.data.name,
@@ -41,7 +41,7 @@ export const LoginPage = () => {
         token: response.data.token,
         login: response.data.login,
         role: response.data.role,
-        organizationId: response.data.organizationId,
+        organizationId: response.data.organizationId
       }));
 
       console.log(JSON.stringify(response?.data));
@@ -54,9 +54,9 @@ export const LoginPage = () => {
       setPwd("");
       setAuth({ user, token });
       localStorage.setItem("token", response.data.token);
-      localStorage.setItem("user",  response.data.name);
-      localStorage.setItem("role",  response.data.role);
-      localStorage.setItem("organizationId",  response.data.organizationId);
+      localStorage.setItem("user", response.data.name);
+      localStorage.setItem("role", response.data.role);
+      localStorage.setItem("organizationId", response.data.organizationId);
       setSuccess(true);
 
     } catch (err) {
@@ -83,7 +83,13 @@ export const LoginPage = () => {
       ) : (
         <section>
           <h1>Sign In</h1>
-          <form onSubmit={handleSubmit}>
+          <form
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "300px"
+            }}
+            onSubmit={handleSubmit}>
             <Controls.Input
               type="text"
               id="username"
@@ -106,8 +112,8 @@ export const LoginPage = () => {
                 width: { sm: 100, md: 150 },
                 "& .MuiInputBase-root": {
                   height: 45,
-                  marginRight: 3,
-                },
+                  marginRight: 3
+                }
               }}
               type="submit"
               variant="contained"
@@ -117,11 +123,7 @@ export const LoginPage = () => {
             </Button>
           </form>
           <p>
-            Need an Account?<br />
             <span className="line">
-              <Link style={{ color: "black"}}  to="/registration">
-                Sign Up 
-              </Link>
             </span>
           </p>
         </section>

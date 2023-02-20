@@ -18,22 +18,25 @@ export const RecordEditPage = () => {
   };
 
   const record = records.find(record => record.id === Number(id));
-
   const fieldsObj = record.fields;
+  const [values, setValues] = useState(fieldsObj);
 
-  const fields = Object.entries(fieldsObj);
+  const fields = Object.entries(values);
 
-  console.log("fieldsobj", fieldsObj);
-  
-  const onSubmit = (data) => {
+  console.log(record)
+  console.log("values", values);
+  // const initialValues = fields.map(([key, value]) => [{key, value}])
+
+  const onSubmit = () => {
     dispatch(editRecord({
-      // name: re.name,
-      fields: data
+      id: record.id,
+      name: record.name,
+      projectId: record.projectId,
+      fields: values,
+      comments: null
     }));
-    navigate(`/record/${id}`);
+    navigate(`/project/${record.projectId}`);
   };
-
-  const [values, setValues] = useState();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -41,15 +44,10 @@ export const RecordEditPage = () => {
       ...values,
       [name]: value
     });
-    console.log(values);
   };
-
-  const initialValues = fields.map(([key, value]) => [{key, value}])
-  
-  console.log(initialValues);
   
   return (
-    <div className="p-3">
+    <div>
       <Toolbar>
         <Controls.Button onClick={goBack}>
           <BiArrowBack size={24} color="#1d62ad" />
@@ -68,6 +66,7 @@ export const RecordEditPage = () => {
             return (
               <div>
                 <Controls.Input
+                  name={key}
                   label={key}
                   type="text"
                   value={value}

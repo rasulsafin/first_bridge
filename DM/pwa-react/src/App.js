@@ -10,7 +10,6 @@ import { Records } from "./components/pages/RecordsPage/Records";
 import { LoginPage } from "./components/pages/LoginPage/LoginPage";
 import { UserDetailPage } from "./components/pages/UsersPage/components/UserDetailPage";
 import { ProfilePage } from "./components/pages/ProfilePage/ProfilePage";
-import RegisterPage from "./components/pages/LoginPage/RegisterPage";
 import { RecordDetailPage } from "./components/pages/RecordsPage/components/RecordDetailPage";
 import { RequireAuth } from "./components/RequireAuth/RequireAuth";
 import { Organizations } from "./components/pages/OrganizationsPage/Organizations";
@@ -29,6 +28,8 @@ import { OrganizationCreatePage } from "./components/pages/OrganizationsPage/com
 import { RecordEditPage } from "./components/pages/RecordsPage/components/RecordEditPage";
 import ViewerIfc from "./components/pages/FilesPage/ViewerIfc";
 import { OrganizationEditPage } from "./components/pages/OrganizationsPage/components/OrganizationEditPage";
+import IfcComponent from "./components/ifc/IfcComponent";
+import LoginPage1 from "./components/pages/LoginPage/LoginPage1";
 
 function App() {
   window.addEventListener("load", () => {
@@ -46,46 +47,46 @@ function App() {
   return (
     <>
       <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route element={<RequireAuth />}>
-                <Route index element={<Home />} />
-                
-                <Route path="/users" element={<Users />} />
-                <Route path="/user/:id" element={<UserDetailPage />} />
-                <Route path="/user/:id/edit" element={<UserEditPage />} />
-                <Route path="/user/create" element={<UserCreatePage />} />
-                
-                <Route path="/organizations" element={<Organizations />} />
-                <Route path="/organization/:id" element={<OrganizationDetailPage />} />
-                <Route path="/organization/create" element={<OrganizationCreatePage />} />
-                <Route path="/organization/:id/edit" element={<OrganizationEditPage />} />
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route element={<RequireAuth />}>
+              <Route index element={<Home />} />
 
-                <Route path="/projects" element={<Projects />} />
-                <Route path="/project/:id" element={<ProjectDetailPage />} />
-                <Route path="/project/:id/files" element={<FilesPage />} />
-                <Route path="/project/create" element={<ProjectCreatePage />} />
-                <Route path="/project/:id/edit" element={<ProjectEditPage />} />
-                
-                {/*<Route path="/records" element={<Records />} />*/}
-                <Route path="/record/:id" element={<RecordDetailPage />} />
-                <Route path="/record/:id/edit" element={<RecordEditPage />} />
-                <Route path="/record/create" element={<RecordCreatePage />} />
-                
-                <Route path="/template/create" element={<TemplateCreatePage />} />
-                <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/admin" element={<AdminPage />} />
+              <Route path="/users" element={<Users />} />
+              <Route path="/user/:id" element={<UserDetailPage />} />
+              <Route path="/user/:id/edit" element={<UserEditPage />} />
+              <Route path="/user/create" element={<UserCreatePage />} />
 
-                <Route path="/ifc" element={<ViewerIfc />} />
+              <Route path="/organizations" element={<Organizations />} />
+              <Route path="/organization/:id" element={<OrganizationDetailPage />} />
+              <Route path="/organization/create" element={<OrganizationCreatePage />} />
+              <Route path="/organization/:id/edit" element={<OrganizationEditPage />} />
 
-              </Route>
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/project/:id" element={<ProjectDetailPage />} />
+              <Route path="/project/:id/files" element={<FilesPage />} />
+              <Route path="/project/create" element={<ProjectCreatePage />} />
+              <Route path="/project/:id/edit" element={<ProjectEditPage />} />
 
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/registration" element={<RegisterPage />} />
+              {/*<Route path="/records" element={<Records />} />*/}
+              <Route path="/record/:id" element={<RecordDetailPage />} />
+              <Route path="/record/:id/edit" element={<RecordEditPage />} />
+              <Route path="/record/create" element={<RecordCreatePage />} />
 
-              <Route path="*" element={<NotFoundPage />} />
+              <Route path="/template/create" element={<TemplateCreatePage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/admin" element={<AdminPage />} />
+
+              <Route path="/ifc" element={<ViewerIfc />} />
+              <Route path="/ifcViewer" element={<IfcComponent />} />
             </Route>
-          </Routes>
+
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/login1" element={<LoginPage1 />} />
+
+            <Route path="*" element={<NotFoundPage />} />
+          </Route>
+        </Routes>
       </BrowserRouter>
     </>
   );

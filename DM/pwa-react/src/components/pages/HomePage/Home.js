@@ -8,9 +8,8 @@ export const Home = () => {
   const percentage1 = 47;
   const percentage2 = 17;
   return (
-    <div className="p-4">
+    <div className="component-container">
       <h3> Dashboard </h3>
-
       <div style={{
         display: "flex",
         // flexDirection: "row",

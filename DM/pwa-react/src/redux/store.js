@@ -13,11 +13,12 @@ import recordTemplatesReducer from "../services/recordTemplatesSlice";
 import permissionsReducer from "../services/permissionsSlice";
 import { controlSidebarReducer } from "../services/controlSidebarSlice";
 import snackbarReducer from "../services/snackbarSlice";
-import { ifcGuidReducer } from "../services/ifcGuidSlice";
+import { ifcElementPropsReducer } from "../services/ifcElementPropsSlice";
+import ifcModelReducer from "../services/ifcModelSlice";
 
 const persistConfig = {
   key: "root",
-  storage
+  storage,
 };
 
 const rootReducer = combineReducers({
@@ -31,7 +32,8 @@ const rootReducer = combineReducers({
   files: filesReducer,
   controlSidebar: controlSidebarReducer,
   snackbar: snackbarReducer,
-  ifcGuid: ifcGuidReducer,
+  ifcElementProps: ifcElementPropsReducer,
+  ifcModel: ifcModelReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

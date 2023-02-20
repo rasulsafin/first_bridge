@@ -40,7 +40,7 @@ export const ProjectDetailPage = () => {
     dispatch(openSnackbar());
     navigate(`/projects`);
   }
-  
+
   function handleToCreateTemplatePage() {
     navigate(`/template/create`);
   }
@@ -62,7 +62,7 @@ export const ProjectDetailPage = () => {
   }
 
   return (
-    <div className="p-3">
+    <div>
       <Toolbar>
         <Controls.Button onClick={goBack}>
           <BiArrowBack size={24} color="#1d62ad" />

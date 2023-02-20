@@ -7,7 +7,7 @@ import SuccessSnackbar from "../../snackbar/SuccessSnackbar";
 
 export const Organizations = () => {
   const navigate = useNavigate();
-  
+
   const goBack = () => {
     navigate(-1);
   };
@@ -17,17 +17,18 @@ export const Organizations = () => {
   }
 
   return (
-    <div className="p-3">
-      <SuccessSnackbar />
+    <div className="component-container">
       <Toolbar>
         <Button className="m-3" onClick={goBack} size="small" variant="outlined">
           <BiArrowBack size={24} color="#1d62ad" />
         </Button>
-        <Button className="m-3" size="small" variant="outlined" onClick={handleToOrgCreatePage}>Add organizations</Button>
+        <Button className="m-3" size="small" variant="outlined" onClick={handleToOrgCreatePage}>Add
+          organizations</Button>
       </Toolbar>
       <hr />
       <h3 className="mb-4">Organizations</h3>
       <OrganizationsGrid />
+      <SuccessSnackbar />
     </div>
-  )
-}
+  );
+};

@@ -12,7 +12,7 @@ export const Layout = () => {
   return (
     <>
       <header>
-        <Appbar />
+        {/*<Appbar />*/}
       </header>
       <Sidebar onCollapse={(sidebar) => {
         setSidebar(sidebar);

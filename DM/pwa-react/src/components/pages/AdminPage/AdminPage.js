@@ -13,13 +13,11 @@ export const AdminPage = () => {
   }
 
   return (
-    <div className="p-3">
+    <div className="component-container">
       <div>
         <Toolbar>
           <Button className="ml-o m-3" size="small" variant="outlined" onClick={handleToUsersPage}>Users</Button>
           <Button className="m-3" size="small" variant="outlined" onClick={handleToOrgPage}>Organizations</Button>
-          <Button className="m-3" size="small" variant="outlined">Something else</Button>
-          <Button className="m-3" size="small" variant="outlined">WAT</Button>
         </Toolbar>
       </div>
       <hr />

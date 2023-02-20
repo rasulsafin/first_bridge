@@ -16,7 +16,7 @@ export function TemplateCreatePage() {
   };
 
   return (
-    <div className="p-3">
+    <div>
       <Toolbar>
         <Controls.Button onClick={goBack}>
           <BiArrowBack size={24} color="#1d62ad" />

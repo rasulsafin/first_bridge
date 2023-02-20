@@ -13,7 +13,8 @@ const columns = [
       <strong>
         <h4>{"Title"}</h4>
       </strong>
-    )},
+    )
+  },
   {
     field: "address",
     width: 250,
@@ -21,7 +22,8 @@ const columns = [
       <strong>
         <h4>{"Address"}</h4>
       </strong>
-    )},
+    )
+  },
   {
     field: "inn",
     width: 200,
@@ -29,7 +31,8 @@ const columns = [
       <strong>
         <h4>{"Inn"}</h4>
       </strong>
-    )},
+    )
+  },
   {
     field: "phone",
     width: 200,
@@ -37,7 +40,8 @@ const columns = [
       <strong>
         <h4>{"Phone"}</h4>
       </strong>
-    )},
+    )
+  },
   {
     field: "email",
     width: 200,
@@ -45,7 +49,8 @@ const columns = [
       <strong>
         <h4>{"Email"}</h4>
       </strong>
-    )}
+    )
+  }
 ];
 
 export default function OrganizationsGrid() {
@@ -81,16 +86,16 @@ export default function OrganizationsGrid() {
           "& .MuiDataGrid-row:hover": {
             color: "green"
           },
-          '.MuiDataGrid-columnSeparator': {
-            display: 'none',
+          ".MuiDataGrid-columnSeparator": {
+            display: "none"
           },
           "& .MuiDataGrid-columnHeaders": {
-            fontSize: 20,
+            fontSize: 20
           },
           border: 0,
           background: "white",
           fontSize: 16,
-          cursor: 'pointer',
+          cursor: "pointer"
         }}
       />
     </div>

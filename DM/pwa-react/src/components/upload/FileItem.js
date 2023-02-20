@@ -12,7 +12,7 @@ export const FileItem = (file) => {
     <div
       style={{
         margin: "5px",
-        width: "30vw",
+        width: "10vw",
         padding: "5px",
         wordWrap: "break-word"
       }}>

@@ -7,10 +7,10 @@ export default function Input(props) {
   return (
     <TextField
       sx={{
-        width: { sm: 200, md: 300 },
+        // width: { sm: 200, md: 300 },
         "& .MuiInputBase-root": {
-          height: 45,
-          marginRight: 3,
+          height: 35,
+          // marginRight: 3,
         },
       }}
       variant="outlined"
@@ -18,9 +18,8 @@ export default function Input(props) {
       name={name}
       value={value}
       onChange={onChange}
-      autoFocus
       margin="normal"
-      InputProps={{ style: { fontSize: 18 } }}
+      InputProps={{ style: { fontSize: 15 } }}
       {...other}
     />
   )

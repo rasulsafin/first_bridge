@@ -2,7 +2,7 @@ import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 
-export const RecordInputTextForm = ({ name, label, type }) => {
+export const RecordInputTextForm = ({ name, label, type, defaultValue }) => {
   const { control } = useFormContext();
 
   return (
@@ -24,6 +24,7 @@ export const RecordInputTextForm = ({ name, label, type }) => {
           value={value}
           label={label}
           type={type}
+          defaultValue={defaultValue}
           variant="outlined"
           margin="normal"
         />

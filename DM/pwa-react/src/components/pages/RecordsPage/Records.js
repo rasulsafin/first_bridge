@@ -12,7 +12,7 @@ export class Records extends Component {
 
   render() {
     return (
-      <div className="p-4">
+      <div>
         <h1 className="mb-4">Records</h1>
         <div>
         </div>

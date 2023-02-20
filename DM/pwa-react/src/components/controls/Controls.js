@@ -8,6 +8,7 @@ import SelectTemplate from "./SelectTemplate";
 import TextArea from "./TextArea";
 import { Button } from "./Button";
 import ValidationFormTextfield from "./ValidationFormTextfield";
+import Avatar from "./Avatar";
 
 export const Controls = {
   Input,
@@ -19,5 +20,6 @@ export const Controls = {
   SelectProject,
   SelectTemplate,
   Button,
-  ValidationFormTextfield
+  ValidationFormTextfield,
+  Avatar,
 }
