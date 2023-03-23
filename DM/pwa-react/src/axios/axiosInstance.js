@@ -1,6 +1,8 @@
 import axios from "axios";
+import fetchAdapter from "@vespaiach/axios-fetch-adapter";
 
 export const axiosInstance = axios.create({
+  adapter: fetchAdapter,
   baseURL: process.env.REACT_APP_BACKEND_URL
 });
 

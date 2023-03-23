@@ -19,19 +19,12 @@ const ViewerIfc = (props) => {
   const dispatch = useDispatch();
   const model = useSelector(selectIfcModel);
   
-  const deleteModelHandle = () => {
-    viewer.dispose();
-    // viewer = null;
-    // viewer = new IfcViewerAPI({ container });
-    // viewer.IFC.setWasmPath("../../../");
-    // addStats();
-  }
-  
   useEffect(() => {
     if (instanceViewer === false) {
       setInstanceViewer(true);
       const container = ifcContainer.current;
       const ifcViewer = new IfcViewerAPI({ container, backgroundColor: new Color(0xffffff) });
+      // dispatch(setViewerInstance(ifcViewer));
       // ifcViewer.grid.setGrid(50, 20, new Color(0xcccccc), new Color(0xaaaaaa));
       ifcViewer.axes.setAxes();
       ifcViewer.IFC.setWasmPath("../../");
@@ -51,7 +44,7 @@ const ViewerIfc = (props) => {
       const ifcModel = await viewer.IFC.loadIfc(file, true);
       setFileName(file.name);
 
-      const ifcProject = await viewer.IFC.getSpatialStructure(ifcModel.modelID);
+      const ifcProject = await viewer.IFC.getSpatialStructure(ifcModel.modelID, true);
 
       setModelTest(ifcProject);
 
@@ -69,6 +62,8 @@ const ViewerIfc = (props) => {
     new Set(model.geometry.attributes.expressID.array),
   );
 }
+
+console.log("model", modelTest)
 
   return (
     <div>

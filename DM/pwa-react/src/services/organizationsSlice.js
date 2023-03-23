@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { axiosInstance } from "../axios/axiosInstance";
+import { ifcModelSlice } from "./ifcModelSlice";
 
 const initialState = [];
 
@@ -34,13 +35,19 @@ export const deleteOrganization = createAsyncThunk(
 export const organizationsSlice = createSlice({
   name: "organizations",
   initialState,
-  reducers: {},
+  reducers: {
+    setOrganization(state, action) {
+      state.push(action.payload);
+    },
+  },
   extraReducers(builder) {
     builder.addCase(fetchOrganizations.fulfilled, (state, action) => {
       return action.payload;
     });
   }
 });
+
+export const { setOrganization } = organizationsSlice.actions;
 
 export const selectAllOrganizations = (state) => state.organizations;
 

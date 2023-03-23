@@ -2,6 +2,8 @@ import React, { forwardRef, useEffect, useState, useCallback } from "react";
 import { Controls } from "../../controls/Controls";
 import { useDispatch, useSelector } from "react-redux";
 import { setIfcElementProps } from "../../../services/ifcElementPropsSlice";
+import { MeshLambertMaterial } from "three";
+import { setElement } from "../../../services/ifcModelSlice";
 
 const IfcContainer = forwardRef((props, ref) => {
   const dispatch = useDispatch();
@@ -24,11 +26,24 @@ const IfcContainer = forwardRef((props, ref) => {
     }
   };
 
+
+  
   const ifcOnClick = async (event) => {
     if (viewer) {
+      if (viewer.IFC.selector) {
+        viewer.IFC.selector.selection.material = new MeshLambertMaterial({
+          transparent: true,
+          opacity: 0.9,
+          color: "#c32a2a",
+          depthTest: true,
+        })
+      }
       const result = await viewer.IFC.selector.pickIfcItem(true);
+      
       if (result) {
         const props = await viewer.IFC.getProperties(result.modelID, result.id, true, true);
+        dispatch(setElement(props))
+
         // const type = viewer.IFC.loader.ifcManager.getIfcType(result.modelID, result.id);
         setCurrentElementId(result.id);
         setCurrentElementName(convertFromCodePoint(props.Name && props.Name?.value));

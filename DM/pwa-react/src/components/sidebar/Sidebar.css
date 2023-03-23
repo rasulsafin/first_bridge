@@ -31,10 +31,27 @@
 }
 
 .sideItem:hover {
-    border-left: 3px solid #C32A2A;
     color: #C32A2A;
-    padding: 10px 0 0 9px;
+    padding: 10px 0 0 12px;
     margin: 10px 0 0 0;
+}
+
+.sideItem.active {
+    border-left: 3px solid #C32A2A;
+    padding: 10px 0 0 9px;
+}
+
+.icon {
+    margin-left: 8px;
+}
+
+.icon:hover * {
+    stroke: #C32A2A;
+}
+
+.icon.active * {
+    stroke: #C32A2A;
+    margin-left: 8px;
 }
 
 .linkText {

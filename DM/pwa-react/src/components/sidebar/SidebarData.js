@@ -1,36 +1,51 @@
-import * as FaIcons from "react-icons/fa";
-import * as AaIcons from "react-icons/ai";
-import * as IoIcons from "react-icons/io";
+import { ReactComponent as ProjectIcon } from "../../assets/icons/projects.svg";
+import { ReactComponent as UserIcon } from "../../assets/icons/users.svg";
+import { ReactComponent as RecordIcon } from "../../assets/icons/records.svg";
+import { ReactComponent as ModelIcon } from "../../assets/icons/models.svg";
+import { ReactComponent as TemplateIcon } from "../../assets/icons/templates.svg";
+import { ReactComponent as DocIcon } from "../../assets/icons/docs.svg";
 
 export const SidebarData = [
   {
     id: 1,
     title: 'Dashboard',
     path: '/',
-    icon: <AaIcons.AiFillDashboard />,
+    icon: <DocIcon className="icon" />,
+    iconActive: <DocIcon className="icon active" />,
   },
   {
     id: 2,
     title: 'Projects',
     path: '/projects',
-    icon: <FaIcons.FaEnvelopeOpenText />,
+    icon: <ProjectIcon className="icon" />,
+    iconActive: <ProjectIcon className="icon active" />,
   },
   {
     id: 3,
     title: 'Users',
     path: '/users',
-    icon: <IoIcons.IoMdPeople />,
+    icon: <UserIcon className="icon" />,
+    iconActive: <UserIcon className="icon active" />,
   },
   {
     id: 4,
     title: 'Organizations',
     path: '/organizations',
-    icon: <IoIcons.IoIosPaper />,
+    icon: <ModelIcon className="icon" />,
+    iconActive: <ModelIcon className="icon active" />,
   },
   {
     id: 5,
     title: 'Admin',
     path: '/admin',
-    icon: <IoIcons.IoMdHelpCircle />,
+    icon: <RecordIcon className="icon" />,
+    iconActive: <RecordIcon className="icon active" />,
+  },
+  {
+    id: 6,
+    title: 'Docs',
+    path: '/admin',
+    icon: <TemplateIcon className="icon" />,
+    iconActive: <TemplateIcon className="icon active" />,
   },
 ]
