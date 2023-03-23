@@ -30,7 +30,7 @@ variables:
 build_back:
   stage: build
   tags:
-    - git2-docker-on-host
+    - docker-on-host
   script:
     - env
     - docker build -t $IMAGE_NAME_BACKEND ./DM/
@@ -38,14 +38,14 @@ build_back:
 build_front:
   stage: build
   tags:
-    - git2-docker-on-host
+    - docker-on-host
   script:
     - docker build -t $IMAGE_NAME_FRONTEND ./DM/pwa-react/
 
 tests:
   stage: test
   tags:
-    - git2-docker-on-host
+    - docker-on-host
   script:
     - docker run --rm --entrypoint "dotnet" -t  $IMAGE_NAME_BACKEND   DM.Tests.dll
 
@@ -53,7 +53,7 @@ tests:
 push:
   stage: push
   tags:
-    - git2-docker-on-host
+    - docker-on-host
   before_script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
   script:
@@ -65,7 +65,7 @@ start_test_stand:
   extends: .deploy_prox0_tmpl
   stage: deploy
   tags:
-    - git2-docker-on-host
+    - docker-on-host
   script:
     - docker info
     - docker pull $IMAGE_NAME_FRONTEND
@@ -77,7 +77,7 @@ stop_test_stand:
   extends: .deploy_prox0_tmpl
   stage: deploy
   tags:
-    - git2-docker-on-host
+    - docker-on-host
   script:
     - docker-compose -f ./DM/docker-compose-dev.yml down
     - docker image rm $IMAGE_NAME_FRONTEND $IMAGE_NAME_BACKEND
@@ -86,7 +86,7 @@ stop_test_stand:
 clean_img:
   stage: clean
   tags:
-    - git2-docker-on-host
+    - docker-on-host
   script:
     - docker image rm $IMAGE_NAME_FRONTEND $IMAGE_NAME_BACKEND
   when: always
