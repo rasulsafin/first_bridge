@@ -11,6 +11,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using DM.DAL;
 using Xbim.Ifc;
@@ -26,7 +27,7 @@ namespace DM.Controllers
         private readonly IItemService _itemService;
         public readonly DmDbContext _context;
         private readonly UserEntity _currentUser;
-        private static string pathServerStorage = @$"C:\others\";
+        public static string pathServerStorage = "C:\\others\\";
         private static string currentPathServerStorage = "E:\\full-project\\document-manager\\DM\\DM\\";
         private int lastVersion = 1;  // variable for version tracking
 
@@ -66,7 +67,7 @@ namespace DM.Controllers
             var fileId = await _context.Items.Where(x => x.Name == fileName).Select(q => q.Id).FirstOrDefaultAsync(); 
             var permission = AuthorizationHelper.CheckUsersPermissionsById(_context, _currentUser, PermissionType.Item, fileId);
 
-            var folderName = fileName.Remove(fileName.Length - 4);
+            var folderName = fileName.Remove(fileName.Length - 7);
             
             // if (permission == null || !permission.Read)
             // {
@@ -77,21 +78,33 @@ namespace DM.Controllers
             {
                 return BadRequest("fileName is empty");
             }
-
-            WebClient myWebClient = new WebClient();
-            // Concatenate the domain with the Web resource filename.
-            var myStringWebResource = pathServerStorage + fileName;
-            // var myStringWebResource = pathServerStorage + folderName + @$"\" + fileName;
-            // Download the Web resource and save it into the current filesystem folder.
-            try
+            
+            
+            using (WebClient wc = new WebClient())
             {
-                myWebClient.DownloadFile(myStringWebResource, fileName);
+                wc.DownloadFileAsync (
+                    // Param1 = Link of file
+                    new Uri("C:\\others\\ЯМ-1-2.2-КР-КЖ4\\ЯМ-1-2.2-КР-КЖ4_v1.ifc"),
+                    // Param2 = Path to save
+                    "C:\\Others\\ЯМ-1-2.2-КР-КЖ4.ifc"
+                );
             }
-            catch(Exception ex)
-            {
-                return BadRequest(ex);
-            }
-
+            
+            // using (WebClient myWebClient = new WebClient())
+            // {
+            //     // Concatenate the domain with the Web resource filename.
+            //     // var myStringWebResource = pathServerStorage + fileName;
+            //     var myStringWebResource = pathServerStorage + folderName + @"\" + fileName;
+            //     // Download the Web resource and save it into the current filesystem folder.
+            //     try
+            //     {
+            //         await myWebClient.DownloadFileTaskAsync("http://i.stack.imgur.com/em1M1.png", fileName);
+            //     }
+            //     catch(Exception ex)
+            //     {
+            //         return BadRequest(ex);
+            //     }
+            // }
             return Ok();
         }
         
@@ -200,7 +213,7 @@ namespace DM.Controllers
                     }
                 }
 
-                var pathForCreate = pathServerStorage + fileNameWithoutExtension + @"\" + fileNameWithoutExtension + " v" + lastVersion + fileExtension;
+                var pathForCreate = pathServerStorage + fileNameWithoutExtension + @"\" + fileNameWithoutExtension + "_v" + lastVersion + fileExtension;
 
                 using (var fstream = new FileInfo(pathForCreate).Create()) // Create instance to put an Object
                 {
@@ -210,7 +223,7 @@ namespace DM.Controllers
 
                 var itemModel = new ItemModel()
                 {
-                    Name = fileNameWithoutExtension + " v" + lastVersion + fileExtension,
+                    Name = fileNameWithoutExtension + "_v" + lastVersion + fileExtension,
                     RelativePath = pathForCreate,
                     ProjectId = project
                 };

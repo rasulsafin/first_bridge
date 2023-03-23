@@ -4,16 +4,7 @@ import Box from '@mui/material/Box'
 import Drawer from '@mui/material/Drawer'
 import {PropertiesPanel} from './SideDrawerPanel'
 
-
-/**
- * SideDrawer contains the ItemPanel and CommentPanel and allows for
- * show/hide from the right of the screen.
- * it is connected to the global store and controlled by isDrawerOpen property.
- *
- * @return {object} SideDrawer react component
- */
 export function SideDrawer({isDrawerOpen, closeDrawer, isPropertiesOn}) {
-
   useEffect(() => {
     if (!isPropertiesOn && isDrawerOpen) {
       closeDrawer()
@@ -32,7 +23,7 @@ export function SideDrawer({isDrawerOpen, closeDrawer, isPropertiesOn}) {
               display: 'none',
             },
             '& > .MuiPaper-root': {
-              width: '400px',
+              width: '450px',
               // This lets the h1 in ItemProperties use 1em padding but have
               // its mid-line align with the text in SearchBar
               padding: '4px 1em',

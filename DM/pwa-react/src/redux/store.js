@@ -2,7 +2,8 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
 import logger from "redux-logger";
 import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+// import storage from "redux-persist/lib/storage";
+import storage from 'redux-persist-indexeddb-storage';
 import usersReducer from "../services/usersSlice";
 import organizationsReducer from "../services/organizationsSlice";
 import projectsReducer from "../services/projectsSlice";
@@ -15,10 +16,13 @@ import { controlSidebarReducer } from "../services/controlSidebarSlice";
 import snackbarReducer from "../services/snackbarSlice";
 import { ifcElementPropsReducer } from "../services/ifcElementPropsSlice";
 import ifcModelReducer from "../services/ifcModelSlice";
+import autoMergeLevel2 from "redux-persist/es/stateReconciler/autoMergeLevel2";
 
 const persistConfig = {
   key: "root",
-  storage,
+  storage: storage('myDB'),
+  stateReconciler: autoMergeLevel2,
+  blacklist: ["ifcModel"]
 };
 
 const rootReducer = combineReducers({

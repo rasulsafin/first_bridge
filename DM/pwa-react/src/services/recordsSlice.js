@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { axiosInstance } from "../axios/axiosInstance";
+import { ifcModelSlice } from "./ifcModelSlice";
 
 const initialState = [];
 
@@ -34,7 +35,11 @@ export const deleteRecord = createAsyncThunk(
 export const recordsSlice = createSlice({
   name: "records",
   initialState,
-  reducers: {},
+  reducers: {
+    setRecord(state, action) {
+      state = action.payload;
+    },
+  },
   extraReducers(builder) {
     builder.addCase(fetchRecords.fulfilled, (state, action) => {
       return action.payload;
@@ -42,6 +47,9 @@ export const recordsSlice = createSlice({
   }
 });
 
+export const { setRecord } = ifcModelSlice.actions;
+
 export const selectAllRecords = (state) => state.records;
+
 
 export default recordsSlice.reducer;

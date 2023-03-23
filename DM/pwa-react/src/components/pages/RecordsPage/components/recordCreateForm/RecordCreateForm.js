@@ -4,7 +4,7 @@ import { RecordInputDropdownForm } from "./RecordInputDropdownForm";
 import { RecordInputTextForm } from "./RecordInputTextForm";
 import { Controls } from "../../../../controls/Controls";
 import { useDispatch, useSelector } from "react-redux";
-import { addNewRecord } from "../../../../../services/recordsSlice";
+import { addNewRecord, setRecord } from "../../../../../services/recordsSlice";
 import { openSnackbar } from "../../../../../services/snackbarSlice";
 import { useNavigate } from "react-router";
 import { Button } from "@mui/material";
@@ -31,6 +31,12 @@ export const RecordCreateForm = (props) => {
         name: ifcElementProps.name
       };
     }
+
+    dispatch(setRecord({
+      name: templateForm.name,
+      projectId: projectId,
+      fields: data
+    }));
     
     console.log("data", data)
 
@@ -46,6 +52,7 @@ export const RecordCreateForm = (props) => {
       projectId: projectId,
       fields: data
     }));
+    
     dispatch(openSnackbar());
     navigate(`/project/${projectId}`);
   };
@@ -100,12 +107,14 @@ export const RecordCreateForm = (props) => {
           {arrayInputForm}
           {arrayDropdownForm}
         </FormProvider>
-        {ifcElementProps.name
-          ? <a href="/ifcViewer"><Controls.Button
+        {/*{ifcElementProps.name*/}
+        {/*  ? <a href="/ifcViewer">*/}
+            <Controls.Button
           key={ifcElementProps.expressId}
-          // onClick={handleToIfcViewer}
-          >{ifcElementProps.name}</Controls.Button></a>
-          : null}
+          onClick={handleToIfcViewer}
+          >{ifcElementProps.name}</Controls.Button>
+        {/*</a>*/}
+        {/*  : null}*/}
         <Controls.Button
           sx={{ width: 200 }}
           onClick={handleSubmit(onSubmit)}
