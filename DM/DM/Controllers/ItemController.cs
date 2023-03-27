@@ -30,6 +30,26 @@ namespace DM.Controllers
         public static string pathServerStorage = "C:\\others\\";
         private static string currentPathServerStorage = "E:\\full-project\\document-manager\\DM\\DM\\";
         private int lastVersion = 1;  // variable for version tracking
+        private static string GetMimeTypes(string ext)
+        {
+            switch (ext)
+            {
+                case ".txt": return "text/plain";
+                case ".csv": return "text/csv";
+                case ".pdf": return "application/pdf";
+                case ".doc": return "application/vnd.ms-word";
+                case ".xls": return "application/vnd.ms-excel";
+                case ".ppt": return "application/vnd.ms-powerpoint";
+                case ".docx": return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+                case ".xlsx": return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                case ".pptx": return "application/vnd.openxmlformats-officedocument.presentationml.presentation";
+                case ".png": return "image/png";
+                case ".jpg": return "image/jpeg";
+                case ".jpeg": return "image/jpeg";
+                case ".gif": return "image/gif";
+                default: return "application/octet-stream";
+            }
+        }
 
         public ItemController(IItemService itemService, DmDbContext context, CurrentUserService userService)
         {
@@ -62,50 +82,20 @@ namespace DM.Controllers
         /// </summary>
         [Authorize(RoleConst.Admin)]
         [HttpGet("download")]
-        public async Task<IActionResult> Download(string fileName)
+        public async Task<IActionResult> DownloadFile(string fileName)
         {
-            var fileId = await _context.Items.Where(x => x.Name == fileName).Select(q => q.Id).FirstOrDefaultAsync(); 
-            var permission = AuthorizationHelper.CheckUsersPermissionsById(_context, _currentUser, PermissionType.Item, fileId);
-
+            var file = await _context.Items.FirstOrDefaultAsync(x => x.Name == fileName);
+            if (file == null)
+            {
+                return BadRequest($"File with name={fileName} Not Found.");
+            }
+            
             var folderName = fileName.Remove(fileName.Length - 7);
-            
-            // if (permission == null || !permission.Read)
-            // {
-            //     return StatusCode(403);
-            // }
-            
-            if (fileName == null)
-            {
-                return BadRequest("fileName is empty");
-            }
-            
-            
-            using (WebClient wc = new WebClient())
-            {
-                wc.DownloadFileAsync (
-                    // Param1 = Link of file
-                    new Uri("C:\\others\\ЯМ-1-2.2-КР-КЖ4\\ЯМ-1-2.2-КР-КЖ4_v1.ifc"),
-                    // Param2 = Path to save
-                    "C:\\Others\\ЯМ-1-2.2-КР-КЖ4.ifc"
-                );
-            }
-            
-            // using (WebClient myWebClient = new WebClient())
-            // {
-            //     // Concatenate the domain with the Web resource filename.
-            //     // var myStringWebResource = pathServerStorage + fileName;
-            //     var myStringWebResource = pathServerStorage + folderName + @"\" + fileName;
-            //     // Download the Web resource and save it into the current filesystem folder.
-            //     try
-            //     {
-            //         await myWebClient.DownloadFileTaskAsync("http://i.stack.imgur.com/em1M1.png", fileName);
-            //     }
-            //     catch(Exception ex)
-            //     {
-            //         return BadRequest(ex);
-            //     }
-            // }
-            return Ok();
+            // var filePath = pathServerStorage + folderName + "\\" + fileName;
+            var filePath = file.RelativePath;
+
+            var bytes = await System.IO.File.ReadAllBytesAsync(filePath);
+            return File(bytes, GetMimeTypes(Path.GetExtension(fileName)), fileName);
         }
         
         [Authorize(RoleConst.Admin)]
