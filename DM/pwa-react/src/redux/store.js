@@ -12,7 +12,6 @@ import filesReducer from "../services/filesSlice";
 import { authReducer } from "../services/authSlice";
 import recordTemplatesReducer from "../services/recordTemplatesSlice";
 import permissionsReducer from "../services/permissionsSlice";
-import { controlSidebarReducer } from "../services/controlSidebarSlice";
 import snackbarReducer from "../services/snackbarSlice";
 import { ifcElementPropsReducer } from "../services/ifcElementPropsSlice";
 import ifcModelReducer from "../services/ifcModelSlice";
@@ -34,7 +33,6 @@ const rootReducer = combineReducers({
   records: recordsReducer,
   recordTemplates: recordTemplatesReducer,
   files: filesReducer,
-  controlSidebar: controlSidebarReducer,
   snackbar: snackbarReducer,
   ifcElementProps: ifcElementPropsReducer,
   ifcModel: ifcModelReducer,

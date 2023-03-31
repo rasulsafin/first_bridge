@@ -1,17 +1,4 @@
-.container.active {
-    display: flex;
-    margin-left: 220px;
-    margin-right: 0;
-    transition: 350ms ease;
-    width: 100vw;
-    height: 100vh;
-    /*margin-top: 60px;*/
-    padding-top: 20px;
-    padding-left: 30px;
-    padding-bottom: 60px;
-}
-
-.container.inactive {
+.container {
     display: flex;
     margin-left: 60px;
     margin-right: 0;

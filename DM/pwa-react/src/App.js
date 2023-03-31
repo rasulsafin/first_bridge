@@ -68,7 +68,7 @@ function App() {
               <Route path="/project/create" element={<ProjectCreatePage />} />
               <Route path="/project/:id/edit" element={<ProjectEditPage />} />
 
-              {/*<Route path="/records" element={<Records />} />*/}
+              <Route path="/records" element={<Records />} />
               <Route path="/record/:id" element={<RecordDetailPage />} />
               <Route path="/record/:id/edit" element={<RecordEditPage />} />
               <Route path="/record/create" element={<RecordCreatePage />} />
