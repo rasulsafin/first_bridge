@@ -34,7 +34,6 @@ const rootReducer = combineReducers({
   records: recordsReducer,
   recordTemplates: recordTemplatesReducer,
   files: filesReducer,
-  controlSidebar: controlSidebarReducer,
   snackbar: snackbarReducer,
   ifcElementProps: ifcElementPropsReducer,
   ifcModel: ifcModelReducer,

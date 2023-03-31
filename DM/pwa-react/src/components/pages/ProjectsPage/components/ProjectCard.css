@@ -1,0 +1,66 @@
+.project-card {
+    background-color: white;
+    border-radius: 5px;
+    padding: 16px;
+    width: 321px;
+    height: 235px;
+    margin: 8px;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.project-title {
+    font-family: Myriad Pro;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 29px;
+    /* identical to box height */
+    letter-spacing: 0.012em;
+}
+
+.project-date {
+    font-family: Myriad Pro;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0.012em;
+
+    /* Gray dark */
+
+    color: #817F7D;
+}
+
+.users-in-project {
+    background: #F6DFDF;
+    border-radius: 3px;
+    width: 119px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity-users-text {
+    padding: 1px;
+    font-family: Myriad Pro;
+    font-size: 12px;
+    font-weight: 700;
+    color: #C32A2A;
+}
+
+.btn-project {
+    width: 289px;
+    height: 43px;
+    background-color: #2D2926;
+    color: #FFF;
+    border: none
+}
+
+.btn-holder {
+    margin-top: 50px;
+    display: flex;
+    justify-content: flex-end;
+}

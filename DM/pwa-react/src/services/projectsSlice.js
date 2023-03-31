@@ -1,7 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { axiosInstance } from "../axios/axiosInstance";
 
-const initialState = [];
+const initialState = {
+  projects: [],
+  filteredProjects: [],
+  isLoading: true,
+  error: null
+};
 
 export const fetchProjects = createAsyncThunk(
   "projects/fetchProjects", async () => {
@@ -23,19 +28,35 @@ export const deleteProject = createAsyncThunk(
       }
     }).then(() => console.log("Delete successfully"));
   }
-)
+);
 
 export const projectsSlice = createSlice({
   name: "projects",
   initialState,
-  reducers: {},
-  extraReducers(builder) {
+  reducers: {
+    searchByTitle: (state, action) => {
+      state.projects = state.filteredProjects.filter(project => project.title.toLowerCase().includes(action.payload.toLowerCase()));
+    }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchProjects.pending, (state) => {
+      state.isLoading = true;
+    });
     builder.addCase(fetchProjects.fulfilled, (state, action) => {
-      return action.payload;
+      state.isLoading = false;
+      state.projects = action.payload;
+      state.filteredProjects = action.payload;
+    });
+    builder.addCase(fetchProjects.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.error.message;
     });
   }
 });
 
-export const selectAllProjects = (state) => state.projects;
+export const { searchByTitle } = projectsSlice.actions;
+
+export const selectAllProjects = state => state.projects.projects;
+export const filteredProjects = state => state.projects.filteredProjects;
 
 export default projectsSlice.reducer;

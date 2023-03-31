@@ -1,0 +1,11 @@
+.search-input {
+    background-color: #FFFFFF;
+    width: 100vw;
+    margin-left: 6px;
+}
+
+.search-input:hover {
+    background-color: #f8f6f6
+}
+
+

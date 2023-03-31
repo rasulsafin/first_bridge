@@ -1,46 +1,73 @@
-import { useDispatch } from "react-redux";
-import { fetchProjects } from "../../../services/projectsSlice";
-import { useEffect } from "react";
-import { Toolbar } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProjects, filteredProjects, searchByTitle, selectAllProjects } from "../../../services/projectsSlice";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import ProjectsGrid from "./components/ProjectsGrid";
 import SuccessSnackbar from "../../snackbar/SuccessSnackbar";
 import { Controls } from "../../controls/Controls";
+import { ProjectCard } from "./components/ProjectCard";
+import * as React from "react";
+import "./Projects.css";
+import { fetchUsers, selectAllUsers } from "../../../services/usersSlice";
+import { SearchBar } from "../../searchBar/SearchBar";
 
 export function Projects() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const projects = useSelector(selectAllProjects);
+  const users = useSelector(selectAllUsers);
+  
   useEffect(() => {
     dispatch(fetchProjects());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchUsers());
   }, [dispatch]);
 
   function handleToCreatePage() {
     navigate(`/project/create`);
   }
 
+  function filterByInput(e){
+    dispatch(searchByTitle(e.target.value))
+  }
+  
   return (
     <div className="component-container">
       <SuccessSnackbar />
       <h3 className="mb-2">Проекты</h3>
-      <Toolbar>
-        <Controls.Button
-          style={{
-            backgroundColor: "#2D2926",
-            color: "#FFF",
-            border: "none"
-          }}
-        >Сначала новые</Controls.Button>
-        <Controls.Button
-          style={{
-            backgroundColor: "#FFF",
-            color: "#2D2926",
-            border: "none"
-          }}
-        >Сначала старые</Controls.Button>
-      </Toolbar>
-      <hr />
-      <ProjectsGrid />
+      <div className="toolbar-project">
+        <SearchBar
+        onChange={e => filterByInput(e)}
+        />
+        <div>
+          <Controls.Button
+            className="ml-0"
+            style={{
+              backgroundColor: "#2D2926",
+              color: "#FFF",
+              border: "none"
+            }}
+          >Сначала новые</Controls.Button>
+          <Controls.Button
+            style={{
+              backgroundColor: "#FFF",
+              color: "#2D2926",
+              border: "none"
+            }}
+          >Сначала старые</Controls.Button>
+        </div>
+      </div>
+      <div className="card-container">
+        {projects.map(project => <ProjectCard project={project} />)}
+        <div className="new-project-card">
+          <button
+            className="btn-add-project"
+            onClick={handleToCreatePage}
+          >+</button>
+          <span className="label-add-project">Добавить проект</span>
+        </div>
+      </div>
     </div>
   );
 }

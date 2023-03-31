@@ -16,7 +16,7 @@ export const FileItem = (file) => {
         padding: "5px",
         wordWrap: "break-word"
       }}>
-      <h6> {file.file.name}</h6>
+      <h6>{file.file.name}</h6>
       <button
         onClick={handleDownload}
       >Download
