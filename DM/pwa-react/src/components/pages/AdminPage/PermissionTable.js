@@ -55,7 +55,7 @@ export function PermissionTable() {
           <th></th>
           <th>Create</th>
           <th>Read</th>
-          <th>Uplate</th>
+          <th>Update</th>
           <th>Delete</th>
         </tr>
         </thead>
