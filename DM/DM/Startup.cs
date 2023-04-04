@@ -12,6 +12,8 @@ using System;
 using DM.Domain.Helpers;
 using System.Collections.Generic;
 using DM.DAL;
+using Dotmim.Sync;
+using Dotmim.Sync.PostgreSql;
 using Microsoft.AspNetCore.Http.Features;
 
 namespace DM
@@ -48,7 +50,13 @@ namespace DM
             });
 
             services.AddControllers();
-
+            services.AddSession(options => options.IdleTimeout = TimeSpan.FromMinutes(30));
+            var connectionString = Configuration.GetSection("ConnectionStrings")["Db"];
+            var options = new SyncOptions {  };
+            
+            var tables = new string[] {"Users"};
+            
+            services.AddSyncServer<NpgsqlSyncProvider>(connectionString, tables, options);
             //        services.AddLocalization(options => options.ResourcesPath = "translations-folder (not exists yet)");
 
             services.AddControllersWithViews().AddNewtonsoftJson(options =>
@@ -117,7 +125,7 @@ namespace DM
             app.UseHttpsRedirection();
             app.UseCors("cors");
             app.UseRouting();
-
+            app.UseSession();
             //app.UseAuthentication();
             app.UseAuthorization();
 
