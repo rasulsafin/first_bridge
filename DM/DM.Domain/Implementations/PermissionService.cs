@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DM.DAL;
+using System;
 
 namespace DM.Domain.Implementations
 {
@@ -37,12 +38,15 @@ namespace DM.Domain.Implementations
                 fieldForUpdate.Read = permissionModel.Read;
                 fieldForUpdate.Update = permissionModel.Update;
                 fieldForUpdate.Delete = permissionModel.Delete;
+                fieldForUpdate.UpdatedAt = DateTime.UtcNow;
 
                 await _context.SaveChangesAsync();
 
                 _context.Entry(fieldForUpdate).State = EntityState.Detached;
+
+                return true;
             }
-            
+
             // иначе добавляем новую
             _context.Permissions
                 .Add(new PermissionEntity()
