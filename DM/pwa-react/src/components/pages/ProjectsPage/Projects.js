@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProjects, filteredProjects, searchByTitle, selectAllProjects } from "../../../services/projectsSlice";
-import { useEffect, useState } from "react";
+import { fetchProjects, searchByTitle, selectAllProjects } from "../../../services/projectsSlice";
+import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import SuccessSnackbar from "../../snackbar/SuccessSnackbar";
 import { Controls } from "../../controls/Controls";
@@ -9,36 +9,35 @@ import * as React from "react";
 import "./Projects.css";
 import { fetchUsers, selectAllUsers } from "../../../services/usersSlice";
 import { SearchBar } from "../../searchBar/SearchBar";
+import { fetchFiles } from "../../../services/filesSlice";
 
 export function Projects() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const projects = useSelector(selectAllProjects);
   const users = useSelector(selectAllUsers);
-  
+
   useEffect(() => {
     dispatch(fetchProjects());
-  }, [dispatch]);
-
-  useEffect(() => {
     dispatch(fetchUsers());
-  }, [dispatch]);
-
+    dispatch(fetchFiles());
+  }, []);
+  
   function handleToCreatePage() {
     navigate(`/project/create`);
   }
 
-  function filterByInput(e){
-    dispatch(searchByTitle(e.target.value))
+  function filterByInput(e) {
+    dispatch(searchByTitle(e.target.value));
   }
-  
+
   return (
     <div className="component-container">
       <SuccessSnackbar />
       <h3 className="mb-2">Проекты</h3>
       <div className="toolbar-project">
         <SearchBar
-        onChange={e => filterByInput(e)}
+          onChange={e => filterByInput(e)}
         />
         <div>
           <Controls.Button
@@ -59,12 +58,13 @@ export function Projects() {
         </div>
       </div>
       <div className="card-container">
-        {projects.map(project => <ProjectCard project={project} />)}
+        {projects.map(project => <ProjectCard users={users} project={project} />)}
         <div className="new-project-card">
           <button
             className="btn-add-project"
             onClick={handleToCreatePage}
-          >+</button>
+          >+
+          </button>
           <span className="label-add-project">Добавить проект</span>
         </div>
       </div>
