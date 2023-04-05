@@ -4,32 +4,32 @@
     padding: 16px;
     width: 321px;
     height: 235px;
-    margin: 8px;
+    margin: 12px 12px 12px 0;
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
 }
 
 .project-title {
-    font-family: Myriad Pro;
     font-style: normal;
     font-weight: 600;
     font-size: 24px;
-    line-height: 29px;
     /* identical to box height */
     letter-spacing: 0.012em;
 }
 
+.project-title-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .project-date {
-    font-family: Myriad Pro;
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
     line-height: 14px;
     letter-spacing: 0.012em;
-
-    /* Gray dark */
-
     color: #817F7D;
 }
 
@@ -39,13 +39,14 @@
     width: 119px;
     height: 30px;
     display: flex;
+    margin-top: 15px;
+    margin-bottom: 15px;
     align-items: center;
     justify-content: center;
 }
 
 .quantity-users-text {
     padding: 1px;
-    font-family: Myriad Pro;
     font-size: 12px;
     font-weight: 700;
     color: #C32A2A;

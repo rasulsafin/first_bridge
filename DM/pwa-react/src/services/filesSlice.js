@@ -11,8 +11,10 @@ export const fetchFiles = createAsyncThunk(
   });
 
 export const uploadFileService = createAsyncThunk(
-  "files/uploadFile", async (selectedFile) => {
-    const response = await axiosInstance.post("/api/item/file", selectedFile);
+  "files/uploadFile", async (formData) => {
+    const response = await axiosInstance.post("/api/item/file", formData, {
+      params: {project: formData.get("id")}
+    });
     return response.data;
   });
 

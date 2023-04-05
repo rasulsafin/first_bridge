@@ -1,4 +1,5 @@
-﻿using DM.DAL.Entities;
+﻿using System;
+using DM.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace DM.DAL
@@ -73,6 +74,38 @@ namespace DM.DAL
                     .HasOne(x => x.Project)
                     .WithMany(x => x.Items)
                     .OnDelete(DeleteBehavior.Cascade);
+
+            // TODO Delete later
+            modelBuilder.Entity<OrganizationEntity>()
+                .HasData(new OrganizationEntity
+                {
+                    Id = 1,
+                    Name = "Brio Mrs",
+                    Address = "Kazan",
+                    Inn = "12345678",
+                    Ogrn = "87654321",
+                    Kpp = "123456",
+                    Phone = "890121212",
+                    Email = "qwerty@mail.ru"
+                });
+
+            // TODO Delete later
+            modelBuilder.Entity<UserEntity>()
+                .HasData(new UserEntity
+                {
+                    Id = 1,
+                    Name = "admin",
+                    LastName = "admin",
+                    FathersName = "admin",
+                    Login = "admin",
+                    Email = "string",
+                    Password = "admin",
+                    Roles = "Admin",
+                    Birthdate = DateTime.Now,
+                    Snils = "string",
+                    Position = "admin",
+                    OrganizationId = 1
+                });
         }
     }
 }

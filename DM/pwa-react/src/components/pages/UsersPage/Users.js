@@ -1,30 +1,60 @@
-import { Button, Toolbar } from "@mui/material";
-import { BiArrowBack } from "react-icons/bi";
 import * as React from "react";
-import { useNavigate } from "react-router";
-import UsersGrid from "./components/UsersGrid";
+import { SearchBar } from "../../searchBar/SearchBar";
+import { Controls } from "../../controls/Controls";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUsers, selectAllUsers } from "../../../services/usersSlice";
+import { useEffect } from "react";
+import { UserCard } from "./components/UserCard";
+import "./Users.css";
 
 export const Users = () => {
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const users = useSelector(selectAllUsers);
 
-  const goBack = () => {
-    navigate(-1);
-  };
-
-  function handleToCreateUserPage() {
-    navigate(`/user/create`);
-  }
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, [dispatch]);
 
   return (
     <div className="component-container">
-      <Toolbar>
-        <Button className="m-3" onClick={goBack} size="small" variant="outlined">
-          <BiArrowBack size={24} color="#1d62ad" /></Button>
-        <Button className="m-3" size="small" variant="outlined" onClick={handleToCreateUserPage}>Add user</Button>
-      </Toolbar>
-      <hr />
-      <h3 className="mb-4">Users</h3>
-      <UsersGrid />
+      <h3 className="mb-2">Участники</h3>
+      <div className="toolbar-project">
+        <SearchBar />
+        <div>
+          <Controls.Button
+            className="ml-0"
+            style={{
+              backgroundColor: "#2D2926",
+              color: "#FFF",
+              border: "none"
+            }}
+          >От А до Я</Controls.Button>
+          <Controls.Button
+            style={{
+              backgroundColor: "#FFF",
+              color: "#2D2926",
+              border: "none"
+            }}
+          >От Я до А</Controls.Button>
+          <Controls.Button
+            style={{
+              backgroundColor: "#FFF",
+              color: "#2D2926",
+              border: "none"
+            }}
+          >Сначала старые</Controls.Button>
+          <Controls.Button
+            style={{
+              backgroundColor: "#FFF",
+              color: "#2D2926",
+              border: "none"
+            }}
+          >Сначала старые</Controls.Button>
+        </div>
+      </div>
+      <div className="user-card-container">
+        {users.map(user => <UserCard key={user.id} user={user} />)}
+      </div>
     </div>
-  )
-}
+  );
+};

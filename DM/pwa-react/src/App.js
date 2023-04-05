@@ -30,6 +30,7 @@ import ViewerIfc from "./components/pages/FilesPage/ViewerIfc";
 import { OrganizationEditPage } from "./components/pages/OrganizationsPage/components/OrganizationEditPage";
 import IfcComponent from "./components/ifc/IfcComponent";
 import LoginPage1 from "./components/pages/LoginPage/LoginPage1";
+import { Models } from "./components/pages/ModelPage/Models";
 
 function App() {
   window.addEventListener("load", () => {
@@ -72,6 +73,8 @@ function App() {
               <Route path="/record/:id" element={<RecordDetailPage />} />
               <Route path="/record/:id/edit" element={<RecordEditPage />} />
               <Route path="/record/create" element={<RecordCreatePage />} />
+
+              <Route path="/models" element={<Models />} />
 
               <Route path="/template/create" element={<TemplateCreatePage />} />
               <Route path="/profile" element={<ProfilePage />} />

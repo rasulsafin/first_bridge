@@ -30,6 +30,7 @@ namespace DM.DAL.Entities
         /// </summary>
         public long OrganizationId { get; set; }
         public OrganizationEntity Organization { get; set; }
-        public List<ProjectEntity> Projects { get; set; }
+        
+        public List<UserProjectEntity> Projects { get; set; }
     }
 }
