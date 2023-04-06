@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { IfcViewerAPI } from "web-ifc-viewer";
 import { Backdrop, CircularProgress } from "@mui/material";
-import { FolderOpenOutlined } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { selectIfcElementProps } from "../../services/ifcElementPropsSlice";
 import { Color } from "three";

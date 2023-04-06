@@ -2,7 +2,6 @@ import React, { createRef, useEffect, useState } from "react";
 import { IfcContainer } from "./IfcContainer";
 import { Color } from "three";
 import { IfcViewerAPI } from "web-ifc-viewer";
-import { FolderOpenOutlined } from "@mui/icons-material";
 import { Backdrop, CircularProgress } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { selectIfcModel, selectViewerInstance, setIfcModel, setViewerInstance } from "../../../services/ifcModelSlice";
@@ -75,7 +74,7 @@ console.log("model", modelTest)
         style={{ display: "none" }}
       />
       <label htmlFor="file">
-        <FolderOpenOutlined />
+        {/*<FolderOpenOutlined />*/}
         Open File
       </label>
     <br/>
