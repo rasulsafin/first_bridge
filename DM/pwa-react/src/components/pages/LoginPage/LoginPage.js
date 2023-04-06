@@ -1,28 +1,25 @@
-import { useState, useEffect } from "react";
-import { useAuth } from "../../../hooks/useAuth";
-import { axiosInstance } from "../../../axios/axiosInstance";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { setAuthUser } from "../../../services/authSlice";
+import React, { useEffect, useState } from "react";
 import { Controls } from "../../controls/Controls";
-import { Button } from "@mui/material";
+import "./LoginPage.css";
+import { useAuth } from "../../../hooks/useAuth";
+import { useDispatch } from "react-redux";
+import { axiosInstance } from "../../../axios/axiosInstance";
+import { setAuthUser } from "../../../services/authSlice";
+import { useNavigate } from "react-router";
 
 export const LoginPage = () => {
   const { setAuth } = useAuth();
-
+  const navigate = useNavigate();
   const [user, setUser] = useState("");
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
-
   const dispatch = useDispatch();
-  const userName = useSelector((state) => state.auth.name);
-  const userRole = useSelector((state) => state.auth.role);
 
   useEffect(() => {
     setErrMsg("");
   }, [user, pwd]);
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -58,7 +55,7 @@ export const LoginPage = () => {
       localStorage.setItem("role", response.data.role);
       localStorage.setItem("organizationId", response.data.organizationId);
       setSuccess(true);
-
+      navigate(`/`);
     } catch (err) {
       if (!err?.response) {
         setErrMsg("No Server Response");
@@ -71,63 +68,43 @@ export const LoginPage = () => {
       }
     }
   };
-
+  
   return (
-    <>
-      {success ? (
-        <section>
-          <h1>You are logged in, {userName}!</h1>
-          <h1>Your role is {userRole}!</h1>
-          <br />
-        </section>
-      ) : (
-        <section>
-          <h1>Sign In</h1>
-          <form
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              width: "300px"
-            }}
-            onSubmit={handleSubmit}>
-            <Controls.Input
-              type="text"
-              id="username"
-              label="Login"
-              autoComplete="off"
-              onChange={(e) => setUser(e.target.value)}
-              value={user}
-              required
-            />
-            <Controls.Input
-              type="password"
-              id="password"
-              label="Password"
-              onChange={(e) => setPwd(e.target.value)}
-              value={pwd}
-              required
-            />
-            <Button
-              sx={{
-                width: { sm: 100, md: 150 },
-                "& .MuiInputBase-root": {
-                  height: 45,
-                  marginRight: 3
-                }
-              }}
-              type="submit"
+    <div className="Auth-form-container">
+      <form 
+        className="Auth-form"
+        onSubmit={handleSubmit}
+      >
+        <div className="Auth-form-content">
+          <h3 className="Auth-form-title">Вход</h3>
+          <label>Login/Email</label>
+          <Controls.Input
+            placeholder="Login/Email"
+            onChange={(e) => setUser(e.target.value)}
+            value={user}
+            required
+          />
+          <label>Пароль</label>
+          <Controls.Input
+            type="password"
+            placeholder="Пароль"
+            onChange={(e) => setPwd(e.target.value)}
+            value={pwd}
+            required
+          />
+          <div className="d-grid gap-2 mt-3">
+            <Controls.Button
+              className="mt-1"
               variant="contained"
-              size="small"
-              margin="normal">
-              Sign In
-            </Button>
-          </form>
-          <p>
-            <span className="line">
-            </span>
+              type="submit">
+              Войти
+            </Controls.Button>
+          </div>
+          <p className="forgot-password text-right mt-2">
+            Забыли <a href="#">пароль?</a>
           </p>
-        </section>
-      )}
-    </>
+        </div>
+      </form>
+    </div>
   );
 };
