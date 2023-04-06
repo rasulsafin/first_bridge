@@ -69,11 +69,6 @@ namespace DM.Controllers
             // логика проверки доступа для GetAll перенесена в сервис
             var items = _itemService.GetAll();
 
-            if (items.Count == 0)
-            {
-                return Ok("No objects available at the moment");
-            }
-
             return Ok(items);
         }
 

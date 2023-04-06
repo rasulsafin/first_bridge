@@ -152,7 +152,9 @@ export function ProjectModal(props) {
               <Item>
                 <span>Файлы</span>
                 <List style={{ height: "150px", overflow: "auto" }}>
-                  {props.files.map(file => <FileItem file={file} />)}
+                  {(props.files === undefined) 
+                    ? "" 
+                    : (props.files.map(file => <FileItem file={file} />))}
                 </List>
 
                 <>
