@@ -29,7 +29,6 @@ import { RecordEditPage } from "./components/pages/RecordsPage/components/Record
 import ViewerIfc from "./components/pages/FilesPage/ViewerIfc";
 import { OrganizationEditPage } from "./components/pages/OrganizationsPage/components/OrganizationEditPage";
 import IfcComponent from "./components/ifc/IfcComponent";
-import LoginPage1 from "./components/pages/LoginPage/LoginPage1";
 import { Models } from "./components/pages/ModelPage/Models";
 
 function App() {
@@ -85,7 +84,6 @@ function App() {
             </Route>
 
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/login1" element={<LoginPage1 />} />
 
             <Route path="*" element={<NotFoundPage />} />
           </Route>
