@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProjects, searchByTitle, selectAllProjects } from "../../../services/projectsSlice";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import SuccessSnackbar from "../../snackbar/SuccessSnackbar";
 import { Controls } from "../../controls/Controls";
 import { ProjectCard } from "./components/ProjectCard";
 import * as React from "react";
@@ -33,7 +32,6 @@ export function Projects() {
 
   return (
     <div className="component-container">
-      <SuccessSnackbar />
       <h3 className="mb-2">Проекты</h3>
       <div className="toolbar-project">
         <SearchBar

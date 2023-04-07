@@ -1,13 +1,19 @@
 import { Link } from "react-router-dom";
 import { SidebarData } from "./SidebarData";
-import { Avatar, Tooltip } from "@mui/material";
+import { Tooltip } from "@mui/material";
 import "./Sidebar.css";
 import { Controls } from "../controls/Controls";
 import { useLocation } from "react-router";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../services/authSlice";
 
 export function Sidebar() {
   const location = useLocation();
   const { pathname } = location;
+  const user = useSelector(selectUser);
+  
+// TODO Add LastName from user
+    const fullName = user !== null ? (user.name + " " + "LastName") : " ";
   
   return (
     <>
@@ -21,9 +27,11 @@ export function Sidebar() {
             </Tooltip>;
           })}
         </div>
-        <Controls.Avatar
-        />
-        {/*<Avatar className="avatar-sidebar"/>*/}
+        <Link className={`sideAvatar ${pathname === "/profile" ? "active" : ""}`} to={"/profile"}>
+          <Controls.Avatar
+            fullName={fullName}
+          />
+        </Link>
       </div>
     </>
   );
