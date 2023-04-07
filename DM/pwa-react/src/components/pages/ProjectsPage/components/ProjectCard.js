@@ -23,7 +23,7 @@ export const ProjectCard = (project) => {
   const isMenuOpen = Boolean(anchorEl);
   const users = useSelector(selectAllUsers);
   const files = useSelector(selectAllFiles);
-
+  const projectId = project.project.id;
   const handleOpenModal = () => {
     setAnchorEl(null);
     setOpenModal(true);
@@ -51,7 +51,7 @@ export const ProjectCard = (project) => {
   };
 
   function handleDeleteProject() {
-    dispatch(deleteProject(project.project.id));
+    dispatch(deleteProject(projectId));
   }
 
   const renderMenu = (

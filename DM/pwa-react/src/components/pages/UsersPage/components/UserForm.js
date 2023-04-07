@@ -19,8 +19,9 @@ const UserForm = (props) => {
               className="col-10 flex"
               style={{
                 display: "flex",
+                flexDirection: "column",
                 justifyContent: "flex-start",
-                alignItems: "center",
+                alignItems: "flex-start",
                 flexWrap: "wrap"
               }}
             >
@@ -42,13 +43,13 @@ const UserForm = (props) => {
                 label="FathersName"
                 required
               />
-              <Controls.ValidationFormTextfield
-                InputLabelProps={{ shrink: true }}
-                name="birthdate"
-                type="date"
-                label="Birthdate"
-                required
-              />
+              {/*<Controls.ValidationFormTextfield*/}
+              {/*  InputLabelProps={{ shrink: true }}*/}
+              {/*  name="birthdate"*/}
+              {/*  type="date"*/}
+              {/*  label="Birthdate"*/}
+              {/*  required*/}
+              {/*/>*/}
               <Controls.ValidationFormTextfield
                 name="login"
                 type="login"
@@ -73,24 +74,24 @@ const UserForm = (props) => {
                 label="Role"
                 required
               />
-              <Controls.ValidationFormTextfield
-                name="snils"
-                type="snils"
-                label="Snils"
-                required
-              />
+              {/*<Controls.ValidationFormTextfield*/}
+              {/*  name="snils"*/}
+              {/*  type="snils"*/}
+              {/*  label="Snils"*/}
+              {/*  required*/}
+              {/*/>*/}
               <Controls.ValidationFormTextfield
                 name="position"
                 type="position"
                 label="Position"
                 required
               />
-              <Controls.ValidationFormTextfield
-                name="organizationId"
-                type="organizationId"
-                label="OrganizationId"
-                required
-              />
+              {/*<Controls.ValidationFormTextfield*/}
+              {/*  name="organizationId"*/}
+              {/*  type="organizationId"*/}
+              {/*  label="OrganizationId"*/}
+              {/*  required*/}
+              {/*/>*/}
             </div>
             <Button
               sx={{
