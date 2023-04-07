@@ -2,61 +2,42 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { axiosInstance } from "../axios/axiosInstance";
 
 const initialState = {
-  id: null,
-  name: null,
-  login: null,
-  token: null,
-  email: null,
-  role: null,
-  organizationId: null,
+  user: null
 };
 
-// TODO
-// export const registerUser = createAsyncThunk(
-//   "api/users/authenticate", async ({ user, password }, { rejectWithValue }) => {
-//     try {
-//       await axiosInstance.post("api/users/authenticate",
-//         JSON.stringify({ user, password }),
-//         {
-//           headers: { "Content-Type": "application/json-patch+json" },
-//           withCredentials: true
-//         })
-//     } catch (error) {
-//       // return custom error message from backend if present
-//       if (error.response && error.response.data.message) {
-//         return rejectWithValue(error.response.data.message)
-//       } else {
-//         return rejectWithValue(error.message)
-//       }
-//     }
-//   })
+export const login = createAsyncThunk(
+  "api/users/authenticate", async ({ user, pwd }) => {
+    const response = await axiosInstance.post("api/users/authenticate",
+      { login: user, password: pwd },
+      {
+        headers: { "Content-Type": "application/json-patch+json" },
+        withCredentials: true
+      });
+    return response.data;
+  });
 
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setAuthUser(state, action) {
-      state.id = action.payload.id;
-      state.name = action.payload.name;
-      state.login = action.payload.login;
-      state.token = action.payload.token;
-      state.email = action.payload.email;
-      state.role = action.payload.role;
-      state.organizationId = action.payload.organizationId;
-    },
-    removeAuthUser(state) {
-      state.id = null;
-      state.name = null;
-      state.login = null;
-      state.token = null;
-      state.email = null;
-      state.role = null;
-      state.organizationId = null;
+    logout(state) {
+      state.user = null;
       localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      localStorage.removeItem("role");
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(login.fulfilled, (state, action) => {
+      const user = action.payload;
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token", user.token);
+      localStorage.setItem("role", JSON.stringify(user.role));
+      state.user = user;
+    });
   }
 });
 
-export const { setAuthUser, removeAuthUser } = authSlice.actions;
+export const { logout } = authSlice.actions;
 
 export const authReducer = authSlice.reducer;
