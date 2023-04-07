@@ -12,7 +12,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import { PermissionTable } from "../../AdminPage/PermissionTable";
-import { openSnackbar } from "../../../../services/snackbarSlice";
 // import RecordsPermissionsGrid from "../../AdminPage/RecordsPermissionsGrid";
 
 export const UserDetailPage = () => {
@@ -62,7 +61,6 @@ export const UserDetailPage = () => {
 
   function handleDeleteUser() {
     dispatch(deleteUser(id));
-    dispatch(openSnackbar());
     navigate(`/users`);
   }
 

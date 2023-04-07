@@ -5,7 +5,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Home } from "./components/pages/HomePage/Home";
 import { Users } from "./components/pages/UsersPage/Users";
 import { Projects } from "./components/pages/ProjectsPage/Projects";
-import { ProjectDetailPage } from "./components/pages/ProjectsPage/components/ProjectDetailPage";
 import { Records } from "./components/pages/RecordsPage/Records";
 import { LoginPage } from "./components/pages/LoginPage/LoginPage";
 import { UserDetailPage } from "./components/pages/UsersPage/components/UserDetailPage";
@@ -20,7 +19,6 @@ import { ProjectCreatePage } from "./components/pages/ProjectsPage/components/Pr
 import { TemplateCreatePage } from "./components/pages/TemplatePage/TemplateCreatePage";
 import { RecordCreatePage } from "./components/pages/RecordsPage/components/RecordCreatePage";
 import { FilesPage } from "./components/pages/FilesPage/FilesPage";
-import { ProjectEditPage } from "./components/pages/ProjectsPage/components/ProjectEditPage";
 import { NotFoundPage } from "./components/pages/NotFoundPage/NotFoundPage";
 import { UserCreatePage } from "./components/pages/UsersPage/components/UserCreatePage";
 import { UserEditPage } from "./components/pages/UsersPage/components/UserEditPage";
@@ -63,10 +61,8 @@ function App() {
               <Route path="/organization/:id/edit" element={<OrganizationEditPage />} />
 
               <Route path="/projects" element={<Projects />} />
-              <Route path="/project/:id" element={<ProjectDetailPage />} />
               <Route path="/project/:id/files" element={<FilesPage />} />
               <Route path="/project/create" element={<ProjectCreatePage />} />
-              <Route path="/project/:id/edit" element={<ProjectEditPage />} />
 
               <Route path="/records" element={<Records />} />
               <Route path="/record/:id" element={<RecordDetailPage />} />

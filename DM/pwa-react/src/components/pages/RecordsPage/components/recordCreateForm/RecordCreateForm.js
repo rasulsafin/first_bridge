@@ -5,7 +5,6 @@ import { RecordInputTextForm } from "./RecordInputTextForm";
 import { Controls } from "../../../../controls/Controls";
 import { useDispatch, useSelector } from "react-redux";
 import { addNewRecord, setRecord } from "../../../../../services/recordsSlice";
-import { openSnackbar } from "../../../../../services/snackbarSlice";
 import { useNavigate } from "react-router";
 import { Button } from "@mui/material";
 import * as React from "react";
@@ -53,7 +52,6 @@ export const RecordCreateForm = (props) => {
       fields: data
     }));
     
-    dispatch(openSnackbar());
     navigate(`/project/${projectId}`);
   };
 

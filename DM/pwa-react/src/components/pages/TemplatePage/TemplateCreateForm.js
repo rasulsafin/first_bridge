@@ -8,7 +8,6 @@ import { selectAllProjects } from "../../../services/projectsSlice";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router";
 import { TiDeleteOutline } from "react-icons/ti";
-import { openSnackbar } from "../../../services/snackbarSlice";
 import { TemplateEnumForm } from "./TemplateEnumForm";
 import { TemplateInputForm } from "./TemplateInputForm";
 import { TemplateLinkForm } from "./TemplateLinkForm";
@@ -57,7 +56,6 @@ export function TemplateCreateForm() {
       projectId: project,
       recordTemplate: { ...inputList }
     }));
-    dispatch(openSnackbar());
     navigate(`/projects`);
   };
 

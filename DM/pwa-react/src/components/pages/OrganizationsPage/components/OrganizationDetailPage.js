@@ -9,7 +9,6 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
 import { useState } from "react";
-import { openSnackbar } from "../../../../services/snackbarSlice";
 
 export const OrganizationDetailPage = () => {
   const [open, setOpen] = useState(false);
@@ -34,7 +33,6 @@ export const OrganizationDetailPage = () => {
 
   function handleDeleteOrganization() {
     dispatch(deleteOrganization(id));
-    dispatch(openSnackbar());
     navigate(`/organizations`);
   }
 

@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
 import { addNewUser } from "../../../../services/usersSlice";
 import * as React from "react";
-import { openSnackbar } from "../../../../services/snackbarSlice";
 import UserForm from "./UserForm";
 import { getInitialValues } from "../utils/getInitialValues";
 
@@ -34,7 +33,6 @@ export const UserCreatePage = () => {
         onSubmit={(values, formikHelpers) => {
           console.log(values);
           dispatch(addNewUser(values));
-          dispatch(openSnackbar());
           formikHelpers.resetForm();
           navigate(`/users`);
         }}

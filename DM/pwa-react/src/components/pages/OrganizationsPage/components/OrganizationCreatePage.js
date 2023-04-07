@@ -5,8 +5,6 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
 import { addNewOrganization, setOrganization } from "../../../../services/organizationsSlice";
-import { openSnackbar } from "../../../../services/snackbarSlice";
-import SuccessSnackbar from "../../../snackbar/SuccessSnackbar";
 
 const initialValues = {
   name: "",
@@ -62,13 +60,11 @@ export const OrganizationCreatePage = () => {
       phone: values.phone,
       email: values.email
     }));
-    dispatch(openSnackbar());
     navigate(`/organizations`);
   }
 
   return (
     <div>
-      <SuccessSnackbar />
       <Toolbar>
         <Controls.Button onClick={goBack}>
           <BiArrowBack size={24} color="#1d62ad" />

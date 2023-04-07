@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { addNewProject } from "../../../../services/projectsSlice";
 import { useNavigate } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
-import { openSnackbar } from "../../../../services/snackbarSlice";
 import CreateProjectForm from "./ProjectForm";
 
 export const ProjectCreatePage = () => {
@@ -35,7 +34,6 @@ export const ProjectCreatePage = () => {
             description: values.description,
             organizationId: organizationId
           }));
-          dispatch(openSnackbar());
           formikHelpers.resetForm();
           navigate(`/projects`);
         }} />

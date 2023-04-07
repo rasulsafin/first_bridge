@@ -3,7 +3,6 @@ import { Button, Toolbar } from "@mui/material";
 import { BiArrowBack } from "react-icons/bi";
 import * as React from "react";
 import { useNavigate } from "react-router";
-import SuccessSnackbar from "../../snackbar/SuccessSnackbar";
 
 export const Organizations = () => {
   const navigate = useNavigate();
@@ -28,7 +27,6 @@ export const Organizations = () => {
       <hr />
       <h3 className="mb-4">Organizations</h3>
       <OrganizationsGrid />
-      <SuccessSnackbar />
     </div>
   );
 };
