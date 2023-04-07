@@ -10,8 +10,6 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
-import { openSnackbar } from "../../../../services/snackbarSlice";
-import SuccessSnackbar from "../../../snackbar/SuccessSnackbar";
 
 export const RecordDetailPage = () => {
   const [open, setOpen] = useState(false);
@@ -44,7 +42,6 @@ export const RecordDetailPage = () => {
 
   function handleDeleteRecord() {
     dispatch(deleteRecord(id));
-    dispatch(openSnackbar());
     navigate(`/projects`);
   }
 
@@ -123,7 +120,6 @@ export const RecordDetailPage = () => {
           </Button>
         </DialogActions>
       </Dialog>
-      <SuccessSnackbar />
     </div>
   );
 };

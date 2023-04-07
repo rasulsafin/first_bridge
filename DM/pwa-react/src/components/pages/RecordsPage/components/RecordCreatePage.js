@@ -9,7 +9,6 @@ import { addNewRecord } from "../../../../services/recordsSlice";
 import { BiArrowBack } from "react-icons/bi";
 import { useLocation, useNavigate } from "react-router";
 import { maxNumberOfFields } from "../../../../constants/recordFields";
-import { openSnackbar } from "../../../../services/snackbarSlice";
 import { RecordCreateForm } from "./recordCreateForm/RecordCreateForm";
 import ViewerIfc from "../../FilesPage/ViewerIfc";
 import store from "../../../../redux/store";

@@ -51,7 +51,6 @@ export default function UsersGrid() {
       width: "100%",
       marginTop: 20
     }}>
-      <SuccessSnackbar />
       <DataGrid
         rows={users}
         columns={columns}

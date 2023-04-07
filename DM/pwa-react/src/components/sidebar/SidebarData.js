@@ -24,7 +24,7 @@ export const SidebarData = [
   {
     id: 3,
     title: 'Models',
-    path: '/organizations',
+    path: '/models',
     icon: <ModelIcon className="icon" />,
     iconActive: <ModelIcon className="icon active" />,
   },
