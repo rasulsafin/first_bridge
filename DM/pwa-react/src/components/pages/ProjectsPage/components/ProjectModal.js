@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Button, Grid, Input, List, Modal, styled } from "@mui/material";
+import React, { useRef, useState } from "react";
+import { Button, Grid, List, Modal, styled } from "@mui/material";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { SearchBar } from "../../../searchBar/SearchBar";
@@ -77,7 +77,6 @@ export function ProjectModal(props) {
   const [selectedFile, setSelectedFile] = useState(null);
   const dispatch = useDispatch();
   const project = props.project.project.id;
-
   const uploadInputRef = useRef(null);
 
   const handleChange = (event) => {
@@ -93,8 +92,8 @@ export function ProjectModal(props) {
   }
 
   useDispatch(() => {
-    dispatch(fetchFiles);
-  }, [selectedFile]);
+    dispatch(fetchFiles(project));
+  }, []);
 
   return (
     <div>
@@ -139,7 +138,7 @@ export function ProjectModal(props) {
                     }}
                   >От Я до А</Controls.Button>
                   {/*{props.users.map(user => <UserCard key={user.id} user={user} />)}*/}
-                  <List style={{ height: "300px", overflow: "auto" }}>
+                  <List style={{ height: "300px", overflowY: "auto", overflowX: "hidden" }}>
                     {props.users.map(user => <UserCard key={user.id} user={user} />)}
                   </List>
                 </Box>
@@ -151,7 +150,7 @@ export function ProjectModal(props) {
             <Grid item xs={5}>
               <Item>
                 <span>Файлы</span>
-                <List style={{ height: "150px", overflow: "auto" }}>
+                <List style={{ height: "150px", overflowY: "auto", overflowX: "hidden" }}>
                   {(props.files === undefined) 
                     ? "" 
                     : (props.files.map(file => <FileItem file={file} />))}
