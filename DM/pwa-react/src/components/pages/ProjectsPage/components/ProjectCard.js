@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./ProjectCard.css";
 import { Controls } from "../../../controls/Controls";
-import { MenuItem, IconButton, Button, DialogContentText } from "@mui/material";
+import { Button, DialogContentText, IconButton, MenuItem } from "@mui/material";
 import { ReactComponent as MoreIcon } from "../../../../assets/icons/more.svg";
 import { ReactComponent as TrashIcon } from "../../../../assets/icons/trashcan.svg";
 import { ReactComponent as EditIcon } from "../../../../assets/icons/edit.svg";
@@ -14,6 +14,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
 import { deleteProject } from "../../../../services/projectsSlice";
+import { formatDate } from "../utils/formatDate";
 
 export const ProjectCard = (project) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -24,6 +25,7 @@ export const ProjectCard = (project) => {
   const users = useSelector(selectAllUsers);
   const files = useSelector(selectAllFiles);
   const projectId = project.project.id;
+  
   const handleOpenModal = () => {
     setAnchorEl(null);
     setOpenModal(true);
@@ -134,7 +136,7 @@ export const ProjectCard = (project) => {
         open={openModal}
         onClose={handleCloseModal}
       />
-      <span className="project-date">12 ноября 2022</span>
+      <span className="project-date">{formatDate(project.project.creationDate)}</span>
       <div className="users-in-project">
         <span className="quantity-users-text">Участников {users.length}</span>
       </div>

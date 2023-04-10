@@ -8,7 +8,6 @@ import * as React from "react";
 import "./Projects.css";
 import { fetchUsers, selectAllUsers } from "../../../services/usersSlice";
 import { SearchBar } from "../../searchBar/SearchBar";
-import { fetchFiles } from "../../../services/filesSlice";
 
 export function Projects() {
   const dispatch = useDispatch();
@@ -19,7 +18,6 @@ export function Projects() {
   useEffect(() => {
     dispatch(fetchProjects());
     dispatch(fetchUsers());
-    dispatch(fetchFiles());
   }, []);
   
   function handleToCreatePage() {

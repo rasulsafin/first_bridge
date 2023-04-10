@@ -34,15 +34,15 @@ namespace DM.Domain.Implementations
 
             foreach (var project in projects)
             {
-                if (_currentUser.Roles != "SuperAdmin")
-                {
-                    var permission = AuthorizationHelper.CheckUsersPermissionsById(_context, _currentUser, PermissionType.Project, project.Id);
-
-                    if (permission == null || !permission.Read)
-                    {
-                        continue;
-                    }
-                }
+                // if (_currentUser.Roles != "SuperAdmin")
+                // {
+                //     var permission = AuthorizationHelper.CheckUsersPermissionsById(_context, _currentUser, PermissionType.Project, project.Id);
+                //
+                //     if (permission == null || !permission.Read)
+                //     {
+                //         continue;
+                //     }
+                // }
 
                 projectModel.Add(new ProjectModel()
                 {
@@ -50,6 +50,7 @@ namespace DM.Domain.Implementations
                     OrganizationId = project.OrganizationId,
                     Title = project.Title,
                     Description = project.Description,
+                    CreationDate = project.CreatedAt,
                 });
             }
          
@@ -71,6 +72,7 @@ namespace DM.Domain.Implementations
                 OrganizationId = project.OrganizationId,
                 Title = project?.Title,
                 Description = project.Description,
+                CreationDate = project.CreatedAt,
             };
 
             return projectModel;
