@@ -28,6 +28,7 @@ import ViewerIfc from "./components/pages/FilesPage/ViewerIfc";
 import { OrganizationEditPage } from "./components/pages/OrganizationsPage/components/OrganizationEditPage";
 import IfcComponent from "./components/ifc/IfcComponent";
 import { Models } from "./components/pages/ModelPage/Models";
+import { Templates } from "./components/pages/TemplatePage/Templates";
 
 function App() {
   window.addEventListener("load", () => {
@@ -70,6 +71,8 @@ function App() {
               <Route path="/record/create" element={<RecordCreatePage />} />
 
               <Route path="/models" element={<Models />} />
+              
+              <Route path="/templates" element={<Templates />} />
 
               <Route path="/template/create" element={<TemplateCreatePage />} />
               <Route path="/profile" element={<ProfilePage />} />

@@ -15,7 +15,7 @@ export const UserCard = (user) => {
         </Grid>
         <Grid item xs={10}>
           <Grid rowSpacing="0" direction="column" container>
-            <span style={{ fontSize: "16px" }}>{user.user.name}</span>
+            <span style={{ fontSize: "16px" }}>{fullName}</span>
             <span style={{ fontSize: "12px" }}>{user.user.roles}</span>
           </Grid>
         </Grid>

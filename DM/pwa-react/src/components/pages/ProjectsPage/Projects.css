@@ -3,6 +3,7 @@
     flex-direction: row;
     align-items: flex-start;
     flex-wrap: wrap;
+    width: 90vw;
 }
 
 .new-project-card {

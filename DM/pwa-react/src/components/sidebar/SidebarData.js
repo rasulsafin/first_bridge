@@ -45,7 +45,7 @@ export const SidebarData = [
   {
     id: 6,
     title: 'Templates',
-    path: '/admin',
+    path: '/templates',
     icon: <TemplateIcon className="icon" />,
     iconActive: <TemplateIcon className="icon active" />,
   },
