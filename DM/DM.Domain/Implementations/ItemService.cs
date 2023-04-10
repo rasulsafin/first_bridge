@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DM.DAL;
+using Microsoft.EntityFrameworkCore;
 
 namespace DM.Domain.Implementations
 {
@@ -22,10 +23,10 @@ namespace DM.Domain.Implementations
             _mapper = mapper;
             _currentUser = userService.CurrentUser;
         }
-        public List<ItemModel> GetAll()
+        public async Task<List<ItemModel>> GetAll(long projectId)
         {
             var listItemModel = new List<ItemModel>();
-            var items = _context.Items.ToList();
+            var items = await _context.Items.Where(x => x.ProjectId == projectId).ToListAsync();
 
             foreach (var i in items)
             {

@@ -64,10 +64,10 @@ namespace DM.Controllers
         /// <returns>list of items</returns>
         [Authorize(RoleConst.Admin)]
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll(long projectId)
         {
             // логика проверки доступа для GetAll перенесена в сервис
-            var items = _itemService.GetAll();
+            var items = await _itemService.GetAll(projectId);
 
             return Ok(items);
         }

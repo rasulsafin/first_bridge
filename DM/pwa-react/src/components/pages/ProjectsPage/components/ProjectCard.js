@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ProjectCard.css";
 import { Controls } from "../../../controls/Controls";
 import { MenuItem, IconButton, Button, DialogContentText } from "@mui/material";
@@ -9,7 +9,7 @@ import Menu from "@mui/material/Menu";
 import { ProjectModal } from "./ProjectModal";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAllUsers } from "../../../../services/usersSlice";
-import { selectAllFiles } from "../../../../services/filesSlice";
+import { fetchFiles, selectAllFiles } from "../../../../services/filesSlice";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
@@ -28,6 +28,10 @@ export const ProjectCard = (project) => {
     setAnchorEl(null);
     setOpenModal(true);
   };
+  
+  useEffect(() => {
+    dispatch(fetchFiles(projectId))
+  }, [openModal])
 
   const handleCloseModal = () => {
     setOpenModal(false);
