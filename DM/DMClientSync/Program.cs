@@ -43,9 +43,9 @@ namespace DMClientSync
             var localOrchestrator = agent.LocalOrchestrator;
             var remoteOrchestrator = agent.RemoteOrchestrator;
 
-            var tables = new SyncSetup(new string[] { "Comments", "Field","Items", "List", "ListField",
-                                                      "Organization", "Permissions", "Projects", "RecordField",
-                                                      "Records", "Role", "Template", "TemplateField", "UserProjectEntity", "Users"});
+            var tables = new SyncSetup(new string[] { "Comments", "Field", "Items", "List", "ListField",
+                                                      "Organization", "Permissions", "Projects", "RecordField", "RecordList",
+                                                      "Records", "Role", "Template", "TemplateField", "TemplateList", "UserProjectEntity", "Users"});
             CancellationTokenSource cts = null;
 
             var progress = new SynchronousProgress<ProgressArgs>(s =>

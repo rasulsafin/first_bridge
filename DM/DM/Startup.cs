@@ -125,9 +125,9 @@ namespace DM
 
             var connectionString = Configuration.GetSection("ConnectionStrings")["Db"];
 
-            var tables = new SyncSetup(new string[] { "Comments", "Field","Items", "List", "ListField",
-                                                      "Organization", "Permissions", "Projects", "RecordField",
-                                                      "Records", "Role", "Template", "TemplateField", "UserProjectEntity", "Users"});
+            var tables = new SyncSetup(new string[] { "Comments", "Field", "Items", "List", "ListField",
+                                                      "Organization", "Permissions", "Projects", "RecordField", "RecordList",
+                                                      "Records", "Role", "Template", "TemplateField", "TemplateList", "UserProjectEntity", "Users"});
 
             services.AddSyncServer<NpgsqlSyncProvider>(connectionString, tables);
 

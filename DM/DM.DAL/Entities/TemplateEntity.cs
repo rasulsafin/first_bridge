@@ -10,7 +10,11 @@ namespace DM.DAL.Entities
         public string Name { get; set; }
         public long ProjectId { get; set; }
         public ProjectEntity Project { get; set; }
+
         public List<FieldEntity> Fields { get; set; }
+        public List<ListFieldEntity> Lists { get; set; }
+
         public List<TemplateFieldEntity> TemplateField { get; set; }
+        public List<TemplateListEntity> TemplateList { get; set; }
     }
 }

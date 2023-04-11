@@ -26,6 +26,7 @@ namespace DM.DAL
         public DbSet<RoleEntity> Role { get; set; }
         public DbSet<FieldEntity> Field { get; set; }
         public DbSet<ListEntity> List { get; set; }
+        public DbSet<ListFieldEntity> ListField { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -74,6 +75,10 @@ namespace DM.DAL
                     .WithMany(x => x.Items)
                     .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<ListEntity>()
+                    .HasOne(x => x.List)
+                    .WithMany(x => x.ListData);
+
             modelBuilder.Entity<TemplateEntity>()
                 .HasMany(c => c.Fields)
                 .WithMany(e => e.Template)
@@ -112,22 +117,41 @@ namespace DM.DAL
                     }
                  );
 
-            modelBuilder.Entity<ListEntity>()
-                .HasMany(c => c.Field)
-                .WithMany(e => e.List)
-                .UsingEntity<ListFieldEntity>(
+            modelBuilder.Entity<TemplateEntity>()
+                .HasMany(c => c.Lists)
+                .WithMany(e => e.Template)
+                .UsingEntity<TemplateListEntity>(
                     j => j
-                    .HasOne(pt => pt.Field)
-                    .WithMany(t => t.ListField)
-                    .HasForeignKey(pt => pt.FieldId),
-                    j => j
-                    .HasOne(pt => pt.List)
-                    .WithMany(t => t.ListField)
+                    .HasOne(pt => pt.ListField)
+                    .WithMany(t => t.TemplateList)
                     .HasForeignKey(pt => pt.ListId),
+                    j => j
+                    .HasOne(pt => pt.Template)
+                    .WithMany(t => t.TemplateList)
+                    .HasForeignKey(pt => pt.TemplateId),
                     j =>
                     {
                         j.HasKey(t => new { t.Id });
-                        j.ToTable("ListField");
+                        j.ToTable("TemplateList");
+                    }
+                 );
+
+            modelBuilder.Entity<RecordEntity>()
+                .HasMany(c => c.Lists)
+                .WithMany(e => e.Record)
+                .UsingEntity<RecordListEntity>(
+                    j => j
+                    .HasOne(pt => pt.ListField)
+                    .WithMany(t => t.RecordList)
+                    .HasForeignKey(pt => pt.ListId),
+                    j => j
+                    .HasOne(pt => pt.Record)
+                    .WithMany(t => t.RecordList)
+                    .HasForeignKey(pt => pt.RecordId),
+                    j =>
+                    {
+                        j.HasKey(t => new { t.Id });
+                        j.ToTable("RecordList");
                     }
                  );
 
