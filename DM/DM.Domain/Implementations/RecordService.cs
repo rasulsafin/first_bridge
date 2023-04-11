@@ -31,7 +31,13 @@ namespace DM.Domain.Implementations
 
         public List<RecordModel> GetAll()
         {
-            var records = _context.Records.ToList();
+            var records = _context.Records
+                .Include(x => x.Comments)
+                .Include(x => x.Fields)
+                .Include(x => x.Lists)
+                .ToList();
+
+            var rec = records.Select(x => x.Lists.ToArray());
 
             foreach (var r in records)
             {
@@ -51,7 +57,11 @@ namespace DM.Domain.Implementations
 
         public RecordModel GetById(long recordId)
         {
-            var record = _context.Records.FirstOrDefault(x => x.Id == recordId);
+            var record = _context.Records
+                .Include(x => x.Comments)
+                .Include(x => x.Fields)
+                .Include(x => x.Lists)
+                .FirstOrDefault(x => x.Id == recordId);
 
             if (record == null)
             {
@@ -63,10 +73,19 @@ namespace DM.Domain.Implementations
 
         public async Task<long> Create(RecordModel recordModel)
         {
-            var m = new RecordEntity { Name = recordModel.Name, Fields = null, ProjectId = recordModel.ProjectId };
+            var record = _mapper.Map<RecordEntity>(new RecordModel
+            {
+                Name = recordModel.Name,
+                ProjectId = recordModel.ProjectId,
+                Comments = recordModel.Comments,
+                Fields = recordModel.Fields,
+                ListFields = recordModel.ListFields
+            });
 
-            var result = await _context.Records.AddAsync(m);
+            var result = await _context.Records.AddAsync(record);
+
             await _context.SaveChangesAsync();
+
             return result.Entity.Id;
         }
 
@@ -97,7 +116,6 @@ namespace DM.Domain.Implementations
 
             fieldForUpdate.Name = record.Name;
             fieldForUpdate.ProjectId = record.ProjectId;
-            //fieldForUpdate.Fields = record.RecordFields;
 
             await _context.SaveChangesAsync();
 
