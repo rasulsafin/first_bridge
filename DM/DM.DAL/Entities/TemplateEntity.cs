@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
 
 
@@ -9,7 +10,11 @@ namespace DM.DAL.Entities
         public string Name { get; set; }
         public long ProjectId { get; set; }
         public ProjectEntity Project { get; set; }
-        [Column(TypeName = "jsonb")]
-        public JsonDocument RecordTemplate { get; set; }
+
+        public List<FieldEntity> Fields { get; set; }
+        public List<ListFieldEntity> Lists { get; set; }
+
+        public List<TemplateFieldEntity> TemplateField { get; set; }
+        public List<TemplateListEntity> TemplateList { get; set; }
     }
 }

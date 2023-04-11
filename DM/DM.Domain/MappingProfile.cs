@@ -12,6 +12,7 @@ namespace DM.Domain
 
             CreateMap<UserEntity, UserModel>().ForMember(a => a.Roles, b => b.MapFrom(c => c.Roles));
             CreateMap<UserModel, UserEntity>();
+
             CreateMap<ItemModel, ItemEntity>().ReverseMap();
 
             CreateMap<UserModel, UserProjectEntity>().ReverseMap();
@@ -19,6 +20,24 @@ namespace DM.Domain
 
             CreateMap<ProjectModel, ProjectEntity>();
             CreateMap<ProjectEntity, ProjectModel>();
+
+            CreateMap<TemplateModel, TemplateEntity>();
+            CreateMap<TemplateEntity, TemplateModel>();
+
+            CreateMap<RecordModel, RecordEntity>();
+            CreateMap<RecordEntity, RecordModel>();
+
+            CreateMap<FieldModel, FieldEntity>();
+            CreateMap<FieldEntity, FieldModel>();
+
+            CreateMap<FieldModel, FieldEntity>();
+            CreateMap<FieldEntity, FieldModel>();
+
+            CreateMap<ListModel, ListEntity>();
+            CreateMap<ListEntity, ListModel>();
+
+            CreateMap<ListFieldModel, ListFieldEntity>();
+            CreateMap<ListFieldEntity, ListFieldModel>();
         }
     }
 }

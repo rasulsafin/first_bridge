@@ -11,8 +11,8 @@ namespace DM.Domain.Models
         public long Id { get; set; }
         public string Name { get; set; }
         public long ProjectId { get; set; }
-        [Column(TypeName = "jsonb")]
-        public JObject Fields { get; set; }
+        public List<FieldModel> RecordFields { get; set; }
+        public List<ListFieldModel> RecordLists { get; set; }
         public List<CommentModelForGet> Comments { get; set; }
     }
 }
