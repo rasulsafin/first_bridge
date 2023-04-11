@@ -1,8 +1,4 @@
-﻿using DM.DAL.Entities;
-using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json;
+﻿using System.Collections.Generic;
 
 namespace DM.Domain.Models
 {
@@ -11,8 +7,8 @@ namespace DM.Domain.Models
         public long Id { get; set; }
         public string Name { get; set; }
         public long ProjectId { get; set; }
-        public List<FieldModel> RecordFields { get; set; }
-        public List<ListFieldModel> RecordLists { get; set; }
+        public List<FieldModel> Fields { get; set; }
+        public List<ListFieldModel> ListFields { get; set; }
         public List<CommentModelForGet> Comments { get; set; }
     }
 }

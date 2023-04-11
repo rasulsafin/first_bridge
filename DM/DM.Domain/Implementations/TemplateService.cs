@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DM.DAL;
 using AutoMapper;
+using DM.Domain.Helpers;
 
 namespace DM.Domain.Implementations
 {
@@ -26,12 +27,11 @@ namespace DM.Domain.Implementations
 
         public bool AddTemplateToProject(TemplateModel templateModel)
         {
-            var template = new TemplateEntity()
+            var template = _mapper.Map<TemplateEntity>(new TemplateModel
             {
                 Name = templateModel.Name,
                 ProjectId = templateModel.ProjectId,
-                //Fields = templateModel.RecordTemplate
-            };
+            });
 
             var project = _context.Projects.Include(x => x.Template).First(x => x.Id == templateModel.ProjectId);
 
@@ -66,7 +66,6 @@ namespace DM.Domain.Implementations
 
             templateForUpdate.Name = templateModelForEdit.Name;
             templateForUpdate.ProjectId = templateModelForEdit.ProjectId;
-            //templateForUpdate.Fields = templateModelForEdit.RecordTemplate;
 
             _context.SaveChanges();
             return true;
@@ -78,14 +77,7 @@ namespace DM.Domain.Implementations
                 .Where(x => x.ProjectId == projectId)
                 .ToListAsync();
 
-            return templates
-                .Select(template => new TemplateModel()
-                {
-                    Id = template.Id,
-                    Name = template.Name,
-                    ProjectId = template.ProjectId,
-                    //RecordTemplate = template.Fields
-                }).ToList();
+            return _mapper.Map<List<TemplateModel>>(templates);
         }
     }
 }
