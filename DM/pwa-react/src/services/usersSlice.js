@@ -1,7 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { axiosInstance } from "../axios/axiosInstance";
 
-const initialState = [];
+const initialState = {
+  users: [],
+  filteredUsers: [],
+  isLoading: true,
+  error: null
+};
 
 export const fetchUsers = createAsyncThunk(
   "users/fetchUsers", async () => {
@@ -34,15 +39,32 @@ export const deleteUser = createAsyncThunk(
 export const usersSlice = createSlice({
   name: "users",
   initialState,
-  reducers: {},
+  reducers: {
+    searchUsersByName: (state, action) => {
+      state.users = state.filteredUsers
+        .filter(user => user.lastName.toLowerCase().includes(action.payload.toLowerCase().trim()));
+    },
+    sortUsersByNameAsc: (state) => {
+      state.users = state.users
+        .sort((a, b) => a.lastName < b.lastName ? -1 : 1);
+    },
+    sortUsersByNameDesc: (state) => {
+      state.users = state.users
+        .sort((a, b) => b.lastName < a.lastName ? -1 : 1);
+    }
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchUsers.fulfilled, (state, action) => {
-        return action.payload;
+        state.isLoading = false;
+        state.users = action.payload;
+        state.filteredUsers = action.payload;
       });
   }
 });
 
-export const selectAllUsers = (state) => state.users;
+export const { searchUsersByName, sortUsersByNameAsc, sortUsersByNameDesc } = usersSlice.actions;
+
+export const selectAllUsers = (state) => state.users.users;
 
 export default usersSlice.reducer;

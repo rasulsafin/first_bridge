@@ -36,7 +36,7 @@ export const projectsSlice = createSlice({
   reducers: {
     searchProjectsByTitle: (state, action) => {
       state.projects = state.filteredProjects
-        .filter(project => project.title.toLowerCase().includes(action.payload.toLowerCase()));
+        .filter(project => project.title.toLowerCase().includes(action.payload.toLowerCase().trim()));
     },
     sortProjectsByDateAsc: (state) => {
       state.projects = state.projects
