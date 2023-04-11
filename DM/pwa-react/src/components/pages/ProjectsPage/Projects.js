@@ -35,11 +35,11 @@ export function Projects() {
   }
 
   const handleSortByAsc = () => {
-    dispatch(sortProjectsByDateAsc());
+    dispatch(sortProjectsByDateDesc());
   };
 
   const handleSortByDesc = () => {
-    dispatch(sortProjectsByDateDesc());
+    dispatch(sortProjectsByDateAsc());
   };
 
   return (
@@ -70,7 +70,7 @@ export function Projects() {
         </div>
       </div>
       <div className="card-container">
-        {projects.map(project => <ProjectCard users={users} project={project} />)}
+        {projects.map(project => <ProjectCard key={project.id} users={users} project={project} />)}
         <div className="new-project-card">
           <button
             className="btn-add-project"

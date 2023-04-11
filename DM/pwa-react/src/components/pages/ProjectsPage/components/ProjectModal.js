@@ -157,7 +157,6 @@ export function ProjectModal(props) {
                       border: "none"
                     }}
                   >От Я до А</Controls.Button>
-                  {/*{props.users.map(user => <UserCard key={user.id} user={user} />)}*/}
                   <List style={{ height: "300px", overflowY: "auto", overflowX: "hidden" }}>
                     {props.users.map(user => <UserCard key={user.id} user={user} />)}
                   </List>
@@ -173,9 +172,8 @@ export function ProjectModal(props) {
                 <List style={{ height: "150px", overflowY: "auto", overflowX: "hidden" }}>
                   {(props.files === undefined) 
                     ? "" 
-                    : (props.files.map(file => <FileItem file={file} />))}
+                    : (props.files.map(file => <FileItem key={file.id} file={file} />))}
                 </List>
-
                 <>
                   <input
                     ref={uploadInputRef}
