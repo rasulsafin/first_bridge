@@ -12,6 +12,7 @@ namespace DM.Domain.Models
         public string Name { get; set; }
         public long ProjectId { get; set; }
         public List<FieldModel> RecordFields { get; set; }
+        public List<ListFieldModel> RecordLists { get; set; }
         public List<CommentModelForGet> Comments { get; set; }
     }
 }

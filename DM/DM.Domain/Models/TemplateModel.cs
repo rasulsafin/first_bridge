@@ -12,6 +12,7 @@ namespace DM.Domain.Models
         public long ProjectId { get; set; }
         public ProjectModel Project { get; set; }
         public List<FieldModel> TemplateFields { get; set; }
+        public List<ListFieldModel> TemplateLists { get; set; }
     }
 
     public class TemplateModelForEdit
@@ -21,5 +22,6 @@ namespace DM.Domain.Models
         public long ProjectId { get; set; }
         public ProjectModel Project { get; set; }
         public List<FieldModel> TemplateFields { get; set; }
+        public List<ListFieldModel> TemplateLists { get; set; }
     }
 }
