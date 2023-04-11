@@ -54,9 +54,29 @@ function ChildModal() {
       >
         <Box sx={{ ...style, width: 500 }}>
           <h2 id="child-modal-title">Добавление участника</h2>
-          <p id="child-modal-description">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-          </p>
+          <Box sx={{
+            marginTop: "40px"
+          }}>
+            <SearchBar />
+            <Controls.Button
+              className="ml-0"
+              style={{
+                backgroundColor: "#2D2926",
+                color: "#FFF",
+                border: "none"
+              }}
+            >От А до Я</Controls.Button>
+            <Controls.Button
+              style={{
+                backgroundColor: "#b4b3b2",
+                color: "#2D2926",
+                border: "none"
+              }}
+            >От Я до А</Controls.Button>
+            <List style={{ height: "300px", overflowY: "auto", overflowX: "hidden" }}>
+              {/*{props.users.map(user => <UserCard key={user.id} user={user} />)}*/}
+            </List>
+          </Box>
           <Button onClick={handleClose}>Close Child Modal</Button>
         </Box>
       </Modal>
