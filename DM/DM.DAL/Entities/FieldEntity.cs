@@ -13,11 +13,11 @@ namespace DM.DAL.Entities
         public bool IsMandatory { get; set; }
         public string Data { get; set; }
 
-        public List<TemplateEntity> Template { get; set; }
-        public List<RecordEntity> Record { get; set; }
+        public long? TemplateId { get; set; }
+        public TemplateEntity Template { get; set; }
 
-        public List<TemplateFieldEntity> TemplateField { get; set; }
-        public List<RecordFieldEntity> RecordField { get; set; }
+        public long? RecordId { get; set; }
+        public RecordEntity Record { get; set; }
     }
 
     public class ListFieldEntity : BaseEntity
@@ -26,17 +26,18 @@ namespace DM.DAL.Entities
         public FieldType Type { get; set; } = FieldType.List;
         public bool IsMandatory { get; set; }
 
-        public List<ListEntity> ListData { get; set; }
+        public List<ListEntity> Lists { get; set; }
 
-        public List<TemplateEntity> Template { get; set; }
-        public List<RecordEntity> Record { get; set; }
+        public long? TemplateId { get; set; }
+        public TemplateEntity Template { get; set; }
 
-        public List<TemplateListEntity> TemplateList { get; set; }
-        public List<RecordListEntity> RecordList { get; set; }
+        public long? RecordId { get; set; }
+        public RecordEntity Record { get; set; }
     }
 
     public class ListEntity : BaseEntity
     {
+        public long ListId { get; set; }
         public ListFieldEntity List { get; set; }
         public string Data { get; set; }
     }

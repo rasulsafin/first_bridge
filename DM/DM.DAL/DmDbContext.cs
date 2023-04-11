@@ -77,85 +77,25 @@ namespace DM.DAL
 
             modelBuilder.Entity<ListEntity>()
                     .HasOne(x => x.List)
-                    .WithMany(x => x.ListData);
+                    .WithMany(x => x.Lists);
 
-            modelBuilder.Entity<TemplateEntity>()
-                .HasMany(c => c.Fields)
-                .WithMany(e => e.Template)
-                .UsingEntity<TemplateFieldEntity>(
-                    j => j
-                    .HasOne(pt => pt.Field)
-                    .WithMany(t => t.TemplateField)
-                    .HasForeignKey(pt => pt.FieldId),
-                    j => j
-                    .HasOne(pt => pt.Template)
-                    .WithMany(t => t.TemplateField)
-                    .HasForeignKey(pt => pt.TemplateId),
-                    j =>
-                    {
-                        j.HasKey(t => new { t.Id });
-                        j.ToTable("TemplateField");
-                    }
-                 );
+            modelBuilder.Entity<FieldEntity>()
+                    .HasOne(x => x.Template)
+                    .WithMany(x => x.Fields);
 
-            modelBuilder.Entity<RecordEntity>()
-                .HasMany(c => c.Fields)
-                .WithMany(e => e.Record)
-                .UsingEntity<RecordFieldEntity>(
-                    j => j
-                    .HasOne(pt => pt.Field)
-                    .WithMany(t => t.RecordField)
-                    .HasForeignKey(pt => pt.FieldId),
-                    j => j
-                    .HasOne(pt => pt.Record)
-                    .WithMany(t => t.RecordField)
-                    .HasForeignKey(pt => pt.RecordId),
-                    j =>
-                    {
-                        j.HasKey(t => new { t.Id });
-                        j.ToTable("RecordField");
-                    }
-                 );
+            modelBuilder.Entity<ListFieldEntity>()
+                    .HasOne(x => x.Template)
+                    .WithMany(x => x.Lists);
 
-            modelBuilder.Entity<TemplateEntity>()
-                .HasMany(c => c.Lists)
-                .WithMany(e => e.Template)
-                .UsingEntity<TemplateListEntity>(
-                    j => j
-                    .HasOne(pt => pt.ListField)
-                    .WithMany(t => t.TemplateList)
-                    .HasForeignKey(pt => pt.ListId),
-                    j => j
-                    .HasOne(pt => pt.Template)
-                    .WithMany(t => t.TemplateList)
-                    .HasForeignKey(pt => pt.TemplateId),
-                    j =>
-                    {
-                        j.HasKey(t => new { t.Id });
-                        j.ToTable("TemplateList");
-                    }
-                 );
+            modelBuilder.Entity<FieldEntity>()
+                    .HasOne(x => x.Record)
+                    .WithMany(x => x.Fields);
 
-            modelBuilder.Entity<RecordEntity>()
-                .HasMany(c => c.Lists)
-                .WithMany(e => e.Record)
-                .UsingEntity<RecordListEntity>(
-                    j => j
-                    .HasOne(pt => pt.ListField)
-                    .WithMany(t => t.RecordList)
-                    .HasForeignKey(pt => pt.ListId),
-                    j => j
-                    .HasOne(pt => pt.Record)
-                    .WithMany(t => t.RecordList)
-                    .HasForeignKey(pt => pt.RecordId),
-                    j =>
-                    {
-                        j.HasKey(t => new { t.Id });
-                        j.ToTable("RecordList");
-                    }
-                 );
+            modelBuilder.Entity<ListFieldEntity>()
+                    .HasOne(x => x.Record)
+                    .WithMany(x => x.Lists);
 
-            // TODO Delete later
+            // Organization test data
             modelBuilder.Entity<OrganizationEntity>()
                 .HasData(new OrganizationEntity
                 {
@@ -169,7 +109,7 @@ namespace DM.DAL
                     Email = "qwerty@mail.ru"
                 });
 
-            // TODO Delete later
+            // User test data
             modelBuilder.Entity<UserEntity>()
                 .HasData(new UserEntity
                 {
@@ -178,24 +118,283 @@ namespace DM.DAL
                     LastName = "admin",
                     FathersName = "admin",
                     Login = "string",
-                    Email = "string",
-                    Password = "string",
+                    Email = "string@gamil.com",
+                    //pass is - string
+                    Password = "AON0utalfV1jyo5nJPnooXEc5NjOWuFBpohmk6xYZ8eK0fjDbSLBGPrY5YkGYlEhBA==",
                     Roles = "Admin",
                     Birthdate = DateTime.Now,
-                    Snils = "string",
+                    Snils = "snils111",
+                    Position = "admin",
+                    OrganizationId = 1
+                });
+            modelBuilder.Entity<UserEntity>()
+                .HasData(new UserEntity
+                {
+                    Id = 2,
+                    Name = "TestBot",
+                    LastName = "Bot",
+                    FathersName = "test",
+                    Login = "string1",
+                    Email = "string@mail.ru",
+                    //pass is - string1
+                    Password = "APqcPGe7Q3u2jRDNgHuKrck8E9l1SAEj6knGQqAAZAm3gIoi/E4FJN4lKqEAUwhMLw==",
+                    Roles = "Admin",
+                    Birthdate = DateTime.Now,
+                    Snils = "snils123",
                     Position = "admin",
                     OrganizationId = 1
                 });
 
-            // TODO Delete later
+            // Project test data
             modelBuilder.Entity<ProjectEntity>()
                 .HasData(new ProjectEntity
                 {
                     Id = 1,
-                    Title = "title1",
-                    Description = "description",
+                    Title = "Project-1",
+                    Description = "Proj 1",
                     OrganizationId = 1,
                     CreatedAt = DateTime.Now
+                });
+            modelBuilder.Entity<ProjectEntity>()
+                .HasData(new ProjectEntity
+                {
+                    Id = 2,
+                    Title = "Project-2",
+                    Description = "Proj 2",
+                    OrganizationId = 1,
+                    CreatedAt = DateTime.Now
+                });
+
+            //Record test data
+            modelBuilder.Entity<RecordEntity>()
+                .HasData(new RecordEntity
+                {
+                    Id = 1,
+                    Name = "Rec-1",
+                    ProjectId = 1,
+                    CreatedAt = DateTime.Now
+                });
+            modelBuilder.Entity<RecordEntity>()
+                .HasData(new RecordEntity
+                {
+                    Id = 2,
+                    Name = "Rec-2",
+                    ProjectId = 1,
+                    CreatedAt = DateTime.Now
+                });
+
+            //Template test data
+            modelBuilder.Entity<TemplateEntity>()
+                .HasData(new TemplateEntity
+                {
+                    Id = 1,
+                    Name = "Templ-1",
+                    ProjectId = 1,
+                    CreatedAt = DateTime.Now
+                });
+            modelBuilder.Entity<TemplateEntity>()
+                .HasData(new TemplateEntity
+                {
+                    Id = 2,
+                    Name = "Templ-2",
+                    ProjectId = 1,
+                    CreatedAt = DateTime.Now
+                });
+
+            //ListField test data
+            modelBuilder.Entity<ListFieldEntity>()
+                .HasData(new ListFieldEntity
+                {
+                    Id = 1,
+                    Name = "Status",
+                    Type = FieldType.List,
+                    IsMandatory = true,
+                    CreatedAt = DateTime.Now,
+                    TemplateId = 1
+                });
+            modelBuilder.Entity<ListFieldEntity>()
+                .HasData(new ListFieldEntity
+                {
+                    Id = 2,
+                    Name = "Type",
+                    Type = FieldType.List,
+                    IsMandatory = false,
+                    CreatedAt = DateTime.Now,
+                    RecordId = 1
+                });
+            modelBuilder.Entity<ListFieldEntity>()
+                .HasData(new ListFieldEntity
+                {
+                    Id = 3,
+                    Name = "Type",
+                    Type = FieldType.List,
+                    IsMandatory = false,
+                    CreatedAt = DateTime.Now,
+                    RecordId = 2
+                });
+
+            //List test data
+            modelBuilder.Entity<ListEntity>()
+                .HasData(new ListEntity
+                {
+                    Id = 1,
+                    Data = "Start",
+                    CreatedAt = DateTime.Now,
+                    ListId = 1
+                });
+            modelBuilder.Entity<ListEntity>()
+                .HasData(new ListEntity
+                {
+                    Id = 2,
+                    Data = "InProgress",
+                    CreatedAt = DateTime.Now,
+                    ListId = 1
+                });
+            modelBuilder.Entity<ListEntity>()
+                .HasData(new ListEntity
+                {
+                    Id = 3,
+                    Data = "Ready",
+                    CreatedAt = DateTime.Now,
+                    ListId = 1
+                });
+
+            modelBuilder.Entity<ListEntity>()
+                .HasData(new ListEntity
+                {
+                    Id = 4,
+                    Data = "Development",
+                    CreatedAt = DateTime.Now,
+                    ListId = 2
+                });
+            modelBuilder.Entity<ListEntity>()
+                .HasData(new ListEntity
+                {
+                    Id = 5,
+                    Data = "Testing",
+                    CreatedAt = DateTime.Now,
+                    ListId = 2
+                });
+            modelBuilder.Entity<ListEntity>()
+                .HasData(new ListEntity
+                {
+                    Id = 6,
+                    Data = "Building",
+                    CreatedAt = DateTime.Now,
+                    ListId = 2
+                });
+
+            //Permissions test data
+            modelBuilder.Entity<PermissionEntity>()
+                .HasData(new PermissionEntity
+                {
+                    Id = 1,
+                    UserId = 1,
+                    ObjectId = 1,
+                    Type = PermissionType.Project,
+                    Create = true,
+                    Read = true,
+                    Update = true,
+                    Delete = true,
+                    CreatedAt = DateTime.Now
+                });
+            modelBuilder.Entity<PermissionEntity>()
+                .HasData(new PermissionEntity
+                {
+                    Id = 2,
+                    UserId = 1,
+                    ObjectId = 2,
+                    Type = PermissionType.Project,
+                    Create = true,
+                    Read = true,
+                    Update = true,
+                    Delete = false,
+                    CreatedAt = DateTime.Now
+                });
+            modelBuilder.Entity<PermissionEntity>()
+                .HasData(new PermissionEntity
+                {
+                    Id = 3,
+                    UserId = 2,
+                    ObjectId = 1,
+                    Type = PermissionType.Project,
+                    Create = true,
+                    Read = true,
+                    Update = true,
+                    Delete = false,
+                    CreatedAt = DateTime.Now
+                });
+            modelBuilder.Entity<PermissionEntity>()
+                .HasData(new PermissionEntity
+                {
+                    Id = 4,
+                    UserId = 2,
+                    ObjectId = 2,
+                    Type = PermissionType.Project,
+                    Create = true,
+                    Read = true,
+                    Update = true,
+                    Delete = true,
+                    CreatedAt = DateTime.Now
+                });
+            modelBuilder.Entity<PermissionEntity>()
+                .HasData(new PermissionEntity
+                {
+                    Id = 5,
+                    UserId = 1,
+                    ObjectId = 1,
+                    Type = PermissionType.Record,
+                    Create = true,
+                    Read = true,
+                    Update = true,
+                    Delete = true,
+                    CreatedAt = DateTime.Now
+                });
+
+            //Field test data
+            modelBuilder.Entity<FieldEntity>()
+                .HasData(new FieldEntity
+                {
+                    Id = 1,
+                    Name = "Description",
+                    Type = FieldType.Text,
+                    IsMandatory = true,
+                    Data = "Editable description",
+                    CreatedAt = DateTime.Now,
+                    RecordId = 1,
+                });
+            modelBuilder.Entity<FieldEntity>()
+                .HasData(new FieldEntity
+                {
+                    Id = 2,
+                    Name = "Employee",
+                    Type = FieldType.Text,
+                    IsMandatory = true,
+                    Data = "Editable Employee",
+                    CreatedAt = DateTime.Now,
+                    RecordId = 2,
+                });
+            modelBuilder.Entity<FieldEntity>()
+                .HasData(new FieldEntity
+                {
+                    Id = 3,
+                    Name = "Description",
+                    Type = FieldType.Text,
+                    IsMandatory = true,
+                    Data = "Editable description",
+                    CreatedAt = DateTime.Now,
+                    TemplateId = 1,
+                });
+            modelBuilder.Entity<FieldEntity>()
+                .HasData(new FieldEntity
+                {
+                    Id = 4,
+                    Name = "Estimate",
+                    Type = FieldType.Text,
+                    IsMandatory = true,
+                    Data = "Editable Estimate",
+                    CreatedAt = DateTime.Now,
+                    TemplateId = 2,
                 });
         }
     }

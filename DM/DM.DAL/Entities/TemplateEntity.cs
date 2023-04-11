@@ -13,8 +13,5 @@ namespace DM.DAL.Entities
 
         public List<FieldEntity> Fields { get; set; }
         public List<ListFieldEntity> Lists { get; set; }
-
-        public List<TemplateFieldEntity> TemplateField { get; set; }
-        public List<TemplateListEntity> TemplateList { get; set; }
     }
 }
