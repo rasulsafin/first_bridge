@@ -28,10 +28,10 @@ namespace DM.Tests
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // попытка решения InvalidOperationException for JsonDocument
-            modelBuilder.Entity<RecordEntity>().Property(p => p.Fields)
-                .HasConversion(
-                    v => v.ToJsonString(),
-                    v => JsonDocument.Parse(v, new JsonDocumentOptions()));   
+            //modelBuilder.Entity<RecordEntity>().Property(p => p.Fields)
+            //    .HasConversion(
+            //        v => v.ToJsonString(),
+            //        v => JsonDocument.Parse(v, new JsonDocumentOptions()));   
         }
 
         private static string JsonDocumentToString(JsonDocument document)

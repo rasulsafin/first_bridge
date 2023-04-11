@@ -11,8 +11,8 @@ namespace DM.DAL.Entities
     {
         public string Name { get; set; }
         public long ProjectId { get; set; }
-        [Column(TypeName = "jsonb")]
-        public JsonDocument Fields { get; set; }
+        public List<FieldEntity> Fields { get; set; }
+        public List<RecordFieldEntity> RecordField { get; set; }
         public List<CommentEntity> Comments { get; set; }
     }
 }

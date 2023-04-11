@@ -52,7 +52,7 @@ namespace DM.Controllers
         [HttpGet("{userId}")]
         public IActionResult GetById(long userId)
         {
-            try 
+            try
             {
                 var user = _userService.GetById(userId);
                 return Ok(user);
@@ -75,7 +75,7 @@ namespace DM.Controllers
         /// <response code="400">User with the same login already exists OR one/multiple of required values is/are empty.</response>
         /// <response code="500">Something went wrong while creating new user.</response>
         [HttpPost]
-        // [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Create(UserModel userModel)
         {
             if (userModel == null)
@@ -86,7 +86,7 @@ namespace DM.Controllers
             {
                 return BadRequest("The Role does not exist");
             }
-                
+
             try
             {
                 var id = await _userService.Create(userModel);
@@ -134,7 +134,7 @@ namespace DM.Controllers
         /// <response code="404">User was not found.</response>
         /// <response code="500">Something went wrong while deleting user.</response>
         [HttpDelete]
-       [Authorize(RoleConst.Admin)]
+        [Authorize(RoleConst.Admin)]
         public async Task<IActionResult> Delete(int userId)
         {
             try
@@ -151,7 +151,7 @@ namespace DM.Controllers
                 return CreateProblemResult(this, 500, ex.Message);
             }
         }
-        
+
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate(AuthenticateRequest model)
         {

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
@@ -9,9 +10,8 @@ namespace DM.Domain.Models
         public long Id { get; set; }
         public string Name { get; set; }
         public long ProjectId { get; set; }
-        public ProjectModel Project { get; set; } 
-        [Column(TypeName = "jsonb")]
-        public JObject RecordTemplate { get; set; }
+        public ProjectModel Project { get; set; }
+        public List<FieldModel> TemplateFields { get; set; }
     }
 
     public class TemplateModelForEdit
@@ -20,7 +20,6 @@ namespace DM.Domain.Models
         public string Name { get; set; }
         public long ProjectId { get; set; }
         public ProjectModel Project { get; set; }
-        [Column(TypeName = "jsonb")]
-        public JObject RecordTemplate { get; set; }
+        public List<FieldModel> TemplateFields { get; set; }
     }
 }

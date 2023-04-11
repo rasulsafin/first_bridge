@@ -4,20 +4,24 @@ using DM.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 using DM.DAL;
-using Newtonsoft.Json.Linq;
+using AutoMapper;
 
 namespace DM.Domain.Implementations
 {
     public class TemplateService : ITemplateService
     {
         private readonly DmDbContext _context;
+        private readonly UserEntity _currentUser;
 
-        public TemplateService(DmDbContext context)
+        private readonly IMapper _mapper;
+
+        public TemplateService(DmDbContext context, IMapper mapper, CurrentUserService userService)
         {
             _context = context;
+            _mapper = mapper;
+            _currentUser = userService.CurrentUser;
         }
 
         public bool AddTemplateToProject(TemplateModel templateModel)
@@ -26,7 +30,7 @@ namespace DM.Domain.Implementations
             {
                 Name = templateModel.Name,
                 ProjectId = templateModel.ProjectId,
-                RecordTemplate = JsonDocument.Parse(templateModel.RecordTemplate.ToString())
+                //Fields = templateModel.RecordTemplate
             };
 
             var project = _context.Projects.Include(x => x.Template).First(x => x.Id == templateModel.ProjectId);
@@ -37,7 +41,7 @@ namespace DM.Domain.Implementations
             }
 
             // добавление зависимой сущности
-            project.Template.Add(template);  
+            project.Template.Add(template);
 
             _context.SaveChanges();
             return true;
@@ -62,7 +66,7 @@ namespace DM.Domain.Implementations
 
             templateForUpdate.Name = templateModelForEdit.Name;
             templateForUpdate.ProjectId = templateModelForEdit.ProjectId;
-            templateForUpdate.RecordTemplate = JsonDocument.Parse(templateModelForEdit.RecordTemplate.ToString());
+            //templateForUpdate.Fields = templateModelForEdit.RecordTemplate;
 
             _context.SaveChanges();
             return true;
@@ -77,10 +81,10 @@ namespace DM.Domain.Implementations
             return templates
                 .Select(template => new TemplateModel()
                 {
-                    Id = template.Id, 
-                    Name = template.Name, 
-                    ProjectId = template.ProjectId, 
-                    RecordTemplate = JObject.Parse(template.RecordTemplate.RootElement.ToString())
+                    Id = template.Id,
+                    Name = template.Name,
+                    ProjectId = template.ProjectId,
+                    //RecordTemplate = template.Fields
                 }).ToList();
         }
     }

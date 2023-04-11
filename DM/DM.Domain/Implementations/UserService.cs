@@ -45,11 +45,13 @@ namespace DM.Domain.Implementations
 
             return new AuthenticateResponse(user, token);
         }
+
         public List<UserModel> GetAll()
         {
             var users = _context.Users.ToList();
             return _mapper.Map<List<UserModel>>(users);
         }
+
         public UserModel GetById(long userId)
         {
             if (userId < 1) return null;
@@ -57,6 +59,7 @@ namespace DM.Domain.Implementations
             var user = _context.Users.FirstOrDefault(x => x.Id == userId);
             return _mapper.Map<UserModel>(user);
         }
+
         public async Task<bool> Create(UserModel userModel)
         {
             var hashedPass = PasswordHelper.HashPassword(userModel.Password);
@@ -86,8 +89,6 @@ namespace DM.Domain.Implementations
             organization.Users.Add(user);
 
             await _context.SaveChangesAsync();
-
-
 
             return true;
         }

@@ -14,27 +14,26 @@ namespace DM.DAL
         public DmDbContext()
         { }
         public DbSet<UserEntity> Users { get; set; }
-  //      public DbSet<ObjectiveEntity> Objective { get; set; }
+        //      public DbSet<ObjectiveEntity> Objective { get; set; }
         public DbSet<ProjectEntity> Projects { get; set; }
         public DbSet<RecordEntity> Records { get; set; }
-  //      public DbSet<UserProjectEntity> UserProjects { get; set; }
+        //      public DbSet<UserProjectEntity> UserProjects { get; set; }
         public DbSet<ItemEntity> Items { get; set; }
         public DbSet<TemplateEntity> Template { get; set; }
         public DbSet<OrganizationEntity> Organization { get; set; }
         public DbSet<PermissionEntity> Permissions { get; set; }
         public DbSet<CommentEntity> Comments { get; set; }
+        public DbSet<RoleEntity> Role { get; set; }
+        public DbSet<FieldEntity> Field { get; set; }
+        public DbSet<ListEntity> List { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<RecordEntity>()
-                .Property(b => b.Fields)
-                .HasColumnType("jsonb");
-            
             // Users should have unique logins
             modelBuilder.Entity<UserEntity>()
                 .HasIndex(x => x.Login)
                 .IsUnique(true);
-            
+
             modelBuilder.Entity<UserEntity>()
                 .HasIndex(x => x.Email)
                 .IsUnique(true);
@@ -42,15 +41,15 @@ namespace DM.DAL
             modelBuilder.Entity<OrganizationEntity>()
                 .HasIndex(x => x.Inn)
                 .IsUnique(true);
-            
+
             modelBuilder.Entity<OrganizationEntity>()
                 .HasIndex(x => x.Name)
                 .IsUnique(true);
-            
+
             modelBuilder.Entity<OrganizationEntity>()
                 .HasIndex(x => x.Ogrn)
                 .IsUnique(true);
-            
+
             modelBuilder.Entity<OrganizationEntity>()
                 .HasIndex(x => x.Email)
                 .IsUnique(true);
@@ -75,6 +74,63 @@ namespace DM.DAL
                     .WithMany(x => x.Items)
                     .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<TemplateEntity>()
+                .HasMany(c => c.Fields)
+                .WithMany(e => e.Template)
+                .UsingEntity<TemplateFieldEntity>(
+                    j => j
+                    .HasOne(pt => pt.Field)
+                    .WithMany(t => t.TemplateField)
+                    .HasForeignKey(pt => pt.FieldId),
+                    j => j
+                    .HasOne(pt => pt.Template)
+                    .WithMany(t => t.TemplateField)
+                    .HasForeignKey(pt => pt.TemplateId),
+                    j =>
+                    {
+                        j.HasKey(t => new { t.Id });
+                        j.ToTable("TemplateField");
+                    }
+                 );
+
+            modelBuilder.Entity<RecordEntity>()
+                .HasMany(c => c.Fields)
+                .WithMany(e => e.Record)
+                .UsingEntity<RecordFieldEntity>(
+                    j => j
+                    .HasOne(pt => pt.Field)
+                    .WithMany(t => t.RecordField)
+                    .HasForeignKey(pt => pt.FieldId),
+                    j => j
+                    .HasOne(pt => pt.Record)
+                    .WithMany(t => t.RecordField)
+                    .HasForeignKey(pt => pt.RecordId),
+                    j =>
+                    {
+                        j.HasKey(t => new { t.Id });
+                        j.ToTable("RecordField");
+                    }
+                 );
+
+            modelBuilder.Entity<ListEntity>()
+                .HasMany(c => c.Field)
+                .WithMany(e => e.List)
+                .UsingEntity<ListFieldEntity>(
+                    j => j
+                    .HasOne(pt => pt.Field)
+                    .WithMany(t => t.ListField)
+                    .HasForeignKey(pt => pt.FieldId),
+                    j => j
+                    .HasOne(pt => pt.List)
+                    .WithMany(t => t.ListField)
+                    .HasForeignKey(pt => pt.ListId),
+                    j =>
+                    {
+                        j.HasKey(t => new { t.Id });
+                        j.ToTable("ListField");
+                    }
+                 );
+
             // TODO Delete later
             modelBuilder.Entity<OrganizationEntity>()
                 .HasData(new OrganizationEntity
@@ -97,14 +153,25 @@ namespace DM.DAL
                     Name = "admin",
                     LastName = "admin",
                     FathersName = "admin",
-                    Login = "admin",
+                    Login = "string",
                     Email = "string",
-                    Password = "admin",
+                    Password = "string",
                     Roles = "Admin",
                     Birthdate = DateTime.Now,
                     Snils = "string",
                     Position = "admin",
                     OrganizationId = 1
+                });
+
+            // TODO Delete later
+            modelBuilder.Entity<ProjectEntity>()
+                .HasData(new ProjectEntity
+                {
+                    Id = 1,
+                    Title = "title1",
+                    Description = "description",
+                    OrganizationId = 1,
+                    CreatedAt = DateTime.Now
                 });
         }
     }

@@ -19,6 +19,12 @@ namespace DM.Domain
 
             CreateMap<ProjectModel, ProjectEntity>();
             CreateMap<ProjectEntity, ProjectModel>();
+
+            CreateMap<TemplateModel, TemplateEntity>();
+            CreateMap<TemplateEntity, TemplateModel>();
+
+            CreateMap<RecordModel, RecordEntity>();
+            CreateMap<RecordEntity, RecordModel>();
         }
     }
 }

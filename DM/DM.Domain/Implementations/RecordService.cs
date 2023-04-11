@@ -16,9 +16,11 @@ namespace DM.Domain.Implementations
     public class RecordService : IRecordService
     {
         private readonly DmDbContext _context;
-        private readonly IMapper _mapper;
-        private readonly string _checker = "[]!@#$%^&*+=~`";
         private readonly UserEntity _currentUser;
+
+        private readonly IMapper _mapper;
+
+        private readonly string _checker = "[]!@#$%^&*+=~`";
 
         public RecordService(DmDbContext context, IMapper mapper, CurrentUserService userService)
         {
@@ -26,9 +28,9 @@ namespace DM.Domain.Implementations
             _mapper = mapper;
             _currentUser = userService.CurrentUser;
         }
+
         public List<RecordModel> GetAll()
         {
-            var recordModels = new List<RecordModel>();
             var records = _context.Records.ToList();
 
             foreach (var r in records)
@@ -42,73 +44,48 @@ namespace DM.Domain.Implementations
                         continue;
                     }
                 }
-
-                recordModels.Add(new RecordModel()
-                {
-                    Id = r.Id,
-                    Name = r.Name,
-                    ProjectId = r.ProjectId,
-                    Fields = JObject.Parse(r.Fields.RootElement.ToString())
-                });
             }
 
-            return recordModels;
+            return _mapper.Map<List<RecordModel>>(records);
         }
 
         public RecordModel GetById(long recordId)
         {
-            var record = _context.Records.Include(x => x.Comments)
-                .FirstOrDefault(x => x.Id == recordId);
+            var record = _context.Records.FirstOrDefault(x => x.Id == recordId);
+
             if (record == null)
             {
                 return null;
             }
 
-            var listOfComments = new List<CommentModelForGet>();
-
-            foreach (var comment in record.Comments)
-            {
-                listOfComments.Add(new CommentModelForGet() { Text = comment.Text, UserName = comment.User.Name});
-            }
-
-            var recordModel = new RecordModel()
-            {
-                Id = record.Id,
-                Name = record.Name,
-                ProjectId = record.ProjectId,
-                Fields = JObject.Parse(record.Fields.RootElement.ToString()),
-                Comments = listOfComments
-            };
-            return recordModel;
+            return _mapper.Map<RecordModel>(record);
         }
+
         public async Task<long> Create(RecordModel recordModel)
         {
-            var json = JsonDocument.Parse(recordModel.Fields.ToString());
-
-            var m = new RecordEntity { Name = recordModel.Name, Fields = json, ProjectId = recordModel.ProjectId };
+            var m = new RecordEntity { Name = recordModel.Name, Fields = null, ProjectId = recordModel.ProjectId };
 
             var result = await _context.Records.AddAsync(m);
             await _context.SaveChangesAsync();
             return result.Entity.Id;
         }
+
         /// <summary>
         /// update fields attached to a record
         /// </summary>
-
         public async Task<bool> Update(RecordModel record)
         {
-            foreach (var j in record.Fields) // Валидация специальных символов
-            {
-                foreach (var s in _checker)
-                {
-                    if (j.Value.ToString().Contains(s))
-                    {
-                        return false;
-                    }
-                }
-            }
+            //foreach (var j in record.RecordTemplate) // Валидация специальных символов
+            //{
+            //    foreach (var s in _checker)
+            //    {
+            //        if (j.Value.ToString().Contains(s))
+            //        {
+            //            return false;
+            //        }
+            //    }
+            //}
 
-            var stringjson = record.Fields.ToString();
             var fieldForUpdate = await _context.Records.FirstOrDefaultAsync(x => x.Name == record.Name);
 
             if (fieldForUpdate == null)
@@ -120,7 +97,7 @@ namespace DM.Domain.Implementations
 
             fieldForUpdate.Name = record.Name;
             fieldForUpdate.ProjectId = record.ProjectId;
-            fieldForUpdate.Fields = JsonDocument.Parse(stringjson);
+            //fieldForUpdate.Fields = record.RecordFields;
 
             await _context.SaveChangesAsync();
 
@@ -128,7 +105,7 @@ namespace DM.Domain.Implementations
 
             return true;
         }
-        
+
         public async Task<bool> Delete(long recordId)
         {
             var result = await _context.Records.FirstOrDefaultAsync(x => x.Id == recordId);
