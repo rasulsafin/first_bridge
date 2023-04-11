@@ -1,5 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProjects, searchByTitle, selectAllProjects } from "../../../services/projectsSlice";
+import {
+  fetchProjects,
+  searchProjectsByTitle,
+  selectAllProjects,
+  sortProjectsByDateAsc,
+  sortProjectsByDateDesc
+} from "../../../services/projectsSlice";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Controls } from "../../controls/Controls";
@@ -19,14 +25,22 @@ export function Projects() {
     dispatch(fetchProjects());
     dispatch(fetchUsers());
   }, []);
-  
+
   function handleToCreatePage() {
     navigate(`/project/create`);
   }
 
   function filterByInput(e) {
-    dispatch(searchByTitle(e.target.value));
+    dispatch(searchProjectsByTitle(e.target.value));
   }
+
+  const handleSortByAsc = () => {
+    dispatch(sortProjectsByDateAsc());
+  };
+
+  const handleSortByDesc = () => {
+    dispatch(sortProjectsByDateDesc());
+  };
 
   return (
     <div className="component-container">
@@ -43,6 +57,7 @@ export function Projects() {
               color: "#FFF",
               border: "none"
             }}
+            onClick={handleSortByAsc}
           >Сначала новые</Controls.Button>
           <Controls.Button
             style={{
@@ -50,6 +65,7 @@ export function Projects() {
               color: "#2D2926",
               border: "none"
             }}
+            onClick={handleSortByDesc}
           >Сначала старые</Controls.Button>
         </div>
       </div>

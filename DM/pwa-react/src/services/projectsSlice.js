@@ -34,8 +34,17 @@ export const projectsSlice = createSlice({
   name: "projects",
   initialState,
   reducers: {
-    searchByTitle: (state, action) => {
-      state.projects = state.filteredProjects.filter(project => project.title.toLowerCase().includes(action.payload.toLowerCase()));
+    searchProjectsByTitle: (state, action) => {
+      state.projects = state.filteredProjects
+        .filter(project => project.title.toLowerCase().includes(action.payload.toLowerCase()));
+    },
+    sortProjectsByDateAsc: (state) => {
+      state.projects = state.projects
+        .sort((a, b) => new Date(a.creationDate) < new Date(b.creationDate) ? -1 : 1);
+    },
+    sortProjectsByDateDesc: (state) => {
+      state.projects = state.projects
+        .sort((a, b) => new Date(b.creationDate) < new Date(a.creationDate) ? -1 : 1);
     }
   },
   extraReducers: (builder) => {
@@ -54,7 +63,7 @@ export const projectsSlice = createSlice({
   }
 });
 
-export const { searchByTitle } = projectsSlice.actions;
+export const { searchProjectsByTitle, sortProjectsByDateAsc, sortProjectsByDateDesc } = projectsSlice.actions;
 
 export const selectAllProjects = state => state.projects.projects;
 export const filteredProjects = state => state.projects.filteredProjects;
