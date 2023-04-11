@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./ProjectCard.css";
 import { Controls } from "../../../controls/Controls";
-import { Button, DialogContentText, IconButton, MenuItem } from "@mui/material";
+import { Grid, IconButton, MenuItem } from "@mui/material";
 import { ReactComponent as MoreIcon } from "../../../../assets/icons/more.svg";
 import { ReactComponent as TrashIcon } from "../../../../assets/icons/trashcan.svg";
 import { ReactComponent as EditIcon } from "../../../../assets/icons/edit.svg";
@@ -10,8 +10,6 @@ import { ProjectModal } from "./ProjectModal";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAllUsers } from "../../../../services/usersSlice";
 import { fetchFiles, selectAllFiles } from "../../../../services/filesSlice";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
 import { deleteProject } from "../../../../services/projectsSlice";
 import { formatDate } from "../utils/formatDate";
@@ -94,24 +92,24 @@ export const ProjectCard = (project) => {
 
   const deleteDialog = (
     <Dialog
-      PaperProps={{ sx: { position: "fixed", bottom: 50, left: "35vw", m: 0 } }}
+      PaperProps={{ sx: { position: "fixed", bottom: 50, left: "35vw", maxWidth: "md", m: 0, padding: 2 } }}
       open={openDialog}
       onClose={handleCloseDialog}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
       hideBackdrop
     >
-      <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          Вы действительно хотите удалить проект {project.project.title}
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleDeleteProject} variant="outlined" color="error">Да</Button>
-        <Button onClick={handleCloseDialog} variant="outlined" autoFocus>
-          Нет
-        </Button>
-      </DialogActions>
+      <Grid container>
+        <Grid item md={12}>
+          <span>
+           {`Вы действительно хотите удалить проект ${project.project.title} ?`}
+          </span>
+          <Controls.Button onClick={handleDeleteProject} variant="outlined" color="error">Да</Controls.Button>
+          <Controls.Button onClick={handleCloseDialog} variant="outlined" autoFocus>
+            Нет
+          </Controls.Button>
+        </Grid>
+      </Grid>
     </Dialog>
   );
 
