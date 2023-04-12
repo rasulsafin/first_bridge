@@ -1,15 +1,15 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Linq;
+
+using Microsoft.EntityFrameworkCore;
+
+using AutoMapper;
+
 using DM.DAL.Entities;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json;
-using System.Threading.Tasks;
 using DM.DAL;
-using DM.Domain.Helpers;
 
 namespace DM.Domain.Implementations
 {
@@ -20,8 +20,6 @@ namespace DM.Domain.Implementations
 
         private readonly IMapper _mapper;
 
-        private readonly string _checker = "[]!@#$%^&*+=~`";
-
         public RecordService(DmDbContext context, IMapper mapper, CurrentUserService userService)
         {
             _context = context;
@@ -29,6 +27,9 @@ namespace DM.Domain.Implementations
             _currentUser = userService.CurrentUser;
         }
 
+        /// <summary>
+        /// Get all Records
+        /// </summary>
         public List<RecordModel> GetAll()
         {
             var records = _context.Records
@@ -37,22 +38,12 @@ namespace DM.Domain.Implementations
                 .Include(x => x.ListFields).ThenInclude(y => y.Lists)
                 .ToList();
 
-            foreach (var r in records)
-            {
-                if (_currentUser.Roles != "Admin")
-                {
-                    var permission = AuthorizationHelper.CheckUsersPermissionsById(_context, _currentUser, PermissionType.Record, r.Id);
-
-                    if (permission == null || !permission.Read)
-                    {
-                        continue;
-                    }
-                }
-            }
-
             return _mapper.Map<List<RecordModel>>(records);
         }
 
+        /// <summary>
+        /// Get record by Id
+        /// </summary>
         public RecordModel GetById(long recordId)
         {
             var record = _context.Records
@@ -69,15 +60,17 @@ namespace DM.Domain.Implementations
             return _mapper.Map<RecordModel>(record);
         }
 
+        /// <summary>
+        /// Create new Record
+        /// </summary>
         public async Task<long> Create(RecordModel recordModel)
         {
             var record = _mapper.Map<RecordEntity>(new RecordModel
             {
                 Name = recordModel.Name,
                 ProjectId = recordModel.ProjectId,
-                Comments = recordModel.Comments,
-                Fields = recordModel.Fields,
-                ListFields = recordModel.ListFields
+                Fields = recordModel.Fields.ToList(),
+                ListFields = recordModel.ListFields.ToList()
             });
 
             var result = await _context.Records.AddAsync(record);
@@ -88,22 +81,11 @@ namespace DM.Domain.Implementations
         }
 
         /// <summary>
-        /// update fields attached to a record
+        /// Update only the columns of an existing Record
         /// </summary>
         public async Task<bool> Update(RecordModel record)
         {
-            //foreach (var j in record.RecordTemplate) // Валидация специальных символов
-            //{
-            //    foreach (var s in _checker)
-            //    {
-            //        if (j.Value.ToString().Contains(s))
-            //        {
-            //            return false;
-            //        }
-            //    }
-            //}
-
-            var fieldForUpdate = await _context.Records.FirstOrDefaultAsync(x => x.Name == record.Name);
+            var fieldForUpdate = await _context.Records.FirstOrDefaultAsync(x => x.Id == record.Id);
 
             if (fieldForUpdate == null)
             {
@@ -122,16 +104,26 @@ namespace DM.Domain.Implementations
             return true;
         }
 
+        /// <summary>
+        /// Delete an existing Record along with fields and lists
+        /// </summary>
         public async Task<bool> Delete(long recordId)
         {
-            var result = await _context.Records.FirstOrDefaultAsync(x => x.Id == recordId);
+            var result = await _context.Records
+                .Include(x => x.Comments)
+                .Include(x => x.Fields)
+                .Include(x => x.ListFields).ThenInclude(y => y.Lists)
+                .FirstOrDefaultAsync(x => x.Id == recordId);
+
             if (result == null)
             {
                 return false;
             }
 
             _context.Records.Remove(result);
+
             await _context.SaveChangesAsync();
+
             return true;
         }
     }

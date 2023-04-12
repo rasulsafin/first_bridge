@@ -80,8 +80,6 @@ namespace DM.Domain.Implementations
 
         public async Task<long> Create(ProjectModel projectModel)
         {
-         //   var json = JsonDocument.Parse(projectModel.RecordTemplate.ToString());
-
             var project = new ProjectEntity
             {
                 OrganizationId = projectModel.OrganizationId,

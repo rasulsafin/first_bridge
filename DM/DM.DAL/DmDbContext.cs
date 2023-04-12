@@ -77,23 +77,28 @@ namespace DM.DAL
 
             modelBuilder.Entity<ListEntity>()
                     .HasOne(x => x.List)
-                    .WithMany(x => x.Lists);
+                    .WithMany(x => x.Lists)
+                    .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<FieldEntity>()
                     .HasOne(x => x.Template)
-                    .WithMany(x => x.Fields);
+                    .WithMany(x => x.Fields)
+                    .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<ListFieldEntity>()
                     .HasOne(x => x.Template)
-                    .WithMany(x => x.ListFields);
+                    .WithMany(x => x.ListFields)
+                    .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<FieldEntity>()
                     .HasOne(x => x.Record)
-                    .WithMany(x => x.Fields);
+                    .WithMany(x => x.Fields)
+                    .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<ListFieldEntity>()
                     .HasOne(x => x.Record)
-                    .WithMany(x => x.ListFields);
+                    .WithMany(x => x.ListFields)
+                    .OnDelete(DeleteBehavior.Cascade);
 
             // Organization test data
             modelBuilder.Entity<OrganizationEntity>()
