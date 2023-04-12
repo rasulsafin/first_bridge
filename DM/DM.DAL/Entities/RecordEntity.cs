@@ -12,7 +12,7 @@ namespace DM.DAL.Entities
         public string Name { get; set; }
         public long ProjectId { get; set; }
         public List<FieldEntity> Fields { get; set; }
-        public List<ListFieldEntity> Lists { get; set; }
+        public List<ListFieldEntity> ListFields { get; set; }
         public List<CommentEntity> Comments { get; set; }
     }
 }

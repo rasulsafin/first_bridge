@@ -12,6 +12,6 @@ namespace DM.DAL.Entities
         public ProjectEntity Project { get; set; }
 
         public List<FieldEntity> Fields { get; set; }
-        public List<ListFieldEntity> Lists { get; set; }
+        public List<ListFieldEntity> ListFields { get; set; }
     }
 }
