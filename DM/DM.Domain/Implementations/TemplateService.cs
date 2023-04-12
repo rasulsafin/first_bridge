@@ -74,6 +74,8 @@ namespace DM.Domain.Implementations
         public async Task<List<TemplateModel>> GetTemplatesOfProject(long projectId)
         {
             var templates = await _context.Template
+                .Include(x => x.Fields)
+                .Include(x => x.ListFields).ThenInclude(y => y.Lists)
                 .Where(x => x.ProjectId == projectId)
                 .ToListAsync();
 

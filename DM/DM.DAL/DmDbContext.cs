@@ -85,7 +85,7 @@ namespace DM.DAL
 
             modelBuilder.Entity<ListFieldEntity>()
                     .HasOne(x => x.Template)
-                    .WithMany(x => x.Lists);
+                    .WithMany(x => x.ListFields);
 
             modelBuilder.Entity<FieldEntity>()
                     .HasOne(x => x.Record)
@@ -93,7 +93,7 @@ namespace DM.DAL
 
             modelBuilder.Entity<ListFieldEntity>()
                     .HasOne(x => x.Record)
-                    .WithMany(x => x.Lists);
+                    .WithMany(x => x.ListFields);
 
             // Organization test data
             modelBuilder.Entity<OrganizationEntity>()

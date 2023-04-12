@@ -9,6 +9,7 @@ namespace DM.Domain.Models
         public string Name { get; set; }
         public FieldType Type { get; set; }
         public bool IsMandatory { get; set; }
+        public string Data { get; set; }
     }
 
     public class ListFieldModel

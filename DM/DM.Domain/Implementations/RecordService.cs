@@ -34,10 +34,8 @@ namespace DM.Domain.Implementations
             var records = _context.Records
                 .Include(x => x.Comments)
                 .Include(x => x.Fields)
-                .Include(x => x.Lists)
+                .Include(x => x.ListFields).ThenInclude(y => y.Lists)
                 .ToList();
-
-            var rec = records.Select(x => x.Lists.ToArray());
 
             foreach (var r in records)
             {
@@ -60,7 +58,7 @@ namespace DM.Domain.Implementations
             var record = _context.Records
                 .Include(x => x.Comments)
                 .Include(x => x.Fields)
-                .Include(x => x.Lists)
+                .Include(x => x.ListFields).ThenInclude(y => y.Lists)
                 .FirstOrDefault(x => x.Id == recordId);
 
             if (record == null)
