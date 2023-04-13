@@ -51,6 +51,7 @@ namespace DM.Domain.Implementations
                     OrganizationId = project.OrganizationId,
                     Title = project.Title,
                     Description = project.Description,
+                    CreationDate = project.CreatedAt,
                 });
             }
 
