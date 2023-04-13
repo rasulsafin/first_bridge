@@ -24,7 +24,6 @@ namespace DM.Domain.Models
     public class ListModel
     {
         public long Id { get; set; }
-        public long ListId { get; set; }
         public string Data { get; set; }
     }
 }
