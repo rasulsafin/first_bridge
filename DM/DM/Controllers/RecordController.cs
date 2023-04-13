@@ -1,13 +1,14 @@
-﻿using System.Linq;
-using DM.Domain.Interfaces;
-using DM.Domain.Models;
-using DM.Helpers;
+﻿using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using DM.DAL;
-using DM.DAL.Entities;
-using DM.Domain.Helpers;
+
+using DM.Domain.Interfaces;
 using DM.Domain.Implementations;
+using DM.Domain.Helpers;
+using DM.Domain.Models;
+using DM.DAL.Entities;
+using DM.DAL;
+using DM.Helpers;
 
 namespace DM.Controllers
 {
@@ -15,14 +16,15 @@ namespace DM.Controllers
     [Route("api/record")]
     public class RecordController : ControllerBase
     {
-        public readonly IRecordService _recordService;
-        public readonly DmDbContext _context;
+        private readonly DmDbContext _context;
         private readonly UserEntity _currentUser;
+
+        private readonly IRecordService _recordService;
 
         public RecordController(IRecordService recordService, DmDbContext context, CurrentUserService userService)
         {
-            _recordService = recordService;
             _context = context;
+            _recordService = recordService;
             _currentUser = userService.CurrentUser;
         }
 
@@ -30,7 +32,6 @@ namespace DM.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            // логика проверки доступа для GetAll перенесена в сервис
             var records = _recordService.GetAll();
 
             return Ok(records);
@@ -40,8 +41,6 @@ namespace DM.Controllers
         [HttpGet("{recordId}")]
         public IActionResult GetById(long recordId)
         {
-            var userId = HttpContext.GetUserId();
-
             var permission = AuthorizationHelper.CheckUsersPermissionsById(_context, _currentUser, PermissionType.Record, recordId);
 
             if (permission == null || !permission.Read)
@@ -50,6 +49,7 @@ namespace DM.Controllers
             }
 
             var record = _recordService.GetById(recordId);
+
             if (record == null)
                 return NotFound();
 

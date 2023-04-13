@@ -1,8 +1,10 @@
-﻿using DM.Domain.Interfaces;
+﻿using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Mvc;
+
+using DM.Domain.Interfaces;
 using DM.Domain.Models;
 using DM.Helpers;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace DM.Controllers
 {
@@ -34,7 +36,9 @@ namespace DM.Controllers
         public IActionResult AddTemplateToProject(TemplateModel templateModel)
         {
             if (templateModel == null) return BadRequest("Invalid Request");
-            var template = _templateService.AddTemplateToProject(templateModel);
+
+            var template = _templateService.Create(templateModel);
+
             return Ok(template);
         }
 
@@ -42,7 +46,8 @@ namespace DM.Controllers
         [HttpPut()]
         public IActionResult EditExistingTemplateOfProject(TemplateModelForEdit templateModelForEdit)
         {
-            var template = _templateService.EditExistingTemplateOfProject(templateModelForEdit);
+            var template = _templateService.Update(templateModelForEdit);
+
             return Ok(template);
         }
     }

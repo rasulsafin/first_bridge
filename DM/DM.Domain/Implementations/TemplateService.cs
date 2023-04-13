@@ -1,13 +1,15 @@
-﻿using DM.DAL.Entities;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Linq;
+
+using Microsoft.EntityFrameworkCore;
+
+using AutoMapper;
+
+using DM.DAL.Entities;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using DM.DAL;
-using AutoMapper;
-using DM.Domain.Helpers;
 
 namespace DM.Domain.Implementations
 {
@@ -25,52 +27,22 @@ namespace DM.Domain.Implementations
             _currentUser = userService.CurrentUser;
         }
 
-        public bool AddTemplateToProject(TemplateModel templateModel)
+        /// <summary>
+        /// Get all Templates
+        /// </summary>
+        public async Task<List<TemplateModel>> GetAll()
         {
-            var template = _mapper.Map<TemplateEntity>(new TemplateModel
-            {
-                Name = templateModel.Name,
-                ProjectId = templateModel.ProjectId,
-            });
+            var templates = await _context.Template
+                .Include(x => x.Fields)
+                .Include(x => x.ListFields).ThenInclude(y => y.Lists)
+                .ToListAsync();
 
-            var project = _context.Projects.Include(x => x.Template).First(x => x.Id == templateModel.ProjectId);
-
-            if (project == null)
-            {
-                return false;
-            }
-
-            // добавление зависимой сущности
-            project.Template.Add(template);
-
-            _context.SaveChanges();
-            return true;
+            return _mapper.Map<List<TemplateModel>>(templates);
         }
 
-        public bool EditExistingTemplateOfProject(TemplateModelForEdit templateModelForEdit)
-        {
-            var project = _context.Projects.Where(x => x.Id == templateModelForEdit.ProjectId).Include(x => x.Template).First();
-
-            if (project == null)
-            {
-                return false;
-            }
-
-            var templateForUpdate = project.Template
-                .FirstOrDefault(x => x.Id == templateModelForEdit.TemplateId);
-
-            if (templateForUpdate == null)
-            {
-                return false;
-            }
-
-            templateForUpdate.Name = templateModelForEdit.Name;
-            templateForUpdate.ProjectId = templateModelForEdit.ProjectId;
-
-            _context.SaveChanges();
-            return true;
-        }
-
+        /// <summary>
+        /// Get all Templates of Current Project
+        /// </summary>
         public async Task<List<TemplateModel>> GetTemplatesOfProject(long projectId)
         {
             var templates = await _context.Template
@@ -80,6 +52,50 @@ namespace DM.Domain.Implementations
                 .ToListAsync();
 
             return _mapper.Map<List<TemplateModel>>(templates);
+        }
+
+        /// <summary>
+        /// Create new Template
+        /// </summary>
+        public bool Create(TemplateModel templateModel)
+        {
+            var template = _mapper.Map<TemplateEntity>(new TemplateModel
+            {
+                Name = templateModel.Name,
+                ProjectId = templateModel.ProjectId,
+                Fields = templateModel.Fields.ToList(),
+                ListFields = templateModel.ListFields.ToList()
+            });
+
+            _context.Template.Add(template);
+
+            _context.SaveChanges();
+
+            return true;
+        }
+
+        /// <summary>
+        /// Update only the columns of an existing Template
+        /// </summary>
+        public bool Update(TemplateModelForEdit templateModelForEdit)
+        {
+            var templateForUpdate = _context.Template.FirstOrDefault(x => x.Id == templateModelForEdit.TemplateId);
+
+            if (templateForUpdate == null)
+            {
+                return false;
+            }
+
+            _context.Template.Attach(templateForUpdate);
+
+            templateForUpdate.Name = templateModelForEdit.Name;
+            templateForUpdate.ProjectId = templateModelForEdit.ProjectId;
+
+            _context.SaveChanges();
+
+            _context.Entry(templateForUpdate).State = EntityState.Detached;
+
+            return true;
         }
     }
 }
