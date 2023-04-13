@@ -28,6 +28,7 @@ namespace DM.Domain.Implementations
         {
             var projects = await _context.Projects
                 .Include(x => x.Template)
+                .Include(x => x.Users)
                 .ToListAsync();
 
             var projectModel = new List<ProjectModel>();
@@ -53,7 +54,7 @@ namespace DM.Domain.Implementations
                     CreationDate = project.CreatedAt,
                 });
             }
-         
+
             return projectModel;
         }
 
@@ -67,12 +68,11 @@ namespace DM.Domain.Implementations
                 return null;
             }
 
-            var projectModel = new ProjectModel() 
-            {   
+            var projectModel = new ProjectModel()
+            {
                 OrganizationId = project.OrganizationId,
                 Title = project?.Title,
                 Description = project.Description,
-                CreationDate = project.CreatedAt,
             };
 
             return projectModel;
@@ -130,7 +130,7 @@ namespace DM.Domain.Implementations
                 .Include(x => x.Records)
                 .Include(x => x.Template)
                 .FirstOrDefaultAsync(x => x.Id == projectId);
-            
+
             if (result == null)
             {
                 return false;

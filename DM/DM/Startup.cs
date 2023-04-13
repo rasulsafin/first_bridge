@@ -48,6 +48,8 @@ namespace DM
             services.AddScoped<IOrganizationService, OrganizationService>();
             services.AddScoped<IPermissionService, PermissionService>();
             services.AddScoped<ICommentService, CommentService>();
+            services.AddScoped<IFieldService, FieldService>();
+            services.AddScoped<IListFieldService, FieldService>();
             services.AddScoped<CurrentUserService>();
             services.AddDbContext<DmDbContext>(options =>
             {

@@ -1,5 +1,9 @@
-﻿using DM.Domain.Interfaces;
+﻿using AutoMapper;
+using DM.DAL;
+using DM.DAL.Entities;
+using DM.Domain.Interfaces;
 using DM.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +12,88 @@ using System.Threading.Tasks;
 
 namespace DM.Domain.Implementations
 {
-    public class FieldService
+    public class FieldService : IFieldService, IListFieldService
     {
+        private readonly DmDbContext _context;
+        private readonly UserEntity _currentUser;
 
+        private readonly IMapper _mapper;
+
+        public FieldService(DmDbContext context, IMapper mapper, CurrentUserService userService)
+        {
+            _context = context;
+            _mapper = mapper;
+            _currentUser = userService.CurrentUser;
+        }
+
+        public bool Create(FieldModel fieldModel)
+        {
+            var field = _mapper.Map<FieldEntity>(new FieldModel
+            {
+                Name = fieldModel.Name,
+                IsMandatory = fieldModel.IsMandatory,
+                Data = fieldModel.Data,
+                Type = fieldModel.Type,
+                RecordId = fieldModel.RecordId == 0 ? null : fieldModel.RecordId,
+                TemplateId = fieldModel.TemplateId == 0 ? null : fieldModel.TemplateId,
+            });
+
+            _context.Field.AddAsync(field);
+
+            _context.SaveChanges();
+
+            return true;
+        }
+
+        public bool Create(ListFieldModel listFieldModel)
+        {
+            var ListField = _mapper.Map<ListFieldEntity>(new ListFieldModel
+            {
+                Name = listFieldModel.Name,
+                IsMandatory = listFieldModel.IsMandatory,
+                Lists = listFieldModel.Lists,
+                Type = listFieldModel.Type,
+                RecordId = listFieldModel.RecordId == 0 ? null : listFieldModel.RecordId,
+                TemplateId = listFieldModel.TemplateId == 0 ? null : listFieldModel.TemplateId,
+            });
+
+            _context.ListField.AddAsync(ListField);
+
+            _context.SaveChanges();
+
+            return true;
+        }
+
+        bool IFieldService.Delete(long id)
+        {
+            var field = _context.Field.Where(x => x.Id == id).FirstOrDefault();
+
+            if (field == null)
+            {
+                return false;
+            }
+
+            _context.Field.Remove(field);
+
+            _context.SaveChanges();
+
+            return true;
+        }
+
+        bool IListFieldService.Delete(long id)
+        {
+            var listField = _context.ListField.Where(x => x.Id == id).FirstOrDefault();
+
+            if (listField == null)
+            {
+                return false;
+            }
+
+            _context.ListField.Remove(listField);
+
+            _context.SaveChanges();
+
+            return true;
+        }
     }
 }

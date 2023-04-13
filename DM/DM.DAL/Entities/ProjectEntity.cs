@@ -16,6 +16,10 @@ namespace DM.DAL.Entities
         /// </summary>
         public string Description { get; set; }
         /// <summary>
+        /// Users of project
+        /// </summary>
+        public List<UserProjectEntity> Users { get; set; }
+        /// <summary>
         /// Документы проекта
         /// </summary>
         public List<ItemEntity> Items { get; set; }
