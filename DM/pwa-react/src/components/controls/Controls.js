@@ -9,6 +9,9 @@ import TextArea from "./TextArea";
 import { Button } from "./Button";
 import ValidationFormTextfield from "./ValidationFormTextfield";
 import Avatar from "./Avatar";
+// import RoundButton from "./RoundButton";
+// import Modal from "./Modal";
+import FormTextfield from "./FormTextfield";
 
 export const Controls = {
   Input,
@@ -21,5 +24,8 @@ export const Controls = {
   SelectTemplate,
   Button,
   ValidationFormTextfield,
+  FormTextfield,
   Avatar,
+  // RoundButton,
+  // Modal
 }
