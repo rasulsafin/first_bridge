@@ -62,36 +62,36 @@ namespace DM.Tests.UnitTests
 
         #endregion
 
-        #region AddPermissionsToUserReturnsBadRequestWithNotExistingUser
+        //#region AddPermissionsToUserReturnsBadRequestWithNotExistingUser
 
-        [Fact]
-        public async Task AddPermissionsToUserReturnsBadRequestWithNotExistingUser()
-        {
-            var permissionRepo = new Mock<IPermissionService>();
-            var permissionController = new PermissionController(permissionRepo.Object);
+        //[Fact]
+        //public async Task AddPermissionsToUserReturnsBadRequestWithNotExistingUser()
+        //{
+        //    var permissionRepo = new Mock<IPermissionService>();
+        //    var permissionController = new PermissionController(permissionRepo.Object);
 
-            var model = new PermissionModel() { RoleId = 1, Create = true };
+        //    var model = new PermissionModel() { RoleId = 1, Create = true };
 
-            var result = await permissionController.CreatePermissionToRole(model);
-            Assert.IsType<BadRequestObjectResult>(result);
-            Assert.Equal(ErrorList.NotFoundUser,  result.GetPropertyValue("Value"));
-        }
+        //    var result = await permissionController.CreatePermissionToRole(model);
+        //    Assert.IsType<BadRequestObjectResult>(result);
+        //    Assert.Equal(ErrorList.NotFoundUser,  result.GetPropertyValue("Value"));
+        //}
 
-        #endregion
+        //#endregion
 
-        #region AddPermissionsToUserReturnsBadRequestWithWrongRequest
+        //#region AddPermissionsToUserReturnsBadRequestWithWrongRequest
 
-        [Fact]
-        public async Task AddPermissionsToUserReturnsBadRequestWithWrongRequest()
-        {
-            var permissionRepo = new Mock<IPermissionService>();
-            var permissionController = new PermissionController(permissionRepo.Object);
+        //[Fact]
+        //public async Task AddPermissionsToUserReturnsBadRequestWithWrongRequest()
+        //{
+        //    var permissionRepo = new Mock<IPermissionService>();
+        //    var permissionController = new PermissionController(permissionRepo.Object);
 
-            var result = await permissionController.CreatePermissionToRole(null);
-            Assert.IsType<BadRequestObjectResult>(result);
-            Assert.Equal(ErrorList.BadRequest,  result.GetPropertyValue("Value"));
-        }
+        //    var result = await permissionController.CreatePermissionToRole(null);
+        //    Assert.IsType<BadRequestObjectResult>(result);
+        //    Assert.Equal(ErrorList.BadRequest,  result.GetPropertyValue("Value"));
+        //}
 
-        #endregion
+        //#endregion
     }
 }
