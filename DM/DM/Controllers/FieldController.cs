@@ -17,7 +17,7 @@ namespace DM.Controllers
             _fieldService = fieldService;
         }
 
-        [Authorize(RoleConst.Admin)]
+        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpPost]
         public IActionResult Create(FieldModel fieldModel)
         {
@@ -26,7 +26,7 @@ namespace DM.Controllers
             return Ok(checker);
         }
 
-        [Authorize(RoleConst.Admin)]
+        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpDelete]
         public IActionResult Delete(long fieldId)
         {
@@ -52,7 +52,7 @@ namespace DM.Controllers
             _listFieldService = listFieldService;
         }
 
-        [Authorize(RoleConst.Admin)]
+        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpPost]
         public IActionResult Create(ListFieldModel listFieldModel)
         {
@@ -61,7 +61,7 @@ namespace DM.Controllers
             return Ok(checker);
         }
 
-        [Authorize(RoleConst.Admin)]
+        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpDelete]
         public IActionResult Delete(long listFieldId)
         {

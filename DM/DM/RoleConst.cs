@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace DM
+﻿namespace DM
 {
     public static class RoleConst
     {
-        public const string UserAdmin = "User Admin";
-        public const string Admin = "Admin";
-        public const string SuperAdmin = "User Admin SuperAdmin";
-        public const string AdminSuperAdmin = "Admin SuperAdmin";
-        public const string OnlySuperAdmin = "SuperAdmin";
+        public const string Owner = "Owner";
+        public const string Admin = "Administrator";
+        public const string TeamSupervisor = "Team Supervisor";
+        public const string Supervisor = "Supervisor";
+        public const string Worker = "Worker";
+        public const string User = "User";
     }
 }

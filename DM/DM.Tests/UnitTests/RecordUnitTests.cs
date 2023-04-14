@@ -20,11 +20,11 @@ namespace DM.Tests.UnitTests
         [Fact]
         public async Task RecordGetAllPositiveTesting()
         {
-            var recordRepo = new Mock<IRecordService>();
-            var dmContext = new Mock<DmDbContext>();
+            var recordRepo = new Mock<IRecordService>().ReverseMap();
+            var dmContext = new Mock<DmDbContext>().ReverseMap();
             var recordController = new RecordController(recordRepo.Object, dmContext.Object, new CurrentUserService(dmContext.Object));
             var recordModel = new RecordModel() { Id = 1, Name = "Record", ProjectId = 1};
-            var recordList = new List<RecordModel>();
+            var recordList = new List<RecordModel>().ReverseMap();
             recordList.Add(recordModel);
             
             recordRepo.Setup(x => x.GetAll())

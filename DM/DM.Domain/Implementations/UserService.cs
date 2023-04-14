@@ -15,6 +15,7 @@ namespace DM.Domain.Implementations
     public class UserService : IUserService
     {
         private readonly DmDbContext _context;
+
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
 
@@ -28,6 +29,7 @@ namespace DM.Domain.Implementations
         public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest model)
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Login == model.Login);
+            var userRole = await _context.Role.FirstOrDefaultAsync(x => x.Id == user.RoleId);
 
             if (user == null)
             {
@@ -41,7 +43,7 @@ namespace DM.Domain.Implementations
             {
                 return null;
             }
-            var token = _configuration.GenerateJwtToken(user);
+            var token = _configuration.GenerateJwtToken(user, userRole.Name);
 
             return new AuthenticateResponse(user, token);
         }
@@ -64,7 +66,7 @@ namespace DM.Domain.Implementations
         {
             var hashedPass = PasswordHelper.HashPassword(userModel.Password);
             var user = _mapper.Map<UserEntity>(new UserModel
-            { 
+            {
                 Login = userModel.Login,
                 Name = userModel.Name,
                 LastName = userModel.LastName,
@@ -72,13 +74,13 @@ namespace DM.Domain.Implementations
                 Email = userModel.Email,
                 Birthdate = userModel.Birthdate,
                 Snils = userModel.Snils,
-                Roles = userModel.Roles,
+                RoleId = userModel.RoleId,
                 Position = userModel.Position,
                 OrganizationId = userModel.OrganizationId,
-                Password = hashedPass });
+                Password = hashedPass
+            });
 
             var organization = _context.Organization.Include(x => x.Users).First(x => x.Id == userModel.OrganizationId);
-
 
             if (organization == null)
             {
@@ -113,7 +115,7 @@ namespace DM.Domain.Implementations
             userForUpdate.Birthdate = user.Birthdate;
             userForUpdate.Position = user.Position;
             userForUpdate.Snils = user.Snils;
-            userForUpdate.Roles = user.Roles;
+            userForUpdate.RoleId = user.RoleId;
             userForUpdate.OrganizationId = user.OrganizationId;
 
             await _context.SaveChangesAsync();
@@ -125,25 +127,16 @@ namespace DM.Domain.Implementations
 
         public async Task<bool> Delete(long userId)
         {
-            var usersPermissions = await _context.Permissions.Where(x => x.UserId == userId).ToListAsync();
-
-            foreach (var permission in usersPermissions)
-            {
-                _context.Permissions.Remove(permission);
-            }
-
-            await _context.SaveChangesAsync();
-
             var user = _context.Users.FirstOrDefault(q => q.Id == userId);
 
             if (user == null)
             {
                 return false;
             }
-            
+
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
-            
+
             return true;
         }
     }

@@ -40,6 +40,7 @@ namespace DM
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(MappingProfile));
+
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IItemService, ItemService>();
             services.AddScoped<IProjectService, ProjectService>();
@@ -47,10 +48,12 @@ namespace DM
             services.AddScoped<ITemplateService, TemplateService>();
             services.AddScoped<IOrganizationService, OrganizationService>();
             services.AddScoped<IPermissionService, PermissionService>();
+            services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<ICommentService, CommentService>();
             services.AddScoped<IFieldService, FieldService>();
             services.AddScoped<IListFieldService, FieldService>();
             services.AddScoped<CurrentUserService>();
+
             services.AddDbContext<DmDbContext>(options =>
             {
                 options.UseNpgsql(Configuration.GetConnectionString("Db"), builder =>

@@ -36,5 +36,6 @@ namespace DM.DAL.Entities
         /// </summary>
         public long OrganizationId { get; set; }
         public OrganizationEntity Organization { get; set; }
+        public bool IsInArchive { get; set; }
     }
 }

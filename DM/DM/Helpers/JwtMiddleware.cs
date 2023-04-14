@@ -54,12 +54,14 @@ namespace DM.Domain.Helpers
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
                 var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
+                var role = jwtToken.Claims.First(x => x.Type == "roleName").Value;
 
                 var user = userService.GetById(userId);
+
                 var claim = new Claim(ClaimTypes.Name, user.Name);
-                var userIdClaim = new Claim(ClaimTypes.NameIdentifier, userId.ToString());
-                var claimRole = new Claim(ClaimTypes.Role, user.Roles ?? "User");
-                var identity = new ClaimsIdentity(new[] { claim, claimRole, userIdClaim }, "jwt");
+                var userIdClaim = new Claim(ClaimTypes.NameIdentifier, user.Id.ToString());
+                var claimRole = new Claim(ClaimTypes.Role, role.ToString());
+                var identity = new ClaimsIdentity(new[] { claim, claimRole/*, userIdClaim*/ }, "jwt");
                 var principal = new ClaimsPrincipal(identity);
 
                 context.User = principal;
@@ -71,5 +73,10 @@ namespace DM.Domain.Helpers
                 // todo: need to add logger
             }
         }
+        //eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJyb2xlTmFtZSI6Ik93bmVyIiwibmJmIjoxNjgxNDYxMTU3LCJleHAiOjE2ODIwNjU5NTcsI
+        //mlhdCI6MTY4MTQ2MTE1N30.tRH4N-2EfYSM9SBBzCLlTTVPzquWP0bbcTlLuypUd-g
+
+        //eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJyb2xlTmFtZSI6Ik93bmVyIiwibmJmIjoxNjgxNDYxMTU3LCJleHAiOjE2ODIwNjU5NTcsI
+        //mlhdCI6MTY4MTQ2MTE1N30.tRH4N-2EfYSM9SBBzCLlTTVPzquWP0bbcTlLuypUd-g
     }
 }

@@ -1,15 +1,19 @@
 using System.Linq;
 using System.Threading.Tasks;
-using DM.DAL;
-using DM.DAL.Entities;
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
 using DM.Domain.Exceptions;
 using DM.Domain.Helpers;
 using DM.Domain.Implementations;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
+
+using DM.DAL;
+using DM.DAL.Entities;
+
 using DM.Helpers;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace DM.Controllers
 {
@@ -27,10 +31,7 @@ namespace DM.Controllers
              _context = context;
              _currentUser = userService.CurrentUser;
         }
-        
-        // метод getAllCommentsOfRecord вшит в RecordService
-        
-        [Authorize(RoleConst.UserAdmin)]
+                
         [HttpPost]
         public async Task<IActionResult> Create(CommentModel commentModel)
         {
@@ -41,7 +42,6 @@ namespace DM.Controllers
             {
                 return StatusCode(403);
             }
-            
             
             var id = await _commentService.Create(commentModel);
 
@@ -86,9 +86,7 @@ namespace DM.Controllers
             catch (ArgumentValidationException ex)
             {
                 return BadRequest("something went wrong");
-            }
-            
-            
+            } 
         }
     }
 }

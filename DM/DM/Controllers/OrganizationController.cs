@@ -17,7 +17,7 @@ namespace DM.Controllers
             _organizationService = organizationService;
         }
 
-        [Authorize(RoleConst.Admin)]
+        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -26,7 +26,7 @@ namespace DM.Controllers
             return Ok(organizations);
         }
 
-        [Authorize(RoleConst.Admin)]
+        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpPost]
         public async Task<IActionResult> Create(OrganizationModelForCreate organizationModel)
         {
@@ -44,8 +44,8 @@ namespace DM.Controllers
 
             return Ok(checker);
         }
-        
-        [Authorize(RoleConst.Admin)]
+
+        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpDelete]
         public async Task<IActionResult> Delete(long organizationId)
         {

@@ -12,7 +12,8 @@ namespace DM.Domain.Models
         public string Login { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public string Roles { get; set; }
+        public long RoleId { get; set; }
+        public RoleModel Role { get; set; }
         public DateTime Birthdate { get; set; }
         public string Snils { get; set; }
         public string Position { get; set; }
@@ -28,7 +29,8 @@ namespace DM.Domain.Models
         public string Login { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public string Roles { get; set; }
+        public long RoleId { get; set; }
+        public RoleModel Role { get; set; }
         public DateTime Birthdate { get; set; }
         public string Snils { get; set; }
         public string Position { get; set; }

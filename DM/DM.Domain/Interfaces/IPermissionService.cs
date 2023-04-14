@@ -10,8 +10,7 @@ namespace DM.Domain.Interfaces
 {
     public interface IPermissionService
     {
-        public Task<bool> AddPermissionToUser(PermissionModel permissionModel);
-        public Task<List<PermissionEntity>> GetAllPermissionsOfUser(long userId);
-        public Task<bool> RemovePermissionFromUser(PermissionModel permissionModel);
+        public Task<List<PermissionEntity>> GetAllByRole(long roleId);
+        public Task<bool> UpdatePermissionOnRole(PermissionModel permissionModel);
     }
 }

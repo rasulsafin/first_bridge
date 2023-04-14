@@ -11,8 +11,7 @@ namespace DM.DAL.Entities
         public string Login { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public string Roles { get; set; }
-        public long? RoleId { get; set; }
+        public long RoleId { get; set; }
         public RoleEntity Role { get; set; }
         public DateTime Birthdate { get; set; }
 

@@ -28,7 +28,7 @@ namespace DM.Controllers
             _currentUser = userService.CurrentUser;
         }
 
-        [Authorize(RoleConst.Admin)]
+        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -37,7 +37,7 @@ namespace DM.Controllers
             return Ok(records);
         }
 
-        [Authorize(RoleConst.Admin)]
+        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpGet("{recordId}")]
         public IActionResult GetById(long recordId)
         {
@@ -56,7 +56,7 @@ namespace DM.Controllers
             return Ok(record);
         }
 
-        [Authorize(RoleConst.Admin)]
+        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpPost]
         public async Task<IActionResult> Create(RecordModel recordModel)
         {
@@ -77,7 +77,7 @@ namespace DM.Controllers
             return Ok(id);
         }
 
-        [Authorize(RoleConst.Admin)]
+        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpPut]
         public async Task<IActionResult> Update(RecordModel recordModel)
         {
@@ -99,7 +99,7 @@ namespace DM.Controllers
         }
 
 
-        [Authorize(RoleConst.Admin)]
+        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpDelete]
         public async Task<IActionResult> Delete(long recordId)
         {
