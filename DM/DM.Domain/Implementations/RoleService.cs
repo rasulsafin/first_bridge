@@ -18,6 +18,7 @@ namespace DM.Domain.Implementations
         private readonly DmDbContext _context;
 
         private readonly IMapper _mapper;
+
         public RoleService(DmDbContext context, IMapper mapper)
         {
             _context = context;
