@@ -10,7 +10,7 @@ namespace DM.Domain.Helpers
         {
             var permission = context.Permissions.FirstOrDefault(x =>
 
-                (int)x.Type == (int)permissionType && x.UserId == currentUser.Id && x.ObjectId == id);
+                (int)x.Type == (int)permissionType && x.RoleId == currentUser.RoleId);
 
             return permission;
         }
@@ -19,7 +19,7 @@ namespace DM.Domain.Helpers
         {
             var permission = context.Permissions.FirstOrDefault(x =>
 
-                (int)x.Type == (int)permissionType && x.UserId == currentUser.Id && x.Create == true);
+                (int)x.Type == (int)permissionType && x.RoleId == currentUser.RoleId && x.Create == true);
 
             return permission;
         }
@@ -28,7 +28,7 @@ namespace DM.Domain.Helpers
         {
             var permission = context.Permissions.FirstOrDefault(x =>
 
-                (int)x.Type == (int)permissionType && x.UserId == currentUser.Id && x.ObjectId == id && x.Update == true);
+                (int)x.Type == (int)permissionType && x.RoleId == currentUser.RoleId && x.Update == true);
 
             return permission;
         }
@@ -37,7 +37,7 @@ namespace DM.Domain.Helpers
         {
             var permission = context.Permissions.FirstOrDefault(x =>
 
-                (int)x.Type == (int)permissionType && x.UserId == currentUser.Id && x.ObjectId == id && x.Delete == true);
+                (int)x.Type == (int)permissionType && x.RoleId == currentUser.RoleId && x.Delete == true);
 
             return permission;
         }
@@ -46,7 +46,7 @@ namespace DM.Domain.Helpers
         {
             var permission = context.Permissions.FirstOrDefault(x =>
 
-                (int)x.Type == (int)permissionType && x.UserId == currentUser.Id && x.ObjectId == id);
+                (int)x.Type == (int)permissionType && x.RoleId == currentUser.RoleId);
 
             return permission;
         }

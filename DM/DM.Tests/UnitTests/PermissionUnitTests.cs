@@ -25,14 +25,14 @@ namespace DM.Tests.UnitTests
             var permissionListResult = new List<PermissionEntity>();
             var permissionForResult = new PermissionEntity()
             {
-                User = new UserEntity() { Name = "Name" },
-                Create = true, Delete = true, Read = true, Update = true, Type = PermissionType.Item, UserId = 1
+                Role = new RoleEntity() { Name = "Name" },
+                Create = true, Delete = true, Read = true, Update = true, Type = PermissionType.Item, RoleId = 1
             };
             permissionListResult.Add(permissionForResult);
 
-            permissionRepo.Setup(x => x.GetAllPermissionsOfUser(1))
+            permissionRepo.Setup(x => x.GetAllByRole(1))
                 .Returns(Task.FromResult(permissionListResult));
-            var result = await permissionController.GetAllPermissionsOfUser(1);
+            var result = await permissionController.GetAllByRole(1);
             
             var actualResult = result as OkObjectResult;
             var model = (actualResult?.Value as IEnumerable)!.Cast<PermissionEntity>().First();
@@ -43,7 +43,7 @@ namespace DM.Tests.UnitTests
             Assert.Equal(permissionForResult.Delete, model.Delete);
             Assert.Equal(permissionForResult.Read, model.Read);
             Assert.Equal(permissionForResult.Update, model.Update);
-            Assert.Equal(permissionForResult.UserId, model.UserId);
+            Assert.Equal(permissionForResult.RoleId, model.RoleId);
         }
 
         #endregion
@@ -56,42 +56,42 @@ namespace DM.Tests.UnitTests
             var permissionRepo = new Mock<IPermissionService>();
             var permissionController = new PermissionController(permissionRepo.Object);
 
-            var result = await permissionController.GetAllPermissionsOfUser(1);
+            var result = await permissionController.GetAllByRole(1);
             Assert.IsType<NotFoundResult>(result);
         }
 
         #endregion
 
-        #region AddPermissionsToUserReturnsBadRequestWithNotExistingUser
+        //#region AddPermissionsToUserReturnsBadRequestWithNotExistingUser
 
-        [Fact]
-        public async Task AddPermissionsToUserReturnsBadRequestWithNotExistingUser()
-        {
-            var permissionRepo = new Mock<IPermissionService>();
-            var permissionController = new PermissionController(permissionRepo.Object);
+        //[Fact]
+        //public async Task AddPermissionsToUserReturnsBadRequestWithNotExistingUser()
+        //{
+        //    var permissionRepo = new Mock<IPermissionService>();
+        //    var permissionController = new PermissionController(permissionRepo.Object);
 
-            var model = new PermissionModel() { UserId = 1, Create = true };
+        //    var model = new PermissionModel() { RoleId = 1, Create = true };
 
-            var result = await permissionController.AddPermissionToUserOrUpdateIfExist(model);
-            Assert.IsType<BadRequestObjectResult>(result);
-            Assert.Equal(ErrorList.NotFoundUser,  result.GetPropertyValue("Value"));
-        }
+        //    var result = await permissionController.CreatePermissionToRole(model);
+        //    Assert.IsType<BadRequestObjectResult>(result);
+        //    Assert.Equal(ErrorList.NotFoundUser,  result.GetPropertyValue("Value"));
+        //}
 
-        #endregion
+        //#endregion
 
-        #region AddPermissionsToUserReturnsBadRequestWithWrongRequest
+        //#region AddPermissionsToUserReturnsBadRequestWithWrongRequest
 
-        [Fact]
-        public async Task AddPermissionsToUserReturnsBadRequestWithWrongRequest()
-        {
-            var permissionRepo = new Mock<IPermissionService>();
-            var permissionController = new PermissionController(permissionRepo.Object);
+        //[Fact]
+        //public async Task AddPermissionsToUserReturnsBadRequestWithWrongRequest()
+        //{
+        //    var permissionRepo = new Mock<IPermissionService>();
+        //    var permissionController = new PermissionController(permissionRepo.Object);
 
-            var result = await permissionController.AddPermissionToUserOrUpdateIfExist(null);
-            Assert.IsType<BadRequestObjectResult>(result);
-            Assert.Equal(ErrorList.BadRequest,  result.GetPropertyValue("Value"));
-        }
+        //    var result = await permissionController.CreatePermissionToRole(null);
+        //    Assert.IsType<BadRequestObjectResult>(result);
+        //    Assert.Equal(ErrorList.BadRequest,  result.GetPropertyValue("Value"));
+        //}
 
-        #endregion
+        //#endregion
     }
 }

@@ -25,7 +25,7 @@ namespace DM.Controllers
             _currentUser = userService.CurrentUser;
         }
 
-        [Authorize(RoleConst.Admin)]
+        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -35,7 +35,7 @@ namespace DM.Controllers
             return Ok(projects);
         }
 
-        [Authorize(RoleConst.Admin)]
+        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpGet("{projectId}")]
         public async Task<IActionResult> GetById(long projectId)
         {
@@ -53,7 +53,7 @@ namespace DM.Controllers
             return Ok(project);
         }
 
-        [Authorize(RoleConst.Admin)]
+        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpPost]
         public async Task<IActionResult> Create(ProjectModel projectModel)
         {
@@ -68,8 +68,8 @@ namespace DM.Controllers
 
             return Ok(id);
         }
-        
-        [Authorize(RoleConst.Admin)]
+
+        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpPut]
         public async Task<IActionResult> Update(ProjectModel projectModel)
         {
@@ -91,7 +91,7 @@ namespace DM.Controllers
         }
 
 
-        [Authorize(RoleConst.Admin)]
+        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpDelete]
         public async Task<IActionResult> Delete(long projectId)
         {

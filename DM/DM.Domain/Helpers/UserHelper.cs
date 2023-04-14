@@ -13,13 +13,13 @@ namespace DM.Domain.Helpers
 {
     public static class UserHelper
     {
-        public static string GenerateJwtToken(this IConfiguration configuration, UserEntity user)
+        public static string GenerateJwtToken(this IConfiguration configuration, UserEntity user, string roleName)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(configuration["Secret"]);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()), new Claim(ClaimTypes.Role, user.Roles ?? "User") }),
+                Subject = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()), new Claim("roleName", roleName) }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

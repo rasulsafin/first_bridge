@@ -100,6 +100,11 @@ namespace DM.DAL
                     .WithMany(x => x.ListFields)
                     .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<PermissionEntity>()
+                    .HasOne(x => x.Role)
+                    .WithMany(x => x.Permissions)
+                    .OnDelete(DeleteBehavior.Cascade);
+
             // Organization test data
             modelBuilder.Entity<OrganizationEntity>()
                 .HasData(new OrganizationEntity
@@ -114,6 +119,48 @@ namespace DM.DAL
                     Email = "qwerty@mail.ru"
                 });
 
+            // Role test data
+            modelBuilder.Entity<RoleEntity>()
+                .HasData(new RoleEntity
+                {
+                    Id = 1,
+                    Name = "Owner",
+                });
+
+            modelBuilder.Entity<RoleEntity>()
+                .HasData(new RoleEntity
+                {
+                    Id = 2,
+                    Name = "Administrator",
+                });
+
+            modelBuilder.Entity<RoleEntity>()
+                .HasData(new RoleEntity
+                {
+                    Id = 3,
+                    Name = "Team Supervisor",
+                });
+
+            modelBuilder.Entity<RoleEntity>()
+                .HasData(new RoleEntity
+                {
+                    Id = 4,
+                    Name = "Supervisor",
+                });
+
+            modelBuilder.Entity<RoleEntity>()
+                .HasData(new RoleEntity
+                {
+                    Id = 5,
+                    Name = "Worker",
+                });
+            modelBuilder.Entity<RoleEntity>()
+                .HasData(new RoleEntity
+                {
+                    Id = 6,
+                    Name = "User",
+                });
+
             // User test data
             modelBuilder.Entity<UserEntity>()
                 .HasData(new UserEntity
@@ -126,10 +173,10 @@ namespace DM.DAL
                     Email = "string@gamil.com",
                     //pass is - string
                     Password = "AON0utalfV1jyo5nJPnooXEc5NjOWuFBpohmk6xYZ8eK0fjDbSLBGPrY5YkGYlEhBA==",
-                    Roles = "Admin",
+                    RoleId = 1,
                     Birthdate = DateTime.Now,
                     Snils = "snils111",
-                    Position = "admin",
+                    Position = "Super Administrator Senior",
                     OrganizationId = 1
                 });
             modelBuilder.Entity<UserEntity>()
@@ -143,10 +190,10 @@ namespace DM.DAL
                     Email = "string@mail.ru",
                     //pass is - string1
                     Password = "APqcPGe7Q3u2jRDNgHuKrck8E9l1SAEj6knGQqAAZAm3gIoi/E4FJN4lKqEAUwhMLw==",
-                    Roles = "Admin",
+                    RoleId = 2,
                     Birthdate = DateTime.Now,
                     Snils = "snils123",
-                    Position = "admin",
+                    Position = "Team Supervisor Junior",
                     OrganizationId = 1
                 });
 
@@ -294,8 +341,7 @@ namespace DM.DAL
                 .HasData(new PermissionEntity
                 {
                     Id = 1,
-                    UserId = 1,
-                    ObjectId = 1,
+                    RoleId = 1,
                     Type = PermissionType.Project,
                     Create = true,
                     Read = true,
@@ -307,8 +353,7 @@ namespace DM.DAL
                 .HasData(new PermissionEntity
                 {
                     Id = 2,
-                    UserId = 1,
-                    ObjectId = 2,
+                    RoleId = 1,
                     Type = PermissionType.Project,
                     Create = true,
                     Read = true,
@@ -320,8 +365,7 @@ namespace DM.DAL
                 .HasData(new PermissionEntity
                 {
                     Id = 3,
-                    UserId = 2,
-                    ObjectId = 1,
+                    RoleId = 2,
                     Type = PermissionType.Project,
                     Create = true,
                     Read = true,
@@ -333,8 +377,7 @@ namespace DM.DAL
                 .HasData(new PermissionEntity
                 {
                     Id = 4,
-                    UserId = 2,
-                    ObjectId = 2,
+                    RoleId = 2,
                     Type = PermissionType.Project,
                     Create = true,
                     Read = true,
@@ -346,9 +389,20 @@ namespace DM.DAL
                 .HasData(new PermissionEntity
                 {
                     Id = 5,
-                    UserId = 1,
-                    ObjectId = 1,
+                    RoleId = 1,
                     Type = PermissionType.Record,
+                    Create = true,
+                    Read = true,
+                    Update = true,
+                    Delete = true,
+                    CreatedAt = DateTime.Now
+                });
+            modelBuilder.Entity<PermissionEntity>()
+                .HasData(new PermissionEntity
+                {
+                    Id = 6,
+                    RoleId = 1,
+                    Type = PermissionType.Template,
                     Create = true,
                     Read = true,
                     Update = true,

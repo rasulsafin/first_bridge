@@ -1,8 +1,10 @@
-﻿using DM.Domain.Interfaces;
+﻿using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Mvc;
+
+using DM.Domain.Interfaces;
 using DM.Domain.Models;
 using DM.Helpers;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace DM.Controllers
 {
@@ -17,11 +19,11 @@ namespace DM.Controllers
             _permissionService = permissionService;
         }
 
-        [Authorize(RoleConst.Admin)]
+        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpGet]
-        public async Task<IActionResult> GetAllPermissionsOfUser(long userId)
+        public async Task<IActionResult> GetAllByRole(long roleId)
         {
-            var permissions = await _permissionService.GetAllPermissionsOfUser(userId);
+            var permissions = await _permissionService.GetAllByRole(roleId);
 
             if (permissions == null)
             {
@@ -31,22 +33,11 @@ namespace DM.Controllers
             return Ok(permissions);
         }
 
-        [Authorize(RoleConst.Admin)]
-        [HttpPost]
-        public async Task<IActionResult> AddPermissionToUserOrUpdateIfExist(PermissionModel permissionModel)
+        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
+        [HttpPut]
+        public async Task<IActionResult> UpdatePermissionOnRole(PermissionModel permissionModel)
         {
-            if (permissionModel == null) return BadRequest("Invalid Request");
-            var permissions = await _permissionService.AddPermissionToUser(permissionModel);
-            if (permissions == false) return BadRequest("No Such User Here");
-
-            return Ok(true);
-        }
-
-        [Authorize(RoleConst.Admin)]
-        [HttpDelete]
-        public async Task<IActionResult> DeletePermissionOfUser(PermissionModel permissionModel)
-        {
-            var result = await _permissionService.RemovePermissionFromUser(permissionModel);
+            var result = await _permissionService.UpdatePermissionOnRole(permissionModel);
 
             if (result == false) return BadRequest("something went wrong");
 

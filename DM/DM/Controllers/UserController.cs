@@ -82,10 +82,10 @@ namespace DM.Controllers
             {
                 return BadRequest("Invalid Request");
             }
-            if (!RoleConst.SuperAdmin.Contains(userModel.Roles))
-            {
-                return BadRequest("The Role does not exist");
-            }
+            //if (!RoleConst.SuperAdmin.Contains(userModel.Roles))
+            //{
+            //    return BadRequest("The Role does not exist");
+            //}
 
             try
             {
@@ -134,7 +134,7 @@ namespace DM.Controllers
         /// <response code="404">User was not found.</response>
         /// <response code="500">Something went wrong while deleting user.</response>
         [HttpDelete]
-        [Authorize(RoleConst.Admin)]
+        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         public async Task<IActionResult> Delete(int userId)
         {
             try

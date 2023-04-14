@@ -4,8 +4,7 @@ namespace DM.Domain.Models
 {
     public class PermissionModel
     {
-        public long? UserId { get; set; }
-        public long ObjectId { get; set; }
+        public long RoleId { get; set; }
         public PermissionType Type { get; set; }
         public bool Create { get; set; }
         public bool Read { get; set; }

@@ -62,7 +62,7 @@ namespace DM.Controllers
         /// Get records about all documents
         /// </summary>
         /// <returns>list of items</returns>
-        [Authorize(RoleConst.Admin)]
+        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpGet]
         public async Task<IActionResult> GetAll(long projectId)
         {
@@ -75,7 +75,7 @@ namespace DM.Controllers
         /// <summary>
         /// Download file with Name specified in Db
         /// </summary>
-        [Authorize(RoleConst.Admin)]
+        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpGet("download")]
         public async Task<IActionResult> DownloadFile(string fileName)
         {
@@ -92,8 +92,8 @@ namespace DM.Controllers
             var bytes = await System.IO.File.ReadAllBytesAsync(filePath);
             return File(bytes, GetMimeTypes(Path.GetExtension(fileName)), fileName);
         }
-        
-        [Authorize(RoleConst.Admin)]
+
+        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpGet("downloadWexBim")]
         public async Task<IActionResult> DownloadWexBim(string fileName) // название файла вместе с расширением .ifc
         {
@@ -162,7 +162,7 @@ namespace DM.Controllers
         /// Upload file with versioning
         /// </summary>
         /// <returns>id of uploaded file</returns>
-        [Authorize(RoleConst.Admin)]
+        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpPost, DisableRequestSizeLimit, Route("file")]
         public async Task<IActionResult> Post(long project, IFormFile file)
         {

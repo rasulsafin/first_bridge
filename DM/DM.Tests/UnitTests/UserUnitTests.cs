@@ -19,12 +19,12 @@ namespace DM.Tests.UnitTests
             FathersName = "J",
             Email = "brogrammer@mail.ru",
             Login = "bromigo",
-            Role = "User Admin SuperAdmin",
             Password = "1234",
             Position = "developer",
             Snils = "000";
         
         private const long OrganizationId = 1;
+        private const long RoleId = 1;
 
         #endregion
 
@@ -38,9 +38,9 @@ namespace DM.Tests.UnitTests
             var userController = new UsersController(userRepo.Object);
 
             var userModel = new UserModel()
-            { Name = UserName, LastName = LastName, FathersName = FathersName, Birthdate = DateTime.Now, 
+            { Name = UserName, LastName = LastName, FathersName = FathersName, Birthdate = DateTime.Now,
                 Email = Email, Login = Login, OrganizationId = OrganizationId, Password = Password,
-                Roles = Role, Position = Position, Snils = Snils };
+                RoleId = RoleId, Position = Position, Snils = Snils };
             
             // execution
             userRepo.Setup(x => x.Create(userModel))
@@ -68,7 +68,7 @@ namespace DM.Tests.UnitTests
             var userModel = new UserModel()
             { Name = UserName, LastName = LastName, FathersName = FathersName, Birthdate = DateTime.Now, 
                 Email = Email, Login = Login, OrganizationId = OrganizationId, Password = Password,
-                Roles = "SOMEBODY ONCE TOLD ME", Position = Position, Snils = Snils };
+                RoleId = 2, Position = Position, Snils = Snils };
             
             // execution
             var result = await userController.Create(userModel);

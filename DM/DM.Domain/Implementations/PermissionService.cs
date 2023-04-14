@@ -18,73 +18,34 @@ namespace DM.Domain.Implementations
         {
             _context = context;
         }
-        public async Task<bool> AddPermissionToUser(PermissionModel permissionModel)
+
+        public async Task<List<PermissionEntity>> GetAllByRole(long roleId)
         {
-            var userChecker = await _context.Users.FirstOrDefaultAsync(x => x.Id == permissionModel.UserId);
-            if (userChecker == null)
-            {
-                return false;
-            }
-
-            var fieldForUpdate = await _context.Permissions
-                .Where(q => q.UserId == permissionModel.UserId
-                                                                  && q.ObjectId == permissionModel.ObjectId &&
-                                                                  q.Type == permissionModel.Type).FirstOrDefaultAsync();
-            if (fieldForUpdate != null) // обновляем запись, в случае если она существует
-            {
-                _context.Permissions.Attach(fieldForUpdate);
-
-                fieldForUpdate.Create = permissionModel.Create;
-                fieldForUpdate.Read = permissionModel.Read;
-                fieldForUpdate.Update = permissionModel.Update;
-                fieldForUpdate.Delete = permissionModel.Delete;
-                fieldForUpdate.UpdatedAt = DateTime.UtcNow;
-
-                await _context.SaveChangesAsync();
-
-                _context.Entry(fieldForUpdate).State = EntityState.Detached;
-
-                return true;
-            }
-
-            // иначе добавляем новую
-            _context.Permissions
-                .Add(new PermissionEntity()
-                {
-                    UserId = permissionModel.UserId,
-                    ObjectId = permissionModel.ObjectId,
-                    Type = permissionModel.Type,
-                    Create = permissionModel.Create,
-                    Read = permissionModel.Read,
-                    Update = permissionModel.Update,
-                    Delete = permissionModel.Delete
-                });
-
-            await _context.SaveChangesAsync();
-
-            return true;
-        }
-
-        public async Task<List<PermissionEntity>> GetAllPermissionsOfUser(long userId)
-        {
-            var result = await _context.Permissions.Where(x => x.UserId == userId).ToListAsync();
+            var result = await _context.Permissions.Where(x => x.RoleId == roleId).ToListAsync();
 
             return result;
         }
 
-        public async Task<bool> RemovePermissionFromUser(PermissionModel permissionModel)
+        public async Task<bool> UpdatePermissionOnRole(PermissionModel permissionModel)
         {
-            var result = await _context.Permissions
-                .Where(x => x.Type == permissionModel.Type && x.UserId == permissionModel.UserId
-                && x.ObjectId == permissionModel.ObjectId)
-                .FirstOrDefaultAsync();
+            var permission = await _context.Permissions.FirstOrDefaultAsync(x => x.RoleId == permissionModel.RoleId && x.Type == permissionModel.Type);
 
-            _context.Permissions.Remove(result);
+            if (permission == null) return false;
+
+            _context.Permissions.Attach(permission);
+
+            permission.Type = permissionModel.Type;
+            permission.Create = permissionModel.Create;
+            permission.Read = permissionModel.Read;
+            permission.Update = permissionModel.Update;
+            permission.Delete = permissionModel.Delete;
+            permission.UpdatedAt = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
 
+            _context.Entry(permission).State = EntityState.Detached;
+
             return true;
         }
-
     }
 }
