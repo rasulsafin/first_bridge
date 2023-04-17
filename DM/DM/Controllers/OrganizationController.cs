@@ -1,8 +1,11 @@
-﻿using DM.Domain.Interfaces;
-using DM.Domain.Models;
-using DM.Helpers;
+﻿using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+
+using DM.Domain.Interfaces;
+using DM.Domain.Models;
+
+using DM.Helpers;
 
 namespace DM.Controllers
 {

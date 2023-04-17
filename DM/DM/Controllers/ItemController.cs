@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 using DM.DAL;
 using Xbim.Ifc;
 using Xbim.ModelGeometry.Scene;
-using SO=System.IO.File;
+using SO = System.IO.File;
 
 namespace DM.Controllers
 {
@@ -84,7 +84,7 @@ namespace DM.Controllers
             {
                 return BadRequest($"File with name={fileName} Not Found.");
             }
-            
+
             var folderName = fileName.Remove(fileName.Length - 7);
             // var filePath = pathServerStorage + folderName + "\\" + fileName;
             var filePath = file.RelativePath;
@@ -104,9 +104,9 @@ namespace DM.Controllers
             {
                 return BadRequest("Such file does not exist");
             }
-            
+
             //TODO: вернуть пермишны перед деплоем
-            
+
             /*
             var permission = AuthorizationHelper.CheckUsersPermissionsById(_context, _currentUser, PermissionType.Item, fileId);
             
@@ -115,12 +115,12 @@ namespace DM.Controllers
                 return StatusCode(403);
             }
             */
-            
+
             if (fileName == null)
             {
                 return BadRequest("fileName is empty");
             }
-            
+
             // проверка формата файла
             if (Path.GetExtension(fileName) != ".ifc")
             {
@@ -128,7 +128,7 @@ namespace DM.Controllers
             }
 
             var storagePath = pathServerStorage + fileName;
-            
+
             // проверка существования готового wexBim
             var pathIfExist = currentPathServerStorage + Path.GetFileNameWithoutExtension(fileName) + ".wexBim";
             if (SO.Exists(pathIfExist))
@@ -136,7 +136,7 @@ namespace DM.Controllers
                 var resultIfExist = SO.OpenRead(pathIfExist);
                 return File(resultIfExist, "application/octet-stream", "file.wexBim");
             }
-            
+
             // конвертация из ifc в wexBim
             using var model = IfcStore.Open(storagePath);
             var context = new Xbim3DModelContext(model);
@@ -152,10 +152,10 @@ namespace DM.Controllers
             model.SaveAsWexBim(wexBimBinaryWriter);
             wexBimBinaryWriter.Close();
 
-            
+
             var result = SO.OpenRead(newStoragePath);
 
-            return File(result,"application/octet-stream", "file.wexBim");
+            return File(result, "application/octet-stream", "file.wexBim");
         }
 
         /// <summary>
@@ -166,9 +166,9 @@ namespace DM.Controllers
         [HttpPost, DisableRequestSizeLimit, Route("file")]
         public async Task<IActionResult> Post(long project, IFormFile file)
         {
-            var permission = AuthorizationHelper.CheckUsersPermissionsForCreate(_context, _currentUser, PermissionType.Item);
+            var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionType.Item);
 
-            if (permission == null)
+            if (!permission)
             {
                 return StatusCode(403);
             }
@@ -177,7 +177,7 @@ namespace DM.Controllers
             var fileNameWithoutExtension = file.FileName.Remove(file.FileName.Length - 4); // Folder Name
             var pathSaveFile = pathServerStorage + fileNameWithoutExtension;
 
-            if (fileExtension == ".jpg" || fileExtension == ".png" || fileExtension  == ".bim" || fileExtension  == ".ifc")
+            if (fileExtension == ".jpg" || fileExtension == ".png" || fileExtension == ".bim" || fileExtension == ".ifc")
             {
                 if (!Directory.Exists(pathSaveFile)) // Check the directory exists
                 {
@@ -216,7 +216,7 @@ namespace DM.Controllers
                 return Ok(item);
             }
             else
-            { return BadRequest(new { message = "invalid file format" });}
+            { return BadRequest(new { message = "invalid file format" }); }
         }
     }
 }

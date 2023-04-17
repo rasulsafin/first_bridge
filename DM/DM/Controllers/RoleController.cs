@@ -1,11 +1,10 @@
-﻿using DM.Domain.Exceptions;
-using DM.Domain.Implementations;
+﻿using System;
+using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Mvc;
+
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
-using DM.Helpers;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
 
 namespace DM.Controllers
 {
@@ -30,6 +29,7 @@ namespace DM.Controllers
         public IActionResult GetAll()
         {
             var roles = _roleService.GetAll();
+
             return Ok(roles);
         }
 
@@ -48,6 +48,7 @@ namespace DM.Controllers
             try
             {
                 var user = _roleService.GetById(roleId);
+
                 return Ok(user);
             }
             catch (Exception ex)
@@ -74,6 +75,7 @@ namespace DM.Controllers
             try
             {
                 var id = await _roleService.Create(roleModel);
+
                 return Ok(id);
             }
             catch (InvalidOperationException ex)
@@ -88,6 +90,7 @@ namespace DM.Controllers
             try
             {
                 var checker = await _roleService.Update(roleModel);
+
                 return Ok(checker);
             }
             catch (InvalidOperationException ex)
@@ -111,6 +114,7 @@ namespace DM.Controllers
             try
             {
                 await _roleService.Delete(roleId);
+
                 return Ok();
             }
             catch (InvalidOperationException ex)

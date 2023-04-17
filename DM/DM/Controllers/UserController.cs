@@ -82,10 +82,6 @@ namespace DM.Controllers
             {
                 return BadRequest("Invalid Request");
             }
-            //if (!RoleConst.SuperAdmin.Contains(userModel.Roles))
-            //{
-            //    return BadRequest("The Role does not exist");
-            //}
 
             try
             {

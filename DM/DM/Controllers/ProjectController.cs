@@ -1,12 +1,16 @@
-﻿using DM.DAL.Entities;
+﻿using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Mvc;
+
 using DM.Domain.Helpers;
 using DM.Domain.Implementations;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
-using DM.Helpers;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+
+using DM.DAL.Entities;
 using DM.DAL;
+
+using DM.Helpers;
 
 namespace DM.Controllers
 {
@@ -14,9 +18,10 @@ namespace DM.Controllers
     [Route("api/project")]
     public class ProjectController : ControllerBase
     {
-        private readonly IProjectService _projectService;
         private readonly DmDbContext _context;
         private readonly UserEntity _currentUser;
+
+        private readonly IProjectService _projectService;
 
         public ProjectController(IProjectService projectService, DmDbContext context, CurrentUserService userService)
         {
@@ -29,7 +34,6 @@ namespace DM.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            // логика проверки доступа для GetAll перенесена в сервис
             var projects = await _projectService.GetAll();
 
             return Ok(projects);
@@ -39,14 +43,15 @@ namespace DM.Controllers
         [HttpGet("{projectId}")]
         public async Task<IActionResult> GetById(long projectId)
         {
-            var permission = AuthorizationHelper.CheckUsersPermissionsById(_context, _currentUser, PermissionType.Project, projectId);
+            var permission = AuthorizationHelper.CheckUserPermissionsById(_context, _currentUser, PermissionType.Project);
 
-            if (permission == null || !permission.Read)
+            if (!permission)
             {
                 return StatusCode(403);
             }
 
             var project = await _projectService.GetById(projectId);
+
             if (project == null)
                 return NotFound();
 
@@ -57,9 +62,9 @@ namespace DM.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ProjectModel projectModel)
         {
-            var permission = AuthorizationHelper.CheckUsersPermissionsForCreate(_context, _currentUser, PermissionType.Project);
+            var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionType.Project);
 
-            if (permission == null)
+            if (!permission)
             {
                 return StatusCode(403);
             }
@@ -73,16 +78,16 @@ namespace DM.Controllers
         [HttpPut]
         public async Task<IActionResult> Update(ProjectModel projectModel)
         {
-            var permission = AuthorizationHelper.CheckUsersPermissionsForUpdate(_context, _currentUser, PermissionType.Project, projectModel.Id);
+            var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionType.Project);
 
-            if (permission == null)
+            if (!permission)
             {
                 return StatusCode(403);
             }
 
             var checker = await _projectService.Update(projectModel);
 
-            if (checker == false)
+            if (!checker)
             {
                 return BadRequest("the fields must not contain invalid characters");
             }
@@ -95,16 +100,16 @@ namespace DM.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(long projectId)
         {
-            var permission = AuthorizationHelper.CheckUsersPermissionsForDelete(_context, _currentUser, PermissionType.Record, projectId);
-            
-            if (permission == null)
+            var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionType.Record);
+
+            if (!permission)
             {
                 return StatusCode(403);
             }
 
             var checker = await _projectService.Delete(projectId);
 
-            if (checker == false)
+            if (!checker)
             {
                 return NotFound();
             }
