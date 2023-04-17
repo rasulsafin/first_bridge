@@ -99,6 +99,8 @@ export function ProjectModal(props) {
   const project = props.project.project.id;
   const uploadInputRef = useRef(null);
 
+  console.log(props.users)
+  
   const handleChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
@@ -132,6 +134,7 @@ export function ProjectModal(props) {
                </span>
                 <TextField
                   value={value}
+                  onChange={(e) => setValue(e.target.value)}
                   variant="outlined"
                   type="text"
                   fullWidth
@@ -140,7 +143,7 @@ export function ProjectModal(props) {
                 <Box sx={{
                   marginTop: "40px"
                 }}>
-                  <h3>Участники {props.users.length}</h3>
+                  <h3>Участники {props.project.project.users.length}</h3>
                   <SearchBar />
                   <Controls.Button
                     className="ml-0"
@@ -158,7 +161,7 @@ export function ProjectModal(props) {
                     }}
                   >От Я до А</Controls.Button>
                   <List style={{ height: "300px", overflowY: "auto", overflowX: "hidden" }}>
-                    {props.users.map(user => <UserCard key={user.id} user={user} />)}
+                    {props.project.project.users.map(user => <UserCard key={user.id} user={user} />)}
                   </List>
                 </Box>
                 <Box>

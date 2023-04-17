@@ -22,12 +22,43 @@ function decodeIFCString(ifcString) {
   const ifcUnicodeRegEx = /\\X2\\(.*?)\\X0\\/uig
   let resultString = ifcString
   let match = ifcUnicodeRegEx.exec(ifcString)
-  while (match) {
-    const unicodeChar = String.fromCharCode(parseInt(match[1], 16))
-    resultString = resultString.replace(match[0], unicodeChar)
-    match = ifcUnicodeRegEx.exec(ifcString)
-  }
-  return resultString
+
+  
+  if (resultString.includes("04")) {
+        const fromStr = resultString.split("\\");
+        const arr = [];
+        let normalString = [];
+
+        for (let i = 0; i < fromStr.length; i++) {
+          if (fromStr[i].startsWith("04")) {
+            arr.push(fromStr[i]);
+          }
+        }
+
+        for (let i = 0; i < arr.length; i++) {
+          const innerArr = arr[i].split("04");
+          for (let i = 0; i < innerArr.length; i++) {
+            if (innerArr[i] !== "") {
+              const normalChar = String.fromCodePoint(Number(`0x04${innerArr[i]}`));
+              normalString.push(normalChar);
+            } else {
+              normalString.push(" ");
+            }
+          }
+        }
+        return normalString.join("");
+      } else {
+        return resultString;
+      }
+  
+  // while (match) {
+  //
+  //
+  //   const unicodeChar = String.fromCharCode(parseInt(match[1], 16))
+  //   resultString = resultString.replace(match[0], unicodeChar)
+  //   match = ifcUnicodeRegEx.exec(ifcString)
+  // }
+  // return resultString
 }
 
 async function deref(ref, webIfc = null, indent='') {

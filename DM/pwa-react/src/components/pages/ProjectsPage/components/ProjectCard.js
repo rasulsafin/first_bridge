@@ -136,7 +136,7 @@ export const ProjectCard = (project) => {
       />
       <span className="project-date">{formatDate(project.project.creationDate)}</span>
       <div className="users-in-project">
-        <span className="quantity-users-text">Участников {users.length}</span>
+        <span className="quantity-users-text">Участников {project.project.users.length}</span>
       </div>
       <div className="btn-holder">
         <Controls.Button

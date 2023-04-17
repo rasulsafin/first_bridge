@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using DM.DAL.Entities;
-using DM.Domain.Helpers;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
 using Microsoft.EntityFrameworkCore;
@@ -53,7 +52,6 @@ namespace DM.Domain.Implementations
 
         public async Task<long> Create(ProjectModel projectModel)
         {
-            
             var project = _mapper.Map<ProjectEntity>(new ProjectModel
             {
                 Title = projectModel.Title,
@@ -61,19 +59,11 @@ namespace DM.Domain.Implementations
                 Items = projectModel.Items.ToList(),
                 Users = projectModel.Users.ToList(),
                 IsInArchive = projectModel.IsInArchive
-                // Name = recordModel.Name,
-                // ProjectId = recordModel.ProjectId,
-                // Fields = recordModel.Fields.ToList(),
-                // ListFields = recordModel.ListFields.ToList()
             });
-            
-            // var project = new ProjectEntity
-            // {
-            //     OrganizationId = projectModel.OrganizationId,
-            //     Title = projectModel.Title,
-            // };
 
-            var organization = _context.Organization.Include(x => x.Projects).First(x => x.Id == projectModel.OrganizationId);
+            var organization = await _context.Organization
+                .Include(x => x.Projects)
+                .FirstOrDefaultAsync(x => x.Id == projectModel.OrganizationId);
 
             if (organization == null)
             {

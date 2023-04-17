@@ -1,7 +1,8 @@
 import { Form, Formik } from "formik";
 import { Controls } from "../../../controls/Controls";
 import { userValidationSchema } from "../utils/validationSchema";
-import { Button } from "@mui/material";
+import { Button, Grid, InputLabel } from "@mui/material";
+import { users } from "../../../../locale/ru/users";
 
 const UserForm = (props) => {
   const { onSubmit, initialValues, textButton } = props;
@@ -25,75 +26,109 @@ const UserForm = (props) => {
                 flexWrap: "wrap"
               }}
             >
-              <Controls.ValidationFormTextfield
-                name="name"
-                type="name"
-                label="Name"
-                required
-              />
-              <Controls.ValidationFormTextfield
-                name="lastName"
-                type="lastName"
-                label="LastName"
-                required
-              />
-              <Controls.ValidationFormTextfield
-                name="fathersName"
-                type="fathersName"
-                label="FathersName"
-                required
-              />
-              {/*<Controls.ValidationFormTextfield*/}
-              {/*  InputLabelProps={{ shrink: true }}*/}
-              {/*  name="birthdate"*/}
-              {/*  type="date"*/}
-              {/*  label="Birthdate"*/}
-              {/*  required*/}
-              {/*/>*/}
-              <Controls.ValidationFormTextfield
-                name="login"
-                type="login"
-                label="Login"
-                required
-              />
-              <Controls.ValidationFormTextfield
-                name="email"
-                type="email"
-                label="Email"
-                required
-              />
-              <Controls.ValidationFormTextfield
-                name="password"
-                type="password"
-                label="Password"
-                required
-              />
-              <Controls.ValidationFormTextfield
-                name="roles"
-                type="roles"
-                label="Role"
-                required
-              />
-              {/*<Controls.ValidationFormTextfield*/}
-              {/*  name="snils"*/}
-              {/*  type="snils"*/}
-              {/*  label="Snils"*/}
-              {/*  required*/}
-              {/*/>*/}
-              <Controls.ValidationFormTextfield
-                name="position"
-                type="position"
-                label="Position"
-                required
-              />
-              {/*<Controls.ValidationFormTextfield*/}
-              {/*  name="organizationId"*/}
-              {/*  type="organizationId"*/}
-              {/*  label="OrganizationId"*/}
-              {/*  required*/}
-              {/*/>*/}
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <InputLabel >{users.name}
+                    </InputLabel>
+                  <Controls.ValidationFormTextfield
+                    name="name"
+                    // type="name"
+                    variant="outlined"
+                    type="text"
+                    fullWidth
+                    size="small"
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <InputLabel >{users.lastName}
+                  </InputLabel>
+                  <Controls.ValidationFormTextfield
+                    name="lastName"
+                    // type="lastName"
+                    type="text"
+                    fullWidth
+                    size="small"
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <InputLabel >{users.fathersName}
+                  </InputLabel>
+                  <Controls.ValidationFormTextfield
+                    name="fathersName"
+                    // type="fathersName"
+                    type="text"
+                    fullWidth
+                    size="small"
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <InputLabel >Login
+                  </InputLabel>
+                  <Controls.ValidationFormTextfield
+                    name="login"
+                    // type="login"
+                    type="text"
+                    fullWidth
+                    size="small"
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <InputLabel >{users.email}
+                  </InputLabel>
+                  <Controls.ValidationFormTextfield
+                    name="email"
+                    // type="email"
+                    type="text"
+                    fullWidth
+                    size="small"
+                    required
+                  />
+                </Grid>
+                
+                <Grid item xs={12}>
+                  <InputLabel >{users.role}
+                  </InputLabel>
+                  <Controls.ValidationFormTextfield
+                    name="roles"
+                    // type="roles"
+                    type="text"
+                    fullWidth
+                    size="small"
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <InputLabel >{users.position}
+                  </InputLabel>
+                  <Controls.ValidationFormTextfield
+                    name="position"
+                    // type="position"
+                    type="text"
+                    fullWidth
+                    size="small"
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <InputLabel >{users.password}
+                  </InputLabel>
+                  <Controls.ValidationFormTextfield
+                    name="password"
+                    // type="password"
+                    type="text"
+                    fullWidth
+                    size="small"
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12}></Grid>
+              </Grid>
             </div>
-            <Button
+            {textButton ? (<Button
               sx={{
                 width: { sm: 100, md: 150 },
                 marginTop: 3
@@ -105,7 +140,8 @@ const UserForm = (props) => {
               disabled={!isValid || !dirty}
             >
               {textButton}
-            </Button>
+            </Button>) 
+              : null}
           </Form>
         )}
       </Formik>

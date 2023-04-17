@@ -9,12 +9,12 @@ const ValidationFormTextfield = ({ name, ...otherProps }) => {
     ...field,
     ...otherProps,
     variant: "outlined",
-    margin: "normal",
-    InputProps: { style: { fontSize: 18 } },
+    padding: "normal",
+    InputProps: { style: { fontSize: 16 } },
     sx: {
-      width: { sm: 200, md: 300 },
+      width: { md: 500 },
       "& .MuiInputBase-root": {
-        height: 45,
+        height: 35,
         marginRight: 3
       }
     }
