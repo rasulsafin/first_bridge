@@ -7,7 +7,7 @@ namespace DM.Domain.Helpers
 {
     public static class AuthorizationHelper
     {
-        public static bool CheckUserPermissionsById(DmDbContext context, UserEntity currentUser, PermissionType permissionType)
+        public static bool CheckUserPermissionsForRead(DmDbContext context, UserEntity currentUser, PermissionType permissionType)
         {
             var permission = context.Permissions.FirstOrDefault(x => (int)x.Type == (int)permissionType
                                                                 && x.RoleId == currentUser.RoleId);

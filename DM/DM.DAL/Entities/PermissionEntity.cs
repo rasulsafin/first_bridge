@@ -13,6 +13,6 @@
 
     public enum PermissionType
     {
-        Project = 1, Item = 2, Record = 3, Template = 4, Role = 5, User = 7,
+        Project = 1, Item = 2, Record = 3, Template = 4, Role = 5, User = 7, Organization = 8
     }
 }

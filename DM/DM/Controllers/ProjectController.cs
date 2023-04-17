@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 using DM.Domain.Helpers;
 using DM.Domain.Implementations;
@@ -22,33 +23,36 @@ namespace DM.Controllers
         private readonly UserEntity _currentUser;
 
         private readonly IProjectService _projectService;
+        private readonly ILogger<ProjectService> _logger;
 
-        public ProjectController(IProjectService projectService, DmDbContext context, CurrentUserService userService)
+        public ProjectController(DmDbContext context, CurrentUserService currentUserService, IProjectService projectService, ILogger<ProjectService> logger)
         {
-            _projectService = projectService;
             _context = context;
-            _currentUser = userService.CurrentUser;
+            _currentUser = currentUserService.CurrentUser;
+            _projectService = projectService;
+            _logger = logger;
         }
 
-        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
+            var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionType.Project);
+
+            if (!permission) return StatusCode(403);
+
             var projects = await _projectService.GetAll();
 
             return Ok(projects);
         }
 
-        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpGet("{projectId}")]
+        [Authorize]
         public async Task<IActionResult> GetById(long projectId)
         {
-            var permission = AuthorizationHelper.CheckUserPermissionsById(_context, _currentUser, PermissionType.Project);
+            var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionType.Project);
 
-            if (!permission)
-            {
-                return StatusCode(403);
-            }
+            if (!permission) return StatusCode(403);
 
             var project = await _projectService.GetById(projectId);
 
@@ -58,32 +62,26 @@ namespace DM.Controllers
             return Ok(project);
         }
 
-        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(ProjectModel projectModel)
         {
             var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionType.Project);
 
-            if (!permission)
-            {
-                return StatusCode(403);
-            }
+            if (!permission) return StatusCode(403);
 
             var id = await _projectService.Create(projectModel);
 
             return Ok(id);
         }
 
-        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpPut]
+        [Authorize]
         public async Task<IActionResult> Update(ProjectModel projectModel)
         {
             var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionType.Project);
 
-            if (!permission)
-            {
-                return StatusCode(403);
-            }
+            if (!permission) return StatusCode(403);
 
             var checker = await _projectService.Update(projectModel);
 
@@ -95,17 +93,13 @@ namespace DM.Controllers
             return Ok(checker);
         }
 
-
-        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpDelete]
+        [Authorize]
         public async Task<IActionResult> Delete(long projectId)
         {
             var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionType.Record);
 
-            if (!permission)
-            {
-                return StatusCode(403);
-            }
+            if (!permission) return StatusCode(403);
 
             var checker = await _projectService.Delete(projectId);
 

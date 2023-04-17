@@ -22,8 +22,8 @@ namespace DM.Controllers
             this.webServerAgent = webServerAgent;
         }
 
-        [Authorize]
         [HttpPost]
+        [Authorize]
         public Task Post()
         {
             webServerAgent.RemoteOrchestrator.OnApplyChangesConflictOccured(e =>
@@ -60,8 +60,8 @@ namespace DM.Controllers
             return webServerAgent.HandleRequestAsync(this.HttpContext);
         }
 
-        [AllowAnonymous]
         [HttpGet]
+        [AllowAnonymous]
         public async Task Get()
         {
             await webServerAgent.HandleRequestAsync(this.HttpContext);
