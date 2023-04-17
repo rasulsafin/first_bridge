@@ -1,9 +1,16 @@
 ﻿using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
+using DM.Domain.Implementations;
+using DM.Domain.Helpers;
+
+using DM.DAL;
+using DM.DAL.Entities;
+
 using DM.Helpers;
 
 namespace DM.Controllers
@@ -12,18 +19,28 @@ namespace DM.Controllers
     [Route("api/template")]
     public class TemplateController : ControllerBase
     {
-        private readonly ITemplateService _templateService;
+        private readonly DmDbContext _context;
+        private readonly UserEntity _currentUser;
 
-        public TemplateController(ITemplateService templateService)
+        private readonly ITemplateService _templateService;
+        private readonly ILogger<TemplateService> _logger;
+
+        public TemplateController(DmDbContext context, CurrentUserService currentUserService, ITemplateService templateService, ILogger<TemplateService> logger)
         {
+            _context = context;
+            _currentUser = currentUserService.CurrentUser;
             _templateService = templateService;
+            _logger = logger;
         }
 
-
-        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
-        [HttpGet()]
+        [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetProjectTemplateOfRecord(long projectId)
         {
+            var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionType.Template);
+
+            if (!permission) return StatusCode(403);
+
             var templates = await _templateService.GetTemplatesOfProject(projectId);
 
             if (templates == null) return NotFound();
@@ -31,10 +48,14 @@ namespace DM.Controllers
             return Ok(templates);
         }
 
-        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
-        [HttpPost()]
+        [HttpPost]
+        [Authorize]
         public IActionResult AddTemplateToProject(TemplateModel templateModel)
         {
+            var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionType.Template);
+
+            if (!permission) return StatusCode(403);
+
             if (templateModel == null) return BadRequest("Invalid Request");
 
             var template = _templateService.Create(templateModel);
@@ -42,10 +63,14 @@ namespace DM.Controllers
             return Ok(template);
         }
 
-        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
-        [HttpPut()]
+        [HttpPut]
+        [Authorize]
         public IActionResult EditExistingTemplateOfProject(TemplateModelForEdit templateModelForEdit)
         {
+            var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionType.Template);
+
+            if (!permission) return StatusCode(403);
+
             var template = _templateService.Update(templateModelForEdit);
 
             return Ok(template);

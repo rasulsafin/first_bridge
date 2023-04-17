@@ -2,9 +2,17 @@
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
+using DM.Domain.Helpers;
+using DM.Domain.Implementations;
+
+using DM.DAL;
+using DM.DAL.Entities;
+
+using DM.Helpers;
 
 namespace DM.Controllers
 {
@@ -12,11 +20,19 @@ namespace DM.Controllers
     [Route("api/role")]
     public class RoleController : ControllerBase
     {
-        private readonly IRoleService _roleService;
 
-        public RoleController(IRoleService listFieldService)
+        private readonly DmDbContext _context;
+        private readonly UserEntity _currentUser;
+
+        private readonly IRoleService _roleService;
+        private readonly ILogger<RoleService> _logger;
+
+        public RoleController(DmDbContext context, CurrentUserService currentUserService, IRoleService roleService, ILogger<RoleService> logger)
         {
-            _roleService = listFieldService;
+            _context = context;
+            _currentUser = currentUserService.CurrentUser;
+            _roleService = roleService;
+            _logger = logger;
         }
 
         /// <summary>
@@ -26,8 +42,13 @@ namespace DM.Controllers
         /// <response code="200">Returns found list of users.</response>
         /// <response code="500">Something went wrong while retrieving the users.</response>
         [HttpGet]
+        [Authorize]
         public IActionResult GetAll()
         {
+            var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionType.Role);
+
+            if (!permission) return StatusCode(403);
+
             var roles = _roleService.GetAll();
 
             return Ok(roles);
@@ -43,10 +64,15 @@ namespace DM.Controllers
         /// <response code="404">Could not find user.</response>
         /// <response code="500">Something went wrong while retrieving the user.</response>
         [HttpGet("{roleId}")]
+        [Authorize]
         public IActionResult GetById(long roleId)
         {
             try
             {
+                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionType.Role);
+
+                if (!permission) return StatusCode(403);
+
                 var user = _roleService.GetById(roleId);
 
                 return Ok(user);
@@ -65,15 +91,15 @@ namespace DM.Controllers
         /// <response code="400">User with the same login already exists OR one/multiple of required values is/are empty.</response>
         /// <response code="500">Something went wrong while creating new user.</response>
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(RoleModel roleModel)
         {
-            if (roleModel == null)
-            {
-                return BadRequest("Invalid Request");
-            }
-
             try
             {
+                var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionType.Role);
+
+                if (!permission) return StatusCode(403);
+
                 var id = await _roleService.Create(roleModel);
 
                 return Ok(id);
@@ -85,10 +111,15 @@ namespace DM.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<IActionResult> Update(RoleModel roleModel)
         {
             try
             {
+                var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionType.Role);
+
+                if (!permission) return StatusCode(403);
+
                 var checker = await _roleService.Update(roleModel);
 
                 return Ok(checker);
@@ -109,10 +140,15 @@ namespace DM.Controllers
         /// <response code="404">User was not found.</response>
         /// <response code="500">Something went wrong while deleting user.</response>
         [HttpDelete]
+        [Authorize]
         public async Task<IActionResult> Delete(int roleId)
         {
             try
             {
+                var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionType.Role);
+
+                if (!permission) return StatusCode(403);
+
                 await _roleService.Delete(roleId);
 
                 return Ok();

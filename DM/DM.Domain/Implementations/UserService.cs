@@ -48,9 +48,9 @@ namespace DM.Domain.Implementations
             return new AuthenticateResponse(user, token);
         }
 
-        public List<UserModel> GetAll()
+        public async Task<IEnumerable<UserModel>> GetAll()
         {
-            var users = _context.Users.ToList();
+            var users = await _context.Users.ToListAsync();
             return _mapper.Map<List<UserModel>>(users);
         }
 

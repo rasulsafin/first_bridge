@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 using DM.Domain.Exceptions;
 using DM.Domain.Helpers;
@@ -10,6 +11,8 @@ using DM.Domain.Models;
 
 using DM.DAL;
 using DM.DAL.Entities;
+
+using DM.Helpers;
 
 namespace DM.Controllers
 {
@@ -21,24 +24,24 @@ namespace DM.Controllers
         private readonly UserEntity _currentUser;
 
         public readonly ICommentService _commentService;
+        private readonly ILogger<FieldService> _logger;
 
-        public CommentController(DmDbContext context, CurrentUserService userService, ICommentService commentService)
+        public CommentController(DmDbContext context, CurrentUserService currentUserService, ICommentService commentService, ILogger<FieldService> logger)
         {
             _context = context;
-            _currentUser = userService.CurrentUser;
+            _currentUser = currentUserService.CurrentUser;
             _commentService = commentService;
+            _logger = logger;
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(CommentModel commentModel)
         {
 
-            var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionType.Record);
+            var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionType.Record);
 
-            if (!permission)
-            {
-                return StatusCode(403);
-            }
+            if (!permission) return StatusCode(403);
 
             var id = await _commentService.Create(commentModel);
 
@@ -51,14 +54,12 @@ namespace DM.Controllers
         }
 
         [HttpDelete]
+        [Authorize]
         public async Task<IActionResult> Delete(long commentId)
         {
             var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionType.Record);
 
-            if (!permission)
-            {
-                return StatusCode(403);
-            }
+            if (!permission) return StatusCode(403);
 
             var checker = await _commentService.Delete(commentId);
 
@@ -71,10 +72,15 @@ namespace DM.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<IActionResult> Update(CommentModelForUpdate comment)
         {
             try
             {
+                var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionType.Record);
+
+                if (!permission) return StatusCode(403);
+
                 var checker = await _commentService.Update(comment);
                 return Ok(checker);
             }

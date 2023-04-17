@@ -1,10 +1,20 @@
-﻿using DM.Domain.Exceptions;
+﻿using System;
+using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc;
+
+using DM.Domain.Exceptions;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
+using DM.Domain.Helpers;
+using DM.Domain.Implementations;
+
+using DM.DAL;
+using DM.DAL.Entities;
+
 using DM.Helpers;
+
 using static DM.Validators.ServiceResponsesValidator;
 
 namespace DM.Controllers
@@ -13,11 +23,18 @@ namespace DM.Controllers
     [Route("api/users")]
     public class UsersController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly DmDbContext _context;
+        private readonly UserEntity _currentUser;
 
-        public UsersController(IUserService userService)
+        private readonly IUserService _userService;
+        private readonly ILogger<UserService> _logger;
+
+        public UsersController(DmDbContext context, CurrentUserService currentUserService, IUserService userService, ILogger<UserService> logger)
         {
+            _context = context;
+            _currentUser = currentUserService.CurrentUser;
             _userService = userService;
+            _logger = logger;
         }
 
         /// <summary>
@@ -27,11 +44,16 @@ namespace DM.Controllers
         /// <response code="200">Returns found list of users.</response>
         /// <response code="500">Something went wrong while retrieving the users.</response>
         [HttpGet]
-        public IActionResult GetAll()
+        [Authorize]
+        public async Task<IActionResult> GetAll()
         {
             try
             {
-                var users = _userService.GetAll();
+                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionType.Record);
+
+                if (!permission) return BadRequest("Access Denied");
+
+                var users = await _userService.GetAll();
                 return Ok(users);
             }
             catch (DocumentManagementException ex)
@@ -50,6 +72,7 @@ namespace DM.Controllers
         /// <response code="404">Could not find user.</response>
         /// <response code="500">Something went wrong while retrieving the user.</response>
         [HttpGet("{userId}")]
+        [Authorize]
         public IActionResult GetById(long userId)
         {
             try
@@ -75,7 +98,7 @@ namespace DM.Controllers
         /// <response code="400">User with the same login already exists OR one/multiple of required values is/are empty.</response>
         /// <response code="500">Something went wrong while creating new user.</response>
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> Create(UserModel userModel)
         {
             if (userModel == null)
@@ -103,6 +126,7 @@ namespace DM.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<IActionResult> Update(UserModelForUpdate user)
         {
             try
@@ -130,7 +154,7 @@ namespace DM.Controllers
         /// <response code="404">User was not found.</response>
         /// <response code="500">Something went wrong while deleting user.</response>
         [HttpDelete]
-        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
+        [Authorize]
         public async Task<IActionResult> Delete(int userId)
         {
             try

@@ -22,11 +22,11 @@ namespace DM.Tests.UnitTests
         {
             var recordRepo = new Mock<IRecordService>();
             var dmContext = new Mock<DmDbContext>();
-            var recordController = new RecordController(recordRepo.Object, dmContext.Object, new CurrentUserService(dmContext.Object));
-            var recordModel = new RecordModel() { Id = 1, Name = "Record", ProjectId = 1};
+            var recordController = new RecordController(dmContext.Object, new CurrentUserService(dmContext.Object), recordRepo.Object, null);
+            var recordModel = new RecordModel() { Id = 1, Name = "Record", ProjectId = 1 };
             var recordList = new List<RecordModel>();
             recordList.Add(recordModel);
-            
+
             recordRepo.Setup(x => x.GetAll())
                 .Returns(recordList);
             var result = recordController.GetAll();
@@ -34,13 +34,13 @@ namespace DM.Tests.UnitTests
             var resultModel = (actualResult?.Value as IEnumerable)!.Cast<RecordModel>().First();
             Assert.NotNull(resultModel);
             Assert.IsType<OkObjectResult>(result);
-            
+
             Assert.Equal(recordModel.Id, resultModel.Id);
             Assert.Equal(recordModel.Name, resultModel.Name);
             Assert.Equal(recordModel.ProjectId, resultModel.ProjectId);
         }
 
         #endregion
-        
+
     }
 }
