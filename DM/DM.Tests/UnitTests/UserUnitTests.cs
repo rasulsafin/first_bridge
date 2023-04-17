@@ -38,9 +38,9 @@ namespace DM.Tests.UnitTests
             var userController = new UsersController(null, null, userRepo.Object, null);
 
             var userModel = new UserModel()
-            { Name = UserName, LastName = LastName, FathersName = FathersName, Birthdate = DateTime.Now,
+            { Name = UserName, LastName = LastName, FathersName = FathersName,
                 Email = Email, Login = Login, OrganizationId = OrganizationId, Password = Password,
-                RoleId = RoleId, Position = Position, Snils = Snils };
+                RoleId = RoleId, Position = Position };
             
             // execution
             userRepo.Setup(x => x.Create(userModel))
@@ -66,9 +66,9 @@ namespace DM.Tests.UnitTests
             var userController = new UsersController(null, null, userRepo.Object, null);
 
             var userModel = new UserModel()
-            { Name = UserName, LastName = LastName, FathersName = FathersName, Birthdate = DateTime.Now, 
+            { Name = UserName, LastName = LastName, FathersName = FathersName,
                 Email = Email, Login = Login, OrganizationId = OrganizationId, Password = Password,
-                RoleId = 2, Position = Position, Snils = Snils };
+                RoleId = 2, Position = Position };
             
             // execution
             var result = await userController.Create(userModel);

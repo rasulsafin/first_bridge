@@ -8,7 +8,6 @@ namespace DM.Domain.Models
         public long Id { get; set; }
         public long OrganizationId { get; set; }
         public string Title { get; set; }
-        public string Description { get; set; }
         public DateTime CreationDate { get; set; }
 
         public List<ItemModel> Items { get; set; }

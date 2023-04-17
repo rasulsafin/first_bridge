@@ -14,6 +14,7 @@ import * as React from "react";
 import "./Projects.css";
 import { fetchUsers, selectAllUsers } from "../../../services/usersSlice";
 import { SearchBar } from "../../searchBar/SearchBar";
+import { ReactComponent as PlusIcon } from "../../../assets/icons/plus.svg";
 
 export function Projects() {
   const dispatch = useDispatch();
@@ -75,7 +76,8 @@ export function Projects() {
           <button
             className="btn-add-project"
             onClick={handleToCreatePage}
-          >+
+          >
+            <PlusIcon />
           </button>
           <span className="label-add-project">Добавить проект</span>
         </div>

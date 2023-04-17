@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using DM.DAL.Entities;
-using DM.Domain.Helpers;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
 using Microsoft.EntityFrameworkCore;
@@ -28,66 +27,43 @@ namespace DM.Domain.Implementations
         {
             var projects = await _context.Projects
                 .Include(x => x.Template)
-                .Include(x => x.Users)
+                .Include(x => x.Items)
+                .Include(x => x.UserProjects).ThenInclude(y => y.User)
                 .ToListAsync();
 
-            var projectModel = new List<ProjectModel>();
-
-            foreach (var project in projects)
-            {
-                // if (_currentUser.Roles != "SuperAdmin")
-                // {
-                //     var permission = AuthorizationHelper.CheckUsersPermissionsById(_context, _currentUser, PermissionType.Project, project.Id);
-                //
-                //     if (permission == null || !permission.Read)
-                //     {
-                //         continue;
-                //     }
-                // }
-
-                projectModel.Add(new ProjectModel()
-                {
-                    Id = project.Id,
-                    OrganizationId = project.OrganizationId,
-                    Title = project.Title,
-                    Description = project.Description,
-                    CreationDate = project.CreatedAt,
-                });
-            }
-
-            return projectModel;
+            return _mapper.Map<List<ProjectModel>>(projects);
         }
 
         public async Task<ProjectModel> GetById(long projectId)
         {
-            var project = await _context.Projects.Include(x => x.Template)
+            var project = await _context.Projects
+                .Include(x => x.Template)
+                .Include(x => x.Items)
+                .Include(x => x.UserProjects).ThenInclude(y => y.User)
                 .FirstOrDefaultAsync(x => x.Id == projectId);
 
             if (project == null)
             {
                 return null;
             }
-
-            var projectModel = new ProjectModel()
-            {
-                OrganizationId = project.OrganizationId,
-                Title = project?.Title,
-                Description = project.Description,
-            };
-
-            return projectModel;
+            
+            return _mapper.Map<ProjectModel>(project);
         }
 
         public async Task<long> Create(ProjectModel projectModel)
         {
-            var project = new ProjectEntity
+            var project = _mapper.Map<ProjectEntity>(new ProjectModel
             {
-                OrganizationId = projectModel.OrganizationId,
                 Title = projectModel.Title,
-                Description = projectModel.Description
-            };
+                OrganizationId = projectModel.OrganizationId,
+                Items = projectModel.Items.ToList(),
+                Users = projectModel.Users.ToList(),
+                IsInArchive = projectModel.IsInArchive
+            });
 
-            var organization = _context.Organization.Include(x => x.Projects).First(x => x.Id == projectModel.OrganizationId);
+            var organization = await _context.Organization
+                .Include(x => x.Projects)
+                .FirstOrDefaultAsync(x => x.Id == projectModel.OrganizationId);
 
             if (organization == null)
             {
@@ -114,7 +90,6 @@ namespace DM.Domain.Implementations
             _context.Projects.Attach(fieldForUpdate);
 
             fieldForUpdate.Title = projectModel.Title;
-            fieldForUpdate.Description = projectModel.Description;
 
             await _context.SaveChangesAsync();
 

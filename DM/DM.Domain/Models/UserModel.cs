@@ -1,5 +1,6 @@
 ﻿using DM.DAL.Entities;
 using System;
+using System.Collections.Generic;
 
 namespace DM.Domain.Models
 {
@@ -14,10 +15,10 @@ namespace DM.Domain.Models
         public string Password { get; set; }
         public long RoleId { get; set; }
         public RoleModel Role { get; set; }
-        public DateTime Birthdate { get; set; }
-        public string Snils { get; set; }
         public string Position { get; set; }
         public long OrganizationId { get; set; }
+
+        public List<ProjectModel> Projects { get; set; }
     }
     
     public class UserModelForUpdate
@@ -31,10 +32,10 @@ namespace DM.Domain.Models
         public string Password { get; set; }
         public long RoleId { get; set; }
         public RoleModel Role { get; set; }
-        public DateTime Birthdate { get; set; }
-        public string Snils { get; set; }
         public string Position { get; set; }
         public long OrganizationId { get; set; }
+        
+        public List<ProjectModel> Projects { get; set; }
     }
 
 }

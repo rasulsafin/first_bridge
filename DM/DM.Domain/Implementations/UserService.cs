@@ -72,8 +72,6 @@ namespace DM.Domain.Implementations
                 LastName = userModel.LastName,
                 FathersName = userModel.FathersName,
                 Email = userModel.Email,
-                Birthdate = userModel.Birthdate,
-                Snils = userModel.Snils,
                 RoleId = userModel.RoleId,
                 Position = userModel.Position,
                 OrganizationId = userModel.OrganizationId,
@@ -112,9 +110,7 @@ namespace DM.Domain.Implementations
             userForUpdate.Email = user.Email;
             userForUpdate.Login = user.Login;
             userForUpdate.Password = user.Password;
-            userForUpdate.Birthdate = user.Birthdate;
             userForUpdate.Position = user.Position;
-            userForUpdate.Snils = user.Snils;
             userForUpdate.RoleId = user.RoleId;
             userForUpdate.OrganizationId = user.OrganizationId;
 
