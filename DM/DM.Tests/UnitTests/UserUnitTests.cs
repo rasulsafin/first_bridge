@@ -35,7 +35,7 @@ namespace DM.Tests.UnitTests
         {
             // preparation
             var userRepo = new Mock<IUserService>();
-            var userController = new UsersController(userRepo.Object);
+            var userController = new UsersController(null, null, userRepo.Object, null);
 
             var userModel = new UserModel()
             { Name = UserName, LastName = LastName, FathersName = FathersName, Birthdate = DateTime.Now,
@@ -63,7 +63,7 @@ namespace DM.Tests.UnitTests
         {
             // preparation
             var userRepo = new Mock<IUserService>();
-            var userController = new UsersController(userRepo.Object);
+            var userController = new UsersController(null, null, userRepo.Object, null);
 
             var userModel = new UserModel()
             { Name = UserName, LastName = LastName, FathersName = FathersName, Birthdate = DateTime.Now, 
@@ -89,7 +89,7 @@ namespace DM.Tests.UnitTests
         {
             // preparation
             var userRepo = new Mock<IUserService>();
-            var userController = new UsersController(userRepo.Object);
+            var userController = new UsersController(null, null, userRepo.Object, null);
 
             // execution
             var result = await userController.Create(null);
@@ -109,7 +109,7 @@ namespace DM.Tests.UnitTests
         public void AuthenticateRequestReturnsBadRequestForEmptyContext()
         {
             var userRepo = new Mock<IUserService>();
-            var userController = new UsersController(userRepo.Object);
+            var userController = new UsersController(null, null, userRepo.Object, null);
 
             var result = userController.Authenticate(new AuthenticateRequest()
                 { Login = Login, Password = Password });

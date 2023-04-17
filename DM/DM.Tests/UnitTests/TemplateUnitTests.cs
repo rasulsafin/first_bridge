@@ -18,7 +18,7 @@ namespace DM.Tests.UnitTests
         public async Task CreatePermissionWithEmptyRequestReturnsBadRequest()
         {
             var templateRepo = new Mock<ITemplateService>();
-            var permissionController = new TemplateController(templateRepo.Object);
+            var permissionController = new TemplateController(null, null, templateRepo.Object, null);
 
             var result = permissionController.AddTemplateToProject(null);
             
@@ -34,7 +34,7 @@ namespace DM.Tests.UnitTests
             const string tempName = "Temp";
             const int projId = 1;
             var templateRepo = new Mock<ITemplateService>();
-            var templateController = new TemplateController(templateRepo.Object);
+            var templateController = new TemplateController(null, null, templateRepo.Object, null);
 
             var templateResult = new List<TemplateModel>();
             templateResult.Add(new TemplateModel() {Name = tempName});
@@ -59,8 +59,8 @@ namespace DM.Tests.UnitTests
         public async Task GetProjectTemplateOfRecordReturnBadRequestForNonExistingAndCorrectObject()
         {
             var templateRepo = new Mock<ITemplateService>();
-            var templateController = new TemplateController(templateRepo.Object);
-            
+            var templateController = new TemplateController(null, null, templateRepo.Object, null);
+
             var result = await templateController.GetProjectTemplateOfRecord(100);
 
             Assert.IsType<NotFoundResult>(result);
