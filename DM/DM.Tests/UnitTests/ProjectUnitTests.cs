@@ -24,8 +24,8 @@ namespace DM.Tests.UnitTests
             var dmContext = new Mock<DmDbContext>();
             var projectController = new ProjectController(projectRepo.Object, dmContext.Object, new CurrentUserService(dmContext.Object));
             var projectListResult = new List<ProjectModel>();
-            const string description = "such a magic";
-            projectListResult.Add(new ProjectModel() { Description = description});
+            const string title = "titleProject";
+            projectListResult.Add(new ProjectModel() { Title = title});
             
             projectRepo.Setup(x => x.GetAll())
                 .Returns(Task.FromResult(projectListResult));
@@ -37,7 +37,7 @@ namespace DM.Tests.UnitTests
             Assert.NotNull(model);
             
             Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(description, model.Description);
+            Assert.Equal(title, model.Title);
         }
 
         #endregion

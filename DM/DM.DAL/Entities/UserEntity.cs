@@ -13,12 +13,6 @@ namespace DM.DAL.Entities
         public string Password { get; set; }
         public long RoleId { get; set; }
         public RoleEntity Role { get; set; }
-        public DateTime Birthdate { get; set; }
-
-        /// <summary>
-        /// СНИЛС
-        /// </summary>
-        public string Snils { get; set; }
 
         /// <summary>
         /// Должность
@@ -30,6 +24,10 @@ namespace DM.DAL.Entities
         public long OrganizationId { get; set; }
         public OrganizationEntity Organization { get; set; }
         
-        public List<UserProjectEntity> Projects { get; set; }
+        public List<UserEntity> Users { get; set; }
+        
+        public List<UserProjectEntity> UserProjects { get; set; }
+        
+        public List<ProjectEntity> Projects { get; set; }
     }
 }

@@ -39,6 +39,25 @@ namespace DM.DAL
                 .HasIndex(x => x.Email)
                 .IsUnique(true);
 
+            modelBuilder.Entity<UserEntity>()
+                .HasMany(u => u.Projects)
+                .WithMany(p => p.Users)
+                .UsingEntity<UserProjectEntity>(
+                    up => up
+                        .HasOne(prop => prop.Project)
+                        .WithMany(t => t.UserProjects)
+                        .HasForeignKey(prop => prop.ProjectId),
+                    up => up
+                        .HasOne(prop => prop.User)
+                        .WithMany(p => p.UserProjects)
+                        .HasForeignKey(prop => prop.UserId),
+                    up =>
+                    {
+                        up.HasKey(prop => new { prop.ProjectId, prop.UserId });
+                        up.ToTable("UserProjects");
+                    }
+                );
+
             modelBuilder.Entity<OrganizationEntity>()
                 .HasIndex(x => x.Inn)
                 .IsUnique(true);
@@ -174,8 +193,6 @@ namespace DM.DAL
                     //pass is - string
                     Password = "AON0utalfV1jyo5nJPnooXEc5NjOWuFBpohmk6xYZ8eK0fjDbSLBGPrY5YkGYlEhBA==",
                     RoleId = 1,
-                    Birthdate = DateTime.Now,
-                    Snils = "snils111",
                     Position = "Super Administrator Senior",
                     OrganizationId = 1
                 });
@@ -191,8 +208,6 @@ namespace DM.DAL
                     //pass is - string1
                     Password = "APqcPGe7Q3u2jRDNgHuKrck8E9l1SAEj6knGQqAAZAm3gIoi/E4FJN4lKqEAUwhMLw==",
                     RoleId = 2,
-                    Birthdate = DateTime.Now,
-                    Snils = "snils123",
                     Position = "Team Supervisor Junior",
                     OrganizationId = 1
                 });
@@ -203,7 +218,6 @@ namespace DM.DAL
                 {
                     Id = 1,
                     Title = "Project-1",
-                    Description = "Proj 1",
                     OrganizationId = 1,
                     CreatedAt = DateTime.Now
                 });
@@ -212,7 +226,6 @@ namespace DM.DAL
                 {
                     Id = 2,
                     Title = "Project-2",
-                    Description = "Proj 2",
                     OrganizationId = 1,
                     CreatedAt = DateTime.Now
                 });
