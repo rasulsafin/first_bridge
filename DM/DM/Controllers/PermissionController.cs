@@ -39,7 +39,7 @@ namespace DM.Controllers
         {
             var result = await _permissionService.UpdatePermissionOnRole(permissionModel);
 
-            if (result == false) return BadRequest("something went wrong");
+            if (!result) return BadRequest("something went wrong");
 
             return Ok(result);
         }

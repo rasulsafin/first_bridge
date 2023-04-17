@@ -6,8 +6,10 @@ using DM.Domain.Interfaces;
 using DM.Domain.Implementations;
 using DM.Domain.Helpers;
 using DM.Domain.Models;
+
 using DM.DAL.Entities;
 using DM.DAL;
+
 using DM.Helpers;
 
 namespace DM.Controllers
@@ -41,9 +43,9 @@ namespace DM.Controllers
         [HttpGet("{recordId}")]
         public IActionResult GetById(long recordId)
         {
-            var permission = AuthorizationHelper.CheckUsersPermissionsById(_context, _currentUser, PermissionType.Record, recordId);
+            var permission = AuthorizationHelper.CheckUserPermissionsById(_context, _currentUser, PermissionType.Record);
 
-            if (permission == null || !permission.Read)
+            if (!permission)
             {
                 return StatusCode(403);
             }
@@ -60,9 +62,9 @@ namespace DM.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(RecordModel recordModel)
         {
-            var permission = AuthorizationHelper.CheckUsersPermissionsForCreate(_context, _currentUser, PermissionType.Record);
+            var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionType.Record);
 
-            if (permission == null)
+            if (!permission)
             {
                 return StatusCode(403);
             }
@@ -81,16 +83,16 @@ namespace DM.Controllers
         [HttpPut]
         public async Task<IActionResult> Update(RecordModel recordModel)
         {
-            var permission = AuthorizationHelper.CheckUsersPermissionsForUpdate(_context, _currentUser, PermissionType.Record, recordModel.Id);
+            var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionType.Record);
 
-            if (permission == null)
+            if (!permission)
             {
                 return StatusCode(403);
             }
 
             var checker = await _recordService.Update(recordModel);
 
-            if (checker == false)
+            if (!checker)
             {
                 return BadRequest("the fields must not contain invalid characters");
             }
@@ -103,16 +105,16 @@ namespace DM.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(long recordId)
         {
-            var permission = AuthorizationHelper.CheckUsersPermissionsForDelete(_context, _currentUser, PermissionType.Record, recordId);
+            var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionType.Record);
 
-            if (permission == null)
+            if (!permission)
             {
                 return StatusCode(403);
             }
 
             var checker = await _recordService.Delete(recordId);
 
-            if (checker == false)
+            if (!checker)
             {
                 return NotFound();
             }

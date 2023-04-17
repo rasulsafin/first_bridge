@@ -1,8 +1,6 @@
-using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 using DM.Domain.Exceptions;
 using DM.Domain.Helpers;
@@ -13,36 +11,35 @@ using DM.Domain.Models;
 using DM.DAL;
 using DM.DAL.Entities;
 
-using DM.Helpers;
-
 namespace DM.Controllers
 {
     [ApiController]
     [Route("api/comment")]
     public class CommentController : ControllerBase
     {
-        public readonly ICommentService _commentService;
         public readonly DmDbContext _context;
         private readonly UserEntity _currentUser;
 
-        public CommentController(ICommentService commentService, DmDbContext context, CurrentUserService userService)
+        public readonly ICommentService _commentService;
+
+        public CommentController(DmDbContext context, CurrentUserService userService, ICommentService commentService)
         {
+            _context = context;
+            _currentUser = userService.CurrentUser;
             _commentService = commentService;
-             _context = context;
-             _currentUser = userService.CurrentUser;
         }
-                
+
         [HttpPost]
         public async Task<IActionResult> Create(CommentModel commentModel)
         {
-            
-            var permission = AuthorizationHelper.CheckUsersPermissionsForUpdate(_context, _currentUser, PermissionType.Record, commentModel.RecordId);
 
-            if (permission == null)
+            var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionType.Record);
+
+            if (!permission)
             {
                 return StatusCode(403);
             }
-            
+
             var id = await _commentService.Create(commentModel);
 
             if (id == 0)
@@ -52,29 +49,27 @@ namespace DM.Controllers
 
             return Ok(id);
         }
-        
+
         [HttpDelete]
         public async Task<IActionResult> Delete(long commentId)
         {
-            // проверяем доступ к удалению записи
-            var record = await _context.Records.Where(q => q.Comments.Any(p => p.Id == commentId)).FirstOrDefaultAsync();
-            var permission = AuthorizationHelper.CheckUsersPermissionsForDelete(_context, _currentUser, PermissionType.Record, record.Id);
+            var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionType.Record);
 
-            if (permission == null)
+            if (!permission)
             {
                 return StatusCode(403);
             }
 
             var checker = await _commentService.Delete(commentId);
 
-            if (checker == false)
+            if (!checker)
             {
                 return NotFound();
             }
 
             return Ok(checker);
         }
-        
+
         [HttpPut]
         public async Task<IActionResult> Update(CommentModelForUpdate comment)
         {
@@ -86,7 +81,7 @@ namespace DM.Controllers
             catch (ArgumentValidationException ex)
             {
                 return BadRequest("something went wrong");
-            } 
+            }
         }
     }
 }
