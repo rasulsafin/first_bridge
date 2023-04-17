@@ -21,7 +21,7 @@ namespace DM.Tests.UnitTests
         public async Task CreatePermissionReturnsOkPositiveTesting()
         {
             var permissionRepo = new Mock<IPermissionService>();
-            var permissionController = new PermissionController(permissionRepo.Object);
+            var permissionController = new PermissionController(null, null, permissionRepo.Object, null);
             var permissionListResult = new List<PermissionEntity>();
             var permissionForResult = new PermissionEntity()
             {
@@ -54,7 +54,7 @@ namespace DM.Tests.UnitTests
         public async Task GetAllPermissionsReturnsNotFound()
         {
             var permissionRepo = new Mock<IPermissionService>();
-            var permissionController = new PermissionController(permissionRepo.Object);
+            var permissionController = new PermissionController(null, null, permissionRepo.Object, null);
 
             var result = await permissionController.GetAllByRole(1);
             Assert.IsType<NotFoundResult>(result);

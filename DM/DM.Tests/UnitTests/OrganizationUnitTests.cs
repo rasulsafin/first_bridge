@@ -19,7 +19,7 @@ namespace DM.Tests.UnitTests
         public async Task CreateOrganizationPositiveTesting()
         {
             var organizationRepo = new Mock<IOrganizationService>();
-            var organizationController = new OrganizationController(organizationRepo.Object);
+            var organizationController = new OrganizationController(null, null, organizationRepo.Object, null);
 
             var organizationModelForCreate = new OrganizationModelForCreate()
             {
@@ -52,7 +52,7 @@ namespace DM.Tests.UnitTests
             const string organizationName = "BRIO";
             const string organizationName2 = "MRS";
             var organizationRepo = new Mock<IOrganizationService>();
-            var organizationController = new OrganizationController(organizationRepo.Object);
+            var organizationController = new OrganizationController(null, null, organizationRepo.Object, null);
             var organizationResult = new List<OrganizationEntity>(); // проверяемый объект
             
             organizationResult.Add(new OrganizationEntity() { Name = organizationName});

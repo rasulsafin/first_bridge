@@ -22,20 +22,20 @@ namespace DM.Tests.UnitTests
         {
             var projectRepo = new Mock<IProjectService>();
             var dmContext = new Mock<DmDbContext>();
-            var projectController = new ProjectController(projectRepo.Object, dmContext.Object, new CurrentUserService(dmContext.Object));
+            var projectController = new ProjectController(dmContext.Object, new CurrentUserService(dmContext.Object), projectRepo.Object, null);
             var projectListResult = new List<ProjectModel>();
             const string description = "such a magic";
-            projectListResult.Add(new ProjectModel() { Description = description});
-            
+            projectListResult.Add(new ProjectModel() { Description = description });
+
             projectRepo.Setup(x => x.GetAll())
                 .Returns(Task.FromResult(projectListResult));
             var result = await projectController.GetAll();
             var actualResult = result as OkObjectResult;
             var model = (actualResult?.Value as IEnumerable)!.Cast<ProjectModel>().First();
-            
+
             Assert.IsType<OkObjectResult>(result);
             Assert.NotNull(model);
-            
+
             Assert.IsType<OkObjectResult>(result);
             Assert.Equal(description, model.Description);
         }

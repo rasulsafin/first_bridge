@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 using DM.Domain.Interfaces;
 using DM.Domain.Implementations;
@@ -22,33 +23,36 @@ namespace DM.Controllers
         private readonly UserEntity _currentUser;
 
         private readonly IRecordService _recordService;
+        private readonly ILogger<RecordService> _logger;
 
-        public RecordController(IRecordService recordService, DmDbContext context, CurrentUserService userService)
+        public RecordController(DmDbContext context, CurrentUserService currentUserService, IRecordService recordService, ILogger<RecordService> logger)
         {
             _context = context;
+            _currentUser = currentUserService.CurrentUser;
             _recordService = recordService;
-            _currentUser = userService.CurrentUser;
+            _logger = logger;
         }
 
-        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpGet]
+        [Authorize]
         public IActionResult GetAll()
         {
+            var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionType.Record);
+
+            if (!permission) return StatusCode(403);
+
             var records = _recordService.GetAll();
 
             return Ok(records);
         }
 
-        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpGet("{recordId}")]
+        [Authorize]
         public IActionResult GetById(long recordId)
         {
-            var permission = AuthorizationHelper.CheckUserPermissionsById(_context, _currentUser, PermissionType.Record);
+            var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionType.Record);
 
-            if (!permission)
-            {
-                return StatusCode(403);
-            }
+            if (!permission) return StatusCode(403);
 
             var record = _recordService.GetById(recordId);
 
@@ -58,16 +62,13 @@ namespace DM.Controllers
             return Ok(record);
         }
 
-        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(RecordModel recordModel)
         {
             var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionType.Record);
 
-            if (!permission)
-            {
-                return StatusCode(403);
-            }
+            if (!permission) return StatusCode(403);
 
             var id = await _recordService.Create(recordModel);
 
@@ -79,16 +80,13 @@ namespace DM.Controllers
             return Ok(id);
         }
 
-        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpPut]
+        [Authorize]
         public async Task<IActionResult> Update(RecordModel recordModel)
         {
             var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionType.Record);
 
-            if (!permission)
-            {
-                return StatusCode(403);
-            }
+            if (!permission) return StatusCode(403);
 
             var checker = await _recordService.Update(recordModel);
 
@@ -100,17 +98,13 @@ namespace DM.Controllers
             return Ok(checker);
         }
 
-
-        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpDelete]
+        [Authorize]
         public async Task<IActionResult> Delete(long recordId)
         {
             var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionType.Record);
 
-            if (!permission)
-            {
-                return StatusCode(403);
-            }
+            if (!permission) return StatusCode(403);
 
             var checker = await _recordService.Delete(recordId);
 

@@ -62,8 +62,8 @@ namespace DM.Controllers
         /// Get records about all documents
         /// </summary>
         /// <returns>list of items</returns>
-        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll(long projectId)
         {
             // логика проверки доступа для GetAll перенесена в сервис
@@ -75,8 +75,8 @@ namespace DM.Controllers
         /// <summary>
         /// Download file with Name specified in Db
         /// </summary>
-        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpGet("download")]
+        [Authorize]
         public async Task<IActionResult> DownloadFile(string fileName)
         {
             var file = await _context.Items.FirstOrDefaultAsync(x => x.Name == fileName);
@@ -93,8 +93,8 @@ namespace DM.Controllers
             return File(bytes, GetMimeTypes(Path.GetExtension(fileName)), fileName);
         }
 
-        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpGet("downloadWexBim")]
+        [Authorize]
         public async Task<IActionResult> DownloadWexBim(string fileName) // название файла вместе с расширением .ifc
         {
             var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
@@ -162,8 +162,8 @@ namespace DM.Controllers
         /// Upload file with versioning
         /// </summary>
         /// <returns>id of uploaded file</returns>
-        [Authorize(new string[] { RoleConst.Admin, RoleConst.Owner })]
         [HttpPost, DisableRequestSizeLimit, Route("file")]
+        [Authorize]
         public async Task<IActionResult> Post(long project, IFormFile file)
         {
             var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionType.Item);
