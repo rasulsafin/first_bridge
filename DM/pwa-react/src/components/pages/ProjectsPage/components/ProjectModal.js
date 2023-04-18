@@ -12,6 +12,7 @@ import { FileItem } from "../../../upload/FileItem";
 import { fetchFiles, uploadFileService } from "../../../../services/filesSlice";
 import { useDispatch } from "react-redux";
 import { fileExtensions } from "../../../../constants/fileExtensions";
+import { searchUsersByName, sortUsersByNameAsc, sortUsersByNameDesc } from "../../../../services/usersSlice";
 
 const style = {
   position: "absolute",
@@ -28,7 +29,8 @@ const style = {
   pb: 3
 };
 
-function ChildModal() {
+function ChildModal(props) {
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {
@@ -36,6 +38,18 @@ function ChildModal() {
   };
   const handleClose = () => {
     setOpen(false);
+  };
+
+  function filterByInput(e) {
+    dispatch(searchUsersByName(e.target.value));
+  }
+
+  const handleSortByAsc = () => {
+    dispatch(sortUsersByNameAsc());
+  };
+
+  const handleSortByDesc = () => {
+    dispatch(sortUsersByNameDesc());
   };
 
   return (
@@ -57,7 +71,9 @@ function ChildModal() {
           <Box sx={{
             marginTop: "40px"
           }}>
-            <SearchBar />
+            <SearchBar
+              onChange={e => filterByInput(e)}
+            />
             <Controls.Button
               className="ml-0"
               style={{
@@ -65,6 +81,7 @@ function ChildModal() {
                 color: "#FFF",
                 border: "none"
               }}
+              onClick={handleSortByAsc}
             >От А до Я</Controls.Button>
             <Controls.Button
               style={{
@@ -72,9 +89,10 @@ function ChildModal() {
                 color: "#2D2926",
                 border: "none"
               }}
+              onClick={handleSortByDesc}
             >От Я до А</Controls.Button>
             <List style={{ height: "300px", overflowY: "auto", overflowX: "hidden" }}>
-              {/*{props.users.map(user => <UserCard key={user.id} user={user} />)}*/}
+              {props.users.map(user => <UserCard key={user.id} user={user} />)}
             </List>
           </Box>
           <Button onClick={handleClose}>Close Child Modal</Button>
@@ -169,7 +187,9 @@ export function ProjectModal(props) {
                   </List>
                 </Box>
                 <Box>
-                  <ChildModal />
+                  <ChildModal
+                  users={props.users}
+                  />
                 </Box>
               </Box>
             </Grid>
