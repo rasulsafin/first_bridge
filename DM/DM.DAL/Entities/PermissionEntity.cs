@@ -10,10 +10,10 @@ namespace DM.DAL.Entities
         public long RoleId { get; set; }
         public RoleEntity Role { get; set; }
         public PermissionType Type { get; set; }
-        public bool Create { get; set; } = false;
-        public bool Read { get; set; } = false;
-        public bool Update { get; set; } = false;
-        public bool Delete { get; set; } = false;
+        public bool Create { get; set; }
+        public bool Read { get; set; }
+        public bool Update { get; set; }
+        public bool Delete { get; set; }
     }
 
     public enum PermissionType

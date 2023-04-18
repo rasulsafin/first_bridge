@@ -9,9 +9,13 @@ namespace DM.Domain
         public MappingProfile()
         {
             CreateMap<OrganizationEntity, OrganizationModel>().ReverseMap();
+            //user map
             CreateMap<UserEntity, UserModel>().ReverseMap();
-            CreateMap<ItemEntity, ItemModel>().ReverseMap();
             CreateMap<UserModel, UserProjectEntity>().ReverseMap();
+            CreateMap<UserModelForUpdate, UserEntity>().ReverseMap();
+            CreateMap<UserProjectEntity, UserProjectModel>().ReverseMap();
+
+            CreateMap<ItemEntity, ItemModel>().ReverseMap();
             CreateMap<RecordEntity, RecordModel>().ReverseMap();
             CreateMap<ProjectModel, ProjectEntity>().ReverseMap();
             CreateMap<TemplateModel, TemplateEntity>().ReverseMap();
