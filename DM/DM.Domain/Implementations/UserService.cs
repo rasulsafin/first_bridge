@@ -9,6 +9,7 @@ using DM.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using DM.Domain.Helpers;
+using Xbim.IO.Xml.BsConf;
 
 namespace DM.Domain.Implementations
 {
@@ -50,7 +51,11 @@ namespace DM.Domain.Implementations
 
         public async Task<IEnumerable<UserModel>> GetAll()
         {
-            var users = await _context.Users.ToListAsync();
+            var users = await _context.Users
+                .Include(x => x.UserProjects)
+                .ThenInclude(y => y.Project)
+                .ToListAsync();
+            
             return _mapper.Map<List<UserModel>>(users);
         }
 
@@ -58,7 +63,10 @@ namespace DM.Domain.Implementations
         {
             if (userId < 1) return null;
 
-            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+            var user = _context.Users
+                .Include(x => x.UserProjects).ThenInclude(y => y.Project)
+                .FirstOrDefault(x => x.Id == userId);
+            
             return _mapper.Map<UserModel>(user);
         }
 
