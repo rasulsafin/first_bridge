@@ -1,8 +1,11 @@
-﻿namespace DM.DAL.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace DM.DAL.Entities
 {
     /// <summary>
     /// many to many
     /// </summary>
+    [Table("UserProject")]
     public class UserProjectEntity : BaseEntity
     {
         public long UserId { get; set; }

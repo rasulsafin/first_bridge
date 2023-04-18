@@ -1,8 +1,12 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DM.DAL.Entities
 {
+    [Table("User")]
+    [Index("Email", IsUnique = true, Name = "User_Email")]
+    [Index("Login", IsUnique = true, Name = "User_Login")]
     public class UserEntity : BaseEntity
     {
         public string Name { get; set; }
@@ -23,11 +27,7 @@ namespace DM.DAL.Entities
         /// </summary>
         public long OrganizationId { get; set; }
         public OrganizationEntity Organization { get; set; }
-        
-        public List<UserEntity> Users { get; set; }
-        
         public List<UserProjectEntity> UserProjects { get; set; }
         
-        public List<ProjectEntity> Projects { get; set; }
     }
 }
