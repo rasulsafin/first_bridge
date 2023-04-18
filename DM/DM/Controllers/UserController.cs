@@ -49,7 +49,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionType.Record);
+                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionType.User);
 
                 if (!permission) return BadRequest("Access Denied");
 
@@ -77,6 +77,10 @@ namespace DM.Controllers
         {
             try
             {
+                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionType.User);
+
+                if (!permission) return BadRequest("Access Denied");
+
                 var user = _userService.GetById(userId);
                 return Ok(user);
             }
@@ -101,6 +105,10 @@ namespace DM.Controllers
         [Authorize]
         public async Task<IActionResult> Create(UserModel userModel)
         {
+            var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionType.User);
+
+            if (!permission) return BadRequest("Access Denied");
+
             if (userModel == null)
             {
                 return BadRequest("Invalid Request");
@@ -131,6 +139,10 @@ namespace DM.Controllers
         {
             try
             {
+                var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionType.User);
+
+                if (!permission) return BadRequest("Access Denied");
+
                 var checker = await _userService.Update(user);
                 return Ok(checker);
             }
@@ -159,6 +171,10 @@ namespace DM.Controllers
         {
             try
             {
+                var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionType.User);
+
+                if (!permission) return BadRequest("Access Denied");
+
                 await _userService.Delete(userId);
                 return Ok();
             }
