@@ -97,7 +97,7 @@ namespace DM.Controllers
         [Authorize]
         public async Task<IActionResult> Delete(long projectId)
         {
-            var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionType.Record);
+            var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionType.Project);
 
             if (!permission) return StatusCode(403);
 
