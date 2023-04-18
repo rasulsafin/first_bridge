@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using System.Security.Principal;
 using System.Security.Claims;
 using DM.Domain.Implementations;
+using Microsoft.Extensions.Logging;
 
 namespace DM.Domain.Helpers
 {
@@ -18,8 +18,8 @@ namespace DM.Domain.Helpers
         private readonly RequestDelegate _next;
         private readonly IConfiguration _configuration;
 
-        //   private CurrentUserService _currentUserService;
-        //private readonly ILogger _logger;
+        private CurrentUserService _currentUserService;
+        private readonly ILogger _logger;
 
         public JwtMiddleware(RequestDelegate next, IConfiguration configuration)
         {
@@ -61,7 +61,7 @@ namespace DM.Domain.Helpers
                 var claim = new Claim(ClaimTypes.Name, user.Name);
                 var userIdClaim = new Claim(ClaimTypes.NameIdentifier, user.Id.ToString());
                 var claimRole = new Claim(ClaimTypes.Role, role.ToString());
-                var identity = new ClaimsIdentity(new[] { claim, claimRole/*, userIdClaim*/ }, "jwt");
+                var identity = new ClaimsIdentity(new[] { claim, claimRole }, "jwt");
                 var principal = new ClaimsPrincipal(identity);
 
                 context.User = principal;
@@ -73,10 +73,5 @@ namespace DM.Domain.Helpers
                 // todo: need to add logger
             }
         }
-        //eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJyb2xlTmFtZSI6Ik93bmVyIiwibmJmIjoxNjgxNDYxMTU3LCJleHAiOjE2ODIwNjU5NTcsI
-        //mlhdCI6MTY4MTQ2MTE1N30.tRH4N-2EfYSM9SBBzCLlTTVPzquWP0bbcTlLuypUd-g
-
-        //eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJyb2xlTmFtZSI6Ik93bmVyIiwibmJmIjoxNjgxNDYxMTU3LCJleHAiOjE2ODIwNjU5NTcsI
-        //mlhdCI6MTY4MTQ2MTE1N30.tRH4N-2EfYSM9SBBzCLlTTVPzquWP0bbcTlLuypUd-g
     }
 }

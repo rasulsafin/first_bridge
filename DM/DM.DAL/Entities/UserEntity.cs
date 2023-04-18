@@ -28,6 +28,5 @@ namespace DM.DAL.Entities
         public long OrganizationId { get; set; }
         public OrganizationEntity Organization { get; set; }
         public List<UserProjectEntity> UserProjects { get; set; }
-        
     }
 }

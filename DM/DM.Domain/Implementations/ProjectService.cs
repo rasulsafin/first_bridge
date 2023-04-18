@@ -57,7 +57,7 @@ namespace DM.Domain.Implementations
                 Title = projectModel.Title,
                 OrganizationId = projectModel.OrganizationId,
                 Items = projectModel.Items.ToList(),
-                Users = projectModel.Users.ToList(),
+                UserProjects = projectModel.UserProjects.ToList(),
                 IsInArchive = projectModel.IsInArchive
             });
 

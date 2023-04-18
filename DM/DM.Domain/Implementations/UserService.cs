@@ -29,8 +29,8 @@ namespace DM.Domain.Implementations
 
         public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest model)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Login == model.Login);
-            var userRole = await _context.Role.FirstOrDefaultAsync(x => x.Id == user.RoleId);
+            var user = await _context.Users.Include(x => x.Role)
+                                           .FirstOrDefaultAsync(x => x.Login == model.Login);
 
             if (user == null)
             {
@@ -44,9 +44,9 @@ namespace DM.Domain.Implementations
             {
                 return null;
             }
-            var token = _configuration.GenerateJwtToken(user, userRole.Name);
+            var token = _configuration.GenerateJwtToken(user, user.Role.Name);
 
-            return new AuthenticateResponse(user, token);
+            return new AuthenticateResponse(user,token);
         }
 
         public async Task<IEnumerable<UserModel>> GetAll()
@@ -55,7 +55,7 @@ namespace DM.Domain.Implementations
                 .Include(x => x.UserProjects)
                 .ThenInclude(y => y.Project)
                 .ToListAsync();
-            
+
             return _mapper.Map<List<UserModel>>(users);
         }
 
@@ -66,7 +66,7 @@ namespace DM.Domain.Implementations
             var user = _context.Users
                 .Include(x => x.UserProjects).ThenInclude(y => y.Project)
                 .FirstOrDefault(x => x.Id == userId);
-            
+
             return _mapper.Map<UserModel>(user);
         }
 
