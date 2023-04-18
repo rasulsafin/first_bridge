@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DM.DAL.Entities
 {
     /// <summary>
     /// Working project
     /// </summary>
+    [Table("Project")]
     public class ProjectEntity : BaseEntity
     {
         /// <summary>
@@ -16,8 +18,6 @@ namespace DM.DAL.Entities
         /// Users of project
         /// </summary>
         public List<UserProjectEntity> UserProjects { get; set; }
-        
-        public List<UserEntity> Users { get; set; }
         /// <summary>
         /// Документы проекта
         /// </summary>
@@ -35,6 +35,6 @@ namespace DM.DAL.Entities
         /// </summary>
         public long OrganizationId { get; set; }
         public OrganizationEntity Organization { get; set; }
-        public bool IsInArchive { get; set; }
+        public bool IsInArchive { get; set; } = false;
     }
 }

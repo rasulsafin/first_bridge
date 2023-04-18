@@ -1,4 +1,6 @@
-﻿namespace DM.DAL.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace DM.DAL.Entities
 {
     public class ObjectiveEntity : BaseEntity
     {

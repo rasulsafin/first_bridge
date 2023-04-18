@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json;
-
 
 namespace DM.DAL.Entities
 {
+    [Table("Template")]
     public class TemplateEntity : BaseEntity
     {
         public string Name { get; set; }
+        [Required]
         public long ProjectId { get; set; }
         public ProjectEntity Project { get; set; }
 

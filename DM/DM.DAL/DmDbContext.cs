@@ -30,65 +30,7 @@ namespace DM.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Users should have unique logins
-            modelBuilder.Entity<UserEntity>()
-                .HasIndex(x => x.Login)
-                .IsUnique(true);
-
-            modelBuilder.Entity<UserEntity>()
-                .HasIndex(x => x.Email)
-                .IsUnique(true);
-
-            modelBuilder.Entity<UserEntity>()
-                .HasMany(u => u.Projects)
-                .WithMany(p => p.Users)
-                .UsingEntity<UserProjectEntity>(
-                    up => up
-                        .HasOne(prop => prop.Project)
-                        .WithMany(t => t.UserProjects)
-                        .HasForeignKey(prop => prop.ProjectId),
-                    up => up
-                        .HasOne(prop => prop.User)
-                        .WithMany(p => p.UserProjects)
-                        .HasForeignKey(prop => prop.UserId),
-                    up =>
-                    {
-                        up.HasKey(prop => new { prop.ProjectId, prop.UserId });
-                        up.ToTable("UserProjects");
-                    }
-                );
-
-            modelBuilder.Entity<OrganizationEntity>()
-                .HasIndex(x => x.Inn)
-                .IsUnique(true);
-
-            modelBuilder.Entity<OrganizationEntity>()
-                .HasIndex(x => x.Name)
-                .IsUnique(true);
-
-            modelBuilder.Entity<OrganizationEntity>()
-                .HasIndex(x => x.Ogrn)
-                .IsUnique(true);
-
-            modelBuilder.Entity<OrganizationEntity>()
-                .HasIndex(x => x.Email)
-                .IsUnique(true);
-
-            modelBuilder.Entity<ProjectEntity>()
-                .HasMany(c => c.Template)
-                .WithOne(e => e.Project)
-                .IsRequired();
-
-            modelBuilder.Entity<OrganizationEntity>()
-                .HasMany(c => c.Projects)
-                .WithOne(e => e.Organization)
-                .IsRequired();
-
-            modelBuilder.Entity<OrganizationEntity>()
-                .HasMany(c => c.Users)
-                .WithOne(e => e.Organization)
-                .IsRequired();
-
+            //Cascade delete type
             modelBuilder.Entity<ItemEntity>()
                     .HasOne(x => x.Project)
                     .WithMany(x => x.Items)

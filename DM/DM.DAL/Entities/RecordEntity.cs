@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json;
 
 namespace DM.DAL.Entities
 {
     /// <summary>
     /// Task associated with the project
     /// </summary>
+    [Table("Record")]
     public class RecordEntity : BaseEntity
     {
         public string Name { get; set; }

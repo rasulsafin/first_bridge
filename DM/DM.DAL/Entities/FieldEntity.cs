@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DM.DAL.Entities
 {
+    [Table("Field")]
     public class FieldEntity : BaseEntity
     {
+        [Required]
         public string Name { get; set; }
         public FieldType Type { get; set; } = FieldType.Text;
-        public bool IsMandatory { get; set; }
+        public bool IsMandatory { get; set; } = false;
         public string Data { get; set; }
 
         public long? TemplateId { get; set; }
@@ -20,11 +20,13 @@ namespace DM.DAL.Entities
         public RecordEntity Record { get; set; }
     }
 
+    [Table("ListField")]
     public class ListFieldEntity : BaseEntity
     {
+        [Required]
         public string Name { get; set; }
         public FieldType Type { get; set; } = FieldType.List;
-        public bool IsMandatory { get; set; }
+        public bool IsMandatory { get; set; } = false;
 
         public List<ListEntity> Lists { get; set; }
 
