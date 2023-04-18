@@ -11,9 +11,10 @@ variables:
 
 .deploy_prox0_tmpl:
   image:
-    name: docker/compose:alpine-1.29.2
+    name: docker:23.0.4-cli-alpine3.17
   variables:
     DOCKER_HOST: ssh://dev@$DEPLOY_HOST
+    TZ: "Europe/Moscow"
   before_script:
     # Setup SSH credentials and known host
     - which ssh-agent ||  apk add --no-cache openssh-client
@@ -70,18 +71,23 @@ start_test_stand:
     - docker info
     - docker pull $IMAGE_NAME_FRONTEND
     - docker pull $IMAGE_NAME_BACKEND
-    - docker-compose -f ./DM/docker-compose-dev.yml up -d
+    - docker stop dm_db dm_app dm_pwa-react
+    - docker rm dm_db dm_app dm_pwa-react
+    - docker compose -f ./DM/docker-compose-dev.yml up -d
+    - sleep 30s
+    - docker compose -f ./DM/docker-compose-dev.yml logs
+#    - timeout 10s docker compose -f ./DM/docker-compose-dev.yml logs -f
   when: manual
 
-stop_test_stand:
-  extends: .deploy_prox0_tmpl
-  stage: deploy
-  tags:
-    - docker-on-host
-  script:
-    - docker-compose -f ./DM/docker-compose-dev.yml down
-    - docker image rm $IMAGE_NAME_FRONTEND $IMAGE_NAME_BACKEND
-  when: manual
+#stop_test_stand:
+#  extends: .deploy_prox0_tmpl
+#  stage: deploy
+#  tags:
+#    - docker-on-host
+#  script:
+#    - docker compose -f ./DM/docker-compose-dev.yml down
+#    - docker image rm $IMAGE_NAME_FRONTEND $IMAGE_NAME_BACKEND
+#  when: manual
 
 clean_img:
   stage: clean
