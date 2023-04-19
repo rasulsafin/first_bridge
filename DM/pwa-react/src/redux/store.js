@@ -11,6 +11,7 @@ import recordsReducer from "../services/recordsSlice";
 import filesReducer from "../services/filesSlice";
 import { authReducer } from "../services/authSlice";
 import recordTemplatesReducer from "../services/recordTemplatesSlice";
+import rolesReducer from "../services/rolesSlice";
 import permissionsReducer from "../services/permissionsSlice";
 import { ifcElementPropsReducer } from "../services/ifcElementPropsSlice";
 import ifcModelReducer from "../services/ifcModelSlice";
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
   files: filesReducer,
   ifcElementProps: ifcElementPropsReducer,
   ifcModel: ifcModelReducer,
+  roles: rolesReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
