@@ -1,0 +1,8 @@
+
+.icon-role {
+    stroke: #B3B3B3;
+}
+
+.icon-role.active * {
+    stroke: #FFF;
+}

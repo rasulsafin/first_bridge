@@ -32,6 +32,7 @@ export const SidebarData = [
     id: 4,
     title: 'Users',
     path: '/users',
+    innerPath: '/roles',
     icon: <UserIcon className="icon" />,
     iconActive: <UserIcon className="icon active" />,
   },

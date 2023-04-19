@@ -29,6 +29,7 @@ import { OrganizationEditPage } from "./components/pages/OrganizationsPage/compo
 import IfcComponent from "./components/ifc/IfcComponent";
 import { Models } from "./components/pages/ModelPage/Models";
 import { Templates } from "./components/pages/TemplatePage/Templates";
+import { Roles } from "./components/pages/RolesPage/Roles";
 
 function App() {
   window.addEventListener("load", () => {
@@ -55,6 +56,8 @@ function App() {
               <Route path="/user/:id" element={<UserDetailPage />} />
               <Route path="/user/:id/edit" element={<UserEditPage />} />
               <Route path="/user/create" element={<UserCreatePage />} />
+
+              <Route path="/roles" element={<Roles />} />
 
               <Route path="/organizations" element={<Organizations />} />
               <Route path="/organization/:id" element={<OrganizationDetailPage />} />
