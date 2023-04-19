@@ -226,7 +226,7 @@ namespace DM.Controllers
             }
         }
 
-        [HttpPost("addListToProject")]
+        [HttpPost("addProjectListToUser")]
         [Authorize]
         public async Task<IActionResult> AddToProjects(List<UserProjectModel> userProjectModel)
         {
@@ -249,7 +249,7 @@ namespace DM.Controllers
             }
         }
 
-        [HttpDelete("deleteFromProject")]
+        [HttpDelete("deleteProjectFromUser")]
         [Authorize]
         public async Task<IActionResult> DeleteFromProject(long userProjectId)
         {
