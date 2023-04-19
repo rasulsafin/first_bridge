@@ -3,41 +3,43 @@ import { SearchBar } from "../../searchBar/SearchBar";
 import { Controls } from "../../controls/Controls";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addNewUser,
-  fetchUsers,
-  searchUsersByName,
-  selectAllUsers,
-  sortUsersByNameAsc,
-  sortUsersByNameDesc
-} from "../../../services/usersSlice";
+  fetchRoles,
+  searchRolesByName,
+  selectAllRoles,
+  sortRolesByNameAsc,
+  sortRolesByNameDesc
+} from "../../../services/rolesSlice";
 import { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
 import { ReactComponent as BurgerIcon } from "../../../assets/icons/burger.svg";
 import { ReactComponent as StarIcon } from "../../../assets/icons/star.svg";
 import { useNavigate } from "react-router";
 import "./Roles.css";
+import { RoleCard } from "./components/RoleCard";
 
 export const Roles = () => {
   const navigate = useNavigate();
   const [openModal, setModal] = useState(false);
   const dispatch = useDispatch();
-  const users = useSelector(selectAllUsers);
+  const roles = useSelector(selectAllRoles);
   const title = "Редактирование роли";
 
+  // console.log(roles)
+  
   useEffect(() => {
-    dispatch(fetchUsers());
+    dispatch(fetchRoles());
   }, [dispatch]);
 
   function filterByInput(e) {
-    dispatch(searchUsersByName(e.target.value));
+    dispatch(searchRolesByName(e.target.value));
   }
 
   const handleSortByAsc = () => {
-    dispatch(sortUsersByNameAsc());
+    dispatch(sortRolesByNameAsc());
   };
 
   const handleSortByDesc = () => {
-    dispatch(sortUsersByNameDesc());
+    dispatch(sortRolesByNameDesc());
   };
 
   const handleModalOpen = () => {
@@ -49,8 +51,8 @@ export const Roles = () => {
   };
 
   const handleNavigateToUsersPage = () => {
-    navigate(`/users`)
-  }
+    navigate(`/users`);
+  };
 
   const iconStar = (
     <StarIcon className="icon-role active" />
@@ -111,8 +113,8 @@ export const Roles = () => {
             >От Я до А</Controls.Button>
           </div>
         </div>
-        <div className="user-card-container">
-          {/*{users.map(user => <UserCard key={user.id} user={user} />)}*/}
+        <div className="role-card-container">
+          {roles.map(role => <RoleCard key={role.id} role={role} />)}
         </div>
         <Controls.Modal
           titleModal={title}
