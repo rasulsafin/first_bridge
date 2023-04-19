@@ -11,18 +11,21 @@ export function Sidebar() {
   const location = useLocation();
   const { pathname } = location;
   const user = useSelector(selectUser);
-  
-// TODO Add LastName from user
-    const fullName = user !== null ? (user.name + " " + "LastName") : " ";
-  
+
+  const fullName = user !== null ? (user.name + " " + user.lastName) : " ";
+
   return (
     <>
       <div className="sidenav">
         <div className="box-items">
           {SidebarData.map(item => {
             return <Tooltip key={item.title} title={item.title} placement="right">
-              <Link key={item.id} className={`sideItem ${pathname === item.path ? "active" : ""}`} to={item.path}>
-                {pathname === item.path ? item.iconActive : item.icon}
+              <Link
+                key={item.id}
+                className={`sideItem ${pathname === item.path || pathname === item.innerPath ? "active" : ""}`}
+                to={item.path}
+              >
+                {pathname === item.path || pathname === item.innerPath ? item.iconActive : item.icon}
               </Link>
             </Tooltip>;
           })}

@@ -14,3 +14,11 @@
     padding: 12px;
     background-color: #FFF;
 }
+
+.icon-users {
+    stroke: #B3B3B3;
+}
+
+.icon-users.active * {
+    stroke: #FFF;
+}
