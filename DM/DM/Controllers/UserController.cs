@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
@@ -213,6 +214,29 @@ namespace DM.Controllers
                 if (!permission) return BadRequest(403);
 
                 var checker = await _userProjectService.AddToProject(userProjectModel);
+                return Ok(checker);
+            }
+            catch (ANotFoundException ex)
+            {
+                return CreateProblemResult(this, 404, ex.Message);
+            }
+            catch (DocumentManagementException ex)
+            {
+                return CreateProblemResult(this, 500, ex.Message);
+            }
+        }
+
+        [HttpPost("addListToProject")]
+        [Authorize]
+        public async Task<IActionResult> AddToProjects(List<UserProjectModel> userProjectModel)
+        {
+            try
+            {
+                var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionType.User);
+
+                if (!permission) return BadRequest(403);
+
+                var checker = await _userProjectService.AddToProjects(userProjectModel);
                 return Ok(checker);
             }
             catch (ANotFoundException ex)

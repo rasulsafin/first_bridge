@@ -42,6 +42,18 @@ namespace DM.Domain.Implementations
             return true;
         }
 
+        public async Task<bool> AddToProjects(List<UserProjectModel> userProjectsModel)
+        {
+            var userProject = _mapper.Map<List<UserProjectEntity>>(userProjectsModel);
+
+            if (userProject == null) return false;
+
+            _context.UsersProjects.AddRange(userProject);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
         public async Task<bool> DeleteFromProject(long id)
         {
             var userProject = _context.UsersProjects.FirstOrDefault(q => q.Id == id);
