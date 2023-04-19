@@ -1,12 +1,16 @@
-﻿using AutoMapper;
-using DM.DAL.Entities;
-using DM.Domain.Interfaces;
-using DM.Domain.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
+
+using Microsoft.EntityFrameworkCore;
+
+using AutoMapper;
+
+using DM.Domain.Models;
+using DM.Domain.Interfaces;
+
 using DM.DAL;
+using DM.DAL.Entities;
 
 namespace DM.Domain.Implementations
 {
@@ -42,11 +46,8 @@ namespace DM.Domain.Implementations
                 .Include(x => x.UserProjects).ThenInclude(y => y.User)
                 .FirstOrDefaultAsync(x => x.Id == projectId);
 
-            if (project == null)
-            {
-                return null;
-            }
-            
+            if (project == null) return null;
+
             return _mapper.Map<ProjectModel>(project);
         }
 
@@ -57,21 +58,11 @@ namespace DM.Domain.Implementations
                 Title = projectModel.Title,
                 OrganizationId = projectModel.OrganizationId,
                 Items = projectModel.Items.ToList(),
-                UserProjects = projectModel.UserProjects.ToList(),
+                Users = projectModel.Users.ToList(),
                 IsInArchive = projectModel.IsInArchive
             });
 
-            var organization = await _context.Organization
-                .Include(x => x.Projects)
-                .FirstOrDefaultAsync(x => x.Id == projectModel.OrganizationId);
-
-            if (organization == null)
-            {
-                return 0;
-            }
-
-            // добавление зависимой сущности
-            organization.Projects.Add(project);
+            _context.Projects.Add(project);
 
             await _context.SaveChangesAsync();
 
@@ -82,10 +73,7 @@ namespace DM.Domain.Implementations
         {
             var fieldForUpdate = await _context.Projects.FirstOrDefaultAsync(x => x.Id == projectModel.Id);
 
-            if (fieldForUpdate == null)
-            {
-                return false;
-            }
+            if (fieldForUpdate == null) return false;
 
             _context.Projects.Attach(fieldForUpdate);
 
@@ -106,13 +94,11 @@ namespace DM.Domain.Implementations
                 .Include(x => x.Template)
                 .FirstOrDefaultAsync(x => x.Id == projectId);
 
-            if (result == null)
-            {
-                return false;
-            }
+            if (result == null) return false;
 
             _context.Projects.Remove(result);
             await _context.SaveChangesAsync();
+
             return true;
         }
     }

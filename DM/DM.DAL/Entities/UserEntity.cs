@@ -17,16 +17,13 @@ namespace DM.DAL.Entities
         public string Password { get; set; }
         public long RoleId { get; set; }
         public RoleEntity Role { get; set; }
-
-        /// <summary>
-        /// Должность
-        /// </summary>
         public string Position { get; set; }
-        /// <summary>
-        /// Организация 
-        /// </summary>
+
         public long OrganizationId { get; set; }
         public OrganizationEntity Organization { get; set; }
+
+        [NotMapped]
+        public List<int> UserProjectIds { get; set; }
         public List<UserProjectEntity> UserProjects { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace DM.Domain.Models
 {
-    public class RecordModel
+    public class TemplateModel
     {
         public long Id { get; set; }
         public string Name { get; set; }
@@ -10,6 +10,5 @@ namespace DM.Domain.Models
 
         public List<FieldModel> Fields { get; set; }
         public List<ListFieldModel> ListFields { get; set; }
-        public List<CommentModelForGet> Comments { get; set; }
     }
 }

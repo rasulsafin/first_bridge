@@ -8,8 +8,9 @@ using AutoMapper;
 
 using DM.DAL.Entities;
 using DM.Domain.Interfaces;
-using DM.Domain.Models;
 using DM.DAL;
+using Microsoft.Extensions.Logging;
+using DM.Domain.Models;
 
 namespace DM.Domain.Implementations
 {
@@ -19,6 +20,7 @@ namespace DM.Domain.Implementations
         private readonly UserEntity _currentUser;
 
         private readonly IMapper _mapper;
+        private readonly ILogger<TemplateService> logger;
 
         public TemplateService(DmDbContext context, IMapper mapper, CurrentUserService userService)
         {
@@ -27,23 +29,7 @@ namespace DM.Domain.Implementations
             _currentUser = userService.CurrentUser;
         }
 
-        /// <summary>
-        /// Get all Templates
-        /// </summary>
-        public async Task<List<TemplateModel>> GetAll()
-        {
-            var templates = await _context.Template
-                .Include(x => x.Fields)
-                .Include(x => x.ListFields).ThenInclude(y => y.Lists)
-                .ToListAsync();
-
-            return _mapper.Map<List<TemplateModel>>(templates);
-        }
-
-        /// <summary>
-        /// Get all Templates of Current Project
-        /// </summary>
-        public async Task<List<TemplateModel>> GetTemplatesOfProject(long projectId)
+        public async Task<List<TemplateModel>> GetAllOfProject(long projectId)
         {
             var templates = await _context.Template
                 .Include(x => x.Fields)
@@ -54,10 +40,18 @@ namespace DM.Domain.Implementations
             return _mapper.Map<List<TemplateModel>>(templates);
         }
 
-        /// <summary>
-        /// Create new Template
-        /// </summary>
-        public bool Create(TemplateModel templateModel)
+        public async Task<TemplateModel> GetById(long templateId)
+        {
+            var template = await _context.Template
+                .Include(x => x.Fields)
+                .Include(x => x.ListFields).ThenInclude(y => y.Lists)
+                .Where(x => x.Id == templateId)
+                .ToListAsync();
+
+            return _mapper.Map<TemplateModel>(template);
+        }
+
+        public async Task<bool> Create(TemplateModel templateModel)
         {
             var template = _mapper.Map<TemplateEntity>(new TemplateModel
             {
@@ -69,29 +63,23 @@ namespace DM.Domain.Implementations
 
             _context.Template.Add(template);
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return true;
         }
 
-        /// <summary>
-        /// Update only the columns of an existing Template
-        /// </summary>
-        public bool Update(TemplateModelForEdit templateModelForEdit)
+        public async Task<bool> Update(TemplateForUpdateModel templateModelForEdit)
         {
             var templateForUpdate = _context.Template.FirstOrDefault(x => x.Id == templateModelForEdit.TemplateId);
 
-            if (templateForUpdate == null)
-            {
-                return false;
-            }
+            if (templateForUpdate == null) return false;
 
             _context.Template.Attach(templateForUpdate);
 
             templateForUpdate.Name = templateModelForEdit.Name;
             templateForUpdate.ProjectId = templateModelForEdit.ProjectId;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             _context.Entry(templateForUpdate).State = EntityState.Detached;
 

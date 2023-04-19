@@ -1,19 +1,17 @@
-﻿using DM.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+
+using DM.Domain.Models;
 
 namespace DM.Domain.Interfaces
 {
     public interface IUserService
     {
-        public Task<AuthenticateResponse> Authenticate(AuthenticateRequest model);
+        public Task<AuthenticateResponse> Authenticate(AuthenticateRequest user);
         public Task<IEnumerable<UserModel>> GetAll();
-        public UserModel GetById(long userId);
-        public Task<bool> Create(UserModel userModel);
-        public Task<bool> Update(UserModelForUpdate user);
-        public Task<bool> Delete(long userId);
+        public UserModel GetById(long id);
+        public Task<bool> Create(UserForCreateModel user);
+        public Task<bool> Update(UserForUpdateModel user);
+        public Task<bool> Delete(long id);
     }
 }

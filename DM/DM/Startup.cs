@@ -52,6 +52,7 @@ namespace DM
             services.AddScoped<ICommentService, CommentService>();
             services.AddScoped<IFieldService, FieldService>();
             services.AddScoped<IListFieldService, FieldService>();
+            services.AddScoped<IUserProjectService, UserProjectService>();
             services.AddScoped<CurrentUserService>();
 
             services.AddDbContext<DmDbContext>(options =>

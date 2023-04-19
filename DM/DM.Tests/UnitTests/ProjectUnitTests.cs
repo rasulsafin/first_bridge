@@ -22,7 +22,7 @@ namespace DM.Tests.UnitTests
         {
             var projectRepo = new Mock<IProjectService>();
             var dmContext = new Mock<DmDbContext>();
-            var projectController = new ProjectController(dmContext.Object, new CurrentUserService(dmContext.Object), projectRepo.Object, null);
+            var projectController = new ProjectController(dmContext.Object, new CurrentUserService(dmContext.Object), projectRepo.Object, null, null);
             var projectListResult = new List<ProjectModel>();
             const string title = "titleProject";
             projectListResult.Add(new ProjectModel() { Title = title});

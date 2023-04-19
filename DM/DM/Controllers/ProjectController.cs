@@ -12,6 +12,7 @@ using DM.DAL.Entities;
 using DM.DAL;
 
 using DM.Helpers;
+using DM.Domain.Exceptions;
 
 namespace DM.Controllers
 {
@@ -23,13 +24,16 @@ namespace DM.Controllers
         private readonly UserEntity _currentUser;
 
         private readonly IProjectService _projectService;
+        private readonly IUserProjectService _userProjectService;
         private readonly ILogger<ProjectService> _logger;
 
-        public ProjectController(DmDbContext context, CurrentUserService currentUserService, IProjectService projectService, ILogger<ProjectService> logger)
+        public ProjectController(DmDbContext context, CurrentUserService currentUserService, IProjectService projectService,
+            IUserProjectService userProjectService, ILogger<ProjectService> logger)
         {
             _context = context;
             _currentUser = currentUserService.CurrentUser;
             _projectService = projectService;
+            _userProjectService = userProjectService;
             _logger = logger;
         }
 
@@ -85,10 +89,7 @@ namespace DM.Controllers
 
             var checker = await _projectService.Update(projectModel);
 
-            if (!checker)
-            {
-                return BadRequest("the fields must not contain invalid characters");
-            }
+            if (!checker) return BadRequest("This model does not exist");
 
             return Ok(checker);
         }
@@ -103,12 +104,47 @@ namespace DM.Controllers
 
             var checker = await _projectService.Delete(projectId);
 
-            if (!checker)
-            {
-                return NotFound();
-            }
+            if (!checker) return NotFound();
 
             return Ok(checker);
+        }
+
+        [HttpPost("addToProject")]
+        [Authorize]
+        public async Task<IActionResult> AddToProject(UserProjectModel userProjectModel)
+        {
+            try
+            {
+                var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionType.User);
+
+                if (!permission) return BadRequest("Access Denied");
+
+                var checker = await _userProjectService.AddToProject(userProjectModel);
+                return Ok(checker);
+            }
+            catch (ANotFoundException ex)
+            {
+                return BadRequest("ANotFoundException");
+            }
+        }
+
+        [HttpDelete("deleteFromProject")]
+        [Authorize]
+        public async Task<IActionResult> DeleteFromProject(long userProjectId)
+        {
+            try
+            {
+                var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionType.User);
+
+                if (!permission) return BadRequest("Access Denied");
+
+                var checker = await _userProjectService.DeleteFromProject(userProjectId);
+                return Ok(checker);
+            }
+            catch (ANotFoundException ex)
+            {
+                return BadRequest("ANotFoundException");
+            }
         }
     }
 }
