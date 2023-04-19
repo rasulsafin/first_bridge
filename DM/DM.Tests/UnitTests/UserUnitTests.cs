@@ -35,9 +35,9 @@ namespace DM.Tests.UnitTests
         {
             // preparation
             var userRepo = new Mock<IUserService>();
-            var userController = new UsersController(null, null, userRepo.Object, null);
+            var userController = new UsersController(null, null, userRepo.Object, null, null);
 
-            var userModel = new UserModel()
+            var userModel = new UserForCreateModel()
             { Name = UserName, LastName = LastName, FathersName = FathersName,
                 Email = Email, Login = Login, OrganizationId = OrganizationId, Password = Password,
                 RoleId = RoleId, Position = Position };
@@ -63,9 +63,9 @@ namespace DM.Tests.UnitTests
         {
             // preparation
             var userRepo = new Mock<IUserService>();
-            var userController = new UsersController(null, null, userRepo.Object, null);
+            var userController = new UsersController(null, null, userRepo.Object, null, null);
 
-            var userModel = new UserModel()
+            var userModel = new UserForCreateModel()
             { Name = UserName, LastName = LastName, FathersName = FathersName,
                 Email = Email, Login = Login, OrganizationId = OrganizationId, Password = Password,
                 RoleId = 2, Position = Position };
@@ -89,7 +89,7 @@ namespace DM.Tests.UnitTests
         {
             // preparation
             var userRepo = new Mock<IUserService>();
-            var userController = new UsersController(null, null, userRepo.Object, null);
+            var userController = new UsersController(null, null, userRepo.Object, null, null);
 
             // execution
             var result = await userController.Create(null);
@@ -109,7 +109,7 @@ namespace DM.Tests.UnitTests
         public void AuthenticateRequestReturnsBadRequestForEmptyContext()
         {
             var userRepo = new Mock<IUserService>();
-            var userController = new UsersController(null, null, userRepo.Object, null);
+            var userController = new UsersController(null, null, userRepo.Object, null, null);
 
             var result = userController.Authenticate(new AuthenticateRequest()
                 { Login = Login, Password = Password });

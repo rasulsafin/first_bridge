@@ -307,6 +307,18 @@ namespace DM.DAL
             modelBuilder.Entity<PermissionEntity>()
                 .HasData(new PermissionEntity
                 {
+                    Id = 7,
+                    RoleId = 1,
+                    Type = PermissionType.User,
+                    Create = true,
+                    Read = true,
+                    Update = true,
+                    Delete = true,
+                    CreatedAt = DateTime.Now
+                });
+            modelBuilder.Entity<PermissionEntity>()
+                .HasData(new PermissionEntity
+                {
                     Id = 2,
                     RoleId = 1,
                     Type = PermissionType.Project,
@@ -363,6 +375,16 @@ namespace DM.DAL
                     Update = true,
                     Delete = true,
                     CreatedAt = DateTime.Now
+                });
+
+            //UserProject
+            modelBuilder.Entity<UserProjectEntity>()
+                .HasData(new UserProjectEntity
+                {
+                    Id = 1,
+                    ProjectId = 1,
+                    UserId = 1,
+                    CreatedAt = DateTime.Now,
                 });
 
             //Field test data

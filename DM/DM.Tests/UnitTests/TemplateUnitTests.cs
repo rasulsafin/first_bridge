@@ -40,7 +40,7 @@ namespace DM.Tests.UnitTests
             templateResult.Add(new TemplateModel() {Name = tempName});
             templateResult.Add(new TemplateModel() {ProjectId = projId});
 
-            templateRepo.Setup(x => x.GetTemplatesOfProject(1))
+            templateRepo.Setup(x => x.GetAllOfProject(1))
                 .Returns(Task.FromResult(templateResult));
             var result = await templateController.GetProjectTemplateOfRecord(1);
             

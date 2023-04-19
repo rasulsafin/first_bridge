@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using DM.Domain.Helpers;
 using Xbim.IO.Xml.BsConf;
+using Microsoft.Extensions.Logging;
 
 namespace DM.Domain.Implementations
 {
@@ -46,14 +47,13 @@ namespace DM.Domain.Implementations
             }
             var token = _configuration.GenerateJwtToken(user, user.Role.Name);
 
-            return new AuthenticateResponse(user,token);
+            return new AuthenticateResponse(user, token);
         }
 
         public async Task<IEnumerable<UserModel>> GetAll()
         {
             var users = await _context.Users
-                .Include(x => x.UserProjects)
-                .ThenInclude(y => y.Project)
+                .Include(x => x.UserProjects).ThenInclude(y => y.Project)
                 .ToListAsync();
 
             return _mapper.Map<List<UserModel>>(users);
@@ -70,7 +70,7 @@ namespace DM.Domain.Implementations
             return _mapper.Map<UserModel>(user);
         }
 
-        public async Task<bool> Create(UserModel userModel)
+        public async Task<bool> Create(UserForCreateModel userModel)
         {
             var hashedPass = PasswordHelper.HashPassword(userModel.Password);
             var user = _mapper.Map<UserEntity>(new UserModel
@@ -83,32 +83,21 @@ namespace DM.Domain.Implementations
                 RoleId = userModel.RoleId,
                 Position = userModel.Position,
                 OrganizationId = userModel.OrganizationId,
-                Password = hashedPass
+                Password = hashedPass,
             });
 
-            var organization = _context.Organization.Include(x => x.Users).First(x => x.Id == userModel.OrganizationId);
-
-            if (organization == null)
-            {
-                return false;
-            }
-
-            // добавление зависимой сущности
-            organization.Users.Add(user);
+            _context.Users.Add(user);
 
             await _context.SaveChangesAsync();
 
             return true;
         }
 
-        public async Task<bool> Update(UserModelForUpdate user)
+        public async Task<bool> Update(UserForUpdateModel user)
         {
-            var userForUpdate = await _context.Users.FirstOrDefaultAsync(x => x.Id == user.UserId);
+            var userForUpdate = await _context.Users.FirstOrDefaultAsync(x => x.Id == user.Id);
 
-            if (userForUpdate == null)
-            {
-                return false;
-            }
+            if (userForUpdate == null) return false;
 
             _context.Users.Attach(userForUpdate);
 
@@ -133,10 +122,7 @@ namespace DM.Domain.Implementations
         {
             var user = _context.Users.FirstOrDefault(q => q.Id == userId);
 
-            if (user == null)
-            {
-                return false;
-            }
+            if (user == null) return false;
 
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();

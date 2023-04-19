@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 using DM.Domain.Interfaces;
-using DM.Domain.Models;
 using DM.Domain.Implementations;
 using DM.Domain.Helpers;
 
@@ -12,6 +11,7 @@ using DM.DAL;
 using DM.DAL.Entities;
 
 using DM.Helpers;
+using DM.Domain.Models;
 
 namespace DM.Controllers
 {
@@ -41,7 +41,7 @@ namespace DM.Controllers
 
             if (!permission) return StatusCode(403);
 
-            var templates = await _templateService.GetTemplatesOfProject(projectId);
+            var templates = await _templateService.GetAllOfProject(projectId);
 
             if (templates == null) return NotFound();
 
@@ -65,7 +65,7 @@ namespace DM.Controllers
 
         [HttpPut]
         [Authorize]
-        public IActionResult EditExistingTemplateOfProject(TemplateModelForEdit templateModelForEdit)
+        public IActionResult EditExistingTemplateOfProject(TemplateForUpdateModel templateModelForEdit)
         {
             var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionType.Template);
 
