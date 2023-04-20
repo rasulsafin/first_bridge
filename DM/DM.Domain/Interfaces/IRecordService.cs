@@ -9,9 +9,9 @@ namespace DM.Domain.Interfaces
 {
     public interface IRecordService
     {
-        public List<RecordModel> GetAll();
-        public RecordModel GetById(long recordId);
-        public Task<long> Create(RecordModel recordModel);
+        public List<RecordForReadModel> GetAll();
+        public RecordForReadModel GetById(long recordId);
+        public Task<long> Create(RecordForCreateModel recordModel);
         public Task<bool> Update(RecordModel recordModel);
         public Task<bool> Delete(long recordId);
     }

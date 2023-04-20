@@ -31,7 +31,7 @@ namespace DM.Domain.Implementations
         /// <summary>
         /// Get all Records
         /// </summary>
-        public List<RecordModel> GetAll()
+        public List<RecordForReadModel> GetAll()
         {
             var records = _context.Records
                 .Include(x => x.Comments)
@@ -39,13 +39,13 @@ namespace DM.Domain.Implementations
                 .Include(x => x.ListFields).ThenInclude(y => y.Lists)
                 .ToList();
 
-            return _mapper.Map<List<RecordModel>>(records);
+            return _mapper.Map<List<RecordForReadModel>>(records);
         }
 
         /// <summary>
         /// Get record by Id
         /// </summary>
-        public RecordModel GetById(long recordId)
+        public RecordForReadModel GetById(long recordId)
         {
             var record = _context.Records
                 .Include(x => x.Comments)
@@ -53,20 +53,17 @@ namespace DM.Domain.Implementations
                 .Include(x => x.ListFields).ThenInclude(y => y.Lists)
                 .FirstOrDefault(x => x.Id == recordId);
 
-            if (record == null)
-            {
-                return null;
-            }
+            if (record == null) return null;
 
-            return _mapper.Map<RecordModel>(record);
+            return _mapper.Map<RecordForReadModel>(record);
         }
 
         /// <summary>
         /// Create new Record
         /// </summary>
-        public async Task<long> Create(RecordModel recordModel)
+        public async Task<long> Create(RecordForCreateModel recordModel)
         {
-            var record = _mapper.Map<RecordEntity>(new RecordModel
+            var record = _mapper.Map<RecordEntity>(new RecordForCreateModel
             {
                 Name = recordModel.Name,
                 ProjectId = recordModel.ProjectId,
@@ -88,10 +85,7 @@ namespace DM.Domain.Implementations
         {
             var fieldForUpdate = await _context.Records.FirstOrDefaultAsync(x => x.Id == record.Id);
 
-            if (fieldForUpdate == null)
-            {
-                return false;
-            }
+            if (fieldForUpdate == null) return false;
 
             _context.Records.Attach(fieldForUpdate);
 
@@ -116,10 +110,7 @@ namespace DM.Domain.Implementations
                 .Include(x => x.ListFields).ThenInclude(y => y.Lists)
                 .FirstOrDefaultAsync(x => x.Id == recordId);
 
-            if (result == null)
-            {
-                return false;
-            }
+            if (result == null) return false;
 
             _context.Records.Remove(result);
 

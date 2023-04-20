@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -8,11 +7,15 @@ using DM.Domain.Interfaces;
 using DM.Domain.Models;
 using DM.Domain.Helpers;
 using DM.Domain.Implementations;
+using DM.Domain.Exceptions;
 
 using DM.DAL;
 using DM.DAL.Entities;
 
 using DM.Helpers;
+
+using static DM.Validators.ServiceResponsesValidator;
+
 
 namespace DM.Controllers
 {
@@ -36,33 +39,42 @@ namespace DM.Controllers
         }
 
         /// <summary>
-        /// Get list of all existing users
+        /// Get list of all existing roles.
         /// </summary>
-        /// <returns>List of users.</returns>
-        /// <response code="200">Returns found list of users.</response>
-        /// <response code="500">Something went wrong while retrieving the users.</response>
+        /// <returns>List of roles.</returns>
+        /// <response code="200">Roles list fetched.</response>
+        /// <response code="403">Access denied.</response>
+        /// <response code="500">Something went wrong while fetching the roles.</response>
         [HttpGet]
         [Authorize]
         public IActionResult GetAll()
         {
-            var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionType.Role);
+            try
+            {
+                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionType.Role);
 
-            if (!permission) return StatusCode(403);
+                if (!permission) return StatusCode(403);
 
-            var roles = _roleService.GetAll();
+                var roles = _roleService.GetAll();
 
-            return Ok(roles);
+                return Ok(roles);
+            }
+            catch (DocumentManagementException ex)
+            {
+                return CreateProblemResult(this, 500, ex.Message);
+            }
         }
 
         /// <summary>
-        /// Get user by their id
+        /// Get role by their id
         /// </summary>
-        /// <param name="userId"></param>
-        /// <returns>User Id</returns>
-        /// <response code="200">User found.</response>
+        /// <param name="roleId"></param>
+        /// <returns>Role Id</returns>
+        /// <response code="200">Role found.</response>
         /// <response code="400">Invalid id.</response>
-        /// <response code="404">Could not find user.</response>
-        /// <response code="500">Something went wrong while retrieving the user.</response>
+        /// <response code="403">Access denied.</response>
+        /// <response code="404">Could not find role.</response>
+        /// <response code="500">Something went wrong while fetching the role.</response>
         [HttpGet("{roleId}")]
         [Authorize]
         public IActionResult GetById(long roleId)
@@ -73,23 +85,28 @@ namespace DM.Controllers
 
                 if (!permission) return StatusCode(403);
 
-                var user = _roleService.GetById(roleId);
+                var role = _roleService.GetById(roleId);
 
-                return Ok(user);
+                return Ok(role);
             }
-            catch (Exception ex)
+            catch (ANotFoundException ex)
             {
-                return NotFound();
+                return CreateProblemResult(this, 404, ex.Message);
+            }
+            catch (DocumentManagementException ex)
+            {
+                return CreateProblemResult(this, 500, ex.Message);
             }
         }
 
         /// <summary>
-        /// Create new user
+        /// Create new role.
         /// </summary>
-        /// <param name="userModel"></param>
-        /// <returns>Id of created user</returns>
-        /// <response code="400">User with the same login already exists OR one/multiple of required values is/are empty.</response>
-        /// <response code="500">Something went wrong while creating new user.</response>
+        /// <param name="roleModel"></param>
+        /// <returns>Id of created role.</returns>        
+        /// <response code="200">Role created.</response>
+        /// <response code="403">Access denied.</response>
+        /// <response code="500">Something went wrong while creating new role.</response>
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Create(RoleForCreateModel roleModel)
@@ -104,12 +121,20 @@ namespace DM.Controllers
 
                 return Ok(id);
             }
-            catch (InvalidOperationException ex)
+            catch (DocumentManagementException ex)
             {
-                return BadRequest("Organization does not exist:" + ex.Message);
+                return CreateProblemResult(this, 500, ex.Message);
             }
         }
 
+        /// <summary>
+        /// Updating an existing role.
+        /// </summary>
+        /// <param name="roleModel"></param>
+        /// <returns>Boolean value about function execution.</returns>        
+        /// <response code="200">Role found.</response>
+        /// <response code="403">Access denied.</response>
+        /// <response code="500">Something went wrong while updating role.</response>
         [HttpPut]
         [Authorize]
         public async Task<IActionResult> Update(RoleForUpdateModel roleModel)
@@ -124,21 +149,22 @@ namespace DM.Controllers
 
                 return Ok(checker);
             }
-            catch (InvalidOperationException ex)
+            catch (DocumentManagementException ex)
             {
-                return BadRequest("Organization does not exist:" + ex.Message);
+                return CreateProblemResult(this, 500, ex.Message);
             }
         }
 
         /// <summary>
-        /// Delete existing user.
+        /// Delete existing role.
         /// </summary>
-        /// <param name="userID">Id of the user to be deleted.</param>
-        /// <returns>True if user is deleted.</returns>
-        /// <response code="200">User was deleted successfully.</response>
+        /// <param name="roleId">Id of the role to be deleted.</param>
+        /// <returns>Boolean value about function execution.</returns>        
+        /// <response code="200">Role was deleted successfully.</response>
         /// <response code="400">Invalid id.</response>
-        /// <response code="404">User was not found.</response>
-        /// <response code="500">Something went wrong while deleting user.</response>
+        /// <response code="403">Access denied.</response>
+        /// <response code="404">Role was not found.</response>
+        /// <response code="500">Something went wrong while deleting role.</response>
         [HttpDelete]
         [Authorize]
         public async Task<IActionResult> Delete(int roleId)
@@ -149,13 +175,17 @@ namespace DM.Controllers
 
                 if (!permission) return StatusCode(403);
 
-                await _roleService.Delete(roleId);
+                var checker = await _roleService.Delete(roleId);
 
-                return Ok();
+                return Ok(checker);
             }
-            catch (InvalidOperationException ex)
+            catch (ANotFoundException ex)
             {
-                return BadRequest("Organization does not exist:" + ex.Message);
+                return CreateProblemResult(this, 404, ex.Message);
+            }
+            catch (DocumentManagementException ex)
+            {
+                return CreateProblemResult(this, 500, ex.Message);
             }
         }
     }

@@ -13,8 +13,9 @@ namespace DM.Domain.Implementations
     public class CommentService : ICommentService
     {
         private readonly DmDbContext _context;
-        private readonly IMapper _mapper;
         private readonly UserEntity _currentUser;
+
+        private readonly IMapper _mapper;
 
         public CommentService(DmDbContext context, IMapper mapper, CurrentUserService userService)
         {
@@ -36,10 +37,7 @@ namespace DM.Domain.Implementations
         {
             var fieldForUpdate = await _context.Comments.FirstOrDefaultAsync(x => x.Id == commentModel.Id);
 
-            if (fieldForUpdate == null)
-            {
-                return false;
-            }
+            if (fieldForUpdate == null) return false;
 
             _context.Comments.Attach(fieldForUpdate);
 
@@ -55,10 +53,7 @@ namespace DM.Domain.Implementations
         public async Task<bool> Delete(long commentId)
         {
             var result = await _context.Comments.FirstOrDefaultAsync(x => x.Id == commentId);
-            if (result == null)
-            {
-                return false;
-            }
+            if (result == null) return false;
 
             _context.Comments.Remove(result);
             await _context.SaveChangesAsync();

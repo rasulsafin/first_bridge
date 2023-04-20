@@ -50,7 +50,7 @@ namespace DM.Domain.Implementations
             {
                 return null;
             }
-            var token = _configuration.GenerateJwtToken(user, user.Role.Name);
+            var token = _configuration.GenerateJwtToken(user);
 
             return new AuthenticateResponse(user, token);
         }
@@ -78,7 +78,7 @@ namespace DM.Domain.Implementations
         public async Task<bool> Create(UserForCreateModel userModel)
         {
             var hashedPass = PasswordHelper.HashPassword(userModel.Password);
-            var user = _mapper.Map<UserEntity>(new UserModel
+            var user = _mapper.Map<UserEntity>(new UserForCreateModel
             {
                 Login = userModel.Login,
                 Name = userModel.Name,
@@ -130,6 +130,7 @@ namespace DM.Domain.Implementations
             if (user == null) return false;
 
             _context.Users.Remove(user);
+
             await _context.SaveChangesAsync();
 
             return true;

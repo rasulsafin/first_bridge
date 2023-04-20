@@ -64,7 +64,7 @@ namespace DM.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Create(RecordModel recordModel)
+        public async Task<IActionResult> Create(RecordForCreateModel recordModel)
         {
             var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionType.Record);
 
