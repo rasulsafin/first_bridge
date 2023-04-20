@@ -27,7 +27,7 @@ namespace DM.Domain.Implementations
             _currentUser = userService.CurrentUser;
         }
 
-        public async Task<List<ProjectModel>> GetAll()
+        public async Task<List<ProjectForReadModel>> GetAll()
         {
             var projects = await _context.Projects
                 .Include(x => x.Template)
@@ -35,10 +35,10 @@ namespace DM.Domain.Implementations
                 .Include(x => x.UserProjects).ThenInclude(y => y.User)
                 .ToListAsync();
 
-            return _mapper.Map<List<ProjectModel>>(projects);
+            return _mapper.Map<List<ProjectForReadModel>>(projects);
         }
 
-        public async Task<ProjectModel> GetById(long projectId)
+        public async Task<ProjectForReadModel> GetById(long projectId)
         {
             var project = await _context.Projects
                 .Include(x => x.Template)
@@ -48,7 +48,7 @@ namespace DM.Domain.Implementations
 
             if (project == null) return null;
 
-            return _mapper.Map<ProjectModel>(project);
+            return _mapper.Map<ProjectForReadModel>(project);
         }
 
         public async Task<long> Create(ProjectForReadModel projectModel)

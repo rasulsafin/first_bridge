@@ -23,9 +23,9 @@ namespace DM.Tests.UnitTests
             var projectRepo = new Mock<IProjectService>();
             var dmContext = new Mock<DmDbContext>();
             var projectController = new ProjectController(dmContext.Object, new CurrentUserService(dmContext.Object), projectRepo.Object, null, null);
-            var projectListResult = new List<ProjectModel>();
+            var projectListResult = new List<ProjectForReadModel>();
             const string title = "titleProject";
-            projectListResult.Add(new ProjectModel() { Title = title});
+            projectListResult.Add(new ProjectForReadModel() { Title = title});
             
             projectRepo.Setup(x => x.GetAll())
                 .Returns(Task.FromResult(projectListResult));
