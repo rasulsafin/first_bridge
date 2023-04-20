@@ -53,10 +53,10 @@ namespace DM.Tests.UnitTests
             const string organizationName2 = "MRS";
             var organizationRepo = new Mock<IOrganizationService>();
             var organizationController = new OrganizationController(null, null, organizationRepo.Object, null);
-            var organizationResult = new List<OrganizationEntity>(); // проверяемый объект
+            var organizationResult = new List<OrganizationModel>(); // проверяемый объект
             
-            organizationResult.Add(new OrganizationEntity() { Name = organizationName});
-            organizationResult.Add(new OrganizationEntity() { Name = organizationName2});
+            organizationResult.Add(new OrganizationForCreateModel() { Name = organizationName});
+            organizationResult.Add(new OrganizationForCreateModel() { Name = organizationName2});
 
             // execution
             organizationRepo.Setup(x => x.GetAll())

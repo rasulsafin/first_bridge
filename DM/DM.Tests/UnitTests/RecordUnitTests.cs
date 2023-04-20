@@ -23,8 +23,8 @@ namespace DM.Tests.UnitTests
             var recordRepo = new Mock<IRecordService>();
             var dmContext = new Mock<DmDbContext>();
             var recordController = new RecordController(dmContext.Object, new CurrentUserService(dmContext.Object), recordRepo.Object, null);
-            var recordModel = new RecordModel() { Id = 1, Name = "Record", ProjectId = 1 };
-            var recordList = new List<RecordModel>();
+            var recordModel = new RecordForReadModel() { Id = 1, Name = "Record", ProjectId = 1 };
+            var recordList = new List<RecordForReadModel>();
             recordList.Add(recordModel);
 
             recordRepo.Setup(x => x.GetAll())

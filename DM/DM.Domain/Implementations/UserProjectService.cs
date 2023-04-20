@@ -30,15 +30,21 @@ namespace DM.Domain.Implementations
 
         public async Task<bool> AddToProject(UserProjectModel userProjectModel)
         {
-            var userProject = _mapper.Map<UserProjectEntity>(new UserProjectModel
+            if (userProjectModel == null) return false;
+
+            var userProject = _context.UsersProjects.FirstOrDefault(q => q.UserId == userProjectModel.UserId &&
+                                                                    q.ProjectId == userProjectModel.ProjectId);
+
+            if (userProject != null) return false;
+
+            userProject = _mapper.Map<UserProjectEntity>(new UserProjectModel
             {
                 UserId = userProjectModel.UserId,
                 ProjectId = userProjectModel.ProjectId
             });
 
-            if (userProject == null) return false;
-
             _context.UsersProjects.Add(userProject);
+
             await _context.SaveChangesAsync();
 
             return true;
@@ -46,11 +52,14 @@ namespace DM.Domain.Implementations
 
         public async Task<bool> AddToProjects(List<UserProjectModel> userProjectsModel)
         {
-            var userProject = _mapper.Map<List<UserProjectEntity>>(userProjectsModel);
+            if (userProjectsModel == null) return false;
 
-            if (userProject == null) return false;
+            var up = _mapper.Map<List<UserProjectEntity>>(userProjectsModel);
 
-            _context.UsersProjects.AddRange(userProject);
+            var userProjects = NormalizedList(up);
+
+            _context.UsersProjects.AddRange(userProjects);
+
             await _context.SaveChangesAsync();
 
             return true;
@@ -58,14 +67,31 @@ namespace DM.Domain.Implementations
 
         public async Task<bool> DeleteFromProject(long userId, long projectId)
         {
+            if (userId < 1 && projectId < 1) return false;
+
             var userProject = _context.UsersProjects.FirstOrDefault(q => q.UserId == userId && q.ProjectId == projectId);
 
-            if (userProject == null) return false;
-
             _context.UsersProjects.Remove(userProject);
+
             await _context.SaveChangesAsync();
 
             return true;
+        }
+
+        private List<UserProjectEntity> NormalizedList(List<UserProjectEntity> userProjects)
+        {
+            var normalizedUserProjects = new List<UserProjectEntity>();
+
+            foreach (var item in userProjects)
+            {
+                var userProject = _context.UsersProjects.FirstOrDefault(o => o.UserId == item.UserId && o.ProjectId == item.ProjectId);
+                if (userProject == null)
+                {
+                    normalizedUserProjects.Add(item);
+                }
+            }
+
+            return _mapper.Map<List<UserProjectEntity>>(normalizedUserProjects);
         }
     }
 }

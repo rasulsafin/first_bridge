@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
 
+using AutoMapper;
+
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
 
@@ -16,26 +18,31 @@ namespace DM.Domain.Implementations
     {
         private readonly DmDbContext _context;
 
-        public OrganizationService(DmDbContext context)
+        private readonly IMapper _mapper;
+
+        public OrganizationService(DmDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        public async Task<List<OrganizationEntity>> GetAll()
+        public async Task<List<OrganizationModel>> GetAll()
         {
-            var result = await _context.Organization
+            var organizations = await _context.Organization
                 .Include(x => x.Users)
                 .Include(y => y.Projects).ToListAsync();
-            return result;
+
+            return _mapper.Map<List<OrganizationModel>>(organizations);
         }
 
-        public async Task<OrganizationEntity> GetById(long organizationId)
+        public async Task<OrganizationModel> GetById(long organizationId)
         {
-            var result = await _context.Organization
+            var organization = await _context.Organization
                 .Include(x => x.Users)
                 .Include(y => y.Projects)
                 .FirstOrDefaultAsync(z => z.Id == organizationId);
-            return result;
+
+            return _mapper.Map<OrganizationModel>(organization);
         }
 
         public async Task<bool> Create(OrganizationForCreateModel organizationModel)
@@ -51,18 +58,20 @@ namespace DM.Domain.Implementations
                 Address = organizationModel.Address
             };
 
-            await _context.Organization.AddAsync(organization);
+            _context.Organization.Add(organization);
+
             await _context.SaveChangesAsync();
+
             return true;
         }
-        
+
         public async Task<bool> Update(OrganizationForUpdateModel organizationModel)
         {
             var fieldForUpdate = await _context.Organization
                 .Where(q => q.Id == organizationModel.Id).FirstOrDefaultAsync();
 
             if (fieldForUpdate == null) return false;
-            
+
             _context.Organization.Attach(fieldForUpdate);
 
             fieldForUpdate.Name = organizationModel.Name;
@@ -79,24 +88,22 @@ namespace DM.Domain.Implementations
 
             return true;
         }
-        
+
         public async Task<bool> Delete(long organizationId)
         {
             var organization = _context.Organization
                 .Include(x => x.Projects).Include(x => x.Users)
                 .FirstOrDefault(q => q.Id == organizationId);
 
-            if (organization == null)
-            {
-                return false;
-            }
-            
+            if (organization == null) return false;
+
             _context.Organization.Remove(organization);
+
             await _context.SaveChangesAsync();
-            
+
             return true;
         }
-        
-        
+
+
     }
 }

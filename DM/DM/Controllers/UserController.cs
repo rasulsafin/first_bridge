@@ -39,12 +39,12 @@ namespace DM.Controllers
         }
 
         /// <summary>
-        /// Getting all existing users
+        /// Getting all existing users.
         /// </summary>
         /// <returns>List of all users.</returns>        
         /// <response code="200">Users list fetched.</response>
         /// <response code="403">Access denied.</response>
-        /// <response code="500">Something went wrong while fetching the user.</response>
+        /// <response code="500">Something went wrong while fetching the users.</response>
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> GetAll()
@@ -66,10 +66,10 @@ namespace DM.Controllers
         }
 
         /// <summary>
-        /// Get user by their id
+        /// Get user by their id.
         /// </summary>
         /// <param name="userId"></param>
-        /// <returns>Boolean value about function execution.</returns>        
+        /// <returns>User Id.</returns>        
         /// <response code="200">User found.</response>
         /// <response code="400">Invalid id.</response>
         /// <response code="403">Access denied.</response>
@@ -100,7 +100,7 @@ namespace DM.Controllers
         }
 
         /// <summary>
-        /// Create new user
+        /// Create new user.
         /// </summary>
         /// <param name="userModel"></param>
         /// <returns>Id of created user.</returns>        
@@ -118,7 +118,7 @@ namespace DM.Controllers
 
                 if (!permission) return BadRequest(403);
 
-                if (userModel == null) return BadRequest("Invalid Request");
+                if (userModel == null) return NotFound();
 
                 var id = await _userService.Create(userModel);
 
@@ -139,14 +139,14 @@ namespace DM.Controllers
         }
 
         /// <summary>
-        /// Updating an existing user
+        /// Updating an existing user.
         /// </summary>
         /// <param name="userModel"></param>
         /// <returns>Boolean value about function execution.</returns>        
         /// <response code="200">User found.</response>
         /// <response code="400">User with the same login already exists OR one/multiple of required values is/are empty.</response>
         /// <response code="403">Access denied.</response>
-        /// <response code="500">Something went wrong while updating new user.</response>
+        /// <response code="500">Something went wrong while updating user.</response>
         [HttpPut]
         [Authorize]
         public async Task<IActionResult> Update(UserForUpdateModel userModel)
@@ -191,9 +191,9 @@ namespace DM.Controllers
 
                 if (!permission) return BadRequest(403);
 
-                await _userService.Delete(userId);
+                var checker = await _userService.Delete(userId);
 
-                return Ok();
+                return Ok(checker);
             }
             catch (ANotFoundException ex)
             {
@@ -206,7 +206,7 @@ namespace DM.Controllers
         }
 
         /// <summary>
-        /// Authorization of an existing user
+        /// Authorization of an existing user.
         /// </summary>
         /// <param name="model"></param>
         /// <returns>Boolean value about function execution.</returns>        
@@ -230,14 +230,14 @@ namespace DM.Controllers
         }
 
         /// <summary>
-        /// Add user to project
+        /// Add user to project.
         /// </summary>
         /// <param name="userProjectModel"></param>
         /// <returns>Boolean value about function execution.</returns>        
         /// <response code="200">User added.</response>
         /// <response code="403">Access denied.</response>
         /// <response code="404">User or project was not found.</response>
-        /// <response code="500">Something went wrong while creating new user.</response>
+        /// <response code="500">Something went wrong when adding to the project.</response>
         [HttpPost("addToProject")]
         [Authorize]
         public async Task<IActionResult> AddToProject(UserProjectModel userProjectModel)
@@ -263,14 +263,14 @@ namespace DM.Controllers
         }
 
         /// <summary>
-        /// Adding a list of projects to the user
+        /// Adding a list of projects to the user.
         /// </summary>
         /// <param name="userProjectModel"></param>
         /// <returns>Boolean value about function execution.</returns>        
         /// <response code="200">Users added.</response>
         /// <response code="403">Access denied.</response>
         /// <response code="404">User or project was not found.</response>
-        /// <response code="500">Something went wrong while creating new user.</response>
+        /// <response code="500">Something went wrong when adding to the project.</response>
         [HttpPost("addProjectListToUser")]
         [Authorize]
         public async Task<IActionResult> AddToProjects(List<UserProjectModel> userProjectModel)
@@ -296,14 +296,14 @@ namespace DM.Controllers
         }
 
         /// <summary>
-        /// Deleting a project from a user
+        /// Deleting a project from a user.
         /// </summary>
         /// <param name="userProjectId"></param>
         /// <returns>Boolean value about function execution.</returns>        
         /// <response code="200">Project deleted.</response>
         /// <response code="403">Access denied.</response>
         /// <response code="404">UserProject not found</response>
-        /// <response code="500">Something went wrong while deleting project.</response>
+        /// <response code="500">Something went wrong when deleting the project.</response>
         [HttpDelete("deleteProjectFromUser")]
         [Authorize]
         public async Task<IActionResult> DeleteFromProject(long userId, long projectId)
