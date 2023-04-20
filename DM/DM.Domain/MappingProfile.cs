@@ -9,30 +9,48 @@ namespace DM.Domain
     {
         public MappingProfile()
         {
-            CreateMap<OrganizationEntity, OrganizationModel>().ReverseMap();
+            CreateMap<BaseEntity, BaseModel>().ReverseMap();
 
-            //user map
-            CreateMap<UserEntity, UserModel>().ForMember(n => n.Projects, m => m.MapFrom(o => o.UserProjects.Select(u => u.Project))).ReverseMap();
+            //Organization map
+            CreateMap<OrganizationEntity, OrganizationModel>().ReverseMap();
+            CreateMap<OrganizationEntity, OrganizationForCreateModel>().ReverseMap();
+            CreateMap<OrganizationEntity, OrganizationForUpdateModel>().ReverseMap();
+
+            //User map
+            CreateMap<UserEntity, UserModel>().ReverseMap();
+            CreateMap<UserEntity, UserForReadModel>().ForMember(n => n.Projects, m => m.MapFrom(o => o.UserProjects.Select(u => u.Project))).ReverseMap();
             CreateMap<UserEntity, UserForCreateModel>().ReverseMap();
             CreateMap<UserEntity, UserForUpdateModel>().ReverseMap();
 
-            //project map
-            CreateMap<ProjectEntity, ProjectModel>().ForMember(n => n.Users, m => m.MapFrom(o => o.UserProjects.Select(u => u.User))).ReverseMap();
+            //Project map
+            CreateMap<ProjectEntity, ProjectModel>().ReverseMap();
+            CreateMap<ProjectEntity, ProjectForReadModel>().ForMember(n => n.Users, m => m.MapFrom(o => o.UserProjects.Select(u => u.User))).ReverseMap();
             CreateMap<ProjectEntity, ProjectForUpdateModel>().ReverseMap();
 
-            //user&project map
+            //User&Project map
             CreateMap<UserProjectEntity, UserProjectModel>().ReverseMap();
+
+            //Role map
+            CreateMap<RoleEntity, RoleModel>().ReverseMap();
+            CreateMap<RoleEntity, RoleForCreateModel>().ReverseMap();
+            CreateMap<RoleEntity, RoleForUpdateModel>().ReverseMap();
+
+            //Comment map
+            CreateMap<CommentEntity, CommentModel>().ReverseMap();
+            CreateMap<CommentEntity, CommentForReadModel>().ReverseMap();
+            CreateMap<CommentEntity, CommentModelForUpdate>().ReverseMap();
+
+            //Template map
+            CreateMap<TemplateEntity, TemplateModel>().ReverseMap();
+            CreateMap<TemplateEntity, TemplateForUpdateModel>().ReverseMap();
+
+            //Fields map
+            CreateMap<FieldEntity, FieldModel>().ReverseMap();
+            CreateMap<ListFieldEntity, ListFieldModel>().ReverseMap();
+            CreateMap<ListEntity, ListModel>().ReverseMap();
 
             CreateMap<ItemEntity, ItemModel>().ReverseMap();
             CreateMap<RecordEntity, RecordModel>().ReverseMap();
-            CreateMap<TemplateModel, TemplateEntity>().ReverseMap();
-            CreateMap<CommentModel, CommentEntity>().ReverseMap();
-            CreateMap<CommentModelForGet, CommentEntity>().ReverseMap();
-            CreateMap<CommentModelForUpdate, CommentEntity>().ReverseMap();
-            CreateMap<FieldModel, FieldEntity>().ReverseMap();
-            CreateMap<ListFieldModel, ListFieldEntity>().ReverseMap();
-            CreateMap<ListModel, ListEntity>().ReverseMap();
-            CreateMap<RoleEntity, RoleModel>().ReverseMap();
             CreateMap<PermissionModel, PermissionEntity>().ReverseMap();
         }
     }

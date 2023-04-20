@@ -6,9 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 using AutoMapper;
 
-using DM.DAL.Entities;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
+
+using DM.DAL.Entities;
 using DM.DAL;
 
 namespace DM.Domain.Implementations

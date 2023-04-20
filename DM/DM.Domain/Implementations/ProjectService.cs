@@ -51,9 +51,9 @@ namespace DM.Domain.Implementations
             return _mapper.Map<ProjectModel>(project);
         }
 
-        public async Task<long> Create(ProjectModel projectModel)
+        public async Task<long> Create(ProjectForReadModel projectModel)
         {
-            var project = _mapper.Map<ProjectEntity>(new ProjectModel
+            var project = _mapper.Map<ProjectEntity>(new ProjectForReadModel
             {
                 Title = projectModel.Title,
                 OrganizationId = projectModel.OrganizationId,
@@ -69,7 +69,7 @@ namespace DM.Domain.Implementations
             return project.Id;
         }
 
-        public async Task<bool> Update(ProjectModel projectModel)
+        public async Task<bool> Update(ProjectForUpdateModel projectModel)
         {
             var fieldForUpdate = await _context.Projects.FirstOrDefaultAsync(x => x.Id == projectModel.Id);
 
@@ -78,6 +78,8 @@ namespace DM.Domain.Implementations
             _context.Projects.Attach(fieldForUpdate);
 
             fieldForUpdate.Title = projectModel.Title;
+            fieldForUpdate.IsInArchive = projectModel.IsInArchive;
+            fieldForUpdate.UpdatedAt = projectModel.UpdatedAt;
 
             await _context.SaveChangesAsync();
 

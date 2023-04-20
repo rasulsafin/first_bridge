@@ -2,7 +2,7 @@
 
 namespace DM.Domain.Models
 {
-    public class PermissionModel
+    public class PermissionModel : BaseModel
     {
         public long RoleId { get; set; }
         public PermissionType Type { get; set; }

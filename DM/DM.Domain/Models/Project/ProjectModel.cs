@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace DM.Domain.Models
+﻿namespace DM.Domain.Models
 {
-    public class ProjectModel
+    public class ProjectModel : BaseModel
     {
-        public long Id { get; set; }
         public string Title { get; set; }
         public bool IsInArchive { get; set; }
         public long OrganizationId { get; set; }
-        public DateTime CreationDate { get; set; }
-
-        public List<ItemModel> Items { get; set; }
-        public List<UserModel> Users { get; set; }
     }
 }

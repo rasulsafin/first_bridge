@@ -34,7 +34,7 @@ namespace DM.Domain.Implementations
 
         public async Task<bool> Update(CommentModelForUpdate commentModel)
         {
-            var fieldForUpdate = await _context.Comments.FirstOrDefaultAsync(x => x.Id == commentModel.CommentId);
+            var fieldForUpdate = await _context.Comments.FirstOrDefaultAsync(x => x.Id == commentModel.Id);
 
             if (fieldForUpdate == null)
             {

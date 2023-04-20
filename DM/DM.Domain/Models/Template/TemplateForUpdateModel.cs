@@ -1,8 +1,7 @@
 ﻿namespace DM.Domain.Models
 {
-    public class TemplateForUpdateModel
+    public class TemplateForUpdateModel : BaseModel
     {
-        public long TemplateId { get; set; }
         public string Name { get; set; }
         public long ProjectId { get; set; }
     }

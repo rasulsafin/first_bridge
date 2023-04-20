@@ -49,7 +49,7 @@ namespace DM.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Create(OrganizationModelForCreate organizationModel)
+        public async Task<IActionResult> Create(OrganizationForCreateModel organizationModel)
         {
             var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionType.Organization);
 
@@ -62,7 +62,7 @@ namespace DM.Controllers
 
         [HttpPut]
         [Authorize]
-        public async Task<IActionResult> Update(OrganizationModelForUpdate organizationModel)
+        public async Task<IActionResult> Update(OrganizationForUpdateModel organizationModel)
         {
             var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionType.Organization);
 

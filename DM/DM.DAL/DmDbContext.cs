@@ -376,6 +376,18 @@ namespace DM.DAL
                     Delete = true,
                     CreatedAt = DateTime.Now
                 });
+            modelBuilder.Entity<PermissionEntity>()
+                .HasData(new PermissionEntity
+                {
+                    Id = 8,
+                    RoleId = 1,
+                    Type = PermissionType.Role,
+                    Create = true,
+                    Read = true,
+                    Update = true,
+                    Delete = true,
+                    CreatedAt = DateTime.Now
+                });
 
             //UserProject
             modelBuilder.Entity<UserProjectEntity>()

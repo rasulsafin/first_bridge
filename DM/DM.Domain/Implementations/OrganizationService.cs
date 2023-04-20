@@ -1,10 +1,13 @@
-﻿using DM.DAL.Entities;
-using DM.Domain.Interfaces;
-using DM.Domain.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using Microsoft.EntityFrameworkCore;
+
+using DM.Domain.Interfaces;
+using DM.Domain.Models;
+
+using DM.DAL.Entities;
 using DM.DAL;
 
 namespace DM.Domain.Implementations
@@ -35,7 +38,7 @@ namespace DM.Domain.Implementations
             return result;
         }
 
-        public async Task<bool> Create(OrganizationModelForCreate organizationModel)
+        public async Task<bool> Create(OrganizationForCreateModel organizationModel)
         {
             var organization = new OrganizationEntity()
             {
@@ -53,7 +56,7 @@ namespace DM.Domain.Implementations
             return true;
         }
         
-        public async Task<bool> Update(OrganizationModelForUpdate organizationModel)
+        public async Task<bool> Update(OrganizationForUpdateModel organizationModel)
         {
             var fieldForUpdate = await _context.Organization
                 .Where(q => q.Id == organizationModel.Id).FirstOrDefaultAsync();

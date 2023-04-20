@@ -92,7 +92,7 @@ namespace DM.Controllers
         /// <response code="500">Something went wrong while creating new user.</response>
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Create(RoleModel roleModel)
+        public async Task<IActionResult> Create(RoleForCreateModel roleModel)
         {
             try
             {
@@ -112,7 +112,7 @@ namespace DM.Controllers
 
         [HttpPut]
         [Authorize]
-        public async Task<IActionResult> Update(RoleModel roleModel)
+        public async Task<IActionResult> Update(RoleForUpdateModel roleModel)
         {
             try
             {

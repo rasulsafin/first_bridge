@@ -21,7 +21,7 @@ namespace DM.Tests.UnitTests
             var organizationRepo = new Mock<IOrganizationService>();
             var organizationController = new OrganizationController(null, null, organizationRepo.Object, null);
 
-            var organizationModelForCreate = new OrganizationModelForCreate()
+            var organizationModelForCreate = new OrganizationForCreateModel()
             {
                 Name = "BRIO", Address = "Kazan", Email = "BRIO@mail.ru",
                 Inn = "000", Kpp = "000", Ogrn = "000", Phone = "000"

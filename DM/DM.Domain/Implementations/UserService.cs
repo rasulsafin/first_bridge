@@ -1,16 +1,21 @@
-﻿using AutoMapper;
-using DM.Domain.Interfaces;
-using DM.Domain.Models;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using DM.DAL;
-using DM.DAL.Entities;
+using System.Linq;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using DM.Domain.Helpers;
-using Xbim.IO.Xml.BsConf;
 using Microsoft.Extensions.Logging;
+
+using AutoMapper;
+
+using Xbim.IO.Xml.BsConf;
+
+using DM.Domain.Interfaces;
+using DM.Domain.Models;
+using DM.Domain.Helpers;
+
+using DM.DAL;
+using DM.DAL.Entities;
 
 namespace DM.Domain.Implementations
 {
@@ -50,16 +55,16 @@ namespace DM.Domain.Implementations
             return new AuthenticateResponse(user, token);
         }
 
-        public async Task<IEnumerable<UserModel>> GetAll()
+        public async Task<IEnumerable<UserForReadModel>> GetAll()
         {
             var users = await _context.Users
                 .Include(x => x.UserProjects).ThenInclude(y => y.Project)
                 .ToListAsync();
 
-            return _mapper.Map<List<UserModel>>(users);
+            return _mapper.Map<List<UserForReadModel>>(users);
         }
 
-        public UserModel GetById(long userId)
+        public UserForReadModel GetById(long userId)
         {
             if (userId < 1) return null;
 
@@ -67,7 +72,7 @@ namespace DM.Domain.Implementations
                 .Include(x => x.UserProjects).ThenInclude(y => y.Project)
                 .FirstOrDefault(x => x.Id == userId);
 
-            return _mapper.Map<UserModel>(user);
+            return _mapper.Map<UserForReadModel>(user);
         }
 
         public async Task<bool> Create(UserForCreateModel userModel)

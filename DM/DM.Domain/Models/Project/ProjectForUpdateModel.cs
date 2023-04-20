@@ -1,9 +1,7 @@
 ﻿namespace DM.Domain.Models
 {
-    public class ProjectForUpdateModel
+    public class ProjectForUpdateModel : ProjectModel
     {
-        public long Id { get; set; }
-        public string Title { get; set; }
-        public bool IsInArchive { get; set; }
+
     }
 }

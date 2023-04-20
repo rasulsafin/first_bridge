@@ -1,9 +1,7 @@
-﻿using DM.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+
+using DM.Domain.Models;
 
 namespace DM.Domain.Interfaces
 {
@@ -11,6 +9,6 @@ namespace DM.Domain.Interfaces
     {
         public Task<bool> AddToProject(UserProjectModel userProjectModel);
         public Task<bool> AddToProjects(List<UserProjectModel> userProjectsModel);
-        public Task<bool> DeleteFromProject(long id);
+        public Task<bool> DeleteFromProject(long userId, long projectId);
     }
 }
