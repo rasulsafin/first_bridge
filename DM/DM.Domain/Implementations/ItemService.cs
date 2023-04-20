@@ -1,13 +1,16 @@
-﻿using AutoMapper;
-using DM.DAL.Entities;
-using DM.Domain.Helpers;
-using DM.Domain.Interfaces;
-using DM.Domain.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DM.DAL;
+
 using Microsoft.EntityFrameworkCore;
+
+using AutoMapper;
+
+using DM.Domain.Interfaces;
+using DM.Domain.Models;
+
+using DM.DAL.Entities;
+using DM.DAL;
 
 namespace DM.Domain.Implementations
 {

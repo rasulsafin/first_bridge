@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace DM.Domain.Models
 {
-    public class FieldModel
+    public class FieldModel : BaseModel
     {
-        public long Id { get; set; }
         public string Name { get; set; }
         public FieldType Type { get; set; } = FieldType.Text;
         public bool IsMandatory { get; set; }
@@ -14,9 +13,8 @@ namespace DM.Domain.Models
         public long? TemplateId { get; set; }
     }
 
-    public class ListFieldModel
+    public class ListFieldModel : BaseModel
     {
-        public long Id { get; set; }
         public string Name { get; set; }
         public FieldType Type { get; set; } = FieldType.List;
         public bool IsMandatory { get; set; }
@@ -25,9 +23,8 @@ namespace DM.Domain.Models
         public long? TemplateId { get; set; }
     }
 
-    public class ListModel
+    public class ListModel : BaseModel
     {
-        public long Id { get; set; }
         public string Data { get; set; }
     }
 }

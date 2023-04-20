@@ -3,14 +3,15 @@ using System.Threading.Tasks;
 using System.Linq;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 using AutoMapper;
 
-using DM.DAL.Entities;
 using DM.Domain.Interfaces;
-using DM.DAL;
-using Microsoft.Extensions.Logging;
 using DM.Domain.Models;
+
+using DM.DAL.Entities;
+using DM.DAL;
 
 namespace DM.Domain.Implementations
 {
@@ -70,7 +71,7 @@ namespace DM.Domain.Implementations
 
         public async Task<bool> Update(TemplateForUpdateModel templateModelForEdit)
         {
-            var templateForUpdate = _context.Template.FirstOrDefault(x => x.Id == templateModelForEdit.TemplateId);
+            var templateForUpdate = _context.Template.FirstOrDefault(x => x.Id == templateModelForEdit.Id);
 
             if (templateForUpdate == null) return false;
 

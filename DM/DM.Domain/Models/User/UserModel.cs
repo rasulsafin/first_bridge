@@ -2,9 +2,8 @@
 
 namespace DM.Domain.Models
 {
-    public class UserForUpdateModel
+    public class UserModel : BaseModel
     {
-        public long Id { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
         public string FathersName { get; set; }
@@ -14,7 +13,5 @@ namespace DM.Domain.Models
         public long RoleId { get; set; }
         public string Position { get; set; }
         public long OrganizationId { get; set; }
-
-        public List<int> ProjectIds { get; set; }
     }
 }

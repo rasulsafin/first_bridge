@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
 
 using DM.Domain.Exceptions;
@@ -29,24 +28,23 @@ namespace DM.Controllers
 
         private readonly IUserService _userService;
         private readonly IUserProjectService _userProjectService;
-        private readonly ILogger<UserService> _logger;
 
         public UsersController(DmDbContext context, CurrentUserService currentUserService,
-            IUserService userService, IUserProjectService userProjectService, ILogger<UserService> logger)
+            IUserService userService, IUserProjectService userProjectService)
         {
             _context = context;
             _currentUser = currentUserService.CurrentUser;
             _userService = userService;
             _userProjectService = userProjectService;
-            _logger = logger;
         }
 
         /// <summary>
-        /// Get list of all existing users
+        /// Getting all existing users
         /// </summary>
-        /// <returns>List of users.</returns>
-        /// <response code="200">Returns found list of users.</response>
-        /// <response code="500">Something went wrong while retrieving the users.</response>
+        /// <returns>List of all users.</returns>        
+        /// <response code="200">Users list fetched.</response>
+        /// <response code="403">Access denied.</response>
+        /// <response code="500">Something went wrong while fetching the user.</response>
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> GetAll()
@@ -55,9 +53,10 @@ namespace DM.Controllers
             {
                 var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionType.User);
 
-                if (!permission) return BadRequest("Access Denied");
+                if (!permission) return StatusCode(403);
 
                 var users = await _userService.GetAll();
+
                 return Ok(users);
             }
             catch (DocumentManagementException ex)
@@ -70,11 +69,12 @@ namespace DM.Controllers
         /// Get user by their id
         /// </summary>
         /// <param name="userId"></param>
-        /// <returns>User Id</returns>
+        /// <returns>Boolean value about function execution.</returns>        
         /// <response code="200">User found.</response>
         /// <response code="400">Invalid id.</response>
+        /// <response code="403">Access denied.</response>
         /// <response code="404">Could not find user.</response>
-        /// <response code="500">Something went wrong while retrieving the user.</response>
+        /// <response code="500">Something went wrong while fetching the user.</response>
         [HttpGet("{userId}")]
         [Authorize]
         public IActionResult GetById(long userId)
@@ -86,6 +86,7 @@ namespace DM.Controllers
                 if (!permission) return BadRequest(403);
 
                 var user = _userService.GetById(userId);
+
                 return Ok(user);
             }
             catch (ANotFoundException ex)
@@ -102,25 +103,25 @@ namespace DM.Controllers
         /// Create new user
         /// </summary>
         /// <param name="userModel"></param>
-        /// <returns>Id of created user</returns>
+        /// <returns>Id of created user.</returns>        
+        /// <response code="200">User created.</response>
         /// <response code="400">User with the same login already exists OR one/multiple of required values is/are empty.</response>
+        /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while creating new user.</response>
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Create(UserForCreateModel userModel)
         {
-            var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionType.User);
-
-            if (!permission) return BadRequest(403);
-
-            if (userModel == null)
-            {
-                return BadRequest("Invalid Request");
-            }
-
             try
             {
+                var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionType.User);
+
+                if (!permission) return BadRequest(403);
+
+                if (userModel == null) return BadRequest("Invalid Request");
+
                 var id = await _userService.Create(userModel);
+
                 return Ok(id);
             }
             catch (InvalidOperationException ex)
@@ -137,9 +138,18 @@ namespace DM.Controllers
             }
         }
 
+        /// <summary>
+        /// Updating an existing user
+        /// </summary>
+        /// <param name="userModel"></param>
+        /// <returns>Boolean value about function execution.</returns>        
+        /// <response code="200">User found.</response>
+        /// <response code="400">User with the same login already exists OR one/multiple of required values is/are empty.</response>
+        /// <response code="403">Access denied.</response>
+        /// <response code="500">Something went wrong while updating new user.</response>
         [HttpPut]
         [Authorize]
-        public async Task<IActionResult> Update(UserForUpdateModel user)
+        public async Task<IActionResult> Update(UserForUpdateModel userModel)
         {
             try
             {
@@ -147,7 +157,8 @@ namespace DM.Controllers
 
                 if (!permission) return BadRequest(403);
 
-                var checker = await _userService.Update(user);
+                var checker = await _userService.Update(userModel);
+
                 return Ok(checker);
             }
             catch (ArgumentValidationException ex)
@@ -163,10 +174,11 @@ namespace DM.Controllers
         /// <summary>
         /// Delete existing user.
         /// </summary>
-        /// <param name="userID">Id of the user to be deleted.</param>
-        /// <returns>True if user is deleted.</returns>
+        /// <param name="userId">Id of the user to be deleted.</param>
+        /// <returns>Boolean value about function execution.</returns>        
         /// <response code="200">User was deleted successfully.</response>
         /// <response code="400">Invalid id.</response>
+        /// <response code="403">Access denied.</response>
         /// <response code="404">User was not found.</response>
         /// <response code="500">Something went wrong while deleting user.</response>
         [HttpDelete]
@@ -180,6 +192,7 @@ namespace DM.Controllers
                 if (!permission) return BadRequest(403);
 
                 await _userService.Delete(userId);
+
                 return Ok();
             }
             catch (ANotFoundException ex)
@@ -192,17 +205,39 @@ namespace DM.Controllers
             }
         }
 
+        /// <summary>
+        /// Authorization of an existing user
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>Boolean value about function execution.</returns>        
+        /// <response code="200">User found.</response>
+        /// <response code="500">Something went wrong when authorizing the user.</response>
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate(AuthenticateRequest model)
         {
-            var response = await _userService.Authenticate(model);
+            try
+            {
+                var response = await _userService.Authenticate(model);
 
-            if (response == null)
-                return BadRequest(new { message = "Username or password is incorrect" });
+                if (response == null) return BadRequest(new { message = "Username or password is incorrect" });
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch (DocumentManagementException ex)
+            {
+                return CreateProblemResult(this, 500, ex.Message);
+            }
         }
 
+        /// <summary>
+        /// Add user to project
+        /// </summary>
+        /// <param name="userProjectModel"></param>
+        /// <returns>Boolean value about function execution.</returns>        
+        /// <response code="200">User added.</response>
+        /// <response code="403">Access denied.</response>
+        /// <response code="404">User or project was not found.</response>
+        /// <response code="500">Something went wrong while creating new user.</response>
         [HttpPost("addToProject")]
         [Authorize]
         public async Task<IActionResult> AddToProject(UserProjectModel userProjectModel)
@@ -214,6 +249,7 @@ namespace DM.Controllers
                 if (!permission) return BadRequest(403);
 
                 var checker = await _userProjectService.AddToProject(userProjectModel);
+
                 return Ok(checker);
             }
             catch (ANotFoundException ex)
@@ -226,6 +262,15 @@ namespace DM.Controllers
             }
         }
 
+        /// <summary>
+        /// Adding a list of projects to the user
+        /// </summary>
+        /// <param name="userProjectModel"></param>
+        /// <returns>Boolean value about function execution.</returns>        
+        /// <response code="200">Users added.</response>
+        /// <response code="403">Access denied.</response>
+        /// <response code="404">User or project was not found.</response>
+        /// <response code="500">Something went wrong while creating new user.</response>
         [HttpPost("addProjectListToUser")]
         [Authorize]
         public async Task<IActionResult> AddToProjects(List<UserProjectModel> userProjectModel)
@@ -237,6 +282,7 @@ namespace DM.Controllers
                 if (!permission) return BadRequest(403);
 
                 var checker = await _userProjectService.AddToProjects(userProjectModel);
+
                 return Ok(checker);
             }
             catch (ANotFoundException ex)
@@ -249,9 +295,18 @@ namespace DM.Controllers
             }
         }
 
+        /// <summary>
+        /// Deleting a project from a user
+        /// </summary>
+        /// <param name="userProjectId"></param>
+        /// <returns>Boolean value about function execution.</returns>        
+        /// <response code="200">Project deleted.</response>
+        /// <response code="403">Access denied.</response>
+        /// <response code="404">UserProject not found</response>
+        /// <response code="500">Something went wrong while deleting project.</response>
         [HttpDelete("deleteProjectFromUser")]
         [Authorize]
-        public async Task<IActionResult> DeleteFromProject(long userProjectId)
+        public async Task<IActionResult> DeleteFromProject(long userId, long projectId)
         {
             try
             {
@@ -259,7 +314,8 @@ namespace DM.Controllers
 
                 if (!permission) return BadRequest(403);
 
-                var checker = await _userProjectService.DeleteFromProject(userProjectId);
+                var checker = await _userProjectService.DeleteFromProject(userId, projectId);
+
                 return Ok(checker);
             }
             catch (ANotFoundException ex)

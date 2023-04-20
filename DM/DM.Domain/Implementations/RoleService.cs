@@ -1,15 +1,17 @@
-﻿using AutoMapper;
-using DM.DAL;
-using DM.DAL.Entities;
-using DM.Domain.Interfaces;
-using DM.Domain.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using AutoMapper;
+
+using DM.Domain.Interfaces;
+using DM.Domain.Models;
+
+using DM.DAL;
+using DM.DAL.Entities;
 
 namespace DM.Domain.Implementations
 {
@@ -44,7 +46,7 @@ namespace DM.Domain.Implementations
             return _mapper.Map<RoleModel>(role);
         }
 
-        public async Task<bool> Create(RoleModel roleModel)
+        public async Task<bool> Create(RoleForCreateModel roleModel)
         {
             var role = _mapper.Map<RoleEntity>(new RoleModel
             {
@@ -59,7 +61,7 @@ namespace DM.Domain.Implementations
 
             return true;
         }
-        public async Task<bool> Update(RoleModel roleModel)
+        public async Task<bool> Update(RoleForUpdateModel roleModel)
         {
             var roleForUpdate = _context.Role.FirstOrDefault(x => x.Id == roleModel.Id);
 

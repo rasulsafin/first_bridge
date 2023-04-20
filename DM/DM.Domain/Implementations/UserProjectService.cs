@@ -1,14 +1,16 @@
-﻿using AutoMapper;
-using DM.DAL;
-using DM.DAL.Entities;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Linq;
+
+using Microsoft.Extensions.Configuration;
+
+using AutoMapper;
+
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using DM.DAL;
+using DM.DAL.Entities;
 
 namespace DM.Domain.Implementations
 {
@@ -54,9 +56,9 @@ namespace DM.Domain.Implementations
             return true;
         }
 
-        public async Task<bool> DeleteFromProject(long id)
+        public async Task<bool> DeleteFromProject(long userId, long projectId)
         {
-            var userProject = _context.UsersProjects.FirstOrDefault(q => q.Id == id);
+            var userProject = _context.UsersProjects.FirstOrDefault(q => q.UserId == userId && q.ProjectId == projectId);
 
             if (userProject == null) return false;
 

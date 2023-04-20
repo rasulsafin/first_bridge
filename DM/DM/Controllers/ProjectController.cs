@@ -69,7 +69,7 @@ namespace DM.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Create(ProjectModel projectModel)
+        public async Task<IActionResult> Create(ProjectForReadModel projectModel)
         {
             var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionType.Project);
 
@@ -82,7 +82,7 @@ namespace DM.Controllers
 
         [HttpPut]
         [Authorize]
-        public async Task<IActionResult> Update(ProjectModel projectModel)
+        public async Task<IActionResult> Update(ProjectForUpdateModel projectModel)
         {
             var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionType.Project);
 
@@ -151,7 +151,7 @@ namespace DM.Controllers
 
         [HttpDelete("deleteUserFromProject")]
         [Authorize]
-        public async Task<IActionResult> DeleteFromProject(long userProjectId)
+        public async Task<IActionResult> DeleteFromProject(long userId, long projectId)
         {
             try
             {
@@ -159,7 +159,7 @@ namespace DM.Controllers
 
                 if (!permission) return BadRequest("Access Denied");
 
-                var checker = await _userProjectService.DeleteFromProject(userProjectId);
+                var checker = await _userProjectService.DeleteFromProject(userId, projectId);
                 return Ok(checker);
             }
             catch (ANotFoundException ex)

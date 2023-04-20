@@ -1,7 +1,8 @@
-﻿using DM.DAL.Entities;
-using DM.Domain.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+
+using DM.DAL.Entities;
+using DM.Domain.Models;
 
 namespace DM.Domain.Interfaces
 {
@@ -9,8 +10,8 @@ namespace DM.Domain.Interfaces
     {
         public Task<List<OrganizationEntity>> GetAll();
         public Task<OrganizationEntity> GetById(long organizationId);
-        public Task<bool> Create(OrganizationModelForCreate organizationModel);
-        public Task<bool> Update(OrganizationModelForUpdate organizationModel);
+        public Task<bool> Create(OrganizationForCreateModel organizationModel);
+        public Task<bool> Update(OrganizationForUpdateModel organizationModel);
         public Task<bool> Delete(long organizationId);
     }
 }
