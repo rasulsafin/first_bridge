@@ -115,8 +115,8 @@ export const Users = () => {
             >От Я до А</Controls.Button>
           </div>
         </div>
-        <div className="user-card-container">
-          {users.map(user => <UserCard key={user.id} user={user} />)}
+        <div className="user-cards-container">
+            {users.map(user => <UserCard key={user.id} user={user} />)}
         </div>
         <Controls.Modal
           titleModal={title}

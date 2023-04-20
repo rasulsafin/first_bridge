@@ -1,18 +1,19 @@
 import React, { useRef, useState } from "react";
-import { Button, Grid, List, Modal, styled } from "@mui/material";
+import { Button, Grid, IconButton, List, Modal, styled } from "@mui/material";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { SearchBar } from "../../../searchBar/SearchBar";
 import Paper from "@mui/material/Paper";
 import { ReactComponent as TrashIcon } from "../../../../assets/icons/trashcan.svg";
 import { ReactComponent as ClipIcon } from "../../../../assets/icons/clip.svg";
+import { ReactComponent as CancelIcon } from "../../../../assets/icons/cancel.svg";
 import { Controls } from "../../../controls/Controls";
 import { UserCard } from "../../UsersPage/components/UserCard";
 import { FileItem } from "../../../upload/FileItem";
 import { fetchFiles, uploadFileService } from "../../../../services/filesSlice";
 import { useDispatch } from "react-redux";
 import { fileExtensions } from "../../../../constants/fileExtensions";
-import { searchUsersByName, sortUsersByNameAsc, sortUsersByNameDesc } from "../../../../services/usersSlice";
+import { deleteUserFromProject } from "../../../../services/projectsSlice";
+import { SearchAndSortUserToolbar } from "../../UsersPage/components/SearchAndSortUserToolbar";
 
 const style = {
   position: "absolute",
@@ -30,7 +31,6 @@ const style = {
 };
 
 function ChildModal(props) {
-  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {
@@ -38,18 +38,6 @@ function ChildModal(props) {
   };
   const handleClose = () => {
     setOpen(false);
-  };
-
-  function filterByInput(e) {
-    dispatch(searchUsersByName(e.target.value));
-  }
-
-  const handleSortByAsc = () => {
-    dispatch(sortUsersByNameAsc());
-  };
-
-  const handleSortByDesc = () => {
-    dispatch(sortUsersByNameDesc());
   };
 
   return (
@@ -71,26 +59,7 @@ function ChildModal(props) {
           <Box sx={{
             marginTop: "40px"
           }}>
-            <SearchBar
-              onChange={e => filterByInput(e)}
-            />
-            <Controls.Button
-              className="ml-0"
-              style={{
-                backgroundColor: "#2D2926",
-                color: "#FFF",
-                border: "none"
-              }}
-              onClick={handleSortByAsc}
-            >От А до Я</Controls.Button>
-            <Controls.Button
-              style={{
-                backgroundColor: "#b4b3b2",
-                color: "#2D2926",
-                border: "none"
-              }}
-              onClick={handleSortByDesc}
-            >От Я до А</Controls.Button>
+            <SearchAndSortUserToolbar />
             <List style={{ height: "300px", overflowY: "auto", overflowX: "hidden" }}>
               {props.users.map(user => <UserCard key={user.id} user={user} />)}
             </List>
@@ -133,6 +102,10 @@ export function ProjectModal(props) {
     dispatch(fetchFiles(project));
   }, []);
 
+  const handleDeleteUserFromProject = (userId, projectId) => {
+    dispatch(deleteUserFromProject({ userId, projectId }));
+  };
+
   return (
     <div>
       <Modal
@@ -163,32 +136,33 @@ export function ProjectModal(props) {
                     ? 0
                     : props.project.project.users.length
                   }</h3>
-                  <SearchBar />
-                  <Controls.Button
-                    className="ml-0"
-                    style={{
-                      backgroundColor: "#2D2926",
-                      color: "#FFF",
-                      border: "none"
-                    }}
-                  >От А до Я</Controls.Button>
-                  <Controls.Button
-                    style={{
-                      backgroundColor: "#b4b3b2",
-                      color: "#2D2926",
-                      border: "none"
-                    }}
-                  >От Я до А</Controls.Button>
+                  <SearchAndSortUserToolbar />
                   <List style={{ height: "300px", overflowY: "auto", overflowX: "hidden" }}>
                     {props.project.project.users ?
-                      props.project.project.users.map(user => <UserCard key={user.id} user={user} />)
+                      props.project.project.users.map(user =>
+                        <>
+                          <Grid alignItems="center" container>
+                            <Grid item xs={10}>
+                              <UserCard key={user.id} user={user} />
+                            </Grid>
+                            <Grid item xs={2}>
+                              <IconButton
+                                aria-label="delete"
+                                onClick={() => handleDeleteUserFromProject(user.id, project)}
+                              >
+                                <CancelIcon />
+                              </IconButton>
+                            </Grid>
+                          </Grid>
+                        </>
+                      )
                       : null
                     }
                   </List>
                 </Box>
                 <Box>
                   <ChildModal
-                  users={props.users}
+                    users={props.users}
                   />
                 </Box>
               </Box>

@@ -12,7 +12,7 @@ import { Controls } from "../../controls/Controls";
 import { ProjectCard } from "./components/ProjectCard";
 import * as React from "react";
 import "./Projects.css";
-import { fetchUsers, selectAllUsers } from "../../../services/usersSlice";
+import { fetchUsers } from "../../../services/usersSlice";
 import { SearchBar } from "../../searchBar/SearchBar";
 import { ReactComponent as PlusIcon } from "../../../assets/icons/plus.svg";
 
@@ -20,7 +20,6 @@ export function Projects() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const projects = useSelector(selectAllProjects);
-  const users = useSelector(selectAllUsers);
 
   useEffect(() => {
     dispatch(fetchProjects());
@@ -71,7 +70,7 @@ export function Projects() {
         </div>
       </div>
       <div className="card-container">
-        {projects.map(project => <ProjectCard key={project.id} users={users} project={project} />)}
+        {projects.map(project => <ProjectCard key={project.id} project={project} />)}
         <div className="new-project-card">
           <button
             className="btn-add-project"
