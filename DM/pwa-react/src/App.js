@@ -11,8 +11,6 @@ import { UserDetailPage } from "./components/pages/UsersPage/components/UserDeta
 import { ProfilePage } from "./components/pages/ProfilePage/ProfilePage";
 import { RecordDetailPage } from "./components/pages/RecordsPage/components/RecordDetailPage";
 import { RequireAuth } from "./components/RequireAuth/RequireAuth";
-import { Organizations } from "./components/pages/OrganizationsPage/Organizations";
-import { OrganizationDetailPage } from "./components/pages/OrganizationsPage/components/OrganizationDetailPage";
 import { AdminPage } from "./components/pages/AdminPage/AdminPage";
 import { Layout } from "./components/layout/Layout";
 import { ProjectCreatePage } from "./components/pages/ProjectsPage/components/ProjectCreatePage";
@@ -22,10 +20,8 @@ import { FilesPage } from "./components/pages/FilesPage/FilesPage";
 import { NotFoundPage } from "./components/pages/NotFoundPage/NotFoundPage";
 import { UserCreatePage } from "./components/pages/UsersPage/components/UserCreatePage";
 import { UserEditPage } from "./components/pages/UsersPage/components/UserEditPage";
-import { OrganizationCreatePage } from "./components/pages/OrganizationsPage/components/OrganizationCreatePage";
 import { RecordEditPage } from "./components/pages/RecordsPage/components/RecordEditPage";
 import ViewerIfc from "./components/pages/FilesPage/ViewerIfc";
-import { OrganizationEditPage } from "./components/pages/OrganizationsPage/components/OrganizationEditPage";
 import IfcComponent from "./components/ifc/IfcComponent";
 import { Models } from "./components/pages/ModelPage/Models";
 import { Templates } from "./components/pages/TemplatePage/Templates";
@@ -58,11 +54,6 @@ function App() {
               <Route path="/user/create" element={<UserCreatePage />} />
 
               <Route path="/roles" element={<Roles />} />
-
-              <Route path="/organizations" element={<Organizations />} />
-              <Route path="/organization/:id" element={<OrganizationDetailPage />} />
-              <Route path="/organization/create" element={<OrganizationCreatePage />} />
-              <Route path="/organization/:id/edit" element={<OrganizationEditPage />} />
 
               <Route path="/projects" element={<Projects />} />
               <Route path="/project/:id/files" element={<FilesPage />} />
