@@ -134,7 +134,7 @@ export const ProjectCard = (project) => {
         open={openModal}
         onClose={handleCloseModal}
       />
-      <span className="project-date">{formatDate(project.project.creationDate)}</span>
+      <span className="project-date">{formatDate(project.project.createdAt)}</span>
       <div className="users-in-project">
         <span className="quantity-users-text">Участников {
           project.project.users === null
