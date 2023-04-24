@@ -9,6 +9,5 @@ namespace DM.Domain.Models
 
         public List<FieldModel> Fields { get; set; }
         public List<ListFieldModel> ListFields { get; set; }
-        public List<CommentForReadModel> Comments { get; set; }
     }
 }

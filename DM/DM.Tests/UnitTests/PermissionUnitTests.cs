@@ -10,6 +10,7 @@ using DM.Tests.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
+using DM.DAL.Enums;
 
 namespace DM.Tests.UnitTests
 {

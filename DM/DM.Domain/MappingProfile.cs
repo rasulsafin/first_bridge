@@ -44,13 +44,17 @@ namespace DM.Domain
             CreateMap<TemplateEntity, TemplateModel>().ReverseMap();
             CreateMap<TemplateEntity, TemplateForUpdateModel>().ReverseMap();
 
+            //Record map
+            CreateMap<RecordEntity, RecordModel>().ReverseMap();
+            CreateMap<RecordEntity, RecordForReadModel>().ReverseMap();
+            CreateMap<RecordEntity, RecordForCreateModel>().ReverseMap();
+
             //Fields map
             CreateMap<FieldEntity, FieldModel>().ReverseMap();
             CreateMap<ListFieldEntity, ListFieldModel>().ReverseMap();
             CreateMap<ListEntity, ListModel>().ReverseMap();
 
             CreateMap<ItemEntity, ItemModel>().ReverseMap();
-            CreateMap<RecordEntity, RecordModel>().ReverseMap();
             CreateMap<PermissionModel, PermissionEntity>().ReverseMap();
         }
     }

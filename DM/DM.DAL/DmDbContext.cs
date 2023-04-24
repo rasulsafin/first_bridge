@@ -1,6 +1,9 @@
 ﻿using System;
-using DM.DAL.Entities;
+
 using Microsoft.EntityFrameworkCore;
+
+using DM.DAL.Entities;
+using DM.DAL.Enums;
 
 namespace DM.DAL
 {

@@ -7,6 +7,7 @@ using DM.Domain.Helpers;
 using DM.Domain.Implementations;
 
 using DM.DAL.Entities;
+using DM.DAL.Enums;
 using DM.DAL;
 
 using DM.Helpers;

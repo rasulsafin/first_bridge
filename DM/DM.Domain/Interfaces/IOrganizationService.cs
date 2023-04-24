@@ -8,8 +8,8 @@ namespace DM.Domain.Interfaces
 {
     public interface IOrganizationService
     {
-        public Task<List<OrganizationEntity>> GetAll();
-        public Task<OrganizationEntity> GetById(long organizationId);
+        public Task<List<OrganizationModel>> GetAll();
+        public Task<OrganizationModel> GetById(long organizationId);
         public Task<bool> Create(OrganizationForCreateModel organizationModel);
         public Task<bool> Update(OrganizationForUpdateModel organizationModel);
         public Task<bool> Delete(long organizationId);

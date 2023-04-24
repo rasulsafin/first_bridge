@@ -9,6 +9,7 @@ using DM.Domain.Helpers;
 using DM.Domain.Models;
 
 using DM.DAL.Entities;
+using DM.DAL.Enums;
 using DM.DAL;
 
 using DM.Helpers;
@@ -64,7 +65,7 @@ namespace DM.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Create(RecordModel recordModel)
+        public async Task<IActionResult> Create(RecordForCreateModel recordModel)
         {
             var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionType.Record);
 
