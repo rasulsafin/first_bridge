@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using Microsoft.EntityFrameworkCore;
 
 namespace DM.DAL.Entities
 {
@@ -15,9 +16,10 @@ namespace DM.DAL.Entities
         public string Login { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public string Position { get; set; }
+
         public long RoleId { get; set; }
         public RoleEntity Role { get; set; }
-        public string Position { get; set; }
 
         public long OrganizationId { get; set; }
         public OrganizationEntity Organization { get; set; }
