@@ -1,13 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System;
+﻿using System;
+using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
+
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+
 using DM.DAL.Entities;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using System.Collections.Generic;
-using System.Numerics;
 
 namespace DM.Domain.Helpers
 {
