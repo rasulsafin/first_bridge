@@ -9,6 +9,7 @@ using DM.Domain.Helpers;
 using DM.Domain.Models;
 
 using DM.DAL.Entities;
+using DM.DAL.Enums;
 using DM.DAL;
 
 using DM.Helpers;
