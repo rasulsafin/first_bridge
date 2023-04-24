@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using DM.DAL.Enums;
+
 namespace DM.DAL.Entities
 {
     [Table("Permission")]
@@ -14,10 +16,5 @@ namespace DM.DAL.Entities
         public bool Read { get; set; }
         public bool Update { get; set; }
         public bool Delete { get; set; }
-    }
-
-    public enum PermissionType
-    {
-        Project = 1, Item = 2, Record = 3, Template = 4, Role = 5, User = 6, Organization = 7
     }
 }

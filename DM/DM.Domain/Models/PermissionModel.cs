@@ -1,4 +1,4 @@
-﻿using DM.DAL.Entities;
+﻿using DM.DAL.Enums;
 
 namespace DM.Domain.Models
 {

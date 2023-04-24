@@ -17,6 +17,7 @@ using DM.DAL;
 using Xbim.Ifc;
 using Xbim.ModelGeometry.Scene;
 using SO = System.IO.File;
+using DM.DAL.Enums;
 
 namespace DM.Controllers
 {

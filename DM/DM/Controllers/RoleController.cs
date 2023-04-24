@@ -10,6 +10,7 @@ using DM.Domain.Implementations;
 using DM.Domain.Exceptions;
 
 using DM.DAL;
+using DM.DAL.Enums;
 using DM.DAL.Entities;
 
 using DM.Helpers;
