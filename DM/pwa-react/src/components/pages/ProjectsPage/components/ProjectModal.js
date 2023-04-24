@@ -1,5 +1,12 @@
 import React, { useRef, useState } from "react";
-import { Button, Grid, IconButton, List, Modal, styled } from "@mui/material";
+import { 
+  Grid,
+  IconButton,
+  List,
+  ListItemButton,
+  Modal,
+  styled
+} from "@mui/material";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Paper from "@mui/material/Paper";
@@ -31,14 +38,40 @@ const style = {
 };
 
 function ChildModal(props) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [checked, setChecked] = useState([]);
+  const [usersAddToProject, setUsersAddToProject] = useState([]);
 
   const handleOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
+    setUsersAddToProject([]);
+    setChecked([]);
   };
+
+  const handleToggle = (user) => {
+    const currentIndex = checked.indexOf(user.id);
+    const newChecked = [...checked];
+
+    if (currentIndex === -1) {
+      newChecked.push(user.id);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+
+    setChecked(newChecked);
+
+    if (!usersAddToProject.some(userProj => userProj.id === user.id)) {
+      setUsersAddToProject(usersAddToProject => [...usersAddToProject, user]);
+    } else {
+      setUsersAddToProject(usersAddToProject => usersAddToProject.filter(userProj => userProj.id !== user.id));
+    }
+  };
+
+  console.log(checked);
+  console.log(usersAddToProject);
 
   return (
     <>
@@ -60,11 +93,38 @@ function ChildModal(props) {
             marginTop: "40px"
           }}>
             <SearchAndSortUserToolbar />
-            <List style={{ height: "300px", overflowY: "auto", overflowX: "hidden" }}>
-              {props.users.map(user => <UserCard key={user.id} user={user} />)}
+            <p>Выбрано: {usersAddToProject.length <= 0 ? 0 : usersAddToProject.length}</p>
+            <List style={{ height: "300px", gap: "2px", overflowY: "auto", overflowX: "hidden" }}>
+              {props.users.map(user =>
+                <ListItemButton
+                  key={user.id}
+                  sx={{
+                    margin: "2px",
+                    padding: 0,
+                    "&.Mui-selected": {
+                      backgroundColor: "#FFF",
+                      border: "1px gray solid",
+                      borderRadius: "5px"
+                    },
+                    "&.Mui-selected:hover": {
+                      backgroundColor: "#FFF"
+                    },
+                  }}
+                  autoFocus={false}
+                  onClick={() => handleToggle(user)}
+                  dense
+                  selected={checked.indexOf(user.id) !== -1}
+                >
+                  <UserCard key={user.id} user={user} />
+                </ ListItemButton>
+              )}
             </List>
           </Box>
-          <Button onClick={handleClose}>Close Child Modal</Button>
+          <Controls.Button
+          >Добавить</Controls.Button>
+          <Controls.Button
+            onClick={handleClose}
+          >Отменить</Controls.Button>
         </Box>
       </Modal>
     </>
