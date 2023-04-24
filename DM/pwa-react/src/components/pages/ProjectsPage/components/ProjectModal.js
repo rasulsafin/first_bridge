@@ -19,7 +19,7 @@ import { FileItem } from "../../../upload/FileItem";
 import { fetchFiles, uploadFileService } from "../../../../services/filesSlice";
 import { useDispatch } from "react-redux";
 import { fileExtensions } from "../../../../constants/fileExtensions";
-import { deleteUserFromProject } from "../../../../services/projectsSlice";
+import { addUserListToProject, deleteUserFromProject } from "../../../../services/projectsSlice";
 import { SearchAndSortUserToolbar } from "../../UsersPage/components/SearchAndSortUserToolbar";
 
 const style = {
@@ -38,6 +38,8 @@ const style = {
 };
 
 function ChildModal(props) {
+  const { projectId, users } = props;
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [checked, setChecked] = useState([]);
   const [usersAddToProject, setUsersAddToProject] = useState([]);
@@ -57,21 +59,23 @@ function ChildModal(props) {
 
     if (currentIndex === -1) {
       newChecked.push(user.id);
+      setUsersAddToProject(usersAddToProject => [...usersAddToProject, {userId: user.id, projectId}]);
     } else {
       newChecked.splice(currentIndex, 1);
+      setUsersAddToProject(usersAddToProject => usersAddToProject.filter(userProj => userProj.userId !== user.id));
     }
 
     setChecked(newChecked);
-
-    if (!usersAddToProject.some(userProj => userProj.id === user.id)) {
-      setUsersAddToProject(usersAddToProject => [...usersAddToProject, user]);
-    } else {
-      setUsersAddToProject(usersAddToProject => usersAddToProject.filter(userProj => userProj.id !== user.id));
-    }
   };
-
-  console.log(checked);
-  console.log(usersAddToProject);
+  
+  console.log(usersAddToProject)
+  
+  const handleAddUsersToProject = () => {
+    dispatch(addUserListToProject(usersAddToProject))
+    setOpen(false);
+    setUsersAddToProject([]);
+    setChecked([]);
+  }
 
   return (
     <>
@@ -95,7 +99,7 @@ function ChildModal(props) {
             <SearchAndSortUserToolbar />
             <p>Выбрано: {usersAddToProject.length <= 0 ? 0 : usersAddToProject.length}</p>
             <List style={{ height: "300px", gap: "2px", overflowY: "auto", overflowX: "hidden" }}>
-              {props.users.map(user =>
+              {users.map(user =>
                 <ListItemButton
                   key={user.id}
                   sx={{
@@ -121,6 +125,7 @@ function ChildModal(props) {
             </List>
           </Box>
           <Controls.Button
+            onClick={handleAddUsersToProject}
           >Добавить</Controls.Button>
           <Controls.Button
             onClick={handleClose}
@@ -223,6 +228,7 @@ export function ProjectModal(props) {
                 <Box>
                   <ChildModal
                     users={props.users}
+                    projectId={project}
                   />
                 </Box>
               </Box>
