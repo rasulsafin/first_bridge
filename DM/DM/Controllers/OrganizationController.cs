@@ -68,7 +68,7 @@ namespace DM.Controllers
 
             var checker = await _organizationService.Update(organizationModel);
 
-            if (!checker) return BadRequest("No such organization exists");
+            if (!checker) return NotFound();
 
             return Ok(checker);
         }
@@ -82,7 +82,7 @@ namespace DM.Controllers
 
             var checker = await _organizationService.Delete(organizationId);
 
-            if (checker == false) return NotFound();
+            if (!checker) return NotFound();
 
             return Ok(checker);
         }
