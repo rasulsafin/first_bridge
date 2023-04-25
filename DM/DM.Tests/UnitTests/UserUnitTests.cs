@@ -1,30 +1,38 @@
-using System;
 using System.Threading.Tasks;
-using DM.Controllers;
-using DM.Domain.Interfaces;
-using DM.Domain.Models;
-using DM.Tests.Helpers;
+
 using Microsoft.AspNetCore.Mvc;
+
 using Moq;
 using Xunit;
+
+using DM.Controllers;
+
+using DM.Domain.Interfaces;
+using DM.Domain.Models;
+using DM.Domain.Implementations;
+
+using DM.DAL;
+
+using DM.Tests.Helpers;
 
 namespace DM.Tests.UnitTests
 {
     public class UserUnitTests
     {
         #region Const
-
-        private const string UserName = "Robert",
+        private readonly UserModel user = new()
+        {
+            Id = 1,
+            Name = "Robert",
             LastName = "Reiter",
             FathersName = "J",
             Email = "brogrammer@mail.ru",
             Login = "bromigo",
             Password = "1234",
             Position = "developer",
-            Snils = "000";
-        
-        private const long OrganizationId = 1;
-        private const long RoleId = 1;
+            RoleId = 1,
+            OrganizationId = 1,
+        };
 
         #endregion
 
@@ -34,18 +42,28 @@ namespace DM.Tests.UnitTests
         public async Task CreateUserReturnsOkPositiveTesting()
         {
             // preparation
+            var dmContext = new Mock<DmDbContext>();
             var userRepo = new Mock<IUserService>();
-            var userController = new UsersController(null, null, userRepo.Object, null);
+            var userProjectRepo = new Mock<IUserProjectService>();
+            var userController = new UserController(dmContext.Object, new CurrentUserService(dmContext.Object, null), userRepo.Object, userProjectRepo.Object);
 
             var userModel = new UserForCreateModel()
-            { Name = UserName, LastName = LastName, FathersName = FathersName,
-                Email = Email, Login = Login, OrganizationId = OrganizationId, Password = Password,
-                RoleId = RoleId, Position = Position };
-            
+            {
+                Name = user.Name,
+                LastName = user.LastName,
+                FathersName = user.FathersName,
+                Email = user.Email,
+                Login = user.Name,
+                OrganizationId = user.OrganizationId,
+                Password = user.Password,
+                RoleId = user.RoleId,
+                Position = user.Position
+            };
+
             // execution
             userRepo.Setup(x => x.Create(userModel))
                 .Returns(Task.FromResult(true));
-            
+
             var result = await userController.Create(userModel);
             var actualResult = result as OkObjectResult;
 
@@ -62,14 +80,24 @@ namespace DM.Tests.UnitTests
         public async Task CreateUserReturnsBadRequestByNotExistingRoleTest()
         {
             // preparation
+            var dmContext = new Mock<DmDbContext>();
             var userRepo = new Mock<IUserService>();
-            var userController = new UsersController(null, null, userRepo.Object, null);
+            var userProjectRepo = new Mock<IUserProjectService>();
+            var userController = new UserController(dmContext.Object, new CurrentUserService(dmContext.Object, null), userRepo.Object, userProjectRepo.Object);
 
             var userModel = new UserForCreateModel()
-            { Name = UserName, LastName = LastName, FathersName = FathersName,
-                Email = Email, Login = Login, OrganizationId = OrganizationId, Password = Password,
-                RoleId = 2, Position = Position };
-            
+            {
+                Name = user.Name,
+                LastName = user.LastName,
+                FathersName = user.FathersName,
+                Email = user.Email,
+                Login = user.Name,
+                OrganizationId = user.OrganizationId,
+                Password = user.Password,
+                RoleId = 10,
+                Position = user.Position
+            };
+
             // execution
             var result = await userController.Create(userModel);
 
@@ -88,8 +116,10 @@ namespace DM.Tests.UnitTests
         public async Task CreateUserReturnsBadRequestByNullTest()
         {
             // preparation
+            var dmContext = new Mock<DmDbContext>();
             var userRepo = new Mock<IUserService>();
-            var userController = new UsersController(null, null, userRepo.Object, null);
+            var userProjectRepo = new Mock<IUserProjectService>();
+            var userController = new UserController(null, null, null, null);
 
             // execution
             var result = await userController.Create(null);
@@ -108,15 +138,14 @@ namespace DM.Tests.UnitTests
         [Fact]
         public void AuthenticateRequestReturnsBadRequestForEmptyContext()
         {
-            var userRepo = new Mock<IUserService>();
-            var userController = new UsersController(null, null, userRepo.Object, null);
+            var userController = new UserController(null, null, null, null);
 
             var result = userController.Authenticate(new AuthenticateRequest()
-                { Login = Login, Password = Password });
-            
+            { Login = user.Login, Password = user.Password });
+
             Assert.IsType<BadRequestObjectResult>(result.Result);
         }
 
         #endregion
     }
-    }
+}

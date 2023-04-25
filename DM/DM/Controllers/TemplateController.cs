@@ -20,11 +20,12 @@ using static DM.Validators.ServiceResponsesValidator;
 namespace DM.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/template")]
     public class TemplateController : ControllerBase
     {
         private readonly DmDbContext _context;
-        private readonly UserEntity _currentUser;
+        private readonly UserModel _currentUser;
 
         private readonly ITemplateService _templateService;
         private readonly ILogger<TemplateService> _logger;
@@ -49,7 +50,6 @@ namespace DM.Controllers
         /// <response code="404">Templates was not found.</response>
         /// <response code="500">Something went wrong while fetching templates.</response>
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> GetProjectTemplateOfRecord(long projectId)
         {
             try
@@ -83,7 +83,6 @@ namespace DM.Controllers
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while adding template.</response>
         [HttpPost]
-        [Authorize]
         public IActionResult AddTemplateToProject(TemplateModel templateModel)
         {
             try
@@ -114,7 +113,6 @@ namespace DM.Controllers
         /// <response code="404">Template not found.</response>
         /// <response code="500">Something went wrong when updating the template.</response>
         [HttpPut]
-        [Authorize]
         public IActionResult EditExistingTemplateOfProject(TemplateForUpdateModel templateModelForEdit)
         {
             try

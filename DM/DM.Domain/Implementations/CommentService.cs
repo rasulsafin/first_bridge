@@ -13,7 +13,7 @@ namespace DM.Domain.Implementations
     public class CommentService : ICommentService
     {
         private readonly DmDbContext _context;
-        private readonly UserEntity _currentUser;
+        private readonly UserModel _currentUser;
 
         private readonly IMapper _mapper;
 
@@ -26,7 +26,7 @@ namespace DM.Domain.Implementations
 
         public async Task<long> Create(CommentModel commentModel)
         {
-            var m = new CommentEntity() { Text = commentModel.Text, User = _currentUser, RecordId = commentModel.RecordId };
+            var m = new CommentEntity() { Text = commentModel.Text, UserId = commentModel.UserId, RecordId = commentModel.RecordId };
 
             var result = await _context.Comments.AddAsync(m);
             await _context.SaveChangesAsync();

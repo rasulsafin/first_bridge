@@ -13,10 +13,12 @@ namespace DM.DAL.Entities
         /// Название проекта
         /// </summary>
         public string Title { get; set; }
-        
+
         /// <summary>
         /// Users of project
         /// </summary>
+        [NotMapped]
+        public List<int> UserProjectIds { get; set; }
         public List<UserProjectEntity> UserProjects { get; set; }
         /// <summary>
         /// Документы проекта

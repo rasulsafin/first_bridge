@@ -21,13 +21,13 @@ namespace DM.Tests.UnitTests
             var permissionController = new TemplateController(null, null, templateRepo.Object, null);
 
             var result = permissionController.AddTemplateToProject(null);
-            
+
             var actualResult = result as BadRequestObjectResult;
-            
+
             Assert.Equal(ErrorList.BadRequest, actualResult?.Value);
             Assert.IsType<BadRequestObjectResult>(result);
         }
-        
+
         [Fact]
         public async Task GetProjectTemplateOfRecordReturnOkAndCorrectObject()
         {
@@ -37,24 +37,24 @@ namespace DM.Tests.UnitTests
             var templateController = new TemplateController(null, null, templateRepo.Object, null);
 
             var templateResult = new List<TemplateModel>();
-            templateResult.Add(new TemplateModel() {Name = tempName});
-            templateResult.Add(new TemplateModel() {ProjectId = projId});
+            templateResult.Add(new TemplateModel() { Name = tempName });
+            templateResult.Add(new TemplateModel() { ProjectId = projId });
 
             templateRepo.Setup(x => x.GetAllOfProject(1))
                 .Returns(Task.FromResult(templateResult));
             var result = await templateController.GetProjectTemplateOfRecord(1);
-            
+
             var actualResult = result as OkObjectResult;
             var enumerableValue = actualResult?.Value as IEnumerable;
-            
+
             var fieldOfReceivedObject = enumerableValue?.Cast<TemplateModel>().First().Name;
             var fieldOfSecondReceivedObject = enumerableValue?.Cast<TemplateModel>().ElementAtOrDefault(1).ProjectId;
-            
+
             Assert.IsType<OkObjectResult>(result);
             Assert.Equal(tempName, fieldOfReceivedObject);
             Assert.Equal(projId, fieldOfSecondReceivedObject);
         }
-        
+
         [Fact]
         public async Task GetProjectTemplateOfRecordReturnBadRequestForNonExistingAndCorrectObject()
         {

@@ -11,11 +11,24 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 using DM.DAL.Enums;
+using System;
 
 namespace DM.Tests.UnitTests
 {
     public class PermissionUnitTests
     {
+
+        private readonly List<PermissionModel> permissions = new List<PermissionModel>
+        {
+            new PermissionModel { Id=1, RoleId = 1, Type = PermissionType.Project, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
+            new PermissionModel { Id=2, RoleId = 1, Type = PermissionType.Role, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
+            new PermissionModel { Id=3, RoleId = 1, Type = PermissionType.Organization, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
+            new PermissionModel { Id=4, RoleId = 1, Type = PermissionType.Template, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
+            new PermissionModel { Id=5, RoleId = 1, Type = PermissionType.Record, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
+            new PermissionModel { Id=6, RoleId = 1, Type = PermissionType.Item, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
+            new PermissionModel { Id=7, RoleId = 1, Type = PermissionType.User, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
+        };
+
         #region CreatePermissionReturnsOkPositiveTesting
 
         [Fact]
@@ -27,18 +40,23 @@ namespace DM.Tests.UnitTests
             var permissionForResult = new PermissionEntity()
             {
                 Role = new RoleEntity() { Name = "Name" },
-                Create = true, Delete = true, Read = true, Update = true, Type = PermissionType.Item, RoleId = 1
+                Create = true,
+                Delete = true,
+                Read = true,
+                Update = true,
+                Type = PermissionType.Item,
+                RoleId = 1
             };
             permissionListResult.Add(permissionForResult);
 
             permissionRepo.Setup(x => x.GetAllByRole(1))
                 .Returns(Task.FromResult(permissionListResult));
             var result = await permissionController.GetAllByRole(1);
-            
+
             var actualResult = result as OkObjectResult;
             var model = (actualResult?.Value as IEnumerable)!.Cast<PermissionEntity>().First();
             Assert.NotNull(model);
-            
+
             Assert.IsType<OkObjectResult>(result);
             Assert.Equal(permissionForResult.Create, model.Create);
             Assert.Equal(permissionForResult.Delete, model.Delete);

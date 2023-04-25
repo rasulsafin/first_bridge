@@ -10,7 +10,7 @@ namespace DM.Helpers
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class AuthorizeAttribute : Attribute, IAuthorizationFilter
     {
-        public void OnAuthorization(AuthorizationFilterContext context)
+        public void OnAuthorization(AuthorizationFilterContext context) 
         {
             if (!context.HttpContext.User.Claims.Any())
             {

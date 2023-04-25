@@ -17,11 +17,12 @@ using DM.Helpers;
 namespace DM.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/permission")]
     public class PermissionController : ControllerBase
     {
         private readonly DmDbContext _context;
-        private readonly UserEntity _currentUser;
+        private readonly UserModel _currentUser;
 
         private readonly IPermissionService _permissionService;
         private readonly ILogger<PermissionService> _logger;
@@ -35,7 +36,6 @@ namespace DM.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> GetAllByRole(long roleId)
         {
             var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionType.Role);
@@ -53,7 +53,6 @@ namespace DM.Controllers
         }
 
         [HttpPut]
-        [Authorize]
         public async Task<IActionResult> UpdatePermissionOnRole(PermissionModel permissionModel)
         {
             var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionType.Role);

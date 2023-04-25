@@ -15,7 +15,7 @@ namespace DM.Domain.Implementations
     public class FieldService : IFieldService, IListFieldService
     {
         private readonly DmDbContext _context;
-        private readonly UserEntity _currentUser;
+        private readonly UserModel _currentUser;
 
         private readonly IMapper _mapper;
 

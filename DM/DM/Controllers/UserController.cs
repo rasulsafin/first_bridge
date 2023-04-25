@@ -22,15 +22,15 @@ namespace DM.Controllers
 {
     [ApiController]
     [Route("api/users")]
-    public class UsersController : ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly DmDbContext _context;
-        private readonly UserEntity _currentUser;
+        private readonly UserModel _currentUser;
 
         private readonly IUserService _userService;
         private readonly IUserProjectService _userProjectService;
 
-        public UsersController(DmDbContext context, CurrentUserService currentUserService,
+        public UserController(DmDbContext context, CurrentUserService currentUserService,
             IUserService userService, IUserProjectService userProjectService)
         {
             _context = context;
@@ -299,7 +299,8 @@ namespace DM.Controllers
         /// <summary>
         /// Deleting a project from a user.
         /// </summary>
-        /// <param name="userProjectId"></param>
+        /// <param name="userId"></param>
+        /// <param name="projectId"></param>
         /// <returns>Boolean value about function execution.</returns>        
         /// <response code="200">Project deleted.</response>
         /// <response code="403">Access denied.</response>

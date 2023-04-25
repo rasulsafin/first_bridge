@@ -17,8 +17,9 @@ namespace DM.Domain.Implementations
     public class ItemService : IItemService
     {
         private readonly DmDbContext _context;
+        private readonly UserModel _currentUser;
+
         private readonly IMapper _mapper;
-        private readonly UserEntity _currentUser;
 
         public ItemService(DmDbContext context, IMapper mapper, CurrentUserService userService)
         {

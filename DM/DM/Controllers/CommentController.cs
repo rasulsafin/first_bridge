@@ -10,7 +10,6 @@ using DM.Domain.Interfaces;
 using DM.Domain.Models;
 
 using DM.DAL;
-using DM.DAL.Entities;
 using DM.DAL.Enums;
 
 using DM.Helpers;
@@ -18,11 +17,12 @@ using DM.Helpers;
 namespace DM.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/comment")]
     public class CommentController : ControllerBase
     {
         public readonly DmDbContext _context;
-        private readonly UserEntity _currentUser;
+        private readonly UserModel _currentUser;
 
         public readonly ICommentService _commentService;
         private readonly ILogger<FieldService> _logger;
@@ -36,7 +36,6 @@ namespace DM.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Create(CommentModel commentModel)
         {
 
@@ -55,7 +54,6 @@ namespace DM.Controllers
         }
 
         [HttpDelete]
-        [Authorize]
         public async Task<IActionResult> Delete(long commentId)
         {
             var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionType.Record);
@@ -73,7 +71,6 @@ namespace DM.Controllers
         }
 
         [HttpPut]
-        [Authorize]
         public async Task<IActionResult> Update(CommentModelForUpdate comment)
         {
             try
