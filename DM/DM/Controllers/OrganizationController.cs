@@ -68,7 +68,7 @@ namespace DM.Controllers
 
             var checker = await _organizationService.Update(organizationModel);
 
-            if (checker == false) return BadRequest("No such organization exists");
+            if (!checker) return BadRequest("No such organization exists");
 
             return Ok(checker);
         }
