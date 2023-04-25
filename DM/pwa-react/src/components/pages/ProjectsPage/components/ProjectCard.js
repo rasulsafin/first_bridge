@@ -8,7 +8,6 @@ import { ReactComponent as EditIcon } from "../../../../assets/icons/edit.svg";
 import Menu from "@mui/material/Menu";
 import { ProjectModal } from "./ProjectModal";
 import { useDispatch, useSelector } from "react-redux";
-import { selectAllUsers } from "../../../../services/usersSlice";
 import { fetchFiles, selectAllFiles } from "../../../../services/filesSlice";
 import Dialog from "@mui/material/Dialog";
 import { deleteProject } from "../../../../services/projectsSlice";
@@ -20,7 +19,6 @@ export const ProjectCard = (project) => {
   const [openDialog, setOpenDialog] = useState(false);
   const dispatch = useDispatch();
   const isMenuOpen = Boolean(anchorEl);
-  const users = useSelector(selectAllUsers);
   const files = useSelector(selectAllFiles);
   const projectId = project.project.id;
 
@@ -129,7 +127,6 @@ export const ProjectCard = (project) => {
       </div>
       <ProjectModal
         files={files}
-        users={users}
         project={project}
         open={openModal}
         onClose={handleCloseModal}
