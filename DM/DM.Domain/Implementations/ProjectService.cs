@@ -34,6 +34,7 @@ namespace DM.Domain.Implementations
                 .Include(x => x.Template)
                 .Include(x => x.Items)
                 .Include(x => x.UserProjects).ThenInclude(y => y.User)
+                .OrderBy(x => x.IsInArchive)
                 .ToListAsync();
 
             return _mapper.Map<List<ProjectForReadModel>>(projects);
@@ -99,7 +100,10 @@ namespace DM.Domain.Implementations
 
             if (result == null) return false;
 
-            _context.Projects.Remove(result);
+            result.IsInArchive = true;
+
+            _context.Projects.Update(result);
+
             await _context.SaveChangesAsync();
 
             return true;
