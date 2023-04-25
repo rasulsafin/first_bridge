@@ -56,11 +56,11 @@ export const projectsSlice = createSlice({
     },
     sortProjectsByDateAsc: (state) => {
       state.projects = state.projects
-        .sort((a, b) => new Date(a.creationDate) < new Date(b.creationDate) ? -1 : 1);
+        .sort((a, b) => new Date(a.createdAt) < new Date(b.createdAt) ? -1 : 1);
     },
     sortProjectsByDateDesc: (state) => {
       state.projects = state.projects
-        .sort((a, b) => new Date(b.creationDate) < new Date(a.creationDate) ? -1 : 1);
+        .sort((a, b) => new Date(b.createdAt) < new Date(a.createdAt) ? -1 : 1);
     }
   },
   extraReducers: (builder) => {
