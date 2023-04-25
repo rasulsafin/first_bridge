@@ -21,12 +21,13 @@ using static DM.Validators.ServiceResponsesValidator;
 namespace DM.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/role")]
     public class RoleController : ControllerBase
     {
 
         private readonly DmDbContext _context;
-        private readonly UserEntity _currentUser;
+        private readonly UserModel _currentUser;
 
         private readonly IRoleService _roleService;
         private readonly ILogger<RoleService> _logger;
@@ -47,7 +48,6 @@ namespace DM.Controllers
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while fetching the roles.</response>
         [HttpGet]
-        [Authorize]
         public IActionResult GetAll()
         {
             try
@@ -77,7 +77,6 @@ namespace DM.Controllers
         /// <response code="404">Could not find role.</response>
         /// <response code="500">Something went wrong while fetching the role.</response>
         [HttpGet("{roleId}")]
-        [Authorize]
         public IActionResult GetById(long roleId)
         {
             try
@@ -109,7 +108,6 @@ namespace DM.Controllers
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while creating new role.</response>
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Create(RoleForCreateModel roleModel)
         {
             try
@@ -137,7 +135,6 @@ namespace DM.Controllers
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while updating role.</response>
         [HttpPut]
-        [Authorize]
         public async Task<IActionResult> Update(RoleForUpdateModel roleModel)
         {
             try
@@ -167,7 +164,6 @@ namespace DM.Controllers
         /// <response code="404">Role was not found.</response>
         /// <response code="500">Something went wrong while deleting role.</response>
         [HttpDelete]
-        [Authorize]
         public async Task<IActionResult> Delete(int roleId)
         {
             try

@@ -22,12 +22,13 @@ using DM.DAL.Enums;
 namespace DM.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/item")]
     public class ItemController : ControllerBase
     {
         private readonly IItemService _itemService;
         public readonly DmDbContext _context;
-        private readonly UserEntity _currentUser;
+        private readonly UserModel _currentUser;
         public static string pathServerStorage = "C:\\others\\";
         private static string currentPathServerStorage = "E:\\full-project\\document-manager\\DM\\DM\\";
         private int lastVersion = 1;  // variable for version tracking
@@ -64,7 +65,6 @@ namespace DM.Controllers
         /// </summary>
         /// <returns>list of items</returns>
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> GetAll(long projectId)
         {
             // логика проверки доступа для GetAll перенесена в сервис
@@ -77,7 +77,6 @@ namespace DM.Controllers
         /// Download file with Name specified in Db
         /// </summary>
         [HttpGet("download")]
-        [Authorize]
         public async Task<IActionResult> DownloadFile(string fileName)
         {
             var file = await _context.Items.FirstOrDefaultAsync(x => x.Name == fileName);
@@ -95,7 +94,6 @@ namespace DM.Controllers
         }
 
         [HttpGet("downloadWexBim")]
-        [Authorize]
         public async Task<IActionResult> DownloadWexBim(string fileName) // название файла вместе с расширением .ifc
         {
             var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
@@ -164,7 +162,6 @@ namespace DM.Controllers
         /// </summary>
         /// <returns>id of uploaded file</returns>
         [HttpPost, DisableRequestSizeLimit, Route("file")]
-        [Authorize]
         public async Task<IActionResult> Post(long project, IFormFile file)
         {
             var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionType.Item);

@@ -1,25 +1,31 @@
 ﻿using System.Linq;
+
+using AutoMapper;
+
+using DM.Domain.Models;
+
 using DM.DAL;
-using DM.DAL.Entities;
-using DM.Domain.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace DM.Domain.Implementations
 {
     public class CurrentUserService
     {
         private readonly DmDbContext _context;
+        public UserModel CurrentUser { get; set; }
 
-        public CurrentUserService(DmDbContext context)
+        private readonly IMapper _mapper;
+
+        public CurrentUserService(DmDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
-
-        public UserEntity CurrentUser { get; set; }
 
         public void SetCurrentUser(long userId)
         {
-            CurrentUser = _context.Users.FirstOrDefault(x => x.Id == userId);
+            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+
+            CurrentUser = _mapper.Map<UserModel>(user);
         }
     }
 }

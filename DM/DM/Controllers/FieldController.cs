@@ -15,11 +15,12 @@ using DM.Helpers;
 namespace DM.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/field")]
     public class FieldController : ControllerBase
     {
         private readonly DmDbContext _context;
-        private readonly UserEntity _currentUser;
+        private readonly UserModel _currentUser;
 
         private readonly IFieldService _fieldService;
         private readonly ILogger<FieldService> _logger;
@@ -33,7 +34,6 @@ namespace DM.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public IActionResult Create(FieldModel fieldModel)
         {
             var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionType.Template);
@@ -46,7 +46,6 @@ namespace DM.Controllers
         }
 
         [HttpDelete]
-        [Authorize]
         public IActionResult Delete(long fieldId)
         {
             var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionType.Template);
@@ -65,11 +64,12 @@ namespace DM.Controllers
     }
 
     [ApiController]
+    [Authorize]
     [Route("api/listField")]
     public class ListFieldController : ControllerBase
     {
         private readonly DmDbContext _context;
-        private readonly UserEntity _currentUser;
+        private readonly UserModel _currentUser;
 
         private readonly IListFieldService _listFieldService;
         private readonly ILogger<FieldService> _logger;
@@ -83,7 +83,6 @@ namespace DM.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public IActionResult Create(ListFieldModel listFieldModel)
         {
             var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionType.Template);
@@ -96,7 +95,6 @@ namespace DM.Controllers
         }
 
         [HttpDelete]
-        [Authorize]
         public IActionResult Delete(long listFieldId)
         {
             var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionType.Template);

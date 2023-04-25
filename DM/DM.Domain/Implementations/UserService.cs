@@ -46,10 +46,8 @@ namespace DM.Domain.Implementations
 
             var passwordChecker = PasswordHelper.VerifyHashedPassword(user.Password, model.Password);
 
-            if (passwordChecker == false)
-            {
-                return null;
-            }
+            if (!passwordChecker) return null;
+
             var token = _configuration.GenerateJwtToken(user);
 
             return new AuthenticateResponse(user, token);

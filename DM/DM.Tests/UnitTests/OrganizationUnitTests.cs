@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DM.Controllers;
+using DM.DAL;
 using DM.DAL.Entities;
+using DM.Domain.Implementations;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -14,32 +16,55 @@ namespace DM.Tests.UnitTests
 {
     public class OrganizationUnitTests
     {
+        #region Const
+        private readonly UserModel user = new()
+        {
+            Id = 1,
+            Name = "Robert",
+            LastName = "Reiter",
+            FathersName = "J",
+            Email = "brogrammer@mail.ru",
+            Login = "bromigo",
+            Password = "1234",
+            Position = "developer",
+            RoleId = 1,
+            OrganizationId = 1,
+        };
+
+        #endregion
+
         #region CreateOrganizationPositiveTesting
         [Fact]
         public async Task CreateOrganizationPositiveTesting()
         {
+            var dmContext = new Mock<DmDbContext>();
             var organizationRepo = new Mock<IOrganizationService>();
-            var organizationController = new OrganizationController(null, null, organizationRepo.Object, null);
+            var organizationController = new OrganizationController(dmContext.Object, new CurrentUserService(dmContext.Object, null), organizationRepo.Object, null);
 
             var organizationModelForCreate = new OrganizationForCreateModel()
             {
-                Name = "BRIO", Address = "Kazan", Email = "BRIO@mail.ru",
-                Inn = "000", Kpp = "000", Ogrn = "000", Phone = "000"
+                Name = "BRIO",
+                Address = "Kazan",
+                Email = "BRIO@mail.ru",
+                Inn = "000",
+                Kpp = "000",
+                Ogrn = "000",
+                Phone = "000"
             };
-            
+
             // execution 
             organizationRepo.Setup(x => x.Create(organizationModelForCreate))
                 .Returns(Task.FromResult(true));
-            
+
             var result = await organizationController.Create(organizationModelForCreate);
-            
+
             var actualResult = result as OkObjectResult;
 
             // examination
             Assert.IsType<OkObjectResult>(result);
             Assert.Equal(true, actualResult?.Value);
         }
-        
+
 
         #endregion
 
@@ -54,18 +79,18 @@ namespace DM.Tests.UnitTests
             var organizationRepo = new Mock<IOrganizationService>();
             var organizationController = new OrganizationController(null, null, organizationRepo.Object, null);
             var organizationResult = new List<OrganizationModel>(); // проверяемый объект
-            
-            organizationResult.Add(new OrganizationForCreateModel() { Name = organizationName});
-            organizationResult.Add(new OrganizationForCreateModel() { Name = organizationName2});
+
+            organizationResult.Add(new OrganizationForCreateModel() { Name = organizationName });
+            organizationResult.Add(new OrganizationForCreateModel() { Name = organizationName2 });
 
             // execution
             organizationRepo.Setup(x => x.GetAll())
                 .Returns(Task.FromResult(organizationResult));
             var result = await organizationController.GetAll();
-            
+
             var actualResult = result as OkObjectResult;
             var enumerableValue = actualResult?.Value as IEnumerable;
-            
+
             var fieldOfReceivedObject = enumerableValue?.Cast<OrganizationEntity>().First().Name;
             var fieldOfSecondReceivedObject = enumerableValue?.Cast<OrganizationEntity>().ElementAtOrDefault(1).Name;
 
