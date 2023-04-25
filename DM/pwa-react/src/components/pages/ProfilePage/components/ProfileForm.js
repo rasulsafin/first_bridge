@@ -14,7 +14,7 @@ const ProfileForm = (props) => {
           <Grid item xs={12}>
             <InputLabel>{profile.name}</InputLabel>
             <Controls.FormTextfield
-              value={user?.name ?? ""}
+              value={user?.userName ?? ""}
               variant="outlined"
               type="text"
               fullWidth
@@ -52,7 +52,7 @@ const ProfileForm = (props) => {
           <Grid item xs={12}>
             <InputLabel>{profile.role}</InputLabel>
             <Controls.FormTextfield
-              value={user?.role ?? ""}
+              value={user?.roleName ?? ""}
               name="roles"
               type="text"
               fullWidth

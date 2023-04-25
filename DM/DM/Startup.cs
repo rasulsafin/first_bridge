@@ -70,17 +70,10 @@ namespace DM
             services.AddSession(options => options.IdleTimeout = TimeSpan.FromMinutes(30));
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                    .AddJwtBearer(options =>
+                .AddJwtBearer(options =>
                     {
                         options.RequireHttpsMetadata = false;
                         options.SaveToken = true;
-                        options.TokenValidationParameters = new TokenValidationParameters
-                        {
-                            ValidIssuer = "Dotmim.Sync.Bearer",
-                            ValidAudience = "Dotmim.Sync.Bearer",
-                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SOME_RANDOM_KEY_DO_NOT_SHARE"))
-                        };
-
                         options.Events = new JwtBearerEvents
                         {
                             OnAuthenticationFailed = context =>
@@ -95,6 +88,7 @@ namespace DM
                             }
                         };
                     });
+            services.AddAuthorization();
 
             services.AddSwaggerGen(c =>
             {

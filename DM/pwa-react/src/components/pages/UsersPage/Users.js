@@ -1,24 +1,21 @@
 import * as React from "react";
-import { SearchBar } from "../../searchBar/SearchBar";
 import { Controls } from "../../controls/Controls";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addNewUser,
   fetchUsers,
-  searchUsersByName,
   selectAllUsers,
-  sortUsersByNameAsc,
-  sortUsersByNameDesc
 } from "../../../services/usersSlice";
 import { useEffect, useState } from "react";
 import { UserCard } from "./components/UserCard";
 import "./Users.css";
-import { Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { ReactComponent as BurgerIcon } from "../../../assets/icons/burger.svg";
 import { ReactComponent as StarIcon } from "../../../assets/icons/star.svg";
 import UserForm from "./components/UserForm";
 import { getInitialValues } from "./utils/getInitialValues";
 import { useNavigate } from "react-router";
+import { SearchAndSortUserToolbar } from "./components/SearchAndSortUserToolbar";
 
 export const Users = () => {
   const navigate = useNavigate();
@@ -31,18 +28,6 @@ export const Users = () => {
   useEffect(() => {
     dispatch(fetchUsers());
   }, [dispatch]);
-
-  function filterByInput(e) {
-    dispatch(searchUsersByName(e.target.value));
-  }
-
-  const handleSortByAsc = () => {
-    dispatch(sortUsersByNameAsc());
-  };
-
-  const handleSortByDesc = () => {
-    dispatch(sortUsersByNameDesc());
-  };
 
   const handleModalOpen = () => {
     setModal(true);
@@ -91,30 +76,9 @@ export const Users = () => {
             </Grid>
           </Grid>
         </Grid>
-        <div className="toolbar-project">
-          <SearchBar
-            onChange={e => filterByInput(e)}
-          />
-          <div>
-            <Controls.Button
-              className="ml-0"
-              style={{
-                backgroundColor: "#2D2926",
-                color: "#FFF",
-                border: "none"
-              }}
-              onClick={handleSortByAsc}
-            >От А до Я</Controls.Button>
-            <Controls.Button
-              style={{
-                backgroundColor: "#FFF",
-                color: "#2D2926",
-                border: "none"
-              }}
-              onClick={handleSortByDesc}
-            >От Я до А</Controls.Button>
-          </div>
-        </div>
+        <Box>
+          <SearchAndSortUserToolbar />
+        </Box>
         <div className="user-cards-container">
             {users.map(user => <UserCard key={user.id} user={user} />)}
         </div>

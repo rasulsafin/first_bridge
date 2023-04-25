@@ -50,7 +50,7 @@ namespace DM.Domain.Implementations
 
             var token = _configuration.GenerateJwtToken(user);
 
-            return new AuthenticateResponse(user, token);
+            return new AuthenticateResponse(token);
         }
 
         public async Task<IEnumerable<UserForReadModel>> GetAll()
