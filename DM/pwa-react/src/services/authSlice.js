@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { axiosInstance } from "../axios/axiosInstance";
+import jwtDecode from "jwt-decode";
 
 const initialState = {
   user: null
@@ -24,15 +25,14 @@ export const authSlice = createSlice({
       state.user = null;
       localStorage.removeItem("token");
       localStorage.removeItem("user");
-      localStorage.removeItem("role");
     }
   },
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, action) => {
-      const user = action.payload;
+      const token = action.payload;
+      const user = jwtDecode(token.token);
+      localStorage.setItem("token", token.token);
       localStorage.setItem("user", JSON.stringify(user));
-      localStorage.setItem("token", user.token);
-      localStorage.setItem("role", JSON.stringify(user.role));
       state.user = user;
     });
   }
