@@ -10,7 +10,7 @@ namespace DM.Domain.Interfaces
 {
     public interface IPermissionService
     {
-        public Task<List<PermissionEntity>> GetAllByRole(long roleId);
+        public Task<List<PermissionModel>> GetAllByRole(long roleId);
         public Task<bool> UpdatePermissionOnRole(PermissionModel permissionModel);
     }
 }

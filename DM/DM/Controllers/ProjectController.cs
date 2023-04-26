@@ -70,7 +70,7 @@ namespace DM.Controllers
         /// <summary>
         /// Get project by their id
         /// </summary>
-        /// <param name="GetById"></param>
+        /// <param name="projectId"></param>
         /// <returns>Project Id</returns>
         /// <response code="200">Project found.</response>
         /// <response code="400">Invalid id.</response>
@@ -135,7 +135,7 @@ namespace DM.Controllers
         /// </summary>
         /// <param name="projectModel"></param>
         /// <returns>Boolean value about function execution.</returns>        
-        /// <response code="200">Project found.</response>
+        /// <response code="200">Project updated.</response>
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while updating project.</response>
         [HttpPut]

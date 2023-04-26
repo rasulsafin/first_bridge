@@ -64,10 +64,10 @@ namespace DM.Controllers
         }
 
         /// <summary>
-        /// Get record by their id
+        /// Get record by their id.
         /// </summary>
         /// <param name="recordId"></param>
-        /// <returns>Record Id</returns>
+        /// <returns>Record Id.</returns>
         /// <response code="200">Record found.</response>
         /// <response code="400">Invalid id.</response>
         /// <response code="403">Access denied.</response>
@@ -132,7 +132,7 @@ namespace DM.Controllers
         /// </summary>
         /// <param name="recordModel"></param>
         /// <returns>Boolean value about function execution.</returns>        
-        /// <response code="200">Record found.</response>
+        /// <response code="200">Record updated.</response>
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while updating record.</response>
         [HttpPut]

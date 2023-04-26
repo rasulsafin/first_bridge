@@ -23,10 +23,14 @@ namespace DM.DAL.Entities
         /// <summary>
         /// Документы проекта
         /// </summary>
+        [NotMapped]
+        public List<int> ItemIds { get; set; }
         public List<ItemEntity> Items { get; set; }
         /// <summary>
         /// Записи проекта
         /// </summary>
+        [NotMapped]
+        public List<int> RecordIds { get; set; }
         public List<RecordEntity> Records { get; set; }
         /// <summary>
         /// Шаблон для создания записи о проекте
@@ -37,6 +41,6 @@ namespace DM.DAL.Entities
         /// </summary>
         public long OrganizationId { get; set; }
         public OrganizationEntity Organization { get; set; }
-        public bool IsInArchive { get; set; } = false;
+        public bool IsInArchive { get; set; }
     }
 }

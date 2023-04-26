@@ -12,7 +12,6 @@ using DM.Domain.Implementations;
 
 using DM.DAL;
 using DM.DAL.Enums;
-using DM.DAL.Entities;
 
 using DM.Helpers;
 
@@ -144,7 +143,7 @@ namespace DM.Controllers
         /// </summary>
         /// <param name="userModel"></param>
         /// <returns>Boolean value about function execution.</returns>        
-        /// <response code="200">User found.</response>
+        /// <response code="200">User updated.</response>
         /// <response code="400">User with the same login already exists OR one/multiple of required values is/are empty.</response>
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while updating user.</response>

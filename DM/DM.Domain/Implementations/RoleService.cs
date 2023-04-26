@@ -12,6 +12,7 @@ using DM.Domain.Models;
 
 using DM.DAL;
 using DM.DAL.Entities;
+using System;
 
 namespace DM.Domain.Implementations
 {
@@ -26,6 +27,7 @@ namespace DM.Domain.Implementations
             _context = context;
             _mapper = mapper;
         }
+
         public List<RoleModel> GetAll()
         {
             var roles = _context.Role.ToList();
@@ -46,13 +48,13 @@ namespace DM.Domain.Implementations
             return _mapper.Map<RoleModel>(role);
         }
 
-        public async Task<bool> Create(RoleForCreateModel roleModel)
+        public async Task<bool> Create(RoleForCreateModel roleForCreateModel)
         {
             var role = _mapper.Map<RoleEntity>(new RoleModel
             {
-                Name = roleModel.Name,
-                Description = roleModel.Description,
-                Permissions = roleModel.Permissions,
+                Name = roleForCreateModel.Name,
+                Description = roleForCreateModel.Description,
+                Permissions = roleForCreateModel.Permissions,
             });
 
             _context.Role.Add(role);
@@ -61,23 +63,21 @@ namespace DM.Domain.Implementations
 
             return true;
         }
-        public async Task<bool> Update(RoleForUpdateModel roleModel)
+        public async Task<bool> Update(RoleForUpdateModel roleForUpdateModel)
         {
-            var roleForUpdate = _context.Role.FirstOrDefault(x => x.Id == roleModel.Id);
+            var role = _context.Role.FirstOrDefault(x => x.Id == roleForUpdateModel.Id);
 
-            if (roleForUpdate == null)
-            {
-                return false;
-            }
+            if (role == null) return false;
 
-            _context.Role.Attach(roleForUpdate);
+            _context.Role.Attach(role);
 
-            roleForUpdate.Name = roleForUpdate.Name;
-            roleForUpdate.Description = roleForUpdate.Description;
+            role.Name = roleForUpdateModel.Name;
+            role.Description = roleForUpdateModel.Description;
+            role.UpdatedAt = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
 
-            _context.Entry(roleForUpdate).State = EntityState.Detached;
+            _context.Entry(role).State = EntityState.Detached;
 
             return true;
         }
@@ -87,10 +87,7 @@ namespace DM.Domain.Implementations
                 .Include(x => x.Permissions)
                 .FirstOrDefaultAsync(x => x.Id == roleId);
 
-            if (role == null)
-            {
-                return false;
-            }
+            if (role == null) return false;
 
             _context.Role.Remove(role);
 

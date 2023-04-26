@@ -1,23 +1,24 @@
-﻿using DM.DAL.Entities;
+﻿using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using SO = System.IO.File;
+
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+using Xbim.Ifc;
+using Xbim.ModelGeometry.Scene;
+
 using DM.Domain.Helpers;
 using DM.Domain.Implementations;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
-using DM.Helpers;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
+
 using DM.DAL;
-using Xbim.Ifc;
-using Xbim.ModelGeometry.Scene;
-using SO = System.IO.File;
 using DM.DAL.Enums;
+
+using DM.Helpers;
 
 namespace DM.Controllers
 {
@@ -26,32 +27,15 @@ namespace DM.Controllers
     [Route("api/item")]
     public class ItemController : ControllerBase
     {
-        private readonly IItemService _itemService;
-        public readonly DmDbContext _context;
+        private readonly DmDbContext _context;
         private readonly UserModel _currentUser;
-        public static string pathServerStorage = "C:\\others\\";
+
+        private readonly IItemService _itemService;
+
+        private static string pathServerStorage = "C:\\others\\";
         private static string currentPathServerStorage = "E:\\full-project\\document-manager\\DM\\DM\\";
+
         private int lastVersion = 1;  // variable for version tracking
-        private static string GetMimeTypes(string ext)
-        {
-            switch (ext)
-            {
-                case ".txt": return "text/plain";
-                case ".csv": return "text/csv";
-                case ".pdf": return "application/pdf";
-                case ".doc": return "application/vnd.ms-word";
-                case ".xls": return "application/vnd.ms-excel";
-                case ".ppt": return "application/vnd.ms-powerpoint";
-                case ".docx": return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-                case ".xlsx": return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                case ".pptx": return "application/vnd.openxmlformats-officedocument.presentationml.presentation";
-                case ".png": return "image/png";
-                case ".jpg": return "image/jpeg";
-                case ".jpeg": return "image/jpeg";
-                case ".gif": return "image/gif";
-                default: return "application/octet-stream";
-            }
-        }
 
         public ItemController(IItemService itemService, DmDbContext context, CurrentUserService userService)
         {
@@ -67,7 +51,6 @@ namespace DM.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll(long projectId)
         {
-            // логика проверки доступа для GetAll перенесена в сервис
             var items = await _itemService.GetAll(projectId);
 
             return Ok(items);
@@ -80,17 +63,16 @@ namespace DM.Controllers
         public async Task<IActionResult> DownloadFile(string fileName)
         {
             var file = await _context.Items.FirstOrDefaultAsync(x => x.Name == fileName);
-            if (file == null)
-            {
-                return BadRequest($"File with name={fileName} Not Found.");
-            }
+
+            if (file == null) return BadRequest($"File with name={fileName} Not Found.");
 
             var folderName = fileName.Remove(fileName.Length - 7);
-            // var filePath = pathServerStorage + folderName + "\\" + fileName;
+
             var filePath = file.RelativePath;
 
-            var bytes = await System.IO.File.ReadAllBytesAsync(filePath);
-            return File(bytes, GetMimeTypes(Path.GetExtension(fileName)), fileName);
+            var bytes = await SO.ReadAllBytesAsync(filePath);
+
+            return File(bytes, MimeHelper.GetMimeTypes(Path.GetExtension(fileName)), fileName);
         }
 
         [HttpGet("downloadWexBim")]
@@ -99,10 +81,7 @@ namespace DM.Controllers
             var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
             var fileId = await _context.Items.Where(x => x.Name.Contains(fileNameWithoutExtension)).Select(q => q.Id).FirstOrDefaultAsync();
 
-            if (fileId == 0)
-            {
-                return BadRequest("Such file does not exist");
-            }
+            if (fileId == 0) return BadRequest("Such file does not exist");
 
             //TODO: вернуть пермишны перед деплоем
 
@@ -115,16 +94,10 @@ namespace DM.Controllers
             }
             */
 
-            if (fileName == null)
-            {
-                return BadRequest("fileName is empty");
-            }
+            if (fileName == null) return BadRequest("fileName is empty");
 
             // проверка формата файла
-            if (Path.GetExtension(fileName) != ".ifc")
-            {
-                return BadRequest("Incorrect file format");
-            }
+            if (Path.GetExtension(fileName) != ".ifc") return BadRequest("Incorrect file format");
 
             var storagePath = pathServerStorage + fileName;
 
@@ -151,7 +124,6 @@ namespace DM.Controllers
             model.SaveAsWexBim(wexBimBinaryWriter);
             wexBimBinaryWriter.Close();
 
-
             var result = SO.OpenRead(newStoragePath);
 
             return File(result, "application/octet-stream", "file.wexBim");
@@ -166,10 +138,7 @@ namespace DM.Controllers
         {
             var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionType.Item);
 
-            if (!permission)
-            {
-                return StatusCode(403);
-            }
+            if (!permission) return StatusCode(403);
 
             var fileExtension = Path.GetExtension(file.FileName);
             var fileNameWithoutExtension = file.FileName.Remove(file.FileName.Length - 4); // Folder Name
@@ -210,6 +179,7 @@ namespace DM.Controllers
                     RelativePath = pathForCreate,
                     ProjectId = project
                 };
+
                 var item = await _itemService.Create(itemModel); // Adding a Record about new Item
                 return Ok(item);
             }

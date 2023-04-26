@@ -36,10 +36,9 @@ namespace DM.Tests.UnitTests
         {
             var permissionRepo = new Mock<IPermissionService>();
             var permissionController = new PermissionController(null, null, permissionRepo.Object, null);
-            var permissionListResult = new List<PermissionEntity>();
-            var permissionForResult = new PermissionEntity()
+            var permissionListResult = new List<PermissionModel>();
+            var permissionForResult = new PermissionModel()
             {
-                Role = new RoleEntity() { Name = "Name" },
                 Create = true,
                 Delete = true,
                 Read = true,

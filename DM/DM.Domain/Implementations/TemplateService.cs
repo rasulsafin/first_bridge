@@ -12,6 +12,7 @@ using DM.Domain.Models;
 
 using DM.DAL.Entities;
 using DM.DAL;
+using System;
 
 namespace DM.Domain.Implementations
 {
@@ -69,20 +70,21 @@ namespace DM.Domain.Implementations
             return true;
         }
 
-        public async Task<bool> Update(TemplateForUpdateModel templateModelForEdit)
+        public async Task<bool> Update(TemplateForUpdateModel templateForUpdateModel)
         {
-            var templateForUpdate = _context.Template.FirstOrDefault(x => x.Id == templateModelForEdit.Id);
+            var template = _context.Template.FirstOrDefault(x => x.Id == templateForUpdateModel.Id);
 
-            if (templateForUpdate == null) return false;
+            if (template == null) return false;
 
-            _context.Template.Attach(templateForUpdate);
+            _context.Template.Attach(template);
 
-            templateForUpdate.Name = templateModelForEdit.Name;
-            templateForUpdate.ProjectId = templateModelForEdit.ProjectId;
+            template.Name = templateForUpdateModel.Name;
+            template.ProjectId = templateForUpdateModel.ProjectId;
+            template.UpdatedAt = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
 
-            _context.Entry(templateForUpdate).State = EntityState.Detached;
+            _context.Entry(template).State = EntityState.Detached;
 
             return true;
         }

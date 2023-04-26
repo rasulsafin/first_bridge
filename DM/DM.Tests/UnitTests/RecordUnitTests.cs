@@ -22,7 +22,7 @@ namespace DM.Tests.UnitTests
         {
             var recordRepo = new Mock<IRecordService>();
             var dmContext = new Mock<DmDbContext>();
-            var recordController = new RecordController(dmContext.Object, new CurrentUserService(dmContext.Object, null), recordRepo.Object, null);
+            var recordController = new RecordController(dmContext.Object, null, recordRepo.Object, null);
             var recordModel = new RecordForReadModel() { Id = 1, Name = "Record", ProjectId = 1 };
             var recordList = new List<RecordForReadModel>();
             recordList.Add(recordModel);
