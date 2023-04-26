@@ -1,9 +1,7 @@
 import { Controls } from "../../controls/Controls";
 import { Button } from "@mui/material";
 import { useState } from "react";
-import { TiDeleteOutline } from "react-icons/ti";
 import * as React from "react";
-import { RiAddCircleLine } from "react-icons/ri";
 
 export const TemplateEnumForm = (props) => {
   const [optionList, setOptionList] = useState([]);
@@ -66,11 +64,8 @@ export const TemplateEnumForm = (props) => {
             minWidth: 0,
             padding: 0
           }}
-        ><RiAddCircleLine
-          size={25}
-          color="#66b834"
           onClick={() => handlerAddOption()}
-        />
+        >+
         </Button>
       </div>
 
@@ -96,12 +91,9 @@ export const TemplateEnumForm = (props) => {
                   minWidth: 0,
                   padding: 0
                 }}
+                onClick={(index) => handlerRemoveClick(index)}
               >
-                <TiDeleteOutline
-                  size={25}
-                  color="#dc143c"
-                  onClick={(index) => handlerRemoveClick(index)}
-                />
+               x
               </Button>
             </>
           </div>

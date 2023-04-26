@@ -3,7 +3,6 @@ import { Controls } from "../../controls/Controls";
 import { useSelector } from "react-redux";
 import { selectAllProjects } from "../../../services/projectsSlice";
 import { Toolbar } from "@mui/material";
-import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from "react-router";
 import { TemplateCreateForm } from "./TemplateCreateForm";
 
@@ -19,7 +18,6 @@ export function TemplateCreatePage() {
     <div>
       <Toolbar>
         <Controls.Button onClick={goBack}>
-          <BiArrowBack size={24} color="#1d62ad" />
         </Controls.Button>
       </Toolbar>
       <hr />

@@ -2,7 +2,6 @@ import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { editRecord, selectAllRecords } from "../../../../services/recordsSlice";
 import { Button, Toolbar } from "@mui/material";
-import { BiArrowBack } from "react-icons/bi";
 import * as React from "react";
 import { Controls } from "../../../controls/Controls";
 import { useState } from "react";
@@ -50,7 +49,6 @@ export const RecordEditPage = () => {
     <div>
       <Toolbar>
         <Controls.Button onClick={goBack}>
-          <BiArrowBack size={24} color="#1d62ad" />
         </Controls.Button>
       </Toolbar>
       <hr />
