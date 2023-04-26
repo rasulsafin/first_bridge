@@ -16,12 +16,15 @@ namespace DM.Tests
 {
     // Нужно для интеграционных тестов без использования моков (тестов типа: "если я введу Х получу ли я Y"), то есть для GET/GetById методов
     // Пока не работает по причине: InvalidOperationException: No suitable constructor was found for entity type
-    public class TestDbContext : DmDbContext
+    public abstract class TestBase
     {
-        public TestDbContext() : base((new DbContextOptionsBuilder<DmDbContext>()
-            .UseInMemoryDatabase(
-                Guid.NewGuid().ToString()).Options))
+        protected DmDbContext GetDbContext()
         {
+            var options = new DbContextOptionsBuilder<DmDbContext>()
+                                  .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                                  .Options;
+
+            return new DmDbContext(options);
         }
     }
 }

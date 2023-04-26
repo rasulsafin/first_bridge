@@ -11,6 +11,7 @@ using DM.Domain.Models;
 
 using DM.DAL.Entities;
 using DM.DAL;
+using System;
 
 namespace DM.Domain.Implementations
 {
@@ -45,17 +46,17 @@ namespace DM.Domain.Implementations
             return _mapper.Map<OrganizationModel>(organization);
         }
 
-        public async Task<bool> Create(OrganizationForCreateModel organizationModel)
+        public async Task<bool> Create(OrganizationForCreateModel organizationForCreateModel)
         {
             var organization = new OrganizationEntity()
             {
-                Inn = organizationModel.Inn,
-                Kpp = organizationModel.Kpp,
-                Name = organizationModel.Name,
-                Ogrn = organizationModel.Ogrn,
-                Phone = organizationModel.Phone,
-                Email = organizationModel.Email,
-                Address = organizationModel.Address
+                Inn = organizationForCreateModel.Inn,
+                Kpp = organizationForCreateModel.Kpp,
+                Name = organizationForCreateModel.Name,
+                Ogrn = organizationForCreateModel.Ogrn,
+                Phone = organizationForCreateModel.Phone,
+                Email = organizationForCreateModel.Email,
+                Address = organizationForCreateModel.Address
             };
 
             _context.Organization.Add(organization);
@@ -65,26 +66,27 @@ namespace DM.Domain.Implementations
             return true;
         }
 
-        public async Task<bool> Update(OrganizationForUpdateModel organizationModel)
+        public async Task<bool> Update(OrganizationForUpdateModel organizationForUpdateModel)
         {
-            var fieldForUpdate = await _context.Organization
-                .Where(q => q.Id == organizationModel.Id).FirstOrDefaultAsync();
+            var organization = await _context.Organization
+                .Where(q => q.Id == organizationForUpdateModel.Id).FirstOrDefaultAsync();
 
-            if (fieldForUpdate == null) return false;
+            if (organization == null) return false;
 
-            _context.Organization.Attach(fieldForUpdate);
+            _context.Organization.Attach(organization);
 
-            fieldForUpdate.Name = organizationModel.Name;
-            fieldForUpdate.Address = organizationModel.Address;
-            fieldForUpdate.Inn = organizationModel.Inn;
-            fieldForUpdate.Ogrn = organizationModel.Ogrn;
-            fieldForUpdate.Kpp = organizationModel.Kpp;
-            fieldForUpdate.Phone = organizationModel.Phone;
-            fieldForUpdate.Email = organizationModel.Email;
+            organization.Name = organizationForUpdateModel.Name;
+            organization.Address = organizationForUpdateModel.Address;
+            organization.Inn = organizationForUpdateModel.Inn;
+            organization.Ogrn = organizationForUpdateModel.Ogrn;
+            organization.Kpp = organizationForUpdateModel.Kpp;
+            organization.Phone = organizationForUpdateModel.Phone;
+            organization.Email = organizationForUpdateModel.Email;
+            organization.UpdatedAt = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
 
-            _context.Entry(fieldForUpdate).State = EntityState.Detached;
+            _context.Entry(organization).State = EntityState.Detached;
 
             return true;
         }

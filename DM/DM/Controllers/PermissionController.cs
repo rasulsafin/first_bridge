@@ -7,12 +7,14 @@ using DM.Domain.Interfaces;
 using DM.Domain.Models;
 using DM.Domain.Implementations;
 using DM.Domain.Helpers;
+using DM.Domain.Exceptions;
 
 using DM.DAL;
 using DM.DAL.Enums;
-using DM.DAL.Entities;
 
 using DM.Helpers;
+
+using static DM.Validators.ServiceResponsesValidator;
 
 namespace DM.Controllers
 {
@@ -35,35 +37,68 @@ namespace DM.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Get permissions by role id.
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns>List of permissions.</returns>
+        /// <response code="200">Permissions list fetched.</response>
+        /// <response code="400">Invalid id.</response>
+        /// <response code="403">Access denied.</response>
+        /// <response code="404">Could not find permissions.</response>
+        /// <response code="500">Something went wrong while fetching the permissions.</response>
         [HttpGet]
         public async Task<IActionResult> GetAllByRole(long roleId)
         {
-            var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionType.Role);
-
-            if (!permission) return StatusCode(403);
-
-            var permissions = await _permissionService.GetAllByRole(roleId);
-
-            if (permissions == null)
+            try
             {
-                return NotFound();
-            }
+                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionType.Role);
 
-            return Ok(permissions);
+                if (!permission) return StatusCode(403);
+
+                var permissions = await _permissionService.GetAllByRole(roleId);
+
+                if (permissions == null) return NotFound();
+
+                return Ok(permissions);
+            }
+            catch (ANotFoundException ex)
+            {
+                return CreateProblemResult(this, 404, ex.Message);
+            }
+            catch (DocumentManagementException ex)
+            {
+                return CreateProblemResult(this, 500, ex.Message);
+            }
         }
 
+        /// <summary>
+        /// Updating an existing permission.
+        /// </summary>
+        /// <param name="permissionModel"></param>
+        /// <returns>Boolean value about function execution.</returns>        
+        /// <response code="200">Permission updated.</response>
+        /// <response code="403">Access denied.</response>
+        /// <response code="500">Something went wrong while updating updated.</response>
         [HttpPut]
         public async Task<IActionResult> UpdatePermissionOnRole(PermissionModel permissionModel)
         {
-            var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionType.Role);
+            try
+            {
+                var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionType.Role);
 
-            if (!permission) return StatusCode(403);
+                if (!permission) return StatusCode(403);
 
-            var result = await _permissionService.UpdatePermissionOnRole(permissionModel);
+                var result = await _permissionService.UpdatePermissionOnRole(permissionModel);
 
-            if (!result) return BadRequest("something went wrong");
+                if (!result) return BadRequest("something went wrong");
 
-            return Ok(result);
+                return Ok(result);
+            }
+            catch (DocumentManagementException ex)
+            {
+                return CreateProblemResult(this, 500, ex.Message);
+            }
         }
     }
 }

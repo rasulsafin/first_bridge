@@ -11,6 +11,7 @@ using DM.Domain.Models;
 
 using DM.DAL.Entities;
 using DM.DAL;
+using System;
 
 namespace DM.Domain.Implementations
 {
@@ -61,14 +62,14 @@ namespace DM.Domain.Implementations
         /// <summary>
         /// Create new Record
         /// </summary>
-        public async Task<long> Create(RecordForCreateModel recordModel)
+        public async Task<long> Create(RecordForCreateModel recordForCreateModel)
         {
             var record = _mapper.Map<RecordEntity>(new RecordForCreateModel
             {
-                Name = recordModel.Name,
-                ProjectId = recordModel.ProjectId,
-                Fields = recordModel.Fields.ToList(),
-                ListFields = recordModel.ListFields.ToList()
+                Name = recordForCreateModel.Name,
+                ProjectId = recordForCreateModel.ProjectId,
+                Fields = recordForCreateModel.Fields.ToList(),
+                ListFields = recordForCreateModel.ListFields.ToList()
             });
 
             var result = await _context.Records.AddAsync(record);
@@ -81,20 +82,21 @@ namespace DM.Domain.Implementations
         /// <summary>
         /// Update only the columns of an existing Record
         /// </summary>
-        public async Task<bool> Update(RecordModel record)
+        public async Task<bool> Update(RecordModel recordModel)
         {
-            var fieldForUpdate = await _context.Records.FirstOrDefaultAsync(x => x.Id == record.Id);
+            var record = await _context.Records.FirstOrDefaultAsync(x => x.Id == recordModel.Id);
 
-            if (fieldForUpdate == null) return false;
+            if (record == null) return false;
 
-            _context.Records.Attach(fieldForUpdate);
+            _context.Records.Attach(record);
 
-            fieldForUpdate.Name = record.Name;
-            fieldForUpdate.ProjectId = record.ProjectId;
+            record.Name = record.Name;
+            record.ProjectId = record.ProjectId;
+            record.UpdatedAt = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
 
-            _context.Entry(fieldForUpdate).State = EntityState.Detached;
+            _context.Entry(record).State = EntityState.Detached;
 
             return true;
         }

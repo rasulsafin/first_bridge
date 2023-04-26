@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 
@@ -73,19 +74,19 @@ namespace DM.Domain.Implementations
             return _mapper.Map<UserForReadModel>(user);
         }
 
-        public async Task<bool> Create(UserForCreateModel userModel)
+        public async Task<bool> Create(UserForCreateModel userForCreateModel)
         {
-            var hashedPass = PasswordHelper.HashPassword(userModel.Password);
+            var hashedPass = PasswordHelper.HashPassword(userForCreateModel.Password);
             var user = _mapper.Map<UserEntity>(new UserForCreateModel
             {
-                Login = userModel.Login,
-                Name = userModel.Name,
-                LastName = userModel.LastName,
-                FathersName = userModel.FathersName,
-                Email = userModel.Email,
-                RoleId = userModel.RoleId,
-                Position = userModel.Position,
-                OrganizationId = userModel.OrganizationId,
+                Login = userForCreateModel.Login,
+                Name = userForCreateModel.Name,
+                LastName = userForCreateModel.LastName,
+                FathersName = userForCreateModel.FathersName,
+                Email = userForCreateModel.Email,
+                RoleId = userForCreateModel.RoleId,
+                Position = userForCreateModel.Position,
+                OrganizationId = userForCreateModel.OrganizationId,
                 Password = hashedPass,
             });
 
@@ -96,27 +97,28 @@ namespace DM.Domain.Implementations
             return true;
         }
 
-        public async Task<bool> Update(UserForUpdateModel user)
+        public async Task<bool> Update(UserForUpdateModel userForUpdateModel)
         {
-            var userForUpdate = await _context.Users.FirstOrDefaultAsync(x => x.Id == user.Id);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userForUpdateModel.Id);
 
-            if (userForUpdate == null) return false;
+            if (user == null) return false;
 
-            _context.Users.Attach(userForUpdate);
+            _context.Users.Attach(user);
 
-            userForUpdate.Name = user.Name;
-            userForUpdate.LastName = user.LastName;
-            userForUpdate.FathersName = user.FathersName;
-            userForUpdate.Email = user.Email;
-            userForUpdate.Login = user.Login;
-            userForUpdate.Password = user.Password;
-            userForUpdate.Position = user.Position;
-            userForUpdate.RoleId = user.RoleId;
-            userForUpdate.OrganizationId = user.OrganizationId;
+            user.Name = user.Name;
+            user.LastName = user.LastName;
+            user.FathersName = user.FathersName;
+            user.Email = user.Email;
+            user.Login = user.Login;
+            user.Password = user.Password;
+            user.Position = user.Position;
+            user.RoleId = user.RoleId;
+            user.OrganizationId = user.OrganizationId;
+            user.UpdatedAt = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
 
-            _context.Entry(userForUpdate).State = EntityState.Detached;
+            _context.Entry(user).State = EntityState.Detached;
 
             return true;
         }

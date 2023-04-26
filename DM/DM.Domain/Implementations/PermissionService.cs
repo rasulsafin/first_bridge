@@ -10,6 +10,7 @@ using DM.Domain.Models;
 
 using DM.DAL.Entities;
 using DM.DAL;
+using AutoMapper;
 
 namespace DM.Domain.Implementations
 {
@@ -17,16 +18,19 @@ namespace DM.Domain.Implementations
     {
         private readonly DmDbContext _context;
 
-        public PermissionService(DmDbContext context)
+        private readonly IMapper _mapper;
+
+        public PermissionService(DmDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        public async Task<List<PermissionEntity>> GetAllByRole(long roleId)
+        public async Task<List<PermissionModel>> GetAllByRole(long roleId)
         {
-            var result = await _context.Permissions.Where(x => x.RoleId == roleId).ToListAsync();
+            var permissions = await _context.Permissions.Where(x => x.RoleId == roleId).ToListAsync();
 
-            return result;
+            return _mapper.Map<List<PermissionModel>>(permissions);
         }
 
         public async Task<bool> UpdatePermissionOnRole(PermissionModel permissionModel)

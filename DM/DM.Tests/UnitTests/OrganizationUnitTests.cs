@@ -39,7 +39,7 @@ namespace DM.Tests.UnitTests
         {
             var dmContext = new Mock<DmDbContext>();
             var organizationRepo = new Mock<IOrganizationService>();
-            var organizationController = new OrganizationController(dmContext.Object, new CurrentUserService(dmContext.Object, null), organizationRepo.Object, null);
+            var organizationController = new OrganizationController(dmContext.Object, null, organizationRepo.Object, null);
 
             var organizationModelForCreate = new OrganizationForCreateModel()
             {

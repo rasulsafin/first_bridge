@@ -11,6 +11,7 @@ using DM.Domain.Interfaces;
 
 using DM.DAL;
 using DM.DAL.Entities;
+using System;
 
 namespace DM.Domain.Implementations
 {
@@ -53,15 +54,14 @@ namespace DM.Domain.Implementations
             return _mapper.Map<ProjectForReadModel>(project);
         }
 
-        public async Task<long> Create(ProjectForReadModel projectModel)
+        public async Task<long> Create(ProjectForReadModel projectForReadModel)
         {
             var project = _mapper.Map<ProjectEntity>(new ProjectForReadModel
             {
-                Title = projectModel.Title,
-                OrganizationId = projectModel.OrganizationId,
-                Items = projectModel.Items.ToList(),
-                Users = projectModel.Users.ToList(),
-                IsInArchive = projectModel.IsInArchive
+                Title = projectForReadModel.Title,
+                OrganizationId = projectForReadModel.OrganizationId,
+                Items = projectForReadModel.Items.ToList(),
+                Users = projectForReadModel.Users.ToList(),
             });
 
             _context.Projects.Add(project);
@@ -71,21 +71,21 @@ namespace DM.Domain.Implementations
             return project.Id;
         }
 
-        public async Task<bool> Update(ProjectForUpdateModel projectModel)
+        public async Task<bool> Update(ProjectForUpdateModel projectForUpdateModel)
         {
-            var fieldForUpdate = await _context.Projects.FirstOrDefaultAsync(x => x.Id == projectModel.Id);
+            var project = await _context.Projects.FirstOrDefaultAsync(x => x.Id == projectForUpdateModel.Id);
 
-            if (fieldForUpdate == null) return false;
+            if (project == null) return false;
 
-            _context.Projects.Attach(fieldForUpdate);
+            _context.Projects.Attach(project);
 
-            fieldForUpdate.Title = projectModel.Title;
-            fieldForUpdate.IsInArchive = projectModel.IsInArchive;
-            fieldForUpdate.UpdatedAt = projectModel.UpdatedAt;
+            project.Title = projectForUpdateModel.Title;
+            project.IsInArchive = projectForUpdateModel.IsInArchive;
+            project.UpdatedAt = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
 
-            _context.Entry(fieldForUpdate).State = EntityState.Detached;
+            _context.Entry(project).State = EntityState.Detached;
 
             return true;
         }

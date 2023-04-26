@@ -11,7 +11,6 @@ using DM.Domain.Exceptions;
 
 using DM.DAL;
 using DM.DAL.Enums;
-using DM.DAL.Entities;
 
 using DM.Helpers;
 
@@ -131,7 +130,7 @@ namespace DM.Controllers
         /// </summary>
         /// <param name="roleModel"></param>
         /// <returns>Boolean value about function execution.</returns>        
-        /// <response code="200">Role found.</response>
+        /// <response code="200">Role updated.</response>
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while updating role.</response>
         [HttpPut]

@@ -14,6 +14,7 @@ using DM.Domain.Implementations;
 using DM.DAL;
 
 using DM.Tests.Helpers;
+using System;
 
 namespace DM.Tests.UnitTests
 {
@@ -45,7 +46,7 @@ namespace DM.Tests.UnitTests
             var dmContext = new Mock<DmDbContext>();
             var userRepo = new Mock<IUserService>();
             var userProjectRepo = new Mock<IUserProjectService>();
-            var userController = new UserController(dmContext.Object, new CurrentUserService(dmContext.Object, null), userRepo.Object, userProjectRepo.Object);
+            var userController = new UserController(dmContext.Object, null, userRepo.Object, userProjectRepo.Object);
 
             var userModel = new UserForCreateModel()
             {
@@ -83,7 +84,7 @@ namespace DM.Tests.UnitTests
             var dmContext = new Mock<DmDbContext>();
             var userRepo = new Mock<IUserService>();
             var userProjectRepo = new Mock<IUserProjectService>();
-            var userController = new UserController(dmContext.Object, new CurrentUserService(dmContext.Object, null), userRepo.Object, userProjectRepo.Object);
+            var userController = new UserController(dmContext.Object, null, userRepo.Object, userProjectRepo.Object);
 
             var userModel = new UserForCreateModel()
             {

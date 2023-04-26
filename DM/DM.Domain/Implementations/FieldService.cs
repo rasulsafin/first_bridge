@@ -68,10 +68,7 @@ namespace DM.Domain.Implementations
         {
             var field = _context.Field.Where(x => x.Id == id).FirstOrDefault();
 
-            if (field == null)
-            {
-                return false;
-            }
+            if (field == null) return false;
 
             _context.Field.Remove(field);
 
@@ -84,10 +81,7 @@ namespace DM.Domain.Implementations
         {
             var listField = _context.ListField.Where(x => x.Id == id).FirstOrDefault();
 
-            if (listField == null)
-            {
-                return false;
-            }
+            if (listField == null) return false;
 
             _context.ListField.Remove(listField);
 

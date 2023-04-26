@@ -9,7 +9,9 @@ namespace DM.DAL.Entities
     [Table("Item")]
     public class ItemEntity : BaseEntity
     {
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string RelativePath { get; set; }
         [Required]
         public long ProjectId { get; set; }
