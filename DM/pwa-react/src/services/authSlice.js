@@ -24,16 +24,13 @@ export const authSlice = createSlice({
     logout(state) {
       state.user = null;
       localStorage.removeItem("token");
-      localStorage.removeItem("user");
     }
   },
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, action) => {
       const token = action.payload;
-      const user = jwtDecode(token.token);
+      state.user = jwtDecode(token.token);
       localStorage.setItem("token", token.token);
-      localStorage.setItem("user", JSON.stringify(user));
-      state.user = user;
     });
   }
 });
