@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { axiosInstance } from "../axios/axiosInstance";
 import fileDownload from "js-file-download";
+import { fetchProjects } from "./projectsSlice";
 
 const initialState = {
   files: [],
@@ -29,8 +30,7 @@ export const uploadFileService = createAsyncThunk(
     const response = await axiosInstance.post("/api/item/file", formData, {
       params: {project: formData.get("id")}
     });
-    const projectId = formData.get("id");
-    thunkAPI.dispatch(fetchFiles(projectId));
+    thunkAPI.dispatch(fetchProjects());
     return response.data;
   });
 
