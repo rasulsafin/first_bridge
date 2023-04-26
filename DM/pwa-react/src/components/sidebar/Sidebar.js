@@ -12,7 +12,7 @@ export function Sidebar() {
   const { pathname } = location;
   const user = useSelector(selectUser);
 
-  const fullName = user !== null ? (user.name + " " + user.lastName) : " ";
+  const fullName = user !== null ? (user.userName + " " + user.lastName) : " ";
 
   return (
     <>
