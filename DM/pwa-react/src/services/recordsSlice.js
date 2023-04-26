@@ -1,8 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { axiosInstance } from "../axios/axiosInstance";
-import { ifcModelSlice } from "./ifcModelSlice";
 
-const initialState = [];
+const initialState = {
+  records: [],
+  filteredRecords: [],
+  isLoading: true,
+  error: null
+};
 
 export const fetchRecords = createAsyncThunk(
   "records/fetchRecords", async () => {
@@ -36,20 +40,45 @@ export const recordsSlice = createSlice({
   name: "records",
   initialState,
   reducers: {
-    setRecord(state, action) {
-      state = action.payload;
+    searchRecordsByName: (state, action) => {
+      state.records = state.filteredRecords
+        .filter(record => record.name.toLowerCase().includes(action.payload.toLowerCase().trim()));
     },
+    sortRecordsByNameAsc: (state) => {
+      state.records = state.records
+        .sort((a, b) => a.name < b.name ? -1 : 1);
+    },
+    sortRecordsByNameDesc: (state) => {
+      state.records = state.records
+        .sort((a, b) => b.name < a.name ? -1 : 1);
+    },
+    sortRecordsByDateAsc: (state) => {
+      state.records = state.records
+        .sort((a, b) => new Date(a.createdAt) < new Date(b.createdAt) ? -1 : 1);
+    },
+    sortRecordsByDateDesc: (state) => {
+      state.records = state.records
+        .sort((a, b) => new Date(b.createdAt) < new Date(a.createdAt) ? -1 : 1);
+    }
   },
   extraReducers(builder) {
     builder.addCase(fetchRecords.fulfilled, (state, action) => {
-      return action.payload;
+      state.isLoading = false;
+      state.records = action.payload;
+      state.filteredRecords = action.payload;
     });
   }
 });
 
-export const { setRecord } = ifcModelSlice.actions;
+export const { 
+  searchRecordsByName, 
+  sortRecordsByNameAsc, 
+  sortRecordsByNameDesc, 
+  sortRecordsByDateAsc, 
+  sortRecordsByDateDesc,
+} = recordsSlice.actions;
 
-export const selectAllRecords = (state) => state.records;
+export const selectAllRecords = (state) => state.records.records;
 
 
 export default recordsSlice.reducer;
