@@ -21,12 +21,13 @@ export const addNewProject = createAsyncThunk(
   });
 
 export const deleteProject = createAsyncThunk(
-  "projects/deleteProject", async (id) => {
+  "projects/deleteProject", async (id, thunkAPI) => {
     await axiosInstance.delete("api/project", {
       params: {
         projectId: id
       }
-    }).then(() => console.log("Delete successfully"));
+    });
+    thunkAPI.dispatch(fetchProjects());
   });
 
 export const addUserListToProject = createAsyncThunk(
@@ -82,6 +83,5 @@ export const projectsSlice = createSlice({
 export const { searchProjectsByTitle, sortProjectsByDateAsc, sortProjectsByDateDesc } = projectsSlice.actions;
 
 export const selectAllProjects = state => state.projects.projects;
-export const filteredProjects = state => state.projects.filteredProjects;
 
 export default projectsSlice.reducer;

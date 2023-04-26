@@ -16,7 +16,7 @@ import { ReactComponent as CancelIcon } from "../../../../assets/icons/cancel.sv
 import { Controls } from "../../../controls/Controls";
 import { UserCard } from "../../UsersPage/components/UserCard";
 import { FileItem } from "../../../upload/FileItem";
-import { uploadFileService } from "../../../../services/filesSlice";
+import { selectAllFiles, uploadFileService } from "../../../../services/filesSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { fileExtensions } from "../../../../constants/fileExtensions";
 import { addUserListToProject, deleteUserFromProject } from "../../../../services/projectsSlice";
@@ -45,10 +45,6 @@ function ChildModal(props) {
   const [checked, setChecked] = useState([]);
   const [usersAddToProject, setUsersAddToProject] = useState([]);
 
-  useEffect(() => {
-    dispatch(fetchUsers());
-  }, [open]);
-  
   const handleOpen = () => {
     setOpen(true);
   };
@@ -149,19 +145,20 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export function ProjectModal(props) {
-  const { files, project, ...other } =  props;
+  const { project, onClose } =  props;
   const [value, setValue] = useState(project.project.title);
   const [selectedFile, setSelectedFile] = useState(null);
   const dispatch = useDispatch();
   const projectId = project.project.id;
   const uploadInputRef = useRef(null);
   const users = useSelector(selectAllUsers);
+  const files = useSelector(selectAllFiles);
   const projectUsers = users.filter(user => user.projects.every(project => project.id !== projectId));
   
   useEffect(() => {
     dispatch(fetchUsers());
   }, [project])
-  
+
   const handleChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
@@ -244,9 +241,9 @@ export function ProjectModal(props) {
               <Item>
                 <span>Файлы</span>
                 <List style={{ height: "150px", overflowY: "auto", overflowX: "hidden" }}>
-                  {(files === undefined)
+                  {(project.project.items === undefined)
                     ? ""
-                    : (files.map(file => <FileItem key={file.id} file={file} />))}
+                    : (project.project.items.map(file => <FileItem key={file.id} file={file} />))}
                 </List>
                 <>
                   <input
@@ -281,8 +278,12 @@ export function ProjectModal(props) {
           <Grid style={{ marginTop: "100px" }} container>
             <Grid item xs={10}>
               <Controls.Button
-              >Сохранить</Controls.Button>
-              <Controls.Button>Отменить</Controls.Button>
+              >Сохранить
+              </Controls.Button>
+              <Controls.Button
+              onClick={onClose}
+              >Отменить
+              </Controls.Button>
             </Grid>
             <Grid item xs={2}>
               <Controls.Button startIcon={<TrashIcon />}>В архив</Controls.Button>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./ProjectCard.css";
 import { Controls } from "../../../controls/Controls";
 import { Grid, IconButton, MenuItem } from "@mui/material";
@@ -7,8 +7,7 @@ import { ReactComponent as TrashIcon } from "../../../../assets/icons/trashcan.s
 import { ReactComponent as EditIcon } from "../../../../assets/icons/edit.svg";
 import Menu from "@mui/material/Menu";
 import { ProjectModal } from "./ProjectModal";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchFiles, selectAllFiles } from "../../../../services/filesSlice";
+import { useDispatch } from "react-redux";
 import Dialog from "@mui/material/Dialog";
 import { deleteProject } from "../../../../services/projectsSlice";
 import { formatDate } from "../utils/formatDate";
@@ -19,17 +18,12 @@ export const ProjectCard = (project) => {
   const [openDialog, setOpenDialog] = useState(false);
   const dispatch = useDispatch();
   const isMenuOpen = Boolean(anchorEl);
-  const files = useSelector(selectAllFiles);
   const projectId = project.project.id;
 
   const handleOpenModal = () => {
     setAnchorEl(null);
     setOpenModal(true);
   };
-
-  useEffect(() => {
-    dispatch(fetchFiles(projectId));
-  }, [openModal]);
 
   const handleCloseModal = () => {
     setOpenModal(false);
@@ -54,6 +48,10 @@ export const ProjectCard = (project) => {
 
   function handleDeleteProject() {
     dispatch(deleteProject(projectId));
+  }
+  
+  const optimizeTitle = (title) => {
+      return title.slice(0, 20) + "...";
   }
 
   const renderMenu = (
@@ -114,7 +112,9 @@ export const ProjectCard = (project) => {
   return (
     <div className="project-card">
       <div className="project-title-container">
-        <span className="project-title">{project.project.title}</span>
+        <span className="project-title">
+          {project.project.title.length > 20 ? optimizeTitle(project.project.title) : project.project.title}
+        </span>
         <div>
           <IconButton
             onClick={handleMenuOpen}
@@ -126,7 +126,7 @@ export const ProjectCard = (project) => {
         {deleteDialog}
       </div>
       <ProjectModal
-        files={files}
+        // files={project.project.items}
         project={project}
         open={openModal}
         onClose={handleCloseModal}
