@@ -7,20 +7,11 @@ import { Users } from "./components/pages/UsersPage/Users";
 import { Projects } from "./components/pages/ProjectsPage/Projects";
 import { Records } from "./components/pages/RecordsPage/Records";
 import { LoginPage } from "./components/pages/LoginPage/LoginPage";
-import { UserDetailPage } from "./components/pages/UsersPage/components/UserDetailPage";
 import { ProfilePage } from "./components/pages/ProfilePage/ProfilePage";
-import { RecordDetailPage } from "./components/pages/RecordsPage/components/RecordDetailPage";
 import { RequireAuth } from "./components/RequireAuth/RequireAuth";
 import { AdminPage } from "./components/pages/AdminPage/AdminPage";
 import { Layout } from "./components/layout/Layout";
-import { ProjectCreatePage } from "./components/pages/ProjectsPage/components/ProjectCreatePage";
-import { TemplateCreatePage } from "./components/pages/TemplatePage/TemplateCreatePage";
-import { RecordCreatePage } from "./components/pages/RecordsPage/components/RecordCreatePage";
-import { FilesPage } from "./components/pages/FilesPage/FilesPage";
 import { NotFoundPage } from "./components/pages/NotFoundPage/NotFoundPage";
-import { UserCreatePage } from "./components/pages/UsersPage/components/UserCreatePage";
-import { UserEditPage } from "./components/pages/UsersPage/components/UserEditPage";
-import { RecordEditPage } from "./components/pages/RecordsPage/components/RecordEditPage";
 import ViewerIfc from "./components/pages/FilesPage/ViewerIfc";
 import IfcComponent from "./components/ifc/IfcComponent";
 import { Models } from "./components/pages/ModelPage/Models";
@@ -47,31 +38,14 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route element={<RequireAuth />}>
               <Route index element={<Home />} />
-
               <Route path="/users" element={<Users />} />
-              <Route path="/user/:id" element={<UserDetailPage />} />
-              <Route path="/user/:id/edit" element={<UserEditPage />} />
-              <Route path="/user/create" element={<UserCreatePage />} />
-
               <Route path="/roles" element={<Roles />} />
-
               <Route path="/projects" element={<Projects />} />
-              <Route path="/project/:id/files" element={<FilesPage />} />
-              <Route path="/project/create" element={<ProjectCreatePage />} />
-
               <Route path="/records" element={<Records />} />
-              <Route path="/record/:id" element={<RecordDetailPage />} />
-              <Route path="/record/:id/edit" element={<RecordEditPage />} />
-              <Route path="/record/create" element={<RecordCreatePage />} />
-
               <Route path="/models" element={<Models />} />
-              
               <Route path="/templates" element={<Templates />} />
-
-              <Route path="/template/create" element={<TemplateCreatePage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/admin" element={<AdminPage />} />
-
               <Route path="/ifc" element={<ViewerIfc />} />
               <Route path="/ifcViewer" element={<IfcComponent />} />
             </Route>

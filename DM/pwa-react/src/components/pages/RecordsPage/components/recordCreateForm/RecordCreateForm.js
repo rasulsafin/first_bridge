@@ -4,7 +4,7 @@ import { RecordInputDropdownForm } from "./RecordInputDropdownForm";
 import { RecordInputTextForm } from "./RecordInputTextForm";
 import { Controls } from "../../../../controls/Controls";
 import { useDispatch, useSelector } from "react-redux";
-import { addNewRecord, setRecord } from "../../../../../services/recordsSlice";
+import { addNewRecord } from "../../../../../services/recordsSlice";
 import { useNavigate } from "react-router";
 import { Button } from "@mui/material";
 import * as React from "react";
@@ -31,11 +31,11 @@ export const RecordCreateForm = (props) => {
       };
     }
 
-    dispatch(setRecord({
-      name: templateForm.name,
-      projectId: projectId,
-      fields: data
-    }));
+    // dispatch(setRecord({
+    //   name: templateForm.name,
+    //   projectId: projectId,
+    //   fields: data
+    // }));
     
     console.log("data", data)
 
