@@ -6,7 +6,6 @@ import * as React from "react";
 import { fetchRecordTemplates, selectAllRecordTemplates } from "../../../../services/recordTemplatesSlice";
 import { useForm } from "react-hook-form";
 import { addNewRecord } from "../../../../services/recordsSlice";
-import { BiArrowBack } from "react-icons/bi";
 import { useLocation, useNavigate } from "react-router";
 import { maxNumberOfFields } from "../../../../constants/recordFields";
 import { RecordCreateForm } from "./recordCreateForm/RecordCreateForm";
@@ -127,7 +126,6 @@ export const RecordCreatePage = () => {
     <div className="component-container">
       <Toolbar>
         <Controls.Button onClick={goBack}>
-          <BiArrowBack size={24} color="#1d62ad" />
         </Controls.Button>
       </Toolbar>
       <hr />

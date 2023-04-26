@@ -7,7 +7,6 @@ import { addNewTemplate } from "../../../services/recordTemplatesSlice";
 import { selectAllProjects } from "../../../services/projectsSlice";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router";
-import { TiDeleteOutline } from "react-icons/ti";
 import { TemplateEnumForm } from "./TemplateEnumForm";
 import { TemplateInputForm } from "./TemplateInputForm";
 import { TemplateLinkForm } from "./TemplateLinkForm";
@@ -105,11 +104,9 @@ export function TemplateCreateForm() {
                     minWidth: 0,
                     padding: 0
                   }}
+                  onClick={() => handleRemoveClick(i)}
                 >
-                  <TiDeleteOutline
-                    size={25}
-                    color="#dc143c"
-                    onClick={() => handleRemoveClick(i)}
+                 x
                   />
                 </Button>
               </>}

@@ -1,5 +1,4 @@
 import { Toolbar } from "@mui/material";
-import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router";
 import { Controls } from "../../../controls/Controls";
@@ -26,7 +25,6 @@ export const UserEditPage = () => {
     <div>
       <Toolbar>
         <Controls.Button onClick={goBack}>
-          <BiArrowBack size={24} color="#1d62ad" />
         </Controls.Button>
       </Toolbar>
       <hr />

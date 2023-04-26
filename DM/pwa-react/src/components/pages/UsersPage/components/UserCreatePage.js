@@ -2,7 +2,6 @@ import { Controls } from "../../../controls/Controls";
 import { Toolbar } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { BiArrowBack } from "react-icons/bi";
 import { addNewUser } from "../../../../services/usersSlice";
 import * as React from "react";
 import UserForm from "./UserForm";
@@ -22,7 +21,6 @@ export const UserCreatePage = () => {
     <div>
       <Toolbar>
         <Controls.Button onClick={goBack}>
-          <BiArrowBack size={24} color="#1d62ad" />
         </Controls.Button>
       </Toolbar>
       <hr />

@@ -6,7 +6,6 @@ import { Controls } from "../../../controls/Controls";
 import { useState } from "react";
 import ProjectsPermissionsGrid from "../../AdminPage/ProjectsPermissionsGrid";
 import { Button, DialogContentText, Toolbar } from "@mui/material";
-import { BiArrowBack } from "react-icons/bi";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -72,7 +71,6 @@ export const UserDetailPage = () => {
     <div>
       <Toolbar>
         <Controls.Button onClick={goBack}>
-          <BiArrowBack size={24} color="#1d62ad" />
         </Controls.Button>
         <Controls.Button onClick={handleToEditPage}>Edit user</Controls.Button>
         <Controls.Button color="error" onClick={handleClickOpen}>Delete user</Controls.Button>

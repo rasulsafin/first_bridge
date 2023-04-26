@@ -2,7 +2,6 @@ import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteRecord, selectAllRecords } from "../../../../services/recordsSlice";
 import { Button, DialogContentText, Toolbar } from "@mui/material";
-import { BiArrowBack } from "react-icons/bi";
 import * as React from "react";
 import { Controls } from "../../../controls/Controls";
 import { useState } from "react";
@@ -49,7 +48,7 @@ export const RecordDetailPage = () => {
     <div>
       <Toolbar>
         <Button className="ml-o m-3" onClick={goBack} size="small" variant="outlined">
-          <BiArrowBack size={24} color="#1d62ad" /></Button>
+        </Button>
         <Button className="m-3" size="small" variant="outlined" onClick={handleToRecordEditPage}>Edit record</Button>
         <Button className="m-3" size="small" variant="outlined" color="error" onClick={handleClickOpen}>Delete
           record</Button>

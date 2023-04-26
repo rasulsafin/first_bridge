@@ -3,7 +3,6 @@ import { Toolbar } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { addNewProject } from "../../../../services/projectsSlice";
 import { useNavigate } from "react-router-dom";
-import { BiArrowBack } from "react-icons/bi";
 import CreateProjectForm from "./ProjectForm";
 
 export const ProjectCreatePage = () => {
@@ -21,7 +20,6 @@ export const ProjectCreatePage = () => {
     <div>
       <Toolbar>
         <Controls.Button onClick={goBack}>
-          <BiArrowBack size={24} color="#1d62ad" />
         </Controls.Button>
       </Toolbar>
       <hr />

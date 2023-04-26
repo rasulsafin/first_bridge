@@ -2,7 +2,6 @@ import { Toolbar } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as React from "react";
-import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from "react-router";
 import { fetchFiles, selectAllFiles } from "../../../services/filesSlice";
 import { UploadFile } from "../../upload/UploadFile";
@@ -26,7 +25,7 @@ export const FilesPage = () => {
     <div className="component-container">
       <Toolbar>
         <Controls.Button onClick={goBack} size="small" variant="outlined">
-          <BiArrowBack size={24} color="#1d62ad" /></Controls.Button>
+        </Controls.Button>
       </Toolbar>
       <hr />
       <h3>Files</h3>
