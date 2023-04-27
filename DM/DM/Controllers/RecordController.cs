@@ -49,7 +49,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionType.Record);
+                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionEnum.Record);
 
                 if (!permission) return StatusCode(403);
 
@@ -78,7 +78,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionType.Record);
+                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionEnum.Record);
 
                 if (!permission) return StatusCode(403);
 
@@ -111,7 +111,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionType.Record);
+                var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionEnum.Record);
 
                 if (!permission) return StatusCode(403);
 
@@ -140,7 +140,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionType.Record);
+                var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionEnum.Record);
 
                 if (!permission) return StatusCode(403);
 
@@ -171,7 +171,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionType.Record);
+                var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionEnum.Record);
 
                 if (!permission) return StatusCode(403);
 

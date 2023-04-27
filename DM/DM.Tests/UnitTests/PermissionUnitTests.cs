@@ -20,13 +20,13 @@ namespace DM.Tests.UnitTests
 
         private readonly List<PermissionModel> permissions = new List<PermissionModel>
         {
-            new PermissionModel { Id=1, RoleId = 1, Type = PermissionType.Project, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
-            new PermissionModel { Id=2, RoleId = 1, Type = PermissionType.Role, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
-            new PermissionModel { Id=3, RoleId = 1, Type = PermissionType.Organization, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
-            new PermissionModel { Id=4, RoleId = 1, Type = PermissionType.Template, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
-            new PermissionModel { Id=5, RoleId = 1, Type = PermissionType.Record, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
-            new PermissionModel { Id=6, RoleId = 1, Type = PermissionType.Item, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
-            new PermissionModel { Id=7, RoleId = 1, Type = PermissionType.User, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
+            new PermissionModel { Id=1, RoleId = 1, Type = PermissionEnum.Project, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
+            new PermissionModel { Id=2, RoleId = 1, Type = PermissionEnum.Role, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
+            new PermissionModel { Id=3, RoleId = 1, Type = PermissionEnum.Organization, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
+            new PermissionModel { Id=4, RoleId = 1, Type = PermissionEnum.Template, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
+            new PermissionModel { Id=5, RoleId = 1, Type = PermissionEnum.Record, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
+            new PermissionModel { Id=6, RoleId = 1, Type = PermissionEnum.Item, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
+            new PermissionModel { Id=7, RoleId = 1, Type = PermissionEnum.User, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
         };
 
         #region CreatePermissionReturnsOkPositiveTesting
@@ -43,7 +43,7 @@ namespace DM.Tests.UnitTests
                 Delete = true,
                 Read = true,
                 Update = true,
-                Type = PermissionType.Item,
+                Type = PermissionEnum.Item,
                 RoleId = 1
             };
             permissionListResult.Add(permissionForResult);

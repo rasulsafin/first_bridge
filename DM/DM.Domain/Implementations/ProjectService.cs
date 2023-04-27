@@ -32,7 +32,7 @@ namespace DM.Domain.Implementations
         public async Task<List<ProjectForReadModel>> GetAll()
         {
             var projects = await _context.Projects
-                .Include(x => x.Template)
+                .Include(x => x.Templates)
                 .Include(x => x.Items)
                 .Include(x => x.UserProjects).ThenInclude(y => y.User)
                 .OrderBy(x => x.IsInArchive)
@@ -44,7 +44,7 @@ namespace DM.Domain.Implementations
         public async Task<ProjectForReadModel> GetById(long projectId)
         {
             var project = await _context.Projects
-                .Include(x => x.Template)
+                .Include(x => x.Templates)
                 .Include(x => x.Items)
                 .Include(x => x.UserProjects).ThenInclude(y => y.User)
                 .FirstOrDefaultAsync(x => x.Id == projectId);
@@ -95,7 +95,7 @@ namespace DM.Domain.Implementations
             var result = await _context.Projects
                 .Include(x => x.Items)
                 .Include(x => x.Records)
-                .Include(x => x.Template)
+                .Include(x => x.Templates)
                 .FirstOrDefaultAsync(x => x.Id == projectId);
 
             if (result == null) return false;

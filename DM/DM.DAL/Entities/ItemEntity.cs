@@ -13,6 +13,7 @@ namespace DM.DAL.Entities
         public string Name { get; set; }
         [Required]
         public string RelativePath { get; set; }
+
         [Required]
         public long ProjectId { get; set; }
         public ProjectEntity Project { get; set; }

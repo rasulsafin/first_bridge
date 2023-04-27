@@ -1,10 +1,12 @@
-﻿using DM.Domain.Models;
+﻿using System.Threading.Tasks;
+
+using DM.Domain.Models;
 
 namespace DM.Domain.Interfaces
 {
     public interface IListFieldService
     {
-        public bool Delete(long id);
-        public bool Create(ListFieldModel listFieldModel);
+        public Task<bool> Delete(long id);
+        public Task<bool> Create(ListFieldModel listFieldModel);
     }
 }

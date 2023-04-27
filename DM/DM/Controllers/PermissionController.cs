@@ -52,7 +52,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionType.Role);
+                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionEnum.Role);
 
                 if (!permission) return StatusCode(403);
 
@@ -85,7 +85,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionType.Role);
+                var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionEnum.Role);
 
                 if (!permission) return StatusCode(403);
 

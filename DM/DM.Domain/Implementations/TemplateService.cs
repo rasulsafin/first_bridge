@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 
@@ -6,13 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 using AutoMapper;
-
-using DM.Domain.Interfaces;
 using DM.Domain.Models;
+using DM.Domain.Interfaces;
 
-using DM.DAL.Entities;
 using DM.DAL;
-using System;
+using DM.DAL.Entities;
 
 namespace DM.Domain.Implementations
 {
@@ -53,14 +53,14 @@ namespace DM.Domain.Implementations
             return _mapper.Map<TemplateModel>(template);
         }
 
-        public async Task<bool> Create(TemplateModel templateModel)
+        public async Task<bool> Create(TemplateForCreateModel templateForCreateModel)
         {
-            var template = _mapper.Map<TemplateEntity>(new TemplateModel
+            var template = _mapper.Map<TemplateEntity>(new TemplateForCreateModel
             {
-                Name = templateModel.Name,
-                ProjectId = templateModel.ProjectId,
-                Fields = templateModel.Fields.ToList(),
-                ListFields = templateModel.ListFields.ToList()
+                Name = templateForCreateModel.Name,
+                ProjectId = templateForCreateModel.ProjectId,
+                Fields = templateForCreateModel.Fields.ToList(),
+                ListFields = templateForCreateModel.ListFields.ToList()
             });
 
             _context.Template.Add(template);

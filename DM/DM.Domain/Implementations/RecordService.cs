@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 
@@ -11,7 +12,6 @@ using DM.Domain.Models;
 
 using DM.DAL.Entities;
 using DM.DAL;
-using System;
 
 namespace DM.Domain.Implementations
 {
@@ -114,7 +114,9 @@ namespace DM.Domain.Implementations
 
             if (result == null) return false;
 
-            _context.Records.Remove(result);
+            result.IsInArchive = true;
+
+            _context.Records.Update(result);
 
             await _context.SaveChangesAsync();
 

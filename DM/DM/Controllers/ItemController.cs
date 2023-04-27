@@ -136,7 +136,7 @@ namespace DM.Controllers
         [HttpPost, DisableRequestSizeLimit, Route("file")]
         public async Task<IActionResult> Post(long project, IFormFile file)
         {
-            var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionType.Item);
+            var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionEnum.Item);
 
             if (!permission) return StatusCode(403);
 

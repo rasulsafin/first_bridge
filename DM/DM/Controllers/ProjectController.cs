@@ -53,7 +53,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionType.Project);
+                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionEnum.Project);
 
                 if (!permission) return StatusCode(403);
 
@@ -82,7 +82,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionType.Project);
+                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionEnum.Project);
 
                 if (!permission) return StatusCode(403);
 
@@ -116,7 +116,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionType.Project);
+                var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionEnum.Project);
 
                 if (!permission) return StatusCode(403);
 
@@ -143,7 +143,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionType.Project);
+                var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionEnum.Project);
 
                 if (!permission) return StatusCode(403);
 
@@ -172,7 +172,7 @@ namespace DM.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(long projectId)
         {
-            var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionType.Project);
+            var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionEnum.Project);
 
             if (!permission) return StatusCode(403);
 
@@ -197,7 +197,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionType.User);
+                var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionEnum.User);
 
                 if (!permission) return BadRequest(403);
 
@@ -229,7 +229,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionType.User);
+                var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionEnum.User);
 
                 if (!permission) return BadRequest(403);
 
@@ -262,7 +262,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionType.User);
+                var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionEnum.User);
 
                 if (!permission) return BadRequest(403);
 

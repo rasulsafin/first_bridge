@@ -26,7 +26,7 @@ namespace DM.Domain.Implementations
             _currentUser = userService.CurrentUser;
         }
 
-        public bool Create(FieldModel fieldModel)
+        public async Task<bool> Create(FieldModel fieldModel)
         {
             var field = _mapper.Map<FieldEntity>(new FieldModel
             {
@@ -38,14 +38,14 @@ namespace DM.Domain.Implementations
                 TemplateId = fieldModel.TemplateId == 0 ? null : fieldModel.TemplateId,
             });
 
-            _context.Field.AddAsync(field);
+            _context.Field.Add(field);
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return true;
         }
 
-        public bool Create(ListFieldModel listFieldModel)
+        public async Task<bool> Create(ListFieldModel listFieldModel)
         {
             var ListField = _mapper.Map<ListFieldEntity>(new ListFieldModel
             {
@@ -57,14 +57,14 @@ namespace DM.Domain.Implementations
                 TemplateId = listFieldModel.TemplateId == 0 ? null : listFieldModel.TemplateId,
             });
 
-            _context.ListField.AddAsync(ListField);
+            _context.ListField.Add(ListField);
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return true;
         }
 
-        bool IFieldService.Delete(long id)
+        async Task<bool> IFieldService.Delete(long id)
         {
             var field = _context.Field.Where(x => x.Id == id).FirstOrDefault();
 
@@ -72,12 +72,12 @@ namespace DM.Domain.Implementations
 
             _context.Field.Remove(field);
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return true;
         }
 
-        bool IListFieldService.Delete(long id)
+        async Task<bool> IListFieldService.Delete(long id)
         {
             var listField = _context.ListField.Where(x => x.Id == id).FirstOrDefault();
 
@@ -85,7 +85,7 @@ namespace DM.Domain.Implementations
 
             _context.ListField.Remove(listField);
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return true;
         }

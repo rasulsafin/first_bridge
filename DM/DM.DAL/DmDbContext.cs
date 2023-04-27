@@ -20,9 +20,12 @@ namespace DM.DAL
         //public DbSet<ObjectiveEntity> Objective { get; set; }
         public DbSet<ProjectEntity> Projects { get; set; }
         public DbSet<RecordEntity> Records { get; set; }
+        public DbSet<DocumentEntity> Documents { get; set; }
         public DbSet<UserProjectEntity> UsersProjects { get; set; }
         public DbSet<ItemEntity> Items { get; set; }
         public DbSet<TemplateEntity> Template { get; set; }
+        //public DbSet<RecordTemplateEntity> RecordTemplate { get; set; }
+        //public DbSet<DocumentTemplateEntity> DocumentTemplate { get; set; }
         public DbSet<OrganizationEntity> Organization { get; set; }
         public DbSet<PermissionEntity> Permissions { get; set; }
         public DbSet<CommentEntity> Comments { get; set; }
@@ -217,7 +220,7 @@ namespace DM.DAL
                 {
                     Id = 1,
                     Name = "Status",
-                    Type = FieldType.List,
+                    Type = FieldEnum.List,
                     IsMandatory = true,
                     CreatedAt = DateTime.Now,
                     TemplateId = 1
@@ -227,7 +230,7 @@ namespace DM.DAL
                 {
                     Id = 2,
                     Name = "Type",
-                    Type = FieldType.List,
+                    Type = FieldEnum.List,
                     IsMandatory = false,
                     CreatedAt = DateTime.Now,
                     RecordId = 1
@@ -237,7 +240,7 @@ namespace DM.DAL
                 {
                     Id = 3,
                     Name = "Type",
-                    Type = FieldType.List,
+                    Type = FieldEnum.List,
                     IsMandatory = false,
                     CreatedAt = DateTime.Now,
                     RecordId = 2
@@ -300,7 +303,7 @@ namespace DM.DAL
                 {
                     Id = 1,
                     RoleId = 1,
-                    Type = PermissionType.Project,
+                    Type = PermissionEnum.Project,
                     Create = true,
                     Read = true,
                     Update = true,
@@ -312,7 +315,7 @@ namespace DM.DAL
                 {
                     Id = 7,
                     RoleId = 1,
-                    Type = PermissionType.User,
+                    Type = PermissionEnum.User,
                     Create = true,
                     Read = true,
                     Update = true,
@@ -324,7 +327,7 @@ namespace DM.DAL
                 {
                     Id = 2,
                     RoleId = 1,
-                    Type = PermissionType.Project,
+                    Type = PermissionEnum.Project,
                     Create = true,
                     Read = true,
                     Update = true,
@@ -336,7 +339,7 @@ namespace DM.DAL
                 {
                     Id = 3,
                     RoleId = 2,
-                    Type = PermissionType.Project,
+                    Type = PermissionEnum.Project,
                     Create = true,
                     Read = true,
                     Update = true,
@@ -348,7 +351,7 @@ namespace DM.DAL
                 {
                     Id = 4,
                     RoleId = 2,
-                    Type = PermissionType.Project,
+                    Type = PermissionEnum.Project,
                     Create = true,
                     Read = true,
                     Update = true,
@@ -360,7 +363,7 @@ namespace DM.DAL
                 {
                     Id = 5,
                     RoleId = 1,
-                    Type = PermissionType.Record,
+                    Type = PermissionEnum.Record,
                     Create = true,
                     Read = true,
                     Update = true,
@@ -372,7 +375,7 @@ namespace DM.DAL
                 {
                     Id = 6,
                     RoleId = 1,
-                    Type = PermissionType.Template,
+                    Type = PermissionEnum.Template,
                     Create = true,
                     Read = true,
                     Update = true,
@@ -384,7 +387,7 @@ namespace DM.DAL
                 {
                     Id = 8,
                     RoleId = 1,
-                    Type = PermissionType.Role,
+                    Type = PermissionEnum.Role,
                     Create = true,
                     Read = true,
                     Update = true,
@@ -408,7 +411,7 @@ namespace DM.DAL
                 {
                     Id = 1,
                     Name = "Description",
-                    Type = FieldType.Text,
+                    Type = FieldEnum.Text,
                     IsMandatory = true,
                     Data = "Editable description",
                     CreatedAt = DateTime.Now,
@@ -419,7 +422,7 @@ namespace DM.DAL
                 {
                     Id = 2,
                     Name = "Employee",
-                    Type = FieldType.Text,
+                    Type = FieldEnum.Text,
                     IsMandatory = true,
                     Data = "Editable Employee",
                     CreatedAt = DateTime.Now,
@@ -430,7 +433,7 @@ namespace DM.DAL
                 {
                     Id = 3,
                     Name = "Description",
-                    Type = FieldType.Text,
+                    Type = FieldEnum.Text,
                     IsMandatory = true,
                     Data = "Editable description",
                     CreatedAt = DateTime.Now,
@@ -441,7 +444,7 @@ namespace DM.DAL
                 {
                     Id = 4,
                     Name = "Estimate",
-                    Type = FieldType.Text,
+                    Type = FieldEnum.Text,
                     IsMandatory = true,
                     Data = "Editable Estimate",
                     CreatedAt = DateTime.Now,

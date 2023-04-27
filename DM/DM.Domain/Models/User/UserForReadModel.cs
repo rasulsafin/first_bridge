@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace DM.Domain.Models
 {
     public class UserForReadModel : UserModel
     {
+        public List<int> ProjectsIds { get; set; }
         public List<ProjectModel> Projects { get; set; }
     }
 }
