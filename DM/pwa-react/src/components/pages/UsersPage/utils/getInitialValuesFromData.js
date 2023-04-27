@@ -7,8 +7,6 @@ export const getInitialValuesFromData = (user) => {
     email: user.email ?? "",
     password: user.password ?? "",
     roles: user.roles ?? "",
-    birthdate: user.birthdate ?? "",
-    snils: user.snils ?? "",
     position: user.position ?? "",
     organizationId: user.organizationId ?? ""
   };

@@ -7,8 +7,6 @@ export const getInitialValues = () => {
     email: "",
     password: "",
     roles: "",
-    birthdate: "",
-    snils: "",
     position: "",
     organizationId: ""
   };
