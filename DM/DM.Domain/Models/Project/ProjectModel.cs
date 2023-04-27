@@ -4,6 +4,7 @@
     {
         public string Title { get; set; }
         public bool IsInArchive { get; set; }
+
         public long OrganizationId { get; set; }
 
         public ProjectModel()

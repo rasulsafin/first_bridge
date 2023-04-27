@@ -11,8 +11,6 @@ namespace DM.DAL.Entities
         public string Name { get; set; }
         public string Description { get; set; }
 
-        [NotMapped]
-        public List<int> PermissionIds { get; set; }
         public List<PermissionEntity> Permissions { get; set; }
     }
 }

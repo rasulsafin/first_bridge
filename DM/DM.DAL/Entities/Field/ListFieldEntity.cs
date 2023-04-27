@@ -11,15 +11,16 @@ namespace DM.DAL.Entities
     {
         [Required]
         public string Name { get; set; }
-        public FieldType Type { get; set; } = FieldType.List;
-        public bool IsMandatory { get; set; } = false;
+        public bool IsMandatory { get; set; }
 
-        public List<ListEntity> Lists { get; set; }
+        public FieldEnum Type { get; set; }
 
         public long? TemplateId { get; set; }
         public TemplateEntity Template { get; set; }
 
         public long? RecordId { get; set; }
         public RecordEntity Record { get; set; }
+
+        public List<ListEntity> Lists { get; set; }
     }
 }

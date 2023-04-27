@@ -32,15 +32,9 @@ namespace DM.Domain.Helpers
         {
             byte[] buffer4;
 
-            if (hashedPassword == null)
-            {
-                return false;
-            }
+            if (hashedPassword == null) return false;
 
-            if (password == null)
-            {
-                throw new ArgumentNullException("password");
-            }
+            if (password == null) return false;
 
             byte[] src = Convert.FromBase64String(hashedPassword);
 
@@ -63,7 +57,7 @@ namespace DM.Domain.Helpers
             return ByteArrayCompare(buffer3, buffer4);
         }
 
-        static bool ByteArrayCompare(byte[] a1, byte[] a2)
+        private static bool ByteArrayCompare(byte[] a1, byte[] a2)
         {
             if (a1.Length != a2.Length)
                 return false;

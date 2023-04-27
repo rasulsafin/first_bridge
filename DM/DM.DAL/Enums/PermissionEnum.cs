@@ -1,6 +1,6 @@
 ﻿namespace DM.DAL.Enums
 {
-    public enum PermissionType
+    public enum PermissionEnum
     {
         Project = 1,
         Item = 2,

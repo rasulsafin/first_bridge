@@ -10,9 +10,10 @@ namespace DM.DAL.Entities
     {
         [Required]
         public string Name { get; set; }
-        public FieldType Type { get; set; } = FieldType.Text;
-        public bool IsMandatory { get; set; } = false;
         public string Data { get; set; }
+        public bool IsMandatory { get; set; }
+
+        public FieldEnum Type { get; set; }
 
         public long? TemplateId { get; set; }
         public TemplateEntity Template { get; set; }

@@ -10,8 +10,9 @@ namespace DM.Domain.Models
         public string Login { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public long RoleId { get; set; }
         public string Position { get; set; }
+
+        public long RoleId { get; set; }
         public long OrganizationId { get; set; }
     }
 }

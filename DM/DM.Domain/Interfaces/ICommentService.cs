@@ -8,7 +8,7 @@ namespace DM.Domain.Interfaces
     {
      //   public List<CommentModel> GetAllCommentsOfRecord(long recordId);
         public Task<long> Create(CommentModel commentModel);
-        public Task<bool> Update(CommentModelForUpdate commentModel);
+        public Task<bool> Update(CommentForUpdateModel commentModel);
         public Task<bool> Delete(long commentId);
     }
 }

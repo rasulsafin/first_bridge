@@ -2,12 +2,11 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-
-using DM.Domain.Interfaces;
 using DM.Domain.Implementations;
 using DM.Domain.Helpers;
 using DM.Domain.Models;
 using DM.Domain.Exceptions;
+using DM.Domain.Interfaces;
 
 using DM.DAL;
 using DM.DAL.Enums;
@@ -53,7 +52,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionType.Template);
+                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionEnum.Template);
 
                 if (!permission) return StatusCode(403);
 
@@ -76,23 +75,23 @@ namespace DM.Controllers
         /// <summary>
         /// Create new template.
         /// </summary>
-        /// <param name="templateModel"></param>
+        /// <param name="templateForCreateModel"></param>
         /// <returns>Boolean value about function execution.</returns>        
         /// <response code="200">Template created.</response>
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while adding template.</response>
         [HttpPost]
-        public IActionResult AddTemplateToProject(TemplateModel templateModel)
+        public IActionResult AddTemplateToProject(TemplateForCreateModel templateForCreateModel)
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionType.Template);
+                var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionEnum.Template);
 
                 if (!permission) return StatusCode(403);
 
-                if (templateModel == null) return NotFound();
+                if (templateForCreateModel == null) return NotFound();
 
-                var template = _templateService.Create(templateModel);
+                var template = _templateService.Create(templateForCreateModel);
 
                 return Ok(template);
             }
@@ -116,7 +115,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionType.Template);
+                var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionEnum.Template);
 
                 if (!permission) return StatusCode(403);
 

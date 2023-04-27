@@ -16,6 +16,8 @@ namespace DM.DAL.Entities
         public string FathersName { get; set; }
         [Required]
         public string Login { get; set; }
+        [Required]
+        [EmailAddress]
         public string Email { get; set; }
         [Required]
         public string Password { get; set; }
@@ -29,8 +31,6 @@ namespace DM.DAL.Entities
         public long OrganizationId { get; set; }
         public OrganizationEntity Organization { get; set; }
 
-        [NotMapped]
-        public List<int> UserProjectIds { get; set; }
         public List<UserProjectEntity> UserProjects { get; set; }
     }
 }

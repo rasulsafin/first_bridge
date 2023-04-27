@@ -51,6 +51,7 @@ namespace DM
             services.AddScoped<IFieldService, FieldService>();
             services.AddScoped<IListFieldService, FieldService>();
             services.AddScoped<IUserProjectService, UserProjectService>();
+            services.AddScoped<IDocumentService, DocumentService>();
             services.AddScoped<CurrentUserService>();
 
             services.AddDbContext<DmDbContext>(options =>

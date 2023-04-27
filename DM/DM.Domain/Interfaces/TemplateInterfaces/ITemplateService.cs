@@ -9,7 +9,7 @@ namespace DM.Domain.Interfaces
     {
         public Task<List<TemplateModel>> GetAllOfProject(long projectId);
         public Task<TemplateModel> GetById(long templateId);
-        public Task<bool> Create(TemplateModel templateModel);
+        public Task<bool> Create(TemplateForCreateModel templateModel);
         public Task<bool> Update(TemplateForUpdateModel templateModel);
     }
 }
