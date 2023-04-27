@@ -126,7 +126,6 @@ export const ProjectCard = (project) => {
         {deleteDialog}
       </div>
       <ProjectModal
-        // files={project.project.items}
         project={project}
         open={openModal}
         onClose={handleCloseModal}

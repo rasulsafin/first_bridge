@@ -1,4 +1,3 @@
-import { formatDate } from "./formatDate";
 
 export const getUpdateInputDataFromValues = (user) => {
   return {
@@ -10,10 +9,6 @@ export const getUpdateInputDataFromValues = (user) => {
     email: user.email ?? "",
     password: user.password ?? "",
     roles: user.roles ?? "",
-    // birthdate: user.birthdate ? formatDate(user.birthdate, "server")
-    //   : "",
-    // snils: user.snils ?? "",
     position: user.position ?? "",
-    // organizationId: user.organizationId ?? ""
   };
 };

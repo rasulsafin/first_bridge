@@ -1,5 +1,4 @@
 import { object, string } from "yup";
-import { RegExpress } from "./regularExpression";
 
 export const userValidationSchema = object({
   name: string()
@@ -22,9 +21,6 @@ export const userValidationSchema = object({
     .min(3, "description too short"),
   roles: string()
     .required("Please enter role"),
-  snils: string()
-    .required("Please enter snils"),
-    // .matches(RegExpress.snils, "format 000-000-000-00"),
   position: string()
     .required("Please enter position")
 });
