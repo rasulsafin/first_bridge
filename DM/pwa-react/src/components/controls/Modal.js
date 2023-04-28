@@ -1,5 +1,5 @@
-import React, { useRef, useState } from "react";
-import { Modal as MuiModal } from "@mui/material";
+import React from "react";
+import { List, Modal as MuiModal } from "@mui/material";
 import Box from "@mui/material/Box";
 import { Grid } from "@mui/material";
 import { Controls } from "./Controls";
@@ -21,43 +21,49 @@ const style = {
 };
 
 const Modal = (props) => {
-  
-const {titleModal, ...other} = props;
 
+  const { titleModal, ...other } = props;
 
   return (
     <div>
       <MuiModal
         {...props}
-        // aria-labelledby="parent-modal-title"
-        // aria-describedby="parent-modal-description"
       >
         <Box sx={{ ...style, width: "70%", height: "90%" }}>
           <h2 id="parent-modal-title" style={{ marginBottom: "30px" }}>{titleModal}</h2>
-          <Grid container>
-            <Grid item xs={12}>
-             
-            </Grid>
-          </Grid>
-          <Grid container>
-            <Grid item>
+          <Box style={{ height: "80%" }}>
+            <List style={{ height: "100%", overflow: "auto" }}>
               {props.children}
+            </List>
+          </Box>
+          <Box
+            m={1}
+            display="flex"
+            justifyContent="flex-end"
+            alignItems="flex-end"
+          >
+            <Grid container>
+              <Grid item xs={10}>
+                <Controls.Button
+                >Сохранить
+                </Controls.Button>
+                <Controls.Button>
+                  Отменить
+                </Controls.Button>
+              </Grid>
+              <Grid item xs={2}>
+                <Controls.Button
+                  startIcon={<TrashIcon />}
+                >
+                  В архив
+                </Controls.Button>
+              </Grid>
             </Grid>
-          </Grid>
-          <Grid style={{ marginTop: "100px" }} container>
-            <Grid item xs={10}>
-              <Controls.Button
-              >Сохранить</Controls.Button>
-              <Controls.Button>Отменить</Controls.Button>
-            </Grid>
-            <Grid item xs={2}>
-              <Controls.Button startIcon={<TrashIcon />}>В архив</Controls.Button>
-            </Grid>
-          </Grid>
+          </Box>
         </Box>
       </MuiModal>
     </div>
   );
-}
+};
 
 export default Modal;

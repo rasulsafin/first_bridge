@@ -20,6 +20,12 @@ export const addNewProject = createAsyncThunk(
     return response.data;
   });
 
+export const updateProject = createAsyncThunk(
+  "projects/updateProject", async (data, thunkAPI) => {
+    await axiosInstance.put("api/project", data);
+    thunkAPI.dispatch(fetchProjects());
+  });
+
 export const deleteProject = createAsyncThunk(
   "projects/deleteProject", async (id, thunkAPI) => {
     await axiosInstance.delete("api/project", {

@@ -51,14 +51,14 @@ function decodeIFCString(ifcString) {
         return resultString;
       }
   
-  // while (match) {
-  //
-  //
-  //   const unicodeChar = String.fromCharCode(parseInt(match[1], 16))
-  //   resultString = resultString.replace(match[0], unicodeChar)
-  //   match = ifcUnicodeRegEx.exec(ifcString)
-  // }
-  // return resultString
+  while (match) {
+
+
+    const unicodeChar = String.fromCharCode(parseInt(match[1], 16))
+    resultString = resultString.replace(match[0], unicodeChar)
+    match = ifcUnicodeRegEx.exec(ifcString)
+  }
+  return resultString
 }
 
 async function deref(ref, webIfc = null, indent='') {
