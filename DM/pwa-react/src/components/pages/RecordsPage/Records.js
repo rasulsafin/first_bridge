@@ -2,7 +2,7 @@ import { SearchBar } from "../../searchBar/SearchBar";
 import { Controls } from "../../controls/Controls";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   fetchRecords,
   searchRecordsByName,
@@ -20,6 +20,7 @@ import { ReactComponent as BurgerIcon } from "../../../assets/icons/burger.svg";
 export function Records() {
   const dispatch = useDispatch();
   const records = useSelector(selectAllRecords);
+  const [openModal, setModal] = useState(false);
 
   useEffect(() => {
     dispatch(fetchRecords());
@@ -37,13 +38,20 @@ export function Records() {
     dispatch(sortRecordsByDateDesc());
   };
 
-
   const handleSortByNameAsc = () => {
     dispatch(sortRecordsByNameAsc());
   };
 
   const handleSortByNameDesc = () => {
     dispatch(sortRecordsByNameDesc());
+  };
+
+  const handleModalOpen = () => {
+    setModal(true);
+  };
+
+  const handleModalClose = () => {
+    setModal(false);
   };
 
   const iconBurger = (
@@ -122,11 +130,22 @@ export function Records() {
       </div>
       <div>
       </div>
-        <List>
-          {records.map(record => <RecordCard key={record.id} record={record} />)}
-        </List>
+      <List>
+        {records.map(record => <RecordCard key={record.id} record={record} />)}
+      </List>
+      <Controls.Modal
+        titleModal={"TitleCreateModal"}
+        open={openModal}
+        onClose={handleModalClose}
+      >
+        <Grid container direction="column">
+          <Grid item>
+            test
+          </Grid>
+        </Grid>
+      </Controls.Modal>
       <Controls.RoundButton
-        // onClick={handleModalOpen}
+        onClick={handleModalOpen}
       >
       </Controls.RoundButton>
     </div>

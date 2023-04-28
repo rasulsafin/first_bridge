@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { 
+import {
   Grid,
   IconButton,
   List,
@@ -19,7 +19,7 @@ import { FileItem } from "../../../upload/FileItem";
 import { selectAllFiles, uploadFileService } from "../../../../services/filesSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { fileExtensions } from "../../../../constants/fileExtensions";
-import { addUserListToProject, deleteUserFromProject } from "../../../../services/projectsSlice";
+import { addUserListToProject, deleteUserFromProject, updateProject } from "../../../../services/projectsSlice";
 import { SearchAndSortUserToolbar } from "../../UsersPage/components/SearchAndSortUserToolbar";
 import { fetchUsers, selectAllUsers } from "../../../../services/usersSlice";
 
@@ -48,7 +48,7 @@ function ChildModal(props) {
   const handleOpen = () => {
     setOpen(true);
   };
-  
+
   const handleClose = () => {
     setOpen(false);
     setUsersAddToProject([]);
@@ -61,7 +61,7 @@ function ChildModal(props) {
 
     if (currentIndex === -1) {
       newChecked.push(user.id);
-      setUsersAddToProject(usersAddToProject => [...usersAddToProject, {userId: user.id, projectId}]);
+      setUsersAddToProject(usersAddToProject => [...usersAddToProject, { userId: user.id, projectId }]);
     } else {
       newChecked.splice(currentIndex, 1);
       setUsersAddToProject(usersAddToProject => usersAddToProject.filter(userProj => userProj.userId !== user.id));
@@ -69,13 +69,13 @@ function ChildModal(props) {
 
     setChecked(newChecked);
   };
-  
+
   const handleAddUsersToProject = () => {
-    dispatch(addUserListToProject(usersAddToProject))
+    dispatch(addUserListToProject(usersAddToProject));
     setOpen(false);
     setUsersAddToProject([]);
     setChecked([]);
-  }
+  };
 
   return (
     <>
@@ -112,7 +112,7 @@ function ChildModal(props) {
                     },
                     "&.Mui-selected:hover": {
                       backgroundColor: "#FFF"
-                    },
+                    }
                   }}
                   autoFocus={false}
                   onClick={() => handleToggle(user)}
@@ -145,8 +145,8 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export function ProjectModal(props) {
-  const { project, onClose } =  props;
-  const [value, setValue] = useState(project.project.title);
+  const { project, onClose } = props;
+  const [titleProject, setTitleProject] = useState(project.project.title);
   const [selectedFile, setSelectedFile] = useState(null);
   const dispatch = useDispatch();
   const projectId = project.project.id;
@@ -154,10 +154,10 @@ export function ProjectModal(props) {
   const users = useSelector(selectAllUsers);
   const files = useSelector(selectAllFiles);
   const projectUsers = users.filter(user => user.projects.every(project => project.id !== projectId));
-  
+
   useEffect(() => {
     dispatch(fetchUsers());
-  }, [project])
+  }, [project]);
 
   const handleChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -173,6 +173,21 @@ export function ProjectModal(props) {
 
   const handleDeleteUserFromProject = (userId, projectId) => {
     dispatch(deleteUserFromProject({ userId, projectId }));
+  };
+  
+  const data = {
+    id: projectId,
+    title: titleProject
+  };
+
+  const handleUpdateProject = () => {
+    dispatch(updateProject(data));
+    onClose();
+  };
+
+  const handleCloseModal = () => {
+    setTitleProject(project.project.title);
+    onClose();
   };
 
   return (
@@ -191,8 +206,8 @@ export function ProjectModal(props) {
                  Название проекта 
                </span>
                 <TextField
-                  value={value}
-                  onChange={(e) => setValue(e.target.value)}
+                  value={titleProject}
+                  onChange={(e) => setTitleProject(e.target.value)}
                   variant="outlined"
                   type="text"
                   fullWidth
@@ -278,10 +293,11 @@ export function ProjectModal(props) {
           <Grid style={{ marginTop: "100px" }} container>
             <Grid item xs={10}>
               <Controls.Button
+                onClick={handleUpdateProject}
               >Сохранить
               </Controls.Button>
               <Controls.Button
-              onClick={onClose}
+                onClick={handleCloseModal}
               >Отменить
               </Controls.Button>
             </Grid>
