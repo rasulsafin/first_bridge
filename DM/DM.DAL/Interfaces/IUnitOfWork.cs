@@ -12,6 +12,7 @@ namespace DM.DAL.Interfaces
         ITemplateRepository<Template> Templates { get; }
         IRecordRepository<Record> Records { get; }
         IRoleRepository<Role> Roles { get; }
+        IPermissionRepository<Permission> Permissions { get; }
 
         void Save();
         Task SaveAsync();
