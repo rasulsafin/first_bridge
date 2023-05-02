@@ -6,10 +6,10 @@ namespace DM.Domain.Interfaces
 {
     public interface IProjectService
     {
-        public Task<List<ProjectForReadModel>> GetAll();
-        public Task<ProjectForReadModel> GetById(long projectId);
-        public Task<long> Create(ProjectForReadModel projectModel);
-        public Task<bool> Update(ProjectForUpdateModel projectModel);
+        public Task<List<ProjectForReadDto>> GetAll();
+        public Task<ProjectForReadDto> GetById(long projectId);
+        public Task<long> Create(ProjectForReadDto projectModel);
+        public Task<bool> Update(ProjectForUpdateDto projectModel);
         public Task<bool> Delete(long projectId);
     }
 }

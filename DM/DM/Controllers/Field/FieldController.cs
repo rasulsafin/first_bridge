@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
 using DM.Domain.Helpers;
-using DM.Domain.Implementations;
-using DM.Domain.Exceptions;
+using DM.Domain.Services;
 
 using DM.DAL.Enums;
 using DM.DAL;
@@ -13,7 +14,7 @@ using DM.DAL;
 using DM.Helpers;
 
 using static DM.Validators.ServiceResponsesValidator;
-using System.Threading.Tasks;
+using DM.Domain.Infrastructure.Exceptions;
 
 namespace DM.Controllers
 {
@@ -23,7 +24,7 @@ namespace DM.Controllers
     public class FieldController : ControllerBase
     {
         private readonly DmDbContext _context;
-        private readonly UserModel _currentUser;
+        private readonly UserDto _currentUser;
 
         private readonly IFieldService _fieldService;
         private readonly ILogger<FieldService> _logger;
@@ -45,7 +46,7 @@ namespace DM.Controllers
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while creating new field.</response>
         [HttpPost]
-        public async Task<IActionResult> Create(FieldModel fieldModel)
+        public async Task<IActionResult> Create(FieldDto fieldModel)
         {
             try
             {

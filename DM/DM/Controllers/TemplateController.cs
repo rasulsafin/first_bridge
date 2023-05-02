@@ -2,10 +2,9 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using DM.Domain.Implementations;
+using DM.Domain.Services;
 using DM.Domain.Helpers;
 using DM.Domain.Models;
-using DM.Domain.Exceptions;
 using DM.Domain.Interfaces;
 
 using DM.DAL;
@@ -14,6 +13,7 @@ using DM.DAL.Enums;
 using DM.Helpers;
 
 using static DM.Validators.ServiceResponsesValidator;
+using DM.Domain.Infrastructure.Exceptions;
 
 namespace DM.Controllers
 {
@@ -23,7 +23,7 @@ namespace DM.Controllers
     public class TemplateController : ControllerBase
     {
         private readonly DmDbContext _context;
-        private readonly UserModel _currentUser;
+        private readonly UserDto _currentUser;
 
         private readonly ITemplateService _templateService;
         private readonly ILogger<TemplateService> _logger;
@@ -81,7 +81,7 @@ namespace DM.Controllers
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while adding template.</response>
         [HttpPost]
-        public IActionResult AddTemplateToProject(TemplateForCreateModel templateForCreateModel)
+        public IActionResult AddTemplateToProject(TemplateForCreateDto templateForCreateModel)
         {
             try
             {
@@ -111,7 +111,7 @@ namespace DM.Controllers
         /// <response code="404">Template not found.</response>
         /// <response code="500">Something went wrong when updating the template.</response>
         [HttpPut]
-        public IActionResult EditExistingTemplateOfProject(TemplateForUpdateModel templateModelForEdit)
+        public IActionResult EditExistingTemplateOfProject(TemplateForUpdateDto templateModelForEdit)
         {
             try
             {

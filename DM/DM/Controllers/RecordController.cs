@@ -4,10 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 using DM.Domain.Interfaces;
-using DM.Domain.Implementations;
+using DM.Domain.Services;
 using DM.Domain.Helpers;
 using DM.Domain.Models;
-using DM.Domain.Exceptions;
 
 using DM.DAL.Enums;
 using DM.DAL;
@@ -15,6 +14,7 @@ using DM.DAL;
 using DM.Helpers;
 
 using static DM.Validators.ServiceResponsesValidator;
+using DM.Domain.Infrastructure.Exceptions;
 
 namespace DM.Controllers
 {
@@ -24,7 +24,7 @@ namespace DM.Controllers
     public class RecordController : ControllerBase
     {
         private readonly DmDbContext _context;
-        private readonly UserModel _currentUser;
+        private readonly UserDto _currentUser;
 
         private readonly IRecordService _recordService;
         private readonly ILogger<RecordService> _logger;
@@ -107,7 +107,7 @@ namespace DM.Controllers
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while creating new record.</response>
         [HttpPost]
-        public async Task<IActionResult> Create(RecordForCreateModel recordModel)
+        public async Task<IActionResult> Create(RecordForCreateDto recordModel)
         {
             try
             {
@@ -136,7 +136,7 @@ namespace DM.Controllers
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while updating record.</response>
         [HttpPut]
-        public async Task<IActionResult> Update(RecordModel recordModel)
+        public async Task<IActionResult> Update(RecordDto recordModel)
         {
             try
             {

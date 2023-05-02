@@ -2,10 +2,8 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-
-using DM.Domain.Exceptions;
 using DM.Domain.Helpers;
-using DM.Domain.Implementations;
+using DM.Domain.Services;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
 
@@ -15,6 +13,7 @@ using DM.DAL.Enums;
 using DM.Helpers;
 
 using static DM.Validators.ServiceResponsesValidator;
+using DM.Domain.Infrastructure.Exceptions;
 
 namespace DM.Controllers
 {
@@ -24,7 +23,7 @@ namespace DM.Controllers
     public class CommentController : ControllerBase
     {
         public readonly DmDbContext _context;
-        private readonly UserModel _currentUser;
+        private readonly UserDto _currentUser;
 
         public readonly ICommentService _commentService;
         private readonly ILogger<FieldService> _logger;
@@ -46,7 +45,7 @@ namespace DM.Controllers
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while creating new comment.</response>
         [HttpPost]
-        public async Task<IActionResult> Create(CommentModel commentModel)
+        public async Task<IActionResult> Create(CommentDto commentModel)
         {
             try
             {

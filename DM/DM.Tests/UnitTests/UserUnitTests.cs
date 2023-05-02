@@ -21,7 +21,7 @@ namespace DM.Tests.UnitTests
     public class UserUnitTests
     {
         #region Const
-        private readonly UserModel user = new()
+        private readonly UserDto user = new()
         {
             Id = 1,
             Name = "Robert",
@@ -48,7 +48,7 @@ namespace DM.Tests.UnitTests
             var userProjectRepo = new Mock<IUserProjectService>();
             var userController = new UserController(dmContext.Object, null, userRepo.Object, userProjectRepo.Object);
 
-            var userModel = new UserForCreateModel()
+            var userModel = new UserForCreateDto()
             {
                 Name = user.Name,
                 LastName = user.LastName,
@@ -86,7 +86,7 @@ namespace DM.Tests.UnitTests
             var userProjectRepo = new Mock<IUserProjectService>();
             var userController = new UserController(dmContext.Object, null, userRepo.Object, userProjectRepo.Object);
 
-            var userModel = new UserForCreateModel()
+            var userModel = new UserForCreateDto()
             {
                 Name = user.Name,
                 LastName = user.LastName,

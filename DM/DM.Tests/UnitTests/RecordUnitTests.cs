@@ -23,15 +23,15 @@ namespace DM.Tests.UnitTests
             var recordRepo = new Mock<IRecordService>();
             var dmContext = new Mock<DmDbContext>();
             var recordController = new RecordController(dmContext.Object, null, recordRepo.Object, null);
-            var recordModel = new RecordForReadModel() { Id = 1, Name = "Record", ProjectId = 1 };
-            var recordList = new List<RecordForReadModel>();
+            var recordModel = new RecordForReadDto() { Id = 1, Name = "Record", ProjectId = 1 };
+            var recordList = new List<RecordForReadDto>();
             recordList.Add(recordModel);
 
             recordRepo.Setup(x => x.GetAll())
                 .Returns(recordList);
             var result = recordController.GetAll();
             var actualResult = result as OkObjectResult;
-            var resultModel = (actualResult?.Value as IEnumerable)!.Cast<RecordModel>().First();
+            var resultModel = (actualResult?.Value as IEnumerable)!.Cast<RecordDto>().First();
             Assert.NotNull(resultModel);
             Assert.IsType<OkObjectResult>(result);
 
