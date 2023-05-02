@@ -9,7 +9,7 @@ using DM.Controllers;
 
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
-using DM.Domain.Implementations;
+using DM.Domain.Services;
 
 using DM.DAL;
 
@@ -29,7 +29,7 @@ namespace DM.Tests.UnitTests
             FathersName = "J",
             Email = "brogrammer@mail.ru",
             Login = "bromigo",
-            Password = "1234",
+            HashedPassword = "1234",
             Position = "developer",
             RoleId = 1,
             OrganizationId = 1,
@@ -56,7 +56,7 @@ namespace DM.Tests.UnitTests
                 Email = user.Email,
                 Login = user.Name,
                 OrganizationId = user.OrganizationId,
-                Password = user.Password,
+                HashedPassword = user.HashedPassword,
                 RoleId = user.RoleId,
                 Position = user.Position
             };
@@ -94,7 +94,7 @@ namespace DM.Tests.UnitTests
                 Email = user.Email,
                 Login = user.Name,
                 OrganizationId = user.OrganizationId,
-                Password = user.Password,
+                HashedPassword = user.HashedPassword,
                 RoleId = 10,
                 Position = user.Position
             };
@@ -142,7 +142,7 @@ namespace DM.Tests.UnitTests
             var userController = new UserController(null, null, null, null);
 
             var result = userController.Authenticate(new AuthenticateRequest()
-            { Login = user.Login, Password = user.Password });
+            { Login = user.Login, Password = user.HashedPassword });
 
             Assert.IsType<BadRequestObjectResult>(result.Result);
         }

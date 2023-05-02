@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DM.Controllers;
 using DM.DAL;
-using DM.Domain.Implementations;
+using DM.Domain.Services;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
 using Microsoft.AspNetCore.Mvc;

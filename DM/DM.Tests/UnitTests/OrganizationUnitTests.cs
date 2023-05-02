@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using DM.Controllers;
 using DM.DAL;
 using DM.DAL.Entities;
-using DM.Domain.Implementations;
+using DM.Domain.Services;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +25,7 @@ namespace DM.Tests.UnitTests
             FathersName = "J",
             Email = "brogrammer@mail.ru",
             Login = "bromigo",
-            Password = "1234",
+            HashedPassword = "1234",
             Position = "developer",
             RoleId = 1,
             OrganizationId = 1,
