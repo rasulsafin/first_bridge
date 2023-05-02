@@ -36,9 +36,9 @@ namespace DM.Tests.UnitTests
             var templateRepo = new Mock<ITemplateService>();
             var templateController = new TemplateController(null, null, templateRepo.Object, null);
 
-            var templateResult = new List<TemplateModel>();
-            templateResult.Add(new TemplateModel() { Name = tempName });
-            templateResult.Add(new TemplateModel() { ProjectId = projId });
+            var templateResult = new List<TemplateDto>();
+            templateResult.Add(new TemplateDto() { Name = tempName });
+            templateResult.Add(new TemplateDto() { ProjectId = projId });
 
             templateRepo.Setup(x => x.GetAllOfProject(1))
                 .Returns(Task.FromResult(templateResult));
@@ -47,8 +47,8 @@ namespace DM.Tests.UnitTests
             var actualResult = result as OkObjectResult;
             var enumerableValue = actualResult?.Value as IEnumerable;
 
-            var fieldOfReceivedObject = enumerableValue?.Cast<TemplateModel>().First().Name;
-            var fieldOfSecondReceivedObject = enumerableValue?.Cast<TemplateModel>().ElementAtOrDefault(1).ProjectId;
+            var fieldOfReceivedObject = enumerableValue?.Cast<TemplateDto>().First().Name;
+            var fieldOfSecondReceivedObject = enumerableValue?.Cast<TemplateDto>().ElementAtOrDefault(1).ProjectId;
 
             Assert.IsType<OkObjectResult>(result);
             Assert.Equal(tempName, fieldOfReceivedObject);

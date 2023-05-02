@@ -9,7 +9,7 @@ using DM.Controllers;
 
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
-using DM.Domain.Implementations;
+using DM.Domain.Services;
 
 using DM.DAL;
 
@@ -21,7 +21,7 @@ namespace DM.Tests.UnitTests
     public class UserUnitTests
     {
         #region Const
-        private readonly UserModel user = new()
+        private readonly UserDto user = new()
         {
             Id = 1,
             Name = "Robert",
@@ -29,7 +29,7 @@ namespace DM.Tests.UnitTests
             FathersName = "J",
             Email = "brogrammer@mail.ru",
             Login = "bromigo",
-            Password = "1234",
+            HashedPassword = "1234",
             Position = "developer",
             RoleId = 1,
             OrganizationId = 1,
@@ -48,7 +48,7 @@ namespace DM.Tests.UnitTests
             var userProjectRepo = new Mock<IUserProjectService>();
             var userController = new UserController(dmContext.Object, null, userRepo.Object, userProjectRepo.Object);
 
-            var userModel = new UserForCreateModel()
+            var userModel = new UserForCreateDto()
             {
                 Name = user.Name,
                 LastName = user.LastName,
@@ -56,7 +56,7 @@ namespace DM.Tests.UnitTests
                 Email = user.Email,
                 Login = user.Name,
                 OrganizationId = user.OrganizationId,
-                Password = user.Password,
+                HashedPassword = user.HashedPassword,
                 RoleId = user.RoleId,
                 Position = user.Position
             };
@@ -86,7 +86,7 @@ namespace DM.Tests.UnitTests
             var userProjectRepo = new Mock<IUserProjectService>();
             var userController = new UserController(dmContext.Object, null, userRepo.Object, userProjectRepo.Object);
 
-            var userModel = new UserForCreateModel()
+            var userModel = new UserForCreateDto()
             {
                 Name = user.Name,
                 LastName = user.LastName,
@@ -94,7 +94,7 @@ namespace DM.Tests.UnitTests
                 Email = user.Email,
                 Login = user.Name,
                 OrganizationId = user.OrganizationId,
-                Password = user.Password,
+                HashedPassword = user.HashedPassword,
                 RoleId = 10,
                 Position = user.Position
             };
@@ -142,7 +142,7 @@ namespace DM.Tests.UnitTests
             var userController = new UserController(null, null, null, null);
 
             var result = userController.Authenticate(new AuthenticateRequest()
-            { Login = user.Login, Password = user.Password });
+            { Login = user.Login, Password = user.HashedPassword });
 
             Assert.IsType<BadRequestObjectResult>(result.Result);
         }

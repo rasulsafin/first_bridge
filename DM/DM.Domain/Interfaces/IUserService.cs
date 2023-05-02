@@ -8,10 +8,11 @@ namespace DM.Domain.Interfaces
     public interface IUserService
     {
         public Task<AuthenticateResponse> Authenticate(AuthenticateRequest user);
-        public Task<IEnumerable<UserForReadModel>> GetAll();
-        public UserForReadModel GetById(long id);
-        public Task<bool> Create(UserForCreateModel user);
-        public Task<bool> Update(UserForUpdateModel user);
-        public Task<bool> Delete(long id);
+        public Task<IEnumerable<UserForReadDto>> GetAll();
+        public UserForReadDto GetById(long? id);
+        public Task<bool> Create(UserForCreateDto user);
+        public Task<bool> Update(UserForUpdateDto user);
+        public Task<bool> Delete(long? id);
+        void Dispose();
     }
 }

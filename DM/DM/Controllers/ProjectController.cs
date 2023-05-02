@@ -5,10 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 using DM.Domain.Helpers;
-using DM.Domain.Implementations;
+using DM.Domain.Services;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
-using DM.Domain.Exceptions;
 
 using DM.DAL.Enums;
 using DM.DAL;
@@ -16,6 +15,7 @@ using DM.DAL;
 using DM.Helpers;
 
 using static DM.Validators.ServiceResponsesValidator;
+using DM.Domain.Infrastructure.Exceptions;
 
 namespace DM.Controllers
 {
@@ -25,7 +25,7 @@ namespace DM.Controllers
     public class ProjectController : ControllerBase
     {
         private readonly DmDbContext _context;
-        private readonly UserModel _currentUser;
+        private readonly UserDto _currentUser;
 
         private readonly IProjectService _projectService;
         private readonly IUserProjectService _userProjectService;
@@ -112,7 +112,7 @@ namespace DM.Controllers
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while creating new project.</response>
         [HttpPost]
-        public async Task<IActionResult> Create(ProjectForReadModel projectModel)
+        public async Task<IActionResult> Create(ProjectForReadDto projectModel)
         {
             try
             {
@@ -139,7 +139,7 @@ namespace DM.Controllers
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while updating project.</response>
         [HttpPut]
-        public async Task<IActionResult> Update(ProjectForUpdateModel projectModel)
+        public async Task<IActionResult> Update(ProjectForUpdateDto projectModel)
         {
             try
             {
@@ -193,7 +193,7 @@ namespace DM.Controllers
         /// <response code="404">User or project was not found.</response>
         /// <response code="500">Something went wrong when adding to the project.</response>
         [HttpPost("addToProject")]
-        public async Task<IActionResult> AddToProject(UserProjectModel userProjectModel)
+        public async Task<IActionResult> AddToProject(UserProjectDto userProjectModel)
         {
             try
             {
@@ -225,7 +225,7 @@ namespace DM.Controllers
         /// <response code="404">User or project was not found.</response>
         /// <response code="500">Something went wrong when adding to the project.</response>
         [HttpPost("addUserListToProject")]
-        public async Task<IActionResult> AddToProjects(List<UserProjectModel> userProjectModel)
+        public async Task<IActionResult> AddToProjects(List<UserProjectDto> userProjectModel)
         {
             try
             {

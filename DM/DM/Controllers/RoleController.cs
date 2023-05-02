@@ -6,8 +6,7 @@ using Microsoft.Extensions.Logging;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
 using DM.Domain.Helpers;
-using DM.Domain.Implementations;
-using DM.Domain.Exceptions;
+using DM.Domain.Services;
 
 using DM.DAL;
 using DM.DAL.Enums;
@@ -15,7 +14,7 @@ using DM.DAL.Enums;
 using DM.Helpers;
 
 using static DM.Validators.ServiceResponsesValidator;
-
+using DM.Domain.Infrastructure.Exceptions;
 
 namespace DM.Controllers
 {
@@ -26,7 +25,7 @@ namespace DM.Controllers
     {
 
         private readonly DmDbContext _context;
-        private readonly UserModel _currentUser;
+        private readonly UserDto _currentUser;
 
         private readonly IRoleService _roleService;
         private readonly ILogger<RoleService> _logger;
@@ -107,7 +106,7 @@ namespace DM.Controllers
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while creating new role.</response>
         [HttpPost]
-        public async Task<IActionResult> Create(RoleForCreateModel roleModel)
+        public async Task<IActionResult> Create(RoleForCreateDto roleModel)
         {
             try
             {
@@ -134,7 +133,7 @@ namespace DM.Controllers
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while updating role.</response>
         [HttpPut]
-        public async Task<IActionResult> Update(RoleForUpdateModel roleModel)
+        public async Task<IActionResult> Update(RoleForUpdateDto roleModel)
         {
             try
             {

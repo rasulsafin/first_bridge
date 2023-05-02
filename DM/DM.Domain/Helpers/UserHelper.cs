@@ -12,7 +12,7 @@ namespace DM.Domain.Helpers
 {
     public static class UserHelper
     {
-        public static string GenerateJwtToken(this IConfiguration configuration, UserEntity user)
+        public static string GenerateJwtToken(this IConfiguration configuration, User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(configuration["Secret"]);

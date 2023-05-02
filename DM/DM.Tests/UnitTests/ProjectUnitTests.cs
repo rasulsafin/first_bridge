@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DM.Controllers;
 using DM.DAL;
-using DM.Domain.Implementations;
+using DM.Domain.Services;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -23,15 +23,15 @@ namespace DM.Tests.UnitTests
             var projectRepo = new Mock<IProjectService>();
             var dmContext = new Mock<DmDbContext>();
             var projectController = new ProjectController(dmContext.Object, null, projectRepo.Object, null, null);
-            var projectListResult = new List<ProjectForReadModel>();
+            var projectListResult = new List<ProjectForReadDto>();
             const string title = "titleProject";
-            projectListResult.Add(new ProjectForReadModel() { Title = title });
+            projectListResult.Add(new ProjectForReadDto() { Title = title });
 
             projectRepo.Setup(x => x.GetAll())
                 .Returns(Task.FromResult(projectListResult));
             var result = await projectController.GetAll();
             var actualResult = result as OkObjectResult;
-            var model = (actualResult?.Value as IEnumerable)!.Cast<ProjectModel>().First();
+            var model = (actualResult?.Value as IEnumerable)!.Cast<ProjectDto>().First();
 
             Assert.IsType<OkObjectResult>(result);
             Assert.NotNull(model);

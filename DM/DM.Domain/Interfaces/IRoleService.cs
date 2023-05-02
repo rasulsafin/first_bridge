@@ -7,10 +7,10 @@ namespace DM.Domain.Interfaces
 {
     public interface IRoleService
     {
-        public List<RoleModel> GetAll();
-        public RoleModel GetById(long roleId);
-        public Task<bool> Create(RoleForCreateModel roleModel);
-        public Task<bool> Update(RoleForUpdateModel roleModel);
+        public List<RoleDto> GetAll();
+        public RoleDto GetById(long roleId);
+        public Task<bool> Create(RoleForCreateDto roleModel);
+        public Task<bool> Update(RoleForUpdateDto roleModel);
         public Task<bool> Delete(long roleModel);
     }
 }

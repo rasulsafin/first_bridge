@@ -3,12 +3,10 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 
 using Microsoft.AspNetCore.Mvc;
-
-using DM.Domain.Exceptions;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
 using DM.Domain.Helpers;
-using DM.Domain.Implementations;
+using DM.Domain.Services;
 
 using DM.DAL;
 using DM.DAL.Enums;
@@ -16,6 +14,7 @@ using DM.DAL.Enums;
 using DM.Helpers;
 
 using static DM.Validators.ServiceResponsesValidator;
+using DM.Domain.Infrastructure.Exceptions;
 
 namespace DM.Controllers
 {
@@ -24,7 +23,7 @@ namespace DM.Controllers
     public class UserController : ControllerBase
     {
         private readonly DmDbContext _context;
-        private readonly UserModel _currentUser;
+        private readonly UserDto _currentUser;
 
         private readonly IUserService _userService;
         private readonly IUserProjectService _userProjectService;
@@ -110,7 +109,7 @@ namespace DM.Controllers
         /// <response code="500">Something went wrong while creating new user.</response>
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Create(UserForCreateModel userModel)
+        public async Task<IActionResult> Create(UserForCreateDto userModel)
         {
             try
             {
@@ -149,7 +148,7 @@ namespace DM.Controllers
         /// <response code="500">Something went wrong while updating user.</response>
         [HttpPut]
         [Authorize]
-        public async Task<IActionResult> Update(UserForUpdateModel userModel)
+        public async Task<IActionResult> Update(UserForUpdateDto userModel)
         {
             try
             {
@@ -240,7 +239,7 @@ namespace DM.Controllers
         /// <response code="500">Something went wrong when adding to the project.</response>
         [HttpPost("addToProject")]
         [Authorize]
-        public async Task<IActionResult> AddToProject(UserProjectModel userProjectModel)
+        public async Task<IActionResult> AddToProject(UserProjectDto userProjectModel)
         {
             try
             {
@@ -273,7 +272,7 @@ namespace DM.Controllers
         /// <response code="500">Something went wrong when adding to the project.</response>
         [HttpPost("addProjectListToUser")]
         [Authorize]
-        public async Task<IActionResult> AddToProjects(List<UserProjectModel> userProjectModel)
+        public async Task<IActionResult> AddToProjects(List<UserProjectDto> userProjectModel)
         {
             try
             {

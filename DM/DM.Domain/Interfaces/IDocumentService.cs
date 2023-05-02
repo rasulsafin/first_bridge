@@ -7,10 +7,10 @@ namespace DM.Domain.Interfaces
 {
     public interface IDocumentService
     {
-        public List<DocumentModel> GetAll();
-        public DocumentModel GetById(long documentId);
-        public Task<long> Create(DocumentModel documentModel);
-        public Task<bool> Update(DocumentModel documentModel);
+        public List<DocumentDto> GetAll();
+        public DocumentDto GetById(long documentId);
+        public Task<long> Create(DocumentDto documentModel);
+        public Task<bool> Update(DocumentDto documentModel);
         public Task<bool> Delete(long documentId);
     }
 }

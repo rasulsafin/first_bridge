@@ -12,13 +12,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-
-using DM.Domain;
-using DM.Domain.Implementations;
 using DM.Domain.Interfaces;
 using DM.Domain.Helpers;
+using DM.Domain.Infrastructure;
+using DM.Domain.Services;
 
 using DM.DAL;
+using DM.DAL.Interfaces;
+using DM.DAL.Repositories;
 
 using Dotmim.Sync.PostgreSql;
 using Dotmim.Sync;
@@ -39,6 +40,7 @@ namespace DM
         {
             services.AddAutoMapper(typeof(MappingProfile));
 
+            services.AddScoped<IUnitOfWork, EFUnitOfWork>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IItemService, ItemService>();
             services.AddScoped<IProjectService, ProjectService>();

@@ -7,8 +7,8 @@ namespace DM.Domain.Interfaces
 {
     public interface IItemService
     {
-        public Task<List<ItemModel>> GetAll(long projectId);
-        public ItemModel GetById(long itemId);
-        public Task<long> Create(ItemModel itemModel);
+        public Task<List<ItemDto>> GetAll(long projectId);
+        public ItemDto GetById(long itemId);
+        public Task<long> Create(ItemDto itemModel);
     }
 }
