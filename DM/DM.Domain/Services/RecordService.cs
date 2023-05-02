@@ -11,20 +11,19 @@ using DM.Domain.Interfaces;
 using DM.Domain.Models;
 
 using DM.DAL.Entities;
-using DM.DAL;
+using DM.DAL.Interfaces;
 
 namespace DM.Domain.Services
 {
     public class RecordService : IRecordService
     {
-        private readonly DmDbContext _context;
         private readonly UserDto _currentUser;
-
+        private IUnitOfWork Context { get; set; }
         private readonly IMapper _mapper;
 
-        public RecordService(DmDbContext context, IMapper mapper, CurrentUserService userService)
+        public RecordService(IUnitOfWork unitOfWork, IMapper mapper, CurrentUserService userService)
         {
-            _context = context;
+            Context = unitOfWork;
             _mapper = mapper;
             _currentUser = userService.CurrentUser;
         }
@@ -32,15 +31,10 @@ namespace DM.Domain.Services
         /// <summary>
         /// Get all Records
         /// </summary>
-        public List<RecordForReadDto> GetAll()
+        public async Task<IEnumerable<RecordForReadDto>> GetAll()
         {
-            var records = _context.Records
-                .Include(x => x.Comments)
-                .Include(x => x.Fields)
-                .Include(x => x.ListFields).ThenInclude(y => y.Lists)
-                .ToList();
-
-            return _mapper.Map<List<RecordForReadDto>>(records);
+            var records = await Context.Records.GetAll();
+            return _mapper.Map<IEnumerable<RecordForReadDto>>(records);
         }
 
         /// <summary>
@@ -48,14 +42,9 @@ namespace DM.Domain.Services
         /// </summary>
         public RecordForReadDto GetById(long recordId)
         {
-            var record = _context.Records
-                .Include(x => x.Comments)
-                .Include(x => x.Fields)
-                .Include(x => x.ListFields).ThenInclude(y => y.Lists)
-                .FirstOrDefault(x => x.Id == recordId);
+            if (recordId < 1) return null;
 
-            if (record == null) return null;
-
+            var record = Context.Records.GetById(recordId);
             return _mapper.Map<RecordForReadDto>(record);
         }
 
@@ -72,11 +61,10 @@ namespace DM.Domain.Services
                 ListFields = recordForCreateModel.ListFields.ToList()
             });
 
-            var result = await _context.Records.AddAsync(record);
+            await Context.Records.Create(record);
+            await Context.SaveAsync();
 
-            await _context.SaveChangesAsync();
-
-            return result.Entity.Id;
+            return record.Id;
         }
 
         /// <summary>
@@ -84,19 +72,16 @@ namespace DM.Domain.Services
         /// </summary>
         public async Task<bool> Update(RecordDto recordModel)
         {
-            var record = await _context.Records.FirstOrDefaultAsync(x => x.Id == recordModel.Id);
+            var record = Context.Records.GetById(recordModel.Id);
 
             if (record == null) return false;
 
-            _context.Records.Attach(record);
-
-            record.Name = record.Name;
-            record.ProjectId = record.ProjectId;
+            record.Name = recordModel.Name;
+            record.ProjectId = recordModel.ProjectId;
             record.UpdatedAt = DateTime.UtcNow;
 
-            await _context.SaveChangesAsync();
-
-            _context.Entry(record).State = EntityState.Detached;
+            Context.Records.Update(record);
+            await Context.SaveAsync();
 
             return true;
         }
@@ -106,21 +91,10 @@ namespace DM.Domain.Services
         /// </summary>
         public async Task<bool> Delete(long recordId)
         {
-            var result = await _context.Records
-                .Include(x => x.Comments)
-                .Include(x => x.Fields)
-                .Include(x => x.ListFields).ThenInclude(y => y.Lists)
-                .FirstOrDefaultAsync(x => x.Id == recordId);
+            var result = Context.Records.Delete(recordId);
+            await Context.SaveAsync();
 
-            if (result == null) return false;
-
-            result.IsInArchive = true;
-
-            _context.Records.Update(result);
-
-            await _context.SaveChangesAsync();
-
-            return true;
+            return result;
         }
     }
 }

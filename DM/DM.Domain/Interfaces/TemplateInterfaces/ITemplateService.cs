@@ -7,8 +7,8 @@ namespace DM.Domain.Interfaces
 {
     public interface ITemplateService
     {
-        public Task<List<TemplateDto>> GetAllOfProject(long projectId);
-        public Task<TemplateDto> GetById(long templateId);
+        public Task<IEnumerable<TemplateDto>> GetAllOfProject(long projectId);
+        public TemplateDto GetById(long templateId);
         public Task<bool> Create(TemplateForCreateDto templateModel);
         public Task<bool> Update(TemplateForUpdateDto templateModel);
     }

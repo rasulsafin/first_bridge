@@ -8,8 +8,14 @@ namespace DM.DAL.Repositories
 {
     public class EFUnitOfWork : IUnitOfWork
     {
-        private DmDbContext _dbContext;
+        private readonly DmDbContext _dbContext;
+
         private UserRepository userRepository;
+        private ProjectRepository projectRepository;
+        private UserProjectRepository userProjectRepository;
+        private TemplateRepository templateRepository;
+        private RecordRepository recordRepository;
+        private RoleRepository roleRepository;
 
         private bool disposed = false;
 
@@ -19,6 +25,51 @@ namespace DM.DAL.Repositories
             {
                 userRepository ??= new UserRepository(_dbContext);
                 return userRepository;
+            }
+        }
+
+        public IProjectRepository<Project> Projects
+        {
+            get
+            {
+                projectRepository ??= new ProjectRepository(_dbContext);
+                return projectRepository;
+            }
+        }
+
+        public IUserProjectRepository<UserProject> UserProjects
+        {
+            get
+            {
+                userProjectRepository ??= new UserProjectRepository(_dbContext);
+                return userProjectRepository;
+            }
+        }
+
+        public ITemplateRepository<Template> Templates
+        {
+            get
+            {
+                templateRepository ??= new TemplateRepository(_dbContext);
+                return templateRepository;
+            }
+        }
+
+        public IRecordRepository<Record> Records
+        {
+            get
+            {
+                recordRepository ??= new RecordRepository(_dbContext);
+                return recordRepository;
+            }
+        }
+
+        public IRoleRepository<Role> Roles
+        {
+            get
+            {
+                roleRepository ??= new RoleRepository(_dbContext);
+                return roleRepository;
             }
         }
 
