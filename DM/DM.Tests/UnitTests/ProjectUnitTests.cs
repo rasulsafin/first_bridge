@@ -27,8 +27,7 @@ namespace DM.Tests.UnitTests
             const string title = "titleProject";
             projectListResult.Add(new ProjectForReadDto() { Title = title });
 
-            projectRepo.Setup(x => x.GetAll())
-                .Returns(Task.FromResult(projectListResult));
+            projectRepo.Setup(x => x.GetAll());
             var result = await projectController.GetAll();
             var actualResult = result as OkObjectResult;
             var model = (actualResult?.Value as IEnumerable)!.Cast<ProjectDto>().First();
