@@ -31,10 +31,15 @@ export const RecordCard = (record) => {
   return (
     <>
       <ListItem
+        sx={{
+          height: "51px",
+          backgroundColor: "#FFF",
+          marginY: "10px",
+          padding: "12px",
+          borderRadius: "10px"
+        }}
         dense
-        divider
         key={record.record.id}
-        // disablePadding
       >
         <Checkbox
           edge="start"
