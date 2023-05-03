@@ -8,5 +8,6 @@ namespace DM.Domain.Interfaces
     {
         public Task<bool> Delete(long id);
         public Task<bool> Create(ListFieldDto listFieldModel);
+        void Dispose();
     }
 }

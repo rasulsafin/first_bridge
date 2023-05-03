@@ -54,5 +54,10 @@ namespace DM.Domain.Services
 
             return result;
         }
+
+        public void Dispose()
+        {
+            Context.Dispose();
+        }
     }
 }

@@ -16,9 +16,11 @@ using DM.Domain.Interfaces;
 using DM.Domain.Models;
 
 using DM.DAL;
-using DM.DAL.Enums;
 
-using DM.Helpers;
+using DM.Common.Enums;
+using DM.Common.Helpers;
+
+using DM.Validators.Attributes;
 
 namespace DM.Controllers
 {

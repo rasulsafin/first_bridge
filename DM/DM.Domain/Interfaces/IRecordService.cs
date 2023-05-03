@@ -14,5 +14,6 @@ namespace DM.Domain.Interfaces
         public Task<long> Create(RecordForCreateDto recordModel);
         public Task<bool> Update(RecordDto recordModel);
         public Task<bool> Delete(long recordId);
+        void Dispose();
     }
 }

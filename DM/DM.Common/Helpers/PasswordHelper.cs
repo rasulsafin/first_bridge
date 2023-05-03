@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 
-namespace DM.Domain.Helpers
+namespace DM.Common.Helpers
 {
     public class PasswordHelper
     {
@@ -14,7 +14,7 @@ namespace DM.Domain.Helpers
                 throw new ArgumentNullException("password");
             }
 
-            using (Rfc2898DeriveBytes bytes = new Rfc2898DeriveBytes(password, 0x10, 0x3e8))
+            using (Rfc2898DeriveBytes bytes = new(password, 0x10, 0x3e8))
             {
                 salt = bytes.Salt;
                 buffer2 = bytes.GetBytes(0x20);
@@ -49,7 +49,7 @@ namespace DM.Domain.Helpers
             byte[] buffer3 = new byte[0x20];
             Buffer.BlockCopy(src, 0x11, buffer3, 0, 0x20);
 
-            using (Rfc2898DeriveBytes bytes = new Rfc2898DeriveBytes(password, dst, 0x3e8))
+            using (Rfc2898DeriveBytes bytes = new (password, dst, 0x3e8))
             {
                 buffer4 = bytes.GetBytes(0x20);
             }

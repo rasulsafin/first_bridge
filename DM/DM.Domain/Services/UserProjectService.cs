@@ -83,5 +83,10 @@ namespace DM.Domain.Services
 
             return _mapper.Map<List<UserProject>>(normalizedUserProjects);
         }
+
+        public void Dispose()
+        {
+            Context.Dispose();
+        }
     }
 }

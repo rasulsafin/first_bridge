@@ -12,5 +12,6 @@ namespace DM.Domain.Interfaces
     {
         public Task<IEnumerable<PermissionDto>> GetAllByRole(long roleId);
         public Task<bool> UpdatePermissionOnRole(PermissionDto permissionModel);
+        void Dispose();
     }
 }

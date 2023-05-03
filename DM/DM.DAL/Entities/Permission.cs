@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-using DM.DAL.Enums;
+using DM.Common.Enums;
 
 namespace DM.DAL.Entities
 {

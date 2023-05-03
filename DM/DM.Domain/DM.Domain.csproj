@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DM.Common\DM.Common.csproj" />
     <ProjectReference Include="..\DM.DAL\DM.DAL.csproj" />
   </ItemGroup>
 

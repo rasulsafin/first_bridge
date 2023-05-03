@@ -34,5 +34,10 @@ namespace DM.Domain.Services
         {
             throw new NotImplementedException();
         }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

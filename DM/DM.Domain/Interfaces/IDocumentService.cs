@@ -12,5 +12,6 @@ namespace DM.Domain.Interfaces
         public Task<long> Create(DocumentDto documentModel);
         public Task<bool> Update(DocumentDto documentModel);
         public Task<bool> Delete(long documentId);
+        void Dispose();
     }
 }

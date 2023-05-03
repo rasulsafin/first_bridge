@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using DM.DAL.Enums;
+using DM.Common.Enums;
 
 namespace DM.Domain.Models
 {

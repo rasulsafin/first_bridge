@@ -2,8 +2,9 @@
 
 using DM.Domain.Models;
 
-using DM.DAL.Enums;
 using DM.DAL;
+
+using DM.Common.Enums;
 
 namespace DM.Domain.Helpers
 {

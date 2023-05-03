@@ -61,9 +61,14 @@ namespace DM.DAL.Repositories
             _dbContext.Entry(template).State = EntityState.Modified;
         }
 
-        public Task<IEnumerable<Template>> GetAll()
+        public async Task<IEnumerable<Template>> GetAll()
         {
-            throw new System.NotImplementedException();
+            IEnumerable<Template> templates = await _dbContext.Template
+                .Include(x => x.Fields)
+                .Include(x => x.ListFields).ThenInclude(y => y.Lists)
+                .ToListAsync();
+
+            return templates;
         }
     }
 }
