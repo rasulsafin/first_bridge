@@ -11,5 +11,6 @@ namespace DM.Domain.Interfaces
         public Task<long> Create(ProjectForReadDto projectModel);
         public Task<bool> Update(ProjectForUpdateDto projectModel);
         public Task<bool> Archive(long? projectId);
+        void Dispose();
     }
 }

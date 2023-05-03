@@ -1,5 +1,5 @@
 ﻿using DM.DAL.Entities;
-using DM.DAL.Enums;
+using DM.Common.Enums;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

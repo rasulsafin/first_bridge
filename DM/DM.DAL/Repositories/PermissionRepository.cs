@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 using DM.DAL.Entities;
 using DM.DAL.Interfaces;
-using DM.DAL.Enums;
+
+using DM.Common.Enums;
 
 namespace DM.DAL.Repositories
 {
@@ -41,24 +42,33 @@ namespace DM.DAL.Repositories
             _dbContext.Entry(permission).State = EntityState.Modified;
         }
 
-        public Task<bool> Create(Permission item)
+        public async Task<bool> Create(Permission permission)
         {
-            throw new System.NotImplementedException();
+            await _dbContext.Permissions.AddAsync(permission);
+            return true;
         }
 
         public bool Delete(long? id)
         {
-            throw new System.NotImplementedException();
+            Permission permission = _dbContext.Permissions.Find(id);
+            if (permission != null)
+            {
+                _dbContext.Permissions.Remove(permission);
+                return true;
+            }
+            return false;
         }
 
-        public Task<IEnumerable<Permission>> GetAll()
+        public async Task<IEnumerable<Permission>> GetAll()
         {
-            throw new System.NotImplementedException();
+            IEnumerable<Permission> users = await _dbContext.Permissions.ToListAsync();
+            return users;
         }
 
         public Permission GetById(long? id)
         {
-            throw new System.NotImplementedException();
+            Permission permission = _dbContext.Permissions.FirstOrDefault(y => y.Id == id);
+            return permission;
         }
     }
 }

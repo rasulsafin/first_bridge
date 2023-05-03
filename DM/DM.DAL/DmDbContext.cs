@@ -3,7 +3,8 @@
 using Microsoft.EntityFrameworkCore;
 
 using DM.DAL.Entities;
-using DM.DAL.Enums;
+
+using DM.Common.Enums;
 
 namespace DM.DAL
 {

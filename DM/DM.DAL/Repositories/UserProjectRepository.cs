@@ -47,24 +47,32 @@ namespace DM.DAL.Repositories
             return userProject != null;
         }
 
-        public Task<IEnumerable<UserProject>> GetAll()
+        public async Task<IEnumerable<UserProject>> GetAll()
         {
-            throw new System.NotImplementedException();
+            IEnumerable<UserProject> userProjects = await _dbContext.UsersProjects.ToListAsync();
+            return userProjects;
         }
 
         public UserProject GetById(long? id)
         {
-            throw new System.NotImplementedException();
+            UserProject userProject = _dbContext.UsersProjects.FirstOrDefault(y => y.Id == id);
+            return userProject;
         }
 
-        public void Update(UserProject item)
+        public void Update(UserProject userProject)
         {
-            throw new System.NotImplementedException();
+            _dbContext.Entry(userProject).State = EntityState.Modified;
         }
 
         public bool Delete(long? id)
         {
-            throw new System.NotImplementedException();
+            UserProject userProject = _dbContext.UsersProjects.Find(id);
+            if (userProject != null)
+            {
+                _dbContext.UsersProjects.Remove(userProject);
+                return true;
+            }
+            return false;
         }
     }
 }

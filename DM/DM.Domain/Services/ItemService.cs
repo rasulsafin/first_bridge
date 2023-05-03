@@ -50,5 +50,10 @@ namespace DM.Domain.Services
 
             return item.Id;
         }
+
+        public void Dispose()
+        {
+            Context.Dispose();
+        }
     }
 }

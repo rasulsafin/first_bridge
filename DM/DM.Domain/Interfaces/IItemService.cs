@@ -10,5 +10,6 @@ namespace DM.Domain.Interfaces
         public Task<IEnumerable<ItemDto>> GetAll(long projectId);
         public ItemDto GetById(long itemId);
         public Task<long> Create(ItemDto itemModel);
+        void Dispose();
     }
 }

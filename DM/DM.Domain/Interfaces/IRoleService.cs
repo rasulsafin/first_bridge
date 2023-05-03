@@ -12,5 +12,6 @@ namespace DM.Domain.Interfaces
         public Task<bool> Create(RoleForCreateDto roleModel);
         public Task<bool> Update(RoleForUpdateDto roleModel);
         public Task<bool> Delete(long roleModel);
+        void Dispose();
     }
 }

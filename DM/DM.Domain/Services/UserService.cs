@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Linq;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -16,6 +14,8 @@ using DM.Domain.Helpers;
 using DM.DAL.Entities;
 using DM.DAL.Interfaces;
 
+using DM.Common.Helpers;
+
 namespace DM.Domain.Services
 {
     public class UserService : IUserService
@@ -23,13 +23,14 @@ namespace DM.Domain.Services
         private IUnitOfWork Context { get; set; }
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
+        private readonly ILogger<UserService> _logger;
 
-        public UserService(IUnitOfWork unitOfWork, IConfiguration configuration, IMapper mapper)
+        public UserService(IUnitOfWork unitOfWork, IConfiguration configuration, IMapper mapper, ILogger<UserService> logger)
         {
             Context = unitOfWork;
             _mapper = mapper;
             _configuration = configuration;
-
+            _logger = logger;
         }
 
         public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest model)

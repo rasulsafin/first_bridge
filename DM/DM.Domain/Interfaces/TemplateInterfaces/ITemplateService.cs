@@ -11,5 +11,6 @@ namespace DM.Domain.Interfaces
         public TemplateDto GetById(long templateId);
         public Task<bool> Create(TemplateForCreateDto templateModel);
         public Task<bool> Update(TemplateForUpdateDto templateModel);
+        void Dispose();
     }
 }

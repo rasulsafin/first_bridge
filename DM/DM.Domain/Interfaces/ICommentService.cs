@@ -10,5 +10,6 @@ namespace DM.Domain.Interfaces
         public Task<long> Create(CommentDto commentModel);
         public Task<bool> Update(CommentForUpdateModel commentModel);
         public Task<bool> Delete(long commentId);
+        void Dispose();
     }
 }

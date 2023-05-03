@@ -1,4 +1,4 @@
-﻿namespace DM.DAL.Enums
+﻿namespace DM.Common.Enums
 {
     public enum PriorityEnum
     {

@@ -13,5 +13,6 @@ namespace DM.Domain.Interfaces
         public Task<bool> Create(OrganizationForCreateDto organizationModel);
         public Task<bool> Update(OrganizationForUpdateDto organizationModel);
         public Task<bool> Delete(long organizationId);
+        void Dispose();
     }
 }
