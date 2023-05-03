@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { List, Modal as MuiModal } from "@mui/material";
 import Box from "@mui/material/Box";
 import { Grid } from "@mui/material";
@@ -21,9 +21,9 @@ const style = {
 };
 
 const Modal = (props) => {
-
-  const { titleModal, ...other } = props;
-
+  const { titleModal, onClose, ...other } = props;
+  
+  
   return (
     <div>
       <MuiModal
@@ -47,7 +47,9 @@ const Modal = (props) => {
                 <Controls.Button
                 >Сохранить
                 </Controls.Button>
-                <Controls.Button>
+                <Controls.Button
+                onClick={onClose}
+                >
                   Отменить
                 </Controls.Button>
               </Grid>
