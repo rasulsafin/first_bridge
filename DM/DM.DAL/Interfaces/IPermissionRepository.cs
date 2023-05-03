@@ -8,6 +8,6 @@ namespace DM.DAL.Interfaces
     public interface IPermissionRepository<T> : IRepository<Permission>
     {
         Task<IEnumerable<T>> GetAllByRole(long roleId);
-        Task<T> GetAllByRoleAndType(long roleId, PermissionEnum permission);
+        Task<T> GetByRoleAndType(long roleId, PermissionEnum permission);
     }
 }

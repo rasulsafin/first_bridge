@@ -13,6 +13,8 @@ namespace DM.DAL.Interfaces
         IRecordRepository<Record> Records { get; }
         IRoleRepository<Role> Roles { get; }
         IPermissionRepository<Permission> Permissions { get; }
+        IItemRepository<Item> Items { get; }
+        IOrganizationRepository<Organization> Organizations { get; }
 
         void Save();
         Task SaveAsync();

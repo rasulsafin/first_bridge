@@ -17,6 +17,8 @@ namespace DM.DAL.Repositories
         private RecordRepository recordRepository;
         private RoleRepository roleRepository;
         private PermissionRepository permissionRepository;
+        private ItemRepository itemRepository;
+        private OrganizationRepository organizationRepository;
 
         private bool disposed = false;
 
@@ -80,6 +82,24 @@ namespace DM.DAL.Repositories
             {
                 permissionRepository ??= new PermissionRepository(_dbContext);
                 return permissionRepository;
+            }
+        }
+
+        public IItemRepository<Item> Items
+        {
+            get
+            {
+                itemRepository ??= new ItemRepository(_dbContext);
+                return itemRepository;
+            }
+        }
+
+        public IOrganizationRepository<Organization> Organizations
+        {
+            get
+            {
+                organizationRepository ??= new OrganizationRepository(_dbContext);
+                return organizationRepository;
             }
         }
 

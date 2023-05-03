@@ -84,8 +84,7 @@ namespace DM.Tests.UnitTests
             organizationResult.Add(new OrganizationForCreateDto() { Name = organizationName2 });
 
             // execution
-            organizationRepo.Setup(x => x.GetAll())
-                .Returns(Task.FromResult(organizationResult));
+            organizationRepo.Setup(x => x.GetAll());
             var result = await organizationController.GetAll();
 
             var actualResult = result as OkObjectResult;

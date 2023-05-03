@@ -28,7 +28,7 @@ namespace DM.DAL.Repositories
             return permissions;
         }
 
-        public async Task<Permission> GetAllByRoleAndType(long roleId, PermissionEnum permission)
+        public async Task<Permission> GetByRoleAndType(long roleId, PermissionEnum permission)
         {
             Permission permissions = await _dbContext.Permissions
                 .FirstOrDefaultAsync(x => x.RoleId == roleId && x.Type == permission);

@@ -30,7 +30,7 @@ namespace DM.Domain.Services
 
         public async Task<bool> UpdatePermissionOnRole(PermissionDto permissionModel)
         {
-            var permission = await Context.Permissions.GetAllByRoleAndType(permissionModel.RoleId, permissionModel.Type);
+            var permission = await Context.Permissions.GetByRoleAndType(permissionModel.RoleId, permissionModel.Type);
 
             if (permission == null) return false;
 
