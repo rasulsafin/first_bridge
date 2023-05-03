@@ -15,6 +15,9 @@ namespace DM.DAL.Interfaces
         IPermissionRepository<Permission> Permissions { get; }
         IItemRepository<Item> Items { get; }
         IOrganizationRepository<Organization> Organizations { get; }
+        ICommentRepository<Comment> Comments { get; }
+        IFieldRepository<Field> Fields { get; }
+        IListFieldRepository<ListField> ListFields { get; }
 
         void Save();
         Task SaveAsync();

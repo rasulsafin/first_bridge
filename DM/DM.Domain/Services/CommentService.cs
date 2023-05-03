@@ -1,27 +1,24 @@
 using System.Threading.Tasks;
 
-using Microsoft.EntityFrameworkCore;
-
 using AutoMapper;
 
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
 
-using DM.DAL;
 using DM.DAL.Entities;
+using DM.DAL.Interfaces;
 
 namespace DM.Domain.Services
 {
     public class CommentService : ICommentService
     {
-        private readonly DmDbContext _context;
         private readonly UserDto _currentUser;
-
+        private IUnitOfWork Context { get; set; }
         private readonly IMapper _mapper;
 
-        public CommentService(DmDbContext context, IMapper mapper, CurrentUserService userService)
+        public CommentService(IUnitOfWork unitOfWork, IMapper mapper, CurrentUserService userService)
         {
-            _context = context;
+            Context = unitOfWork;
             _mapper = mapper;
             _currentUser = userService.CurrentUser;
         }
@@ -30,41 +27,32 @@ namespace DM.Domain.Services
         {
             var comment = _mapper.Map<Comment>(commentModel);
 
-            var result = await _context.Comments.AddAsync(comment);
+            await Context.Comments.Create(comment);
+            await Context.SaveAsync();
 
-            _context.SaveChanges();
-
-            return result.Entity.Id;
+            return comment.Id;
         }
 
         public async Task<bool> Update(CommentForUpdateModel commentModel)
         {
-            var comment = await _context.Comments.FirstOrDefaultAsync(x => x.Id == commentModel.Id);
+            var comment = Context.Comments.GetById(commentModel.Id);
 
             if (comment == null) return false;
 
-            _context.Comments.Attach(comment);
-
             comment.Text = commentModel.Text;
 
-            await _context.SaveChangesAsync();
-
-            _context.Entry(comment).State = EntityState.Detached;
+            Context.Comments.Update(comment);
+            await Context.SaveAsync();
 
             return true;
         }
 
         public async Task<bool> Delete(long commentId)
         {
-            var comment = await _context.Comments.FirstOrDefaultAsync(x => x.Id == commentId);
+            var result = Context.Comments.Delete(commentId);
+            await Context.SaveAsync();
 
-            if (comment == null) return false;
-
-            _context.Comments.Remove(comment);
-
-            await _context.SaveChangesAsync();
-
-            return true;
+            return result;
         }
     }
 }

@@ -19,6 +19,9 @@ namespace DM.DAL.Repositories
         private PermissionRepository permissionRepository;
         private ItemRepository itemRepository;
         private OrganizationRepository organizationRepository;
+        private CommentRepository commentRepository;
+        private FieldRepository fieldRepository;
+        private ListFieldRepository listFieldRepository;
 
         private bool disposed = false;
 
@@ -100,6 +103,33 @@ namespace DM.DAL.Repositories
             {
                 organizationRepository ??= new OrganizationRepository(_dbContext);
                 return organizationRepository;
+            }
+        }
+
+        public ICommentRepository<Comment> Comments
+        {
+            get
+            {
+                commentRepository ??= new CommentRepository(_dbContext);
+                return commentRepository;
+            }
+        }
+
+        public IFieldRepository<Field> Fields
+        {
+            get
+            {
+                fieldRepository ??= new FieldRepository(_dbContext);
+                return fieldRepository;
+            }
+        }
+
+        public IListFieldRepository<ListField> ListFields
+        {
+            get
+            {
+                listFieldRepository ??= new ListFieldRepository(_dbContext);
+                return listFieldRepository;
             }
         }
 
