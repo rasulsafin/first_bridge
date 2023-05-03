@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-
-using Microsoft.EntityFrameworkCore;
 
 using AutoMapper;
 
@@ -10,45 +8,38 @@ using DM.Domain.Interfaces;
 using DM.Domain.Models;
 
 using DM.DAL.Entities;
-using DM.DAL;
-using System;
+using DM.DAL.Interfaces;
 
 namespace DM.Domain.Services
 {
     public class OrganizationService : IOrganizationService
     {
-        private readonly DmDbContext _context;
-
+        private IUnitOfWork Context { get; set; }
         private readonly IMapper _mapper;
 
-        public OrganizationService(DmDbContext context, IMapper mapper)
+        public OrganizationService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _context = context;
+            Context = unitOfWork;
             _mapper = mapper;
         }
 
-        public async Task<List<OrganizationDto>> GetAll()
+        public async Task<IEnumerable<OrganizationDto>> GetAll()
         {
-            var organizations = await _context.Organization
-                .Include(x => x.Users)
-                .Include(y => y.Projects).ToListAsync();
-
-            return _mapper.Map<List<OrganizationDto>>(organizations);
+            var organizations = await Context.Organizations.GetAll();
+            return _mapper.Map<IEnumerable<OrganizationDto>>(organizations);
         }
 
-        public async Task<OrganizationDto> GetById(long organizationId)
+        public OrganizationDto GetById(long organizationId)
         {
-            var organization = await _context.Organization
-                .Include(x => x.Users)
-                .Include(y => y.Projects)
-                .FirstOrDefaultAsync(z => z.Id == organizationId);
+            if (organizationId < 1) return null;
 
+            var organization = Context.Organizations.GetById(organizationId);
             return _mapper.Map<OrganizationDto>(organization);
         }
 
         public async Task<bool> Create(OrganizationForCreateDto organizationForCreateModel)
         {
-            var organization = new Organization()
+            var organization = _mapper.Map<Organization>(new OrganizationForCreateDto
             {
                 Inn = organizationForCreateModel.Inn,
                 Kpp = organizationForCreateModel.Kpp,
@@ -57,23 +48,19 @@ namespace DM.Domain.Services
                 Phone = organizationForCreateModel.Phone,
                 Email = organizationForCreateModel.Email,
                 Address = organizationForCreateModel.Address
-            };
+            });
 
-            _context.Organization.Add(organization);
-
-            await _context.SaveChangesAsync();
+            await Context.Organizations.Create(organization);
+            await Context.SaveAsync();
 
             return true;
         }
 
         public async Task<bool> Update(OrganizationForUpdateDto organizationForUpdateModel)
         {
-            var organization = await _context.Organization
-                .Where(q => q.Id == organizationForUpdateModel.Id).FirstOrDefaultAsync();
+            var organization = Context.Organizations.GetById(organizationForUpdateModel.Id);
 
             if (organization == null) return false;
-
-            _context.Organization.Attach(organization);
 
             organization.Name = organizationForUpdateModel.Name;
             organization.Address = organizationForUpdateModel.Address;
@@ -84,28 +71,18 @@ namespace DM.Domain.Services
             organization.Email = organizationForUpdateModel.Email;
             organization.UpdatedAt = DateTime.UtcNow;
 
-            await _context.SaveChangesAsync();
-
-            _context.Entry(organization).State = EntityState.Detached;
+            Context.Organizations.Update(organization);
+            await Context.SaveAsync();
 
             return true;
         }
 
         public async Task<bool> Delete(long organizationId)
         {
-            var organization = _context.Organization
-                .Include(x => x.Projects).Include(x => x.Users)
-                .FirstOrDefault(q => q.Id == organizationId);
+            var result = Context.Organizations.Delete(organizationId);
+            await Context.SaveAsync();
 
-            if (organization == null) return false;
-
-            _context.Organization.Remove(organization);
-
-            await _context.SaveChangesAsync();
-
-            return true;
+            return result;
         }
-
-
     }
 }

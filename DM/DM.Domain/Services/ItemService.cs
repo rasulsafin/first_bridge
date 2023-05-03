@@ -10,35 +10,34 @@ using DM.Domain.Interfaces;
 using DM.Domain.Models;
 
 using DM.DAL.Entities;
-using DM.DAL;
+using DM.DAL.Interfaces;
 
 namespace DM.Domain.Services
 {
     public class ItemService : IItemService
     {
-        private readonly DmDbContext _context;
         private readonly UserDto _currentUser;
-
+        private IUnitOfWork Context { get; set; }
         private readonly IMapper _mapper;
 
-        public ItemService(DmDbContext context, IMapper mapper, CurrentUserService userService)
+        public ItemService(IUnitOfWork unitOfWork, IMapper mapper, CurrentUserService userService)
         {
-            _context = context;
+            Context = unitOfWork;
             _currentUser = userService.CurrentUser;
             _mapper = mapper;
         }
 
-        public async Task<List<ItemDto>> GetAll(long projectId)
+        public async Task<IEnumerable<ItemDto>> GetAll(long projectId)
         {
-            var items = await _context.Items.Where(x => x.ProjectId == projectId).ToListAsync();
-
-            return _mapper.Map<List<ItemDto>>(items);
+            var items = await Context.Items.GetAllByProject(projectId);
+            return _mapper.Map<IEnumerable<ItemDto>>(items);
         }
 
         public ItemDto GetById(long itemId)
         {
-            var item = _context.Items.FirstOrDefault(x => x.Id == itemId);
+            if (itemId < 1) return null;
 
+            var item = Context.Items.GetById(itemId);
             return _mapper.Map<ItemDto>(item);
         }
 
@@ -46,10 +45,10 @@ namespace DM.Domain.Services
         {
             var item = _mapper.Map<Item>(itemModel);
 
-            var result = await _context.Items.AddAsync(item);
-            await _context.SaveChangesAsync();
+            await Context.Items.Create(item);
+            await Context.SaveAsync();
 
-            return result.Entity.Id;
+            return item.Id;
         }
     }
 }

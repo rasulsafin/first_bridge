@@ -7,7 +7,7 @@ namespace DM.Domain.Interfaces
 {
     public interface IRoleService
     {
-        public List<RoleDto> GetAll();
+        public Task<IEnumerable<RoleDto>> GetAll();
         public RoleDto GetById(long roleId);
         public Task<bool> Create(RoleForCreateDto roleModel);
         public Task<bool> Update(RoleForUpdateDto roleModel);

@@ -11,41 +11,35 @@ using DM.Domain.Models;
 
 using DM.DAL;
 using DM.DAL.Entities;
+using DM.DAL.Interfaces;
 
 namespace DM.Domain.Services
 {
     public class UserProjectService : IUserProjectService
     {
-        private readonly DmDbContext _context;
-
-        private readonly IConfiguration _configuration;
+        private IUnitOfWork Context { get; set; }
         private readonly IMapper _mapper;
 
-        public UserProjectService(DmDbContext context, IConfiguration configuration, IMapper mapper)
+        public UserProjectService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _context = context;
+            Context = unitOfWork;
             _mapper = mapper;
-            _configuration = configuration;
         }
 
         public async Task<bool> AddToProject(UserProjectDto userProjectModel)
         {
-            if (userProjectModel == null) return false;
+            var isExist = await Context.UserProjects.IsExist(userProjectModel.UserId, userProjectModel.ProjectId);
 
-            var userProject = _context.UsersProjects.FirstOrDefault(q => q.UserId == userProjectModel.UserId &&
-                                                                    q.ProjectId == userProjectModel.ProjectId);
+            if (isExist) return false;
 
-            if (userProject != null) return false;
-
-            userProject = _mapper.Map<UserProject>(new UserProjectDto
+            var userProject = _mapper.Map<UserProject>(new UserProjectDto
             {
                 UserId = userProjectModel.UserId,
                 ProjectId = userProjectModel.ProjectId
             });
 
-            _context.UsersProjects.Add(userProject);
-
-            await _context.SaveChangesAsync();
+            await Context.UserProjects.Create(userProject);
+            await Context.SaveAsync();
 
             return true;
         }
@@ -56,11 +50,10 @@ namespace DM.Domain.Services
 
             var up = _mapper.Map<List<UserProject>>(userProjectsModel);
 
-            var userProjects = NormalizedList(up);
+            var userProjects = await NormalizedList(up);
 
-            _context.UsersProjects.AddRange(userProjects);
-
-            await _context.SaveChangesAsync();
+            await Context.UserProjects.AddToProjects(userProjects);
+            await Context.SaveAsync();
 
             return true;
         }
@@ -69,23 +62,20 @@ namespace DM.Domain.Services
         {
             if (userId < 1 && projectId < 1) return false;
 
-            var userProject = _context.UsersProjects.FirstOrDefault(q => q.UserId == userId && q.ProjectId == projectId);
-
-            _context.UsersProjects.Remove(userProject);
-
-            await _context.SaveChangesAsync();
+            await Context.UserProjects.DeleteFromProject(userId, projectId);
+            await Context.SaveAsync();
 
             return true;
         }
 
-        private List<UserProject> NormalizedList(List<UserProject> userProjects)
+        private async Task<List<UserProject>> NormalizedList(List<UserProject> userProjects)
         {
             var normalizedUserProjects = new List<UserProject>();
 
             foreach (var item in userProjects)
             {
-                var userProject = _context.UsersProjects.FirstOrDefault(o => o.UserId == item.UserId && o.ProjectId == item.ProjectId);
-                if (userProject == null)
+                var userProject = await Context.UserProjects.IsExist(item.UserId, item.ProjectId);
+                if (!userProject)
                 {
                     normalizedUserProjects.Add(item);
                 }

@@ -81,7 +81,7 @@ namespace DM.Controllers
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while adding template.</response>
         [HttpPost]
-        public IActionResult AddTemplateToProject(TemplateForCreateDto templateForCreateModel)
+        public async Task<IActionResult> AddTemplateToProject(TemplateForCreateDto templateForCreateModel)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace DM.Controllers
 
                 if (templateForCreateModel == null) return NotFound();
 
-                var template = _templateService.Create(templateForCreateModel);
+                var template = await _templateService.Create(templateForCreateModel);
 
                 return Ok(template);
             }
@@ -111,7 +111,7 @@ namespace DM.Controllers
         /// <response code="404">Template not found.</response>
         /// <response code="500">Something went wrong when updating the template.</response>
         [HttpPut]
-        public IActionResult EditExistingTemplateOfProject(TemplateForUpdateDto templateModelForEdit)
+        public async Task<IActionResult> EditExistingTemplateOfProject(TemplateForUpdateDto templateModelForEdit)
         {
             try
             {
@@ -119,7 +119,7 @@ namespace DM.Controllers
 
                 if (!permission) return StatusCode(403);
 
-                var checker = _templateService.Update(templateModelForEdit);
+                var checker = await _templateService.Update(templateModelForEdit);
 
                 return Ok(checker);
             }

@@ -46,7 +46,7 @@ namespace DM.Controllers
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while fetching the roles.</response>
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
             try
             {
@@ -54,7 +54,7 @@ namespace DM.Controllers
 
                 if (!permission) return StatusCode(403);
 
-                var roles = _roleService.GetAll();
+                var roles = await _roleService.GetAll();
 
                 return Ok(roles);
             }

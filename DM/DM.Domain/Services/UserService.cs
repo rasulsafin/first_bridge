@@ -21,7 +21,6 @@ namespace DM.Domain.Services
     public class UserService : IUserService
     {
         private IUnitOfWork Context { get; set; }
-
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
 
@@ -63,7 +62,6 @@ namespace DM.Domain.Services
             if (userId < 1) return null;
 
             var user = Context.Users.GetById(userId);
-
             return _mapper.Map<UserForReadDto>(user);
         }
 

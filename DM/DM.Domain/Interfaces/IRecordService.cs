@@ -9,7 +9,7 @@ namespace DM.Domain.Interfaces
 {
     public interface IRecordService
     {
-        public List<RecordForReadDto> GetAll();
+        public Task<IEnumerable<RecordForReadDto>> GetAll();
         public RecordForReadDto GetById(long recordId);
         public Task<long> Create(RecordForCreateDto recordModel);
         public Task<bool> Update(RecordDto recordModel);

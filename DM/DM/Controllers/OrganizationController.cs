@@ -7,6 +7,7 @@ using DM.Domain.Interfaces;
 using DM.Domain.Models;
 using DM.Domain.Services;
 using DM.Domain.Helpers;
+using DM.Domain.Infrastructure.Exceptions;
 
 using DM.DAL;
 using DM.DAL.Enums;
@@ -14,7 +15,6 @@ using DM.DAL.Enums;
 using DM.Helpers;
 
 using static DM.Validators.ServiceResponsesValidator;
-using DM.Domain.Infrastructure.Exceptions;
 
 namespace DM.Controllers
 {

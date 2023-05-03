@@ -48,8 +48,7 @@ namespace DM.Tests.UnitTests
             };
             permissionListResult.Add(permissionForResult);
 
-            permissionRepo.Setup(x => x.GetAllByRole(1))
-                .Returns(Task.FromResult(permissionListResult));
+            permissionRepo.Setup(x => x.GetAllByRole(1));
             var result = await permissionController.GetAllByRole(1);
 
             var actualResult = result as OkObjectResult;

@@ -6,6 +6,6 @@ namespace DM.DAL.Interfaces
 {
     public interface IUserRepository<T> : IRepository<User>
     {
-        abstract Task<T> Authenticate(string login);
+        Task<User> Authenticate(string login);
     }
 }

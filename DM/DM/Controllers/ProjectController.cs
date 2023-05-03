@@ -78,7 +78,7 @@ namespace DM.Controllers
         /// <response code="404">Could not find project.</response>
         /// <response code="500">Something went wrong while fetching the project.</response>
         [HttpGet("{projectId}")]
-        public async Task<IActionResult> GetById(long projectId)
+        public IActionResult GetById(long projectId)
         {
             try
             {
@@ -86,7 +86,7 @@ namespace DM.Controllers
 
                 if (!permission) return StatusCode(403);
 
-                var project = await _projectService.GetById(projectId);
+                var project = _projectService.GetById(projectId);
 
                 if (project == null)
                     return NotFound();
@@ -170,13 +170,13 @@ namespace DM.Controllers
         /// <response code="404">Project was not found.</response>
         /// <response code="500">Something went wrong while deleting project.</response>
         [HttpDelete]
-        public async Task<IActionResult> Delete(long projectId)
+        public async Task<IActionResult> Archive(long projectId)
         {
             var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionEnum.Project);
 
             if (!permission) return StatusCode(403);
 
-            var checker = await _projectService.Delete(projectId);
+            var checker = await _projectService.Archive(projectId);
 
             if (!checker) return NotFound();
 

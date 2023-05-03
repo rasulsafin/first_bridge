@@ -12,45 +12,37 @@ using DM.Domain.Interfaces;
 using DM.DAL;
 using DM.DAL.Entities;
 using System;
+using DM.DAL.Interfaces;
+using DM.Domain.Helpers;
 
 namespace DM.Domain.Services
 {
     public class ProjectService : IProjectService
     {
-        private readonly DmDbContext _context;
+
         private readonly UserDto _currentUser;
 
+        private IUnitOfWork Context { get; set; }
         private readonly IMapper _mapper;
 
-        public ProjectService(DmDbContext context, IMapper mapper, CurrentUserService userService)
+        public ProjectService(IUnitOfWork unitOfWork, IMapper mapper, CurrentUserService userService)
         {
-            _context = context;
+            Context = unitOfWork;
             _mapper = mapper;
             _currentUser = userService.CurrentUser;
         }
 
-        public async Task<List<ProjectForReadDto>> GetAll()
+        public async Task<IEnumerable<ProjectForReadDto>> GetAll()
         {
-            var projects = await _context.Projects
-                .Include(x => x.Templates)
-                .Include(x => x.Items)
-                .Include(x => x.UserProjects).ThenInclude(y => y.User)
-                .OrderBy(x => x.IsInArchive)
-                .ToListAsync();
-
-            return _mapper.Map<List<ProjectForReadDto>>(projects);
+            var projects = await Context.Projects.GetAll();
+            return _mapper.Map<IEnumerable<ProjectForReadDto>>(projects);
         }
 
-        public async Task<ProjectForReadDto> GetById(long projectId)
+        public ProjectForReadDto GetById(long? projectId)
         {
-            var project = await _context.Projects
-                .Include(x => x.Templates)
-                .Include(x => x.Items)
-                .Include(x => x.UserProjects).ThenInclude(y => y.User)
-                .FirstOrDefaultAsync(x => x.Id == projectId);
+            if (projectId < 1) return null;
 
-            if (project == null) return null;
-
+            var project = Context.Projects.GetById(projectId);
             return _mapper.Map<ProjectForReadDto>(project);
         }
 
@@ -64,49 +56,34 @@ namespace DM.Domain.Services
                 Users = projectForReadModel.Users.ToList(),
             });
 
-            _context.Projects.Add(project);
-
-            await _context.SaveChangesAsync();
+            await Context.Projects.Create(project);
+            await Context.SaveAsync();
 
             return project.Id;
         }
 
         public async Task<bool> Update(ProjectForUpdateDto projectForUpdateModel)
         {
-            var project = await _context.Projects.FirstOrDefaultAsync(x => x.Id == projectForUpdateModel.Id);
+            var project = Context.Projects.GetById(projectForUpdateModel.Id);
 
             if (project == null) return false;
-
-            _context.Projects.Attach(project);
 
             project.Title = projectForUpdateModel.Title;
             project.IsInArchive = projectForUpdateModel.IsInArchive;
             project.UpdatedAt = DateTime.UtcNow;
 
-            await _context.SaveChangesAsync();
-
-            _context.Entry(project).State = EntityState.Detached;
+            Context.Projects.Update(project);
+            await Context.SaveAsync();
 
             return true;
         }
 
-        public async Task<bool> Delete(long projectId)
+        public async Task<bool> Archive(long? projectId)
         {
-            var result = await _context.Projects
-                .Include(x => x.Items)
-                .Include(x => x.Records)
-                .Include(x => x.Templates)
-                .FirstOrDefaultAsync(x => x.Id == projectId);
+            var result = Context.Projects.Archive(projectId);
+            await Context.SaveAsync();
 
-            if (result == null) return false;
-
-            result.IsInArchive = true;
-
-            _context.Projects.Update(result);
-
-            await _context.SaveChangesAsync();
-
-            return true;
+            return result;
         }
     }
 }
