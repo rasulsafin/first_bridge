@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 using AutoMapper;
 
 using DM.Domain.Interfaces;
-using DM.Domain.Models;
+using DM.Domain.DTO;
 
 using DM.DAL.Interfaces;
+using DM.Common.Enums;
 
 namespace DM.Domain.Services
 {
@@ -28,23 +29,29 @@ namespace DM.Domain.Services
             return _mapper.Map<IEnumerable<PermissionDto>>(permissions);
         }
 
-        public async Task<bool> UpdatePermissionOnRole(PermissionDto permissionModel)
+        public async Task<bool> UpdatePermissionOnRole(PermissionDto permissionDto)
         {
-            var permission = await Context.Permissions.GetByRoleAndType(permissionModel.RoleId, permissionModel.Type);
+            var permission = await Context.Permissions.GetByRoleAndType(permissionDto.RoleId, permissionDto.Type);
 
             if (permission == null) return false;
 
-            permission.Type = permissionModel.Type;
-            permission.Create = permissionModel.Create;
-            permission.Read = permissionModel.Read;
-            permission.Update = permissionModel.Update;
-            permission.Delete = permissionModel.Delete;
+            permission.Type = permissionDto.Type;
+            permission.Create = permissionDto.Create;
+            permission.Read = permissionDto.Read;
+            permission.Update = permissionDto.Update;
+            permission.Delete = permissionDto.Delete;
             permission.UpdatedAt = DateTime.UtcNow;
 
             Context.Permissions.Update(permission);
             await Context.SaveAsync();
 
             return true;
+        }
+
+        public async Task<PermissionDto> GetAccess(long roleId, PermissionEnum permission)
+        {
+            var access = await Context.Permissions.GetByRoleAndType(roleId, permission);
+            return _mapper.Map<PermissionDto>(access);
         }
 
         public void Dispose()

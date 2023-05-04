@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 using DM.Domain.Interfaces;
-using DM.Domain.Models;
-using DM.Domain.Helpers;
+using DM.Domain.DTO;
 using DM.Domain.Services;
 using DM.Domain.Infrastructure.Exceptions;
-
-using DM.DAL;
 
 using DM.Common.Enums;
 
@@ -25,21 +21,17 @@ namespace DM.Controllers
     [Route("api/project")]
     public class ProjectController : ControllerBase
     {
-        private readonly DmDbContext _context;
         private readonly UserDto _currentUser;
 
         private readonly IProjectService _projectService;
         private readonly IUserProjectService _userProjectService;
-        private readonly ILogger<ProjectService> _logger;
 
-        public ProjectController(DmDbContext context, CurrentUserService currentUserService, IProjectService projectService,
-            IUserProjectService userProjectService, ILogger<ProjectService> logger)
+        public ProjectController(CurrentUserService currentUserService, IProjectService projectService,
+            IUserProjectService userProjectService)
         {
-            _context = context;
             _currentUser = currentUserService.CurrentUser;
             _projectService = projectService;
             _userProjectService = userProjectService;
-            _logger = logger;
         }
 
         /// <summary>
@@ -54,9 +46,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionEnum.Project);
+                var permission = await _projectService.GetAccess(_currentUser.RoleId, PermissionEnum.Project);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Read) return StatusCode(403);
 
                 var projects = await _projectService.GetAll();
 
@@ -79,13 +71,13 @@ namespace DM.Controllers
         /// <response code="404">Could not find project.</response>
         /// <response code="500">Something went wrong while fetching the project.</response>
         [HttpGet("{projectId}")]
-        public IActionResult GetById(long projectId)
+        public async Task<IActionResult> GetById(long projectId)
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionEnum.Project);
+                var permission = await _projectService.GetAccess(_currentUser.RoleId, PermissionEnum.Project);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Read) return StatusCode(403);
 
                 var project = _projectService.GetById(projectId);
 
@@ -107,21 +99,21 @@ namespace DM.Controllers
         /// <summary>
         /// Create new project.
         /// </summary>
-        /// <param name="projectModel"></param>
+        /// <param name="projectDto"></param>
         /// <returns>Id of created project.</returns>        
         /// <response code="200">Project created.</response>
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while creating new project.</response>
         [HttpPost]
-        public async Task<IActionResult> Create(ProjectForReadDto projectModel)
+        public async Task<IActionResult> Create(ProjectForReadDto projectDto)
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionEnum.Project);
+                var permission = await _projectService.GetAccess(_currentUser.RoleId, PermissionEnum.Project);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Create) return StatusCode(403);
 
-                var id = await _projectService.Create(projectModel);
+                var id = await _projectService.Create(projectDto);
 
                 return Ok(id);
             }
@@ -134,21 +126,21 @@ namespace DM.Controllers
         /// <summary>
         /// Updating an existing project.
         /// </summary>
-        /// <param name="projectModel"></param>
+        /// <param name="projectDto"></param>
         /// <returns>Boolean value about function execution.</returns>        
         /// <response code="200">Project updated.</response>
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while updating project.</response>
         [HttpPut]
-        public async Task<IActionResult> Update(ProjectForUpdateDto projectModel)
+        public async Task<IActionResult> Update(ProjectForUpdateDto projectDto)
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionEnum.Project);
+                var permission = await _projectService.GetAccess(_currentUser.RoleId, PermissionEnum.Project);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Update) return StatusCode(403);
 
-                var checker = await _projectService.Update(projectModel);
+                var checker = await _projectService.Update(projectDto);
 
                 if (!checker) return BadRequest();
 
@@ -173,9 +165,9 @@ namespace DM.Controllers
         [HttpDelete]
         public async Task<IActionResult> Archive(long projectId)
         {
-            var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionEnum.Project);
+            var permission = await _projectService.GetAccess(_currentUser.RoleId, PermissionEnum.Project);
 
-            if (!permission) return StatusCode(403);
+            if (!permission.Delete) return StatusCode(403);
 
             var checker = await _projectService.Archive(projectId);
 
@@ -187,22 +179,22 @@ namespace DM.Controllers
         /// <summary>
         /// Add user to project.
         /// </summary>
-        /// <param name="userProjectModel"></param>
+        /// <param name="userProjectDto"></param>
         /// <returns>Boolean value about function execution.</returns>        
         /// <response code="200">User added.</response>
         /// <response code="403">Access denied.</response>
         /// <response code="404">User or project was not found.</response>
         /// <response code="500">Something went wrong when adding to the project.</response>
         [HttpPost("addToProject")]
-        public async Task<IActionResult> AddToProject(UserProjectDto userProjectModel)
+        public async Task<IActionResult> AddToProject(UserProjectDto userProjectDto)
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionEnum.User);
+                var permission = await _projectService.GetAccess(_currentUser.RoleId, PermissionEnum.Project);
 
-                if (!permission) return BadRequest(403);
+                if (!permission.Create) return BadRequest(403);
 
-                var checker = await _userProjectService.AddToProject(userProjectModel);
+                var checker = await _userProjectService.AddToProject(userProjectDto);
 
                 return Ok(checker);
             }
@@ -219,22 +211,22 @@ namespace DM.Controllers
         /// <summary>
         /// Adding a list of users to the project.
         /// </summary>
-        /// <param name="userProjectModel"></param>
+        /// <param name="userProjectDto"></param>
         /// <returns>Boolean value about function execution.</returns>        
         /// <response code="200">Users added.</response>
         /// <response code="403">Access denied.</response>
         /// <response code="404">User or project was not found.</response>
         /// <response code="500">Something went wrong when adding to the project.</response>
         [HttpPost("addUserListToProject")]
-        public async Task<IActionResult> AddToProjects(List<UserProjectDto> userProjectModel)
+        public async Task<IActionResult> AddToProjects(List<UserProjectDto> userProjectDto)
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionEnum.User);
+                var permission = await _projectService.GetAccess(_currentUser.RoleId, PermissionEnum.Project);
 
-                if (!permission) return BadRequest(403);
+                if (!permission.Create) return BadRequest(403);
 
-                var checker = await _userProjectService.AddToProjects(userProjectModel);
+                var checker = await _userProjectService.AddToProjects(userProjectDto);
 
                 return Ok(checker);
             }
@@ -263,9 +255,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionEnum.User);
+                var permission = await _projectService.GetAccess(_currentUser.RoleId, PermissionEnum.Project);
 
-                if (!permission) return BadRequest(403);
+                if (!permission.Delete) return BadRequest(403);
 
                 var checker = await _userProjectService.DeleteFromProject(userId, projectId);
 

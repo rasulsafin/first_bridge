@@ -1,15 +1,11 @@
 ﻿using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 using DM.Domain.Interfaces;
-using DM.Domain.Models;
-using DM.Domain.Helpers;
+using DM.Domain.DTO;
 using DM.Domain.Services;
 using DM.Domain.Infrastructure.Exceptions;
-
-using DM.DAL;
 
 using DM.Common.Enums;
 
@@ -24,38 +20,34 @@ namespace DM.Controllers
     [Route("api/listField")]
     public class ListFieldController : ControllerBase
     {
-        private readonly DmDbContext _context;
         private readonly UserDto _currentUser;
 
         private readonly IListFieldService _listFieldService;
-        private readonly ILogger<FieldService> _logger;
 
-        public ListFieldController(DmDbContext context, CurrentUserService currentUserService, IListFieldService listFieldService, ILogger<FieldService> logger)
+        public ListFieldController(CurrentUserService currentUserService, IListFieldService listFieldService)
         {
-            _context = context;
             _currentUser = currentUserService.CurrentUser;
             _listFieldService = listFieldService;
-            _logger = logger;
         }
 
         /// <summary>
         /// Create new listField.
         /// </summary>
-        /// <param name="listFieldModel"></param>
+        /// <param name="listFieldDto"></param>
         /// <returns>Id of created listField.</returns>        
         /// <response code="200">ListField created.</response>
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while creating new listField.</response>
         [HttpPost]
-        public async Task<IActionResult> Create(ListFieldDto listFieldModel)
+        public async Task<IActionResult> Create(ListFieldDto listFieldDto)
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionEnum.Template);
+                var permission = await _listFieldService.GetAccess(_currentUser.RoleId, PermissionEnum.Template);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Create) return StatusCode(403);
 
-                var checker = await _listFieldService.Create(listFieldModel);
+                var checker = await _listFieldService.Create(listFieldDto);
 
                 return Ok(checker);
             }
@@ -80,9 +72,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionEnum.Template);
+                var permission = await _listFieldService.GetAccess(_currentUser.RoleId, PermissionEnum.Template);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Delete) return StatusCode(403);
 
                 var checker = await _listFieldService.Delete(listFieldId);
 

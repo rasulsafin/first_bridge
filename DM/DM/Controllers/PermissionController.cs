@@ -1,15 +1,11 @@
 ﻿using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 using DM.Domain.Interfaces;
-using DM.Domain.Models;
-using DM.Domain.Helpers;
+using DM.Domain.DTO;
 using DM.Domain.Services;
 using DM.Domain.Infrastructure.Exceptions;
-
-using DM.DAL;
 
 using DM.Common.Enums;
 
@@ -24,18 +20,14 @@ namespace DM.Controllers
     [Route("api/permission")]
     public class PermissionController : ControllerBase
     {
-        private readonly DmDbContext _context;
         private readonly UserDto _currentUser;
 
         private readonly IPermissionService _permissionService;
-        private readonly ILogger<PermissionService> _logger;
 
-        public PermissionController(DmDbContext context, CurrentUserService currentUserService, IPermissionService permissionService, ILogger<PermissionService> logger)
+        public PermissionController(CurrentUserService currentUserService, IPermissionService permissionService)
         {
-            _context = context;
             _currentUser = currentUserService.CurrentUser;
             _permissionService = permissionService;
-            _logger = logger;
         }
 
         /// <summary>
@@ -53,9 +45,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionEnum.Role);
+                var permission = await _permissionService.GetAccess(_currentUser.RoleId, PermissionEnum.Role);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Read) return StatusCode(403);
 
                 var permissions = await _permissionService.GetAllByRole(roleId);
 
@@ -76,21 +68,21 @@ namespace DM.Controllers
         /// <summary>
         /// Updating an existing permission.
         /// </summary>
-        /// <param name="permissionModel"></param>
+        /// <param name="permissionDto"></param>
         /// <returns>Boolean value about function execution.</returns>        
         /// <response code="200">Permission updated.</response>
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while updating updated.</response>
         [HttpPut]
-        public async Task<IActionResult> UpdatePermissionOnRole(PermissionDto permissionModel)
+        public async Task<IActionResult> UpdatePermissionOnRole(PermissionDto permissionDto)
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionEnum.Role);
+                var permission = await _permissionService.GetAccess(_currentUser.RoleId, PermissionEnum.Role);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Update) return StatusCode(403);
 
-                var result = await _permissionService.UpdatePermissionOnRole(permissionModel);
+                var result = await _permissionService.UpdatePermissionOnRole(permissionDto);
 
                 if (!result) return BadRequest("something went wrong");
 

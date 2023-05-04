@@ -1,15 +1,11 @@
 ﻿using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 using DM.Domain.Interfaces;
-using DM.Domain.Models;
-using DM.Domain.Helpers;
+using DM.Domain.DTO;
 using DM.Domain.Services;
 using DM.Domain.Infrastructure.Exceptions;
-
-using DM.DAL;
 
 using DM.Common.Enums;
 
@@ -24,18 +20,14 @@ namespace DM.Controllers
     [Route("api/record")]
     public class RecordController : ControllerBase
     {
-        private readonly DmDbContext _context;
         private readonly UserDto _currentUser;
 
         private readonly IRecordService _recordService;
-        private readonly ILogger<RecordService> _logger;
 
-        public RecordController(DmDbContext context, CurrentUserService currentUserService, IRecordService recordService, ILogger<RecordService> logger)
+        public RecordController(CurrentUserService currentUserService, IRecordService recordService)
         {
-            _context = context;
             _currentUser = currentUserService.CurrentUser;
             _recordService = recordService;
-            _logger = logger;
         }
 
         /// <summary>
@@ -50,9 +42,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionEnum.Record);
+                var permission = await _recordService.GetAccess(_currentUser.RoleId, PermissionEnum.Record);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Read) return StatusCode(403);
 
                 var records = await _recordService.GetAll();
 
@@ -75,13 +67,13 @@ namespace DM.Controllers
         /// <response code="404">Could not find record.</response>
         /// <response code="500">Something went wrong while fetching the record.</response>
         [HttpGet("{recordId}")]
-        public IActionResult GetById(long recordId)
+        public async Task<IActionResult> GetById(long recordId)
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionEnum.Record);
+                var permission = await _recordService.GetAccess(_currentUser.RoleId, PermissionEnum.Record);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Read) return StatusCode(403);
 
                 var record = _recordService.GetById(recordId);
 
@@ -102,21 +94,21 @@ namespace DM.Controllers
         /// <summary>
         /// Create new record.
         /// </summary>
-        /// <param name="recordModel"></param>
+        /// <param name="recordDto"></param>
         /// <returns>Id of created record.</returns>        
         /// <response code="200">Record created.</response>
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while creating new record.</response>
         [HttpPost]
-        public async Task<IActionResult> Create(RecordForCreateDto recordModel)
+        public async Task<IActionResult> Create(RecordForCreateDto recordDto)
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionEnum.Record);
+                var permission = await _recordService.GetAccess(_currentUser.RoleId, PermissionEnum.Record);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Create) return StatusCode(403);
 
-                var id = await _recordService.Create(recordModel);
+                var id = await _recordService.Create(recordDto);
 
                 if (id == 0) return BadRequest();
 
@@ -131,21 +123,21 @@ namespace DM.Controllers
         /// <summary>
         /// Updating an existing record.
         /// </summary>
-        /// <param name="recordModel"></param>
+        /// <param name="recordDto"></param>
         /// <returns>Boolean value about function execution.</returns>        
         /// <response code="200">Record updated.</response>
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while updating record.</response>
         [HttpPut]
-        public async Task<IActionResult> Update(RecordDto recordModel)
+        public async Task<IActionResult> Update(RecordDto recordDto)
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionEnum.Record);
+                var permission = await _recordService.GetAccess(_currentUser.RoleId, PermissionEnum.Record);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Update) return StatusCode(403);
 
-                var checker = await _recordService.Update(recordModel);
+                var checker = await _recordService.Update(recordDto);
 
                 if (!checker) return BadRequest();
 
@@ -172,9 +164,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionEnum.Record);
+                var permission = await _recordService.GetAccess(_currentUser.RoleId, PermissionEnum.Record);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Delete) return StatusCode(403);
 
                 var checker = await _recordService.Delete(recordId);
 

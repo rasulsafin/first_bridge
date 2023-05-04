@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace DM.Domain.Models
+namespace DM.Domain.DTO
 {
     public class RoleForCreateDto : BaseDto
     {

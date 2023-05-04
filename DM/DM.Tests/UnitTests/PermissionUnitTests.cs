@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using DM.Controllers;
 using DM.DAL.Entities;
 using DM.Domain.Interfaces;
-using DM.Domain.Models;
 using DM.Tests.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 using DM.Common.Enums;
 using System;
+using DM.Domain.DTO;
 
 namespace DM.Tests.UnitTests
 {
@@ -35,7 +35,7 @@ namespace DM.Tests.UnitTests
         public async Task CreatePermissionReturnsOkPositiveTesting()
         {
             var permissionRepo = new Mock<IPermissionService>();
-            var permissionController = new PermissionController(null, null, permissionRepo.Object, null);
+            var permissionController = new PermissionController(null, permissionRepo.Object);
             var permissionListResult = new List<PermissionDto>();
             var permissionForResult = new PermissionDto()
             {
@@ -71,7 +71,7 @@ namespace DM.Tests.UnitTests
         public async Task GetAllPermissionsReturnsNotFound()
         {
             var permissionRepo = new Mock<IPermissionService>();
-            var permissionController = new PermissionController(null, null, permissionRepo.Object, null);
+            var permissionController = new PermissionController(null, permissionRepo.Object);
 
             var result = await permissionController.GetAllByRole(1);
             Assert.IsType<NotFoundResult>(result);

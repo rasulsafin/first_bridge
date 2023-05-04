@@ -29,12 +29,12 @@ namespace DM.DAL.Repositories
             return permissions;
         }
 
-        public async Task<Permission> GetByRoleAndType(long roleId, PermissionEnum permission)
+        public async Task<Permission> GetByRoleAndType(long roleId, PermissionEnum permissionEnum)
         {
-            Permission permissions = await _dbContext.Permissions
-                .FirstOrDefaultAsync(x => x.RoleId == roleId && x.Type == permission);
+            Permission permission = await _dbContext.Permissions
+                .FirstOrDefaultAsync(x => x.RoleId == roleId && x.Type == permissionEnum);
 
-            return permissions;
+            return permission;
         }
 
         public void Update(Permission permission)

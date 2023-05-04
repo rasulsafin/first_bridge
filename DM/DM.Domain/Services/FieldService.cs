@@ -3,10 +3,11 @@
 using AutoMapper;
 
 using DM.Domain.Interfaces;
-using DM.Domain.Models;
+using DM.Domain.DTO;
 
 using DM.DAL.Entities;
 using DM.DAL.Interfaces;
+using DM.Common.Enums;
 
 namespace DM.Domain.Services
 {
@@ -24,16 +25,16 @@ namespace DM.Domain.Services
             _currentUser = userService.CurrentUser;
         }
 
-        public async Task<bool> Create(FieldDto fieldModel)
+        public async Task<bool> Create(FieldDto fieldDto)
         {
             var field = _mapper.Map<Field>(new FieldDto
             {
-                Name = fieldModel.Name,
-                IsMandatory = fieldModel.IsMandatory,
-                Data = fieldModel.Data,
-                Type = fieldModel.Type,
-                RecordId = fieldModel.RecordId == 0 ? null : fieldModel.RecordId,
-                TemplateId = fieldModel.TemplateId == 0 ? null : fieldModel.TemplateId,
+                Name = fieldDto.Name,
+                IsMandatory = fieldDto.IsMandatory,
+                Data = fieldDto.Data,
+                Type = fieldDto.Type,
+                RecordId = fieldDto.RecordId == 0 ? null : fieldDto.RecordId,
+                TemplateId = fieldDto.TemplateId == 0 ? null : fieldDto.TemplateId,
             });
 
             await Context.Fields.Create(field);
@@ -42,16 +43,16 @@ namespace DM.Domain.Services
             return true;
         }
 
-        public async Task<bool> Create(ListFieldDto listFieldModel)
+        public async Task<bool> Create(ListFieldDto listFieldDto)
         {
             var listField = _mapper.Map<ListField>(new ListFieldDto
             {
-                Name = listFieldModel.Name,
-                IsMandatory = listFieldModel.IsMandatory,
-                Lists = listFieldModel.Lists,
-                Type = listFieldModel.Type,
-                RecordId = listFieldModel.RecordId == 0 ? null : listFieldModel.RecordId,
-                TemplateId = listFieldModel.TemplateId == 0 ? null : listFieldModel.TemplateId,
+                Name = listFieldDto.Name,
+                IsMandatory = listFieldDto.IsMandatory,
+                Lists = listFieldDto.Lists,
+                Type = listFieldDto.Type,
+                RecordId = listFieldDto.RecordId == 0 ? null : listFieldDto.RecordId,
+                TemplateId = listFieldDto.TemplateId == 0 ? null : listFieldDto.TemplateId,
             });
 
             await Context.ListFields.Create(listField);
@@ -74,6 +75,12 @@ namespace DM.Domain.Services
             await Context.SaveAsync();
 
             return result;
+        }
+
+        public async Task<PermissionDto> GetAccess(long roleId, PermissionEnum permission)
+        {
+            var access = await Context.Permissions.GetByRoleAndType(roleId, permission);
+            return _mapper.Map<PermissionDto>(access);
         }
 
         public void Dispose()

@@ -1,15 +1,11 @@
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 using DM.Domain.Interfaces;
-using DM.Domain.Models;
-using DM.Domain.Helpers;
+using DM.Domain.DTO;
 using DM.Domain.Services;
 using DM.Domain.Infrastructure.Exceptions;
-
-using DM.DAL;
 
 using DM.Common.Enums;
 
@@ -24,38 +20,34 @@ namespace DM.Controllers
     [Route("api/comment")]
     public class CommentController : ControllerBase
     {
-        public readonly DmDbContext _context;
         private readonly UserDto _currentUser;
 
         public readonly ICommentService _commentService;
-        private readonly ILogger<FieldService> _logger;
 
-        public CommentController(DmDbContext context, CurrentUserService currentUserService, ICommentService commentService, ILogger<FieldService> logger)
+        public CommentController(CurrentUserService currentUserService, ICommentService commentService)
         {
-            _context = context;
             _currentUser = currentUserService.CurrentUser;
             _commentService = commentService;
-            _logger = logger;
         }
 
         /// <summary>
         /// Create new comment.
         /// </summary>
-        /// <param name="commentModel"></param>
+        /// <param name="commentDto"></param>
         /// <returns>Id of created comment.</returns>        
         /// <response code="200">Comment created.</response>
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while creating new comment.</response>
         [HttpPost]
-        public async Task<IActionResult> Create(CommentDto commentModel)
+        public async Task<IActionResult> Create(CommentDto commentDto)
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionEnum.Record);
+                var permission = await _commentService.GetAccess(_currentUser.RoleId, PermissionEnum.Record);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Create) return StatusCode(403);
 
-                var id = await _commentService.Create(commentModel);
+                var id = await _commentService.Create(commentDto);
 
                 if (id == 0) return BadRequest();
 
@@ -82,9 +74,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionEnum.Record);
+                var permission = await _commentService.GetAccess(_currentUser.RoleId, PermissionEnum.Record);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Delete) return StatusCode(403);
 
                 var checker = await _commentService.Delete(commentId);
 
@@ -105,21 +97,21 @@ namespace DM.Controllers
         /// <summary>
         /// Updating an existing comment.
         /// </summary>
-        /// <param name="commentForUpdateModel"></param>
+        /// <param name="commentForUpdateDto"></param>
         /// <returns>Boolean value about function execution.</returns>        
         /// <response code="200">Comment updated.</response>
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while updating comment.</response>
         [HttpPut]
-        public async Task<IActionResult> Update(CommentForUpdateModel commentForUpdateModel)
+        public async Task<IActionResult> Update(CommentForUpdateDto commentForUpdateDto)
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionEnum.Record);
+                var permission = await _commentService.GetAccess(_currentUser.RoleId, PermissionEnum.Record);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Update) return StatusCode(403);
 
-                var checker = await _commentService.Update(commentForUpdateModel);
+                var checker = await _commentService.Update(commentForUpdateDto);
 
                 return Ok(checker);
             }

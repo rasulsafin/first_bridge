@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DM.Domain.Models
+namespace DM.Domain.DTO
 {
     public class OrganizationForUpdateDto : OrganizationDto
     {

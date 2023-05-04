@@ -8,7 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 
 using DM.DAL.Entities;
 
-namespace DM.Domain.Helpers
+namespace DM.Domain.Infrastructure
 {
     public static class UserHelper
     {

@@ -2,14 +2,10 @@
 
 using Microsoft.AspNetCore.Mvc;
 
-using Microsoft.Extensions.Logging;
 using DM.Domain.Services;
-using DM.Domain.Helpers;
-using DM.Domain.Models;
+using DM.Domain.DTO;
 using DM.Domain.Interfaces;
 using DM.Domain.Infrastructure.Exceptions;
-
-using DM.DAL;
 
 using DM.Common.Enums;
 
@@ -24,19 +20,14 @@ namespace DM.Controllers
     [Route("api/template")]
     public class TemplateController : ControllerBase
     {
-        private readonly DmDbContext _context;
         private readonly UserDto _currentUser;
 
         private readonly ITemplateService _templateService;
-        private readonly ILogger<TemplateService> _logger;
 
-        public TemplateController(DmDbContext context, CurrentUserService currentUserService,
-            ITemplateService templateService, ILogger<TemplateService> logger)
+        public TemplateController(CurrentUserService currentUserService, ITemplateService templateService)
         {
-            _context = context;
             _currentUser = currentUserService.CurrentUser;
             _templateService = templateService;
-            _logger = logger;
         }
 
         /// <summary>
@@ -54,9 +45,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionEnum.Template);
+                var permission = await _templateService.GetAccess(_currentUser.RoleId, PermissionEnum.Template);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Read) return StatusCode(403);
 
                 var templates = await _templateService.GetAllOfProject(projectId);
 
@@ -77,23 +68,23 @@ namespace DM.Controllers
         /// <summary>
         /// Create new template.
         /// </summary>
-        /// <param name="templateForCreateModel"></param>
+        /// <param name="templateForCreateDto"></param>
         /// <returns>Boolean value about function execution.</returns>        
         /// <response code="200">Template created.</response>
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while adding template.</response>
         [HttpPost]
-        public async Task<IActionResult> AddTemplateToProject(TemplateForCreateDto templateForCreateModel)
+        public async Task<IActionResult> AddTemplateToProject(TemplateForCreateDto templateForCreateDto)
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionEnum.Template);
+                var permission = await _templateService.GetAccess(_currentUser.RoleId, PermissionEnum.Template);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Create) return StatusCode(403);
 
-                if (templateForCreateModel == null) return NotFound();
+                if (templateForCreateDto == null) return NotFound();
 
-                var template = await _templateService.Create(templateForCreateModel);
+                var template = await _templateService.Create(templateForCreateDto);
 
                 return Ok(template);
             }
@@ -106,22 +97,22 @@ namespace DM.Controllers
         /// <summary>
         /// Updating an existing template.
         /// </summary>
-        /// <param name="templateModelForEdit"></param>
+        /// <param name="templateDtoForEdit"></param>
         /// <returns>Boolean value about function execution.</returns>        
         /// <response code="200">Template updated.</response>
         /// <response code="403">Access denied.</response>
         /// <response code="404">Template not found.</response>
         /// <response code="500">Something went wrong when updating the template.</response>
         [HttpPut]
-        public async Task<IActionResult> EditExistingTemplateOfProject(TemplateForUpdateDto templateModelForEdit)
+        public async Task<IActionResult> EditExistingTemplateOfProject(TemplateForUpdateDto templateDtoForEdit)
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionEnum.Template);
+                var permission = await _templateService.GetAccess(_currentUser.RoleId, PermissionEnum.Template);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Update) return StatusCode(403);
 
-                var checker = await _templateService.Update(templateModelForEdit);
+                var checker = await _templateService.Update(templateDtoForEdit);
 
                 return Ok(checker);
             }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DM.Domain.Models
+namespace DM.Domain.DTO
 {
     public class BaseDto
     {

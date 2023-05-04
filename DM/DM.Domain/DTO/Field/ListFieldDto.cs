@@ -2,7 +2,7 @@
 
 using DM.Common.Enums;
 
-namespace DM.Domain.Models
+namespace DM.Domain.DTO
 {
     public class ListFieldDto : BaseDto
     {

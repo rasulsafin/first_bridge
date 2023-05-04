@@ -1,6 +1,6 @@
 ﻿using DM.DAL.Entities;
 
-namespace DM.Domain.Models
+namespace DM.Domain.DTO
 {
     public class AuthenticateResponse
     {
