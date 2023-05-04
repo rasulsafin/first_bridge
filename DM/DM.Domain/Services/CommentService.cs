@@ -3,10 +3,11 @@ using System.Threading.Tasks;
 using AutoMapper;
 
 using DM.Domain.Interfaces;
-using DM.Domain.Models;
+using DM.Domain.DTO;
 
 using DM.DAL.Entities;
 using DM.DAL.Interfaces;
+using DM.Common.Enums;
 
 namespace DM.Domain.Services
 {
@@ -23,9 +24,9 @@ namespace DM.Domain.Services
             _currentUser = userService.CurrentUser;
         }
 
-        public async Task<long> Create(CommentDto commentModel)
+        public async Task<long> Create(CommentDto commentDto)
         {
-            var comment = _mapper.Map<Comment>(commentModel);
+            var comment = _mapper.Map<Comment>(commentDto);
 
             await Context.Comments.Create(comment);
             await Context.SaveAsync();
@@ -33,13 +34,13 @@ namespace DM.Domain.Services
             return comment.Id;
         }
 
-        public async Task<bool> Update(CommentForUpdateModel commentModel)
+        public async Task<bool> Update(CommentForUpdateDto commentDto)
         {
-            var comment = Context.Comments.GetById(commentModel.Id);
+            var comment = Context.Comments.GetById(commentDto.Id);
 
             if (comment == null) return false;
 
-            comment.Text = commentModel.Text;
+            comment.Text = commentDto.Text;
 
             Context.Comments.Update(comment);
             await Context.SaveAsync();
@@ -53,6 +54,12 @@ namespace DM.Domain.Services
             await Context.SaveAsync();
 
             return result;
+        }
+
+        public async Task<PermissionDto> GetAccess(long roleId, PermissionEnum permission)
+        {
+            var access = await Context.Permissions.GetByRoleAndType(roleId, permission);
+            return _mapper.Map<PermissionDto>(access);
         }
 
         public void Dispose()

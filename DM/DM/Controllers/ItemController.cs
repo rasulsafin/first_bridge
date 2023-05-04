@@ -10,10 +10,9 @@ using Microsoft.EntityFrameworkCore;
 using Xbim.Ifc;
 using Xbim.ModelGeometry.Scene;
 
-using DM.Domain.Helpers;
 using DM.Domain.Services;
 using DM.Domain.Interfaces;
-using DM.Domain.Models;
+using DM.Domain.DTO;
 
 using DM.DAL;
 
@@ -138,9 +137,9 @@ namespace DM.Controllers
         [HttpPost, DisableRequestSizeLimit, Route("file")]
         public async Task<IActionResult> Post(long project, IFormFile file)
         {
-            var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionEnum.Item);
+            var permission = await _itemService.GetAccess(_currentUser.RoleId, PermissionEnum.Item);
 
-            if (!permission) return StatusCode(403);
+            if (!permission.Create) return StatusCode(403);
 
             var fileExtension = Path.GetExtension(file.FileName);
             var fileNameWithoutExtension = file.FileName.Remove(file.FileName.Length - 4); // Folder Name
@@ -175,14 +174,14 @@ namespace DM.Controllers
                     await file.CopyToAsync(fstream); // Put an Object
                 }
 
-                var itemModel = new ItemDto()
+                var itemDto = new ItemDto()
                 {
                     Name = fileNameWithoutExtension + "_v" + lastVersion + fileExtension,
                     RelativePath = pathForCreate,
                     ProjectId = project
                 };
 
-                var item = await _itemService.Create(itemModel); // Adding a Record about new Item
+                var item = await _itemService.Create(itemDto); // Adding a Record about new Item
                 return Ok(item);
             }
             else

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using DM.Domain.Models;
+using DM.Domain.DTO;
 
 namespace DM.Domain.Interfaces
 {
-    public interface ITemplateService
+    public interface ITemplateService : IGetAccess
     {
         public Task<IEnumerable<TemplateDto>> GetAllOfProject(long projectId);
         public TemplateDto GetById(long templateId);

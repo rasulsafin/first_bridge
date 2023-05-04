@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DM.Domain.Models
+namespace DM.Domain.DTO
 {
     public class RecordDto : BaseDto
     {

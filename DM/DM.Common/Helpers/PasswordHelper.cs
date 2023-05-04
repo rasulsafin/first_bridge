@@ -10,9 +10,7 @@ namespace DM.Common.Helpers
             byte[] salt, buffer2;
 
             if (password == null)
-            {
-                throw new ArgumentNullException("password");
-            }
+                throw new ArgumentNullException();
 
             using (Rfc2898DeriveBytes bytes = new(password, 0x10, 0x3e8))
             {
@@ -32,9 +30,7 @@ namespace DM.Common.Helpers
         {
             byte[] buffer4;
 
-            if (hashedPassword == null) return false;
-
-            if (password == null) return false;
+            if (hashedPassword == null || password == null) return false;
 
             byte[] src = Convert.FromBase64String(hashedPassword);
 

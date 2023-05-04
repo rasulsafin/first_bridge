@@ -8,7 +8,7 @@ using Xunit;
 using DM.Controllers;
 
 using DM.Domain.Interfaces;
-using DM.Domain.Models;
+using DM.Domain.DTO;
 using DM.Domain.Services;
 
 using DM.DAL;
@@ -46,7 +46,7 @@ namespace DM.Tests.UnitTests
             var dmContext = new Mock<DmDbContext>();
             var userRepo = new Mock<IUserService>();
             var userProjectRepo = new Mock<IUserProjectService>();
-            var userController = new UserController(dmContext.Object, null, userRepo.Object, userProjectRepo.Object);
+            var userController = new UserController( null, userRepo.Object, userProjectRepo.Object);
 
             var userModel = new UserForCreateDto()
             {
@@ -84,7 +84,7 @@ namespace DM.Tests.UnitTests
             var dmContext = new Mock<DmDbContext>();
             var userRepo = new Mock<IUserService>();
             var userProjectRepo = new Mock<IUserProjectService>();
-            var userController = new UserController(dmContext.Object, null, userRepo.Object, userProjectRepo.Object);
+            var userController = new UserController( null, userRepo.Object, userProjectRepo.Object);
 
             var userModel = new UserForCreateDto()
             {
@@ -120,7 +120,7 @@ namespace DM.Tests.UnitTests
             var dmContext = new Mock<DmDbContext>();
             var userRepo = new Mock<IUserService>();
             var userProjectRepo = new Mock<IUserProjectService>();
-            var userController = new UserController(null, null, null, null);
+            var userController = new UserController(null, null, null);
 
             // execution
             var result = await userController.Create(null);
@@ -139,7 +139,7 @@ namespace DM.Tests.UnitTests
         [Fact]
         public void AuthenticateRequestReturnsBadRequestForEmptyContext()
         {
-            var userController = new UserController(null, null, null, null);
+            var userController = new UserController(null, null, null);
 
             var result = userController.Authenticate(new AuthenticateRequest()
             { Login = user.Login, Password = user.HashedPassword });

@@ -7,7 +7,7 @@ using DM.DAL;
 using DM.DAL.Entities;
 using DM.Domain.Services;
 using DM.Domain.Interfaces;
-using DM.Domain.Models;
+using DM.Domain.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
@@ -39,7 +39,7 @@ namespace DM.Tests.UnitTests
         {
             var dmContext = new Mock<DmDbContext>();
             var organizationRepo = new Mock<IOrganizationService>();
-            var organizationController = new OrganizationController(dmContext.Object, null, organizationRepo.Object, null);
+            var organizationController = new OrganizationController(null, organizationRepo.Object);
 
             var organizationModelForCreate = new OrganizationForCreateDto()
             {
@@ -77,7 +77,7 @@ namespace DM.Tests.UnitTests
             const string organizationName = "BRIO";
             const string organizationName2 = "MRS";
             var organizationRepo = new Mock<IOrganizationService>();
-            var organizationController = new OrganizationController(null, null, organizationRepo.Object, null);
+            var organizationController = new OrganizationController(null, organizationRepo.Object);
             var organizationResult = new List<OrganizationDto>(); // проверяемый объект
 
             organizationResult.Add(new OrganizationForCreateDto() { Name = organizationName });

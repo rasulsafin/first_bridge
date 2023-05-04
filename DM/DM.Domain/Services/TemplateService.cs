@@ -4,16 +4,17 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 using AutoMapper;
-using DM.Domain.Models;
+
+using DM.Domain.DTO;
 using DM.Domain.Interfaces;
 
 using DM.DAL.Entities;
 using DM.DAL.Interfaces;
-using DM.Domain.Helpers;
+
+using DM.Common.Enums;
 
 namespace DM.Domain.Services
 {
@@ -46,14 +47,14 @@ namespace DM.Domain.Services
             return _mapper.Map<TemplateDto>(template);
         }
 
-        public async Task<bool> Create(TemplateForCreateDto templateForCreateModel)
+        public async Task<bool> Create(TemplateForCreateDto templateForCreateDto)
         {
             var template = _mapper.Map<Template>(new TemplateForCreateDto
             {
-                Name = templateForCreateModel.Name,
-                ProjectId = templateForCreateModel.ProjectId,
-                Fields = templateForCreateModel.Fields.ToList(),
-                ListFields = templateForCreateModel.ListFields.ToList()
+                Name = templateForCreateDto.Name,
+                ProjectId = templateForCreateDto.ProjectId,
+                Fields = templateForCreateDto.Fields.ToList(),
+                ListFields = templateForCreateDto.ListFields.ToList()
             });
 
             await Context.Templates.Create(template);
@@ -62,20 +63,26 @@ namespace DM.Domain.Services
             return true;
         }
 
-        public async Task<bool> Update(TemplateForUpdateDto templateForUpdateModel)
+        public async Task<bool> Update(TemplateForUpdateDto templateForUpdateDto)
         {
-            var template = Context.Templates.GetById(templateForUpdateModel.Id);
+            var template = Context.Templates.GetById(templateForUpdateDto.Id);
 
             if (template == null) return false;
 
-            template.Name = templateForUpdateModel.Name;
-            template.ProjectId = templateForUpdateModel.ProjectId;
+            template.Name = templateForUpdateDto.Name;
+            template.ProjectId = templateForUpdateDto.ProjectId;
             template.UpdatedAt = DateTime.UtcNow;
 
             Context.Templates.Update(template);
             await Context.SaveAsync();
 
             return true;
+        }
+
+        public async Task<PermissionDto> GetAccess(long roleId, PermissionEnum permission)
+        {
+            var access = await Context.Permissions.GetByRoleAndType(roleId, permission);
+            return _mapper.Map<PermissionDto>(access);
         }
 
         public void Dispose()

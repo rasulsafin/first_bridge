@@ -47,12 +47,12 @@
 
 //                if (storedRole == null)
 //                {
-//                    storedRole = new Database.Models.Role() { Name = role };
+//                    storedRole = new Database.DTO.Role() { Name = role };
 //                    await context.Roles.AddAsync(storedRole);
 //                    await context.SaveChangesAsync();
 //                }
 
-//                var userRoleLink = new Database.Models.UserRole() { RoleID = storedRole.ID, UserID = id };
+//                var userRoleLink = new Database.DTO.UserRole() { RoleID = storedRole.ID, UserID = id };
 //                logger.LogDebug("Created user <-> role link: {@UserRoleLink}", userRoleLink);
 //                await context.UserRoles.AddAsync(userRoleLink);
 //                await context.SaveChangesAsync();

@@ -6,7 +6,7 @@ using DM.Controllers;
 using DM.DAL;
 using DM.Domain.Services;
 using DM.Domain.Interfaces;
-using DM.Domain.Models;
+using DM.Domain.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
@@ -22,7 +22,7 @@ namespace DM.Tests.UnitTests
         {
             var projectRepo = new Mock<IProjectService>();
             var dmContext = new Mock<DmDbContext>();
-            var projectController = new ProjectController(dmContext.Object, null, projectRepo.Object, null, null);
+            var projectController = new ProjectController(null, projectRepo.Object, null);
             var projectListResult = new List<ProjectForReadDto>();
             const string title = "titleProject";
             projectListResult.Add(new ProjectForReadDto() { Title = title });

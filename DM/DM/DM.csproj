@@ -38,8 +38,4 @@
     <ProjectReference Include="..\DM.Domain\DM.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Attributes\" />
-  </ItemGroup>
-
 </Project>
