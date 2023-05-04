@@ -1,19 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
 using DM.Domain.Helpers;
-using DM.Domain.Implementations;
-using DM.Domain.Exceptions;
+using DM.Domain.Services;
+using DM.Domain.Infrastructure.Exceptions;
 
-using DM.DAL.Enums;
 using DM.DAL;
 
-using DM.Helpers;
+using DM.Common.Enums;
+
+using DM.Validators.Attributes;
 
 using static DM.Validators.ServiceResponsesValidator;
-using System.Threading.Tasks;
 
 namespace DM.Controllers
 {
@@ -23,7 +25,7 @@ namespace DM.Controllers
     public class ListFieldController : ControllerBase
     {
         private readonly DmDbContext _context;
-        private readonly UserModel _currentUser;
+        private readonly UserDto _currentUser;
 
         private readonly IListFieldService _listFieldService;
         private readonly ILogger<FieldService> _logger;
@@ -45,7 +47,7 @@ namespace DM.Controllers
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while creating new listField.</response>
         [HttpPost]
-        public async Task<IActionResult> Create(ListFieldModel listFieldModel)
+        public async Task<IActionResult> Create(ListFieldDto listFieldModel)
         {
             try
             {

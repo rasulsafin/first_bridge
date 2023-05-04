@@ -7,6 +7,7 @@ namespace DM.Domain.Interfaces
     public interface IFieldService
     {
         public Task<bool> Delete(long id);
-        public Task<bool> Create(FieldModel fieldModel);
+        public Task<bool> Create(FieldDto fieldModel);
+        void Dispose();
     }
 }

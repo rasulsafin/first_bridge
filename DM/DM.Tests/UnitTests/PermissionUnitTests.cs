@@ -10,7 +10,7 @@ using DM.Tests.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
-using DM.DAL.Enums;
+using DM.Common.Enums;
 using System;
 
 namespace DM.Tests.UnitTests
@@ -18,15 +18,15 @@ namespace DM.Tests.UnitTests
     public class PermissionUnitTests
     {
 
-        private readonly List<PermissionModel> permissions = new List<PermissionModel>
+        private readonly List<PermissionDto> permissions = new List<PermissionDto>
         {
-            new PermissionModel { Id=1, RoleId = 1, Type = PermissionEnum.Project, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
-            new PermissionModel { Id=2, RoleId = 1, Type = PermissionEnum.Role, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
-            new PermissionModel { Id=3, RoleId = 1, Type = PermissionEnum.Organization, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
-            new PermissionModel { Id=4, RoleId = 1, Type = PermissionEnum.Template, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
-            new PermissionModel { Id=5, RoleId = 1, Type = PermissionEnum.Record, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
-            new PermissionModel { Id=6, RoleId = 1, Type = PermissionEnum.Item, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
-            new PermissionModel { Id=7, RoleId = 1, Type = PermissionEnum.User, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
+            new PermissionDto { Id=1, RoleId = 1, Type = PermissionEnum.Project, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
+            new PermissionDto { Id=2, RoleId = 1, Type = PermissionEnum.Role, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
+            new PermissionDto { Id=3, RoleId = 1, Type = PermissionEnum.Organization, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
+            new PermissionDto { Id=4, RoleId = 1, Type = PermissionEnum.Template, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
+            new PermissionDto { Id=5, RoleId = 1, Type = PermissionEnum.Record, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
+            new PermissionDto { Id=6, RoleId = 1, Type = PermissionEnum.Item, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
+            new PermissionDto { Id=7, RoleId = 1, Type = PermissionEnum.User, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
         };
 
         #region CreatePermissionReturnsOkPositiveTesting
@@ -36,8 +36,8 @@ namespace DM.Tests.UnitTests
         {
             var permissionRepo = new Mock<IPermissionService>();
             var permissionController = new PermissionController(null, null, permissionRepo.Object, null);
-            var permissionListResult = new List<PermissionModel>();
-            var permissionForResult = new PermissionModel()
+            var permissionListResult = new List<PermissionDto>();
+            var permissionForResult = new PermissionDto()
             {
                 Create = true,
                 Delete = true,
@@ -48,12 +48,11 @@ namespace DM.Tests.UnitTests
             };
             permissionListResult.Add(permissionForResult);
 
-            permissionRepo.Setup(x => x.GetAllByRole(1))
-                .Returns(Task.FromResult(permissionListResult));
+            permissionRepo.Setup(x => x.GetAllByRole(1));
             var result = await permissionController.GetAllByRole(1);
 
             var actualResult = result as OkObjectResult;
-            var model = (actualResult?.Value as IEnumerable)!.Cast<PermissionEntity>().First();
+            var model = (actualResult?.Value as IEnumerable)!.Cast<Permission>().First();
             Assert.NotNull(model);
 
             Assert.IsType<OkObjectResult>(result);

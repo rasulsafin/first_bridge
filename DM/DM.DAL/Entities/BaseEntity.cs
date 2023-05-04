@@ -10,7 +10,9 @@ namespace DM.DAL.Entities
         public long? CreatedById { get; set; }
         public long? UpdatedById { get; set; }
 
+        [DataType(DataType.DateTime)]
         public DateTime CreatedAt { get; set; }
+        [DataType(DataType.DateTime)]
         public DateTime? UpdatedAt { get; set; }
     }
 }

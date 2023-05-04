@@ -7,8 +7,9 @@ namespace DM.Domain.Interfaces
 {
     public interface IUserProjectService
     {
-        public Task<bool> AddToProject(UserProjectModel userProjectModel);
-        public Task<bool> AddToProjects(List<UserProjectModel> userProjectsModel);
+        public Task<bool> AddToProject(UserProjectDto userProjectModel);
+        public Task<bool> AddToProjects(List<UserProjectDto> userProjectsModel);
         public Task<bool> DeleteFromProject(long userId, long projectId);
+        void Dispose();
     }
 }

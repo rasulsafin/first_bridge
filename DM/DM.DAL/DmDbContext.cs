@@ -3,78 +3,79 @@
 using Microsoft.EntityFrameworkCore;
 
 using DM.DAL.Entities;
-using DM.DAL.Enums;
+
+using DM.Common.Enums;
 
 namespace DM.DAL
 {
     public class DmDbContext : DbContext
     {
+        public DbSet<User> Users { get; set; }
+        //public DbSet<ObjectiveEntity> Objective { get; set; }
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<Record> Records { get; set; }
+        public DbSet<Document> Documents { get; set; }
+        public DbSet<UserProject> UsersProjects { get; set; }
+        public DbSet<Item> Items { get; set; }
+        public DbSet<Template> Template { get; set; }
+        //public DbSet<RecordTemplateEntity> RecordTemplate { get; set; }
+        //public DbSet<DocumentTemplateEntity> DocumentTemplate { get; set; }
+        public DbSet<Organization> Organization { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Role> Role { get; set; }
+        public DbSet<Field> Field { get; set; }
+        public DbSet<List> List { get; set; }
+        public DbSet<ListField> ListField { get; set; }
+
         public DmDbContext(DbContextOptions<DmDbContext> options) : base(options)
         {
             Database.EnsureCreated();
         }
 
-        public DmDbContext()
-        { }
-        public DbSet<UserEntity> Users { get; set; }
-        //public DbSet<ObjectiveEntity> Objective { get; set; }
-        public DbSet<ProjectEntity> Projects { get; set; }
-        public DbSet<RecordEntity> Records { get; set; }
-        public DbSet<DocumentEntity> Documents { get; set; }
-        public DbSet<UserProjectEntity> UsersProjects { get; set; }
-        public DbSet<ItemEntity> Items { get; set; }
-        public DbSet<TemplateEntity> Template { get; set; }
-        //public DbSet<RecordTemplateEntity> RecordTemplate { get; set; }
-        //public DbSet<DocumentTemplateEntity> DocumentTemplate { get; set; }
-        public DbSet<OrganizationEntity> Organization { get; set; }
-        public DbSet<PermissionEntity> Permissions { get; set; }
-        public DbSet<CommentEntity> Comments { get; set; }
-        public DbSet<RoleEntity> Role { get; set; }
-        public DbSet<FieldEntity> Field { get; set; }
-        public DbSet<ListEntity> List { get; set; }
-        public DbSet<ListFieldEntity> ListField { get; set; }
+        public DmDbContext() { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Cascade delete type
-            modelBuilder.Entity<ItemEntity>()
+            modelBuilder.Entity<Item>()
                     .HasOne(x => x.Project)
                     .WithMany(x => x.Items)
                     .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<ListEntity>()
-                    .HasOne(x => x.List)
+            modelBuilder.Entity<List>()
+                    .HasOne(x => x.ListField)
                     .WithMany(x => x.Lists)
                     .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<FieldEntity>()
+            modelBuilder.Entity<Field>()
                     .HasOne(x => x.Template)
                     .WithMany(x => x.Fields)
                     .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<ListFieldEntity>()
+            modelBuilder.Entity<ListField>()
                     .HasOne(x => x.Template)
                     .WithMany(x => x.ListFields)
                     .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<FieldEntity>()
+            modelBuilder.Entity<Field>()
                     .HasOne(x => x.Record)
                     .WithMany(x => x.Fields)
                     .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<ListFieldEntity>()
+            modelBuilder.Entity<ListField>()
                     .HasOne(x => x.Record)
                     .WithMany(x => x.ListFields)
                     .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<PermissionEntity>()
+            modelBuilder.Entity<Permission>()
                     .HasOne(x => x.Role)
                     .WithMany(x => x.Permissions)
                     .OnDelete(DeleteBehavior.Cascade);
 
             // Organization test data
-            modelBuilder.Entity<OrganizationEntity>()
-                .HasData(new OrganizationEntity
+            modelBuilder.Entity<Organization>()
+                .HasData(new Organization
                 {
                     Id = 1,
                     Name = "Brio Mrs",
@@ -87,50 +88,50 @@ namespace DM.DAL
                 });
 
             // Role test data
-            modelBuilder.Entity<RoleEntity>()
-                .HasData(new RoleEntity
+            modelBuilder.Entity<Role>()
+                .HasData(new Role
                 {
                     Id = 1,
                     Name = "Owner",
                 });
 
-            modelBuilder.Entity<RoleEntity>()
-                .HasData(new RoleEntity
+            modelBuilder.Entity<Role>()
+                .HasData(new Role
                 {
                     Id = 2,
                     Name = "Administrator",
                 });
 
-            modelBuilder.Entity<RoleEntity>()
-                .HasData(new RoleEntity
+            modelBuilder.Entity<Role>()
+                .HasData(new Role
                 {
                     Id = 3,
                     Name = "Team Supervisor",
                 });
 
-            modelBuilder.Entity<RoleEntity>()
-                .HasData(new RoleEntity
+            modelBuilder.Entity<Role>()
+                .HasData(new Role
                 {
                     Id = 4,
                     Name = "Supervisor",
                 });
 
-            modelBuilder.Entity<RoleEntity>()
-                .HasData(new RoleEntity
+            modelBuilder.Entity<Role>()
+                .HasData(new Role
                 {
                     Id = 5,
                     Name = "Worker",
                 });
-            modelBuilder.Entity<RoleEntity>()
-                .HasData(new RoleEntity
+            modelBuilder.Entity<Role>()
+                .HasData(new Role
                 {
                     Id = 6,
                     Name = "User",
                 });
 
             // User test data
-            modelBuilder.Entity<UserEntity>()
-                .HasData(new UserEntity
+            modelBuilder.Entity<User>()
+                .HasData(new User
                 {
                     Id = 1,
                     Name = "admin",
@@ -139,13 +140,13 @@ namespace DM.DAL
                     Login = "string",
                     Email = "string@gamil.com",
                     //pass is - string
-                    Password = "AON0utalfV1jyo5nJPnooXEc5NjOWuFBpohmk6xYZ8eK0fjDbSLBGPrY5YkGYlEhBA==",
+                    HashedPassword = "AON0utalfV1jyo5nJPnooXEc5NjOWuFBpohmk6xYZ8eK0fjDbSLBGPrY5YkGYlEhBA==",
                     RoleId = 1,
                     Position = "Super Administrator Senior",
                     OrganizationId = 1
                 });
-            modelBuilder.Entity<UserEntity>()
-                .HasData(new UserEntity
+            modelBuilder.Entity<User>()
+                .HasData(new User
                 {
                     Id = 2,
                     Name = "TestBot",
@@ -154,23 +155,23 @@ namespace DM.DAL
                     Login = "string1",
                     Email = "string@mail.ru",
                     //pass is - string1
-                    Password = "APqcPGe7Q3u2jRDNgHuKrck8E9l1SAEj6knGQqAAZAm3gIoi/E4FJN4lKqEAUwhMLw==",
+                    HashedPassword = "APqcPGe7Q3u2jRDNgHuKrck8E9l1SAEj6knGQqAAZAm3gIoi/E4FJN4lKqEAUwhMLw==",
                     RoleId = 2,
                     Position = "Team Supervisor Junior",
                     OrganizationId = 1
                 });
 
             // Project test data
-            modelBuilder.Entity<ProjectEntity>()
-                .HasData(new ProjectEntity
+            modelBuilder.Entity<Project>()
+                .HasData(new Project
                 {
                     Id = 1,
                     Title = "Project-1",
                     OrganizationId = 1,
                     CreatedAt = DateTime.Now
                 });
-            modelBuilder.Entity<ProjectEntity>()
-                .HasData(new ProjectEntity
+            modelBuilder.Entity<Project>()
+                .HasData(new Project
                 {
                     Id = 2,
                     Title = "Project-2",
@@ -179,16 +180,16 @@ namespace DM.DAL
                 });
 
             //Record test data
-            modelBuilder.Entity<RecordEntity>()
-                .HasData(new RecordEntity
+            modelBuilder.Entity<Record>()
+                .HasData(new Record
                 {
                     Id = 1,
                     Name = "Rec-1",
                     ProjectId = 1,
                     CreatedAt = DateTime.Now
                 });
-            modelBuilder.Entity<RecordEntity>()
-                .HasData(new RecordEntity
+            modelBuilder.Entity<Record>()
+                .HasData(new Record
                 {
                     Id = 2,
                     Name = "Rec-2",
@@ -197,16 +198,16 @@ namespace DM.DAL
                 });
 
             //Template test data
-            modelBuilder.Entity<TemplateEntity>()
-                .HasData(new TemplateEntity
+            modelBuilder.Entity<Template>()
+                .HasData(new Template
                 {
                     Id = 1,
                     Name = "Templ-1",
                     ProjectId = 1,
                     CreatedAt = DateTime.Now
                 });
-            modelBuilder.Entity<TemplateEntity>()
-                .HasData(new TemplateEntity
+            modelBuilder.Entity<Template>()
+                .HasData(new Template
                 {
                     Id = 2,
                     Name = "Templ-2",
@@ -215,8 +216,8 @@ namespace DM.DAL
                 });
 
             //ListField test data
-            modelBuilder.Entity<ListFieldEntity>()
-                .HasData(new ListFieldEntity
+            modelBuilder.Entity<ListField>()
+                .HasData(new ListField
                 {
                     Id = 1,
                     Name = "Status",
@@ -225,8 +226,8 @@ namespace DM.DAL
                     CreatedAt = DateTime.Now,
                     TemplateId = 1
                 });
-            modelBuilder.Entity<ListFieldEntity>()
-                .HasData(new ListFieldEntity
+            modelBuilder.Entity<ListField>()
+                .HasData(new ListField
                 {
                     Id = 2,
                     Name = "Type",
@@ -235,8 +236,8 @@ namespace DM.DAL
                     CreatedAt = DateTime.Now,
                     RecordId = 1
                 });
-            modelBuilder.Entity<ListFieldEntity>()
-                .HasData(new ListFieldEntity
+            modelBuilder.Entity<ListField>()
+                .HasData(new ListField
                 {
                     Id = 3,
                     Name = "Type",
@@ -247,24 +248,24 @@ namespace DM.DAL
                 });
 
             //List test data
-            modelBuilder.Entity<ListEntity>()
-                .HasData(new ListEntity
+            modelBuilder.Entity<List>()
+                .HasData(new List
                 {
                     Id = 1,
                     Data = "Start",
                     CreatedAt = DateTime.Now,
                     ListId = 1
                 });
-            modelBuilder.Entity<ListEntity>()
-                .HasData(new ListEntity
+            modelBuilder.Entity<List>()
+                .HasData(new List
                 {
                     Id = 2,
                     Data = "InProgress",
                     CreatedAt = DateTime.Now,
                     ListId = 1
                 });
-            modelBuilder.Entity<ListEntity>()
-                .HasData(new ListEntity
+            modelBuilder.Entity<List>()
+                .HasData(new List
                 {
                     Id = 3,
                     Data = "Ready",
@@ -272,24 +273,24 @@ namespace DM.DAL
                     ListId = 1
                 });
 
-            modelBuilder.Entity<ListEntity>()
-                .HasData(new ListEntity
+            modelBuilder.Entity<List>()
+                .HasData(new List
                 {
                     Id = 4,
                     Data = "Development",
                     CreatedAt = DateTime.Now,
                     ListId = 2
                 });
-            modelBuilder.Entity<ListEntity>()
-                .HasData(new ListEntity
+            modelBuilder.Entity<List>()
+                .HasData(new List
                 {
                     Id = 5,
                     Data = "Testing",
                     CreatedAt = DateTime.Now,
                     ListId = 2
                 });
-            modelBuilder.Entity<ListEntity>()
-                .HasData(new ListEntity
+            modelBuilder.Entity<List>()
+                .HasData(new List
                 {
                     Id = 6,
                     Data = "Building",
@@ -298,8 +299,8 @@ namespace DM.DAL
                 });
 
             //Permissions test data
-            modelBuilder.Entity<PermissionEntity>()
-                .HasData(new PermissionEntity
+            modelBuilder.Entity<Permission>()
+                .HasData(new Permission
                 {
                     Id = 1,
                     RoleId = 1,
@@ -310,8 +311,8 @@ namespace DM.DAL
                     Delete = true,
                     CreatedAt = DateTime.Now
                 });
-            modelBuilder.Entity<PermissionEntity>()
-                .HasData(new PermissionEntity
+            modelBuilder.Entity<Permission>()
+                .HasData(new Permission
                 {
                     Id = 7,
                     RoleId = 1,
@@ -322,8 +323,8 @@ namespace DM.DAL
                     Delete = true,
                     CreatedAt = DateTime.Now
                 });
-            modelBuilder.Entity<PermissionEntity>()
-                .HasData(new PermissionEntity
+            modelBuilder.Entity<Permission>()
+                .HasData(new Permission
                 {
                     Id = 2,
                     RoleId = 1,
@@ -334,8 +335,8 @@ namespace DM.DAL
                     Delete = false,
                     CreatedAt = DateTime.Now
                 });
-            modelBuilder.Entity<PermissionEntity>()
-                .HasData(new PermissionEntity
+            modelBuilder.Entity<Permission>()
+                .HasData(new Permission
                 {
                     Id = 3,
                     RoleId = 2,
@@ -346,8 +347,8 @@ namespace DM.DAL
                     Delete = false,
                     CreatedAt = DateTime.Now
                 });
-            modelBuilder.Entity<PermissionEntity>()
-                .HasData(new PermissionEntity
+            modelBuilder.Entity<Permission>()
+                .HasData(new Permission
                 {
                     Id = 4,
                     RoleId = 2,
@@ -358,8 +359,8 @@ namespace DM.DAL
                     Delete = true,
                     CreatedAt = DateTime.Now
                 });
-            modelBuilder.Entity<PermissionEntity>()
-                .HasData(new PermissionEntity
+            modelBuilder.Entity<Permission>()
+                .HasData(new Permission
                 {
                     Id = 5,
                     RoleId = 1,
@@ -370,8 +371,8 @@ namespace DM.DAL
                     Delete = true,
                     CreatedAt = DateTime.Now
                 });
-            modelBuilder.Entity<PermissionEntity>()
-                .HasData(new PermissionEntity
+            modelBuilder.Entity<Permission>()
+                .HasData(new Permission
                 {
                     Id = 6,
                     RoleId = 1,
@@ -382,8 +383,8 @@ namespace DM.DAL
                     Delete = true,
                     CreatedAt = DateTime.Now
                 });
-            modelBuilder.Entity<PermissionEntity>()
-                .HasData(new PermissionEntity
+            modelBuilder.Entity<Permission>()
+                .HasData(new Permission
                 {
                     Id = 8,
                     RoleId = 1,
@@ -396,8 +397,8 @@ namespace DM.DAL
                 });
 
             //UserProject
-            modelBuilder.Entity<UserProjectEntity>()
-                .HasData(new UserProjectEntity
+            modelBuilder.Entity<UserProject>()
+                .HasData(new UserProject
                 {
                     Id = 1,
                     ProjectId = 1,
@@ -406,8 +407,8 @@ namespace DM.DAL
                 });
 
             //Field test data
-            modelBuilder.Entity<FieldEntity>()
-                .HasData(new FieldEntity
+            modelBuilder.Entity<Field>()
+                .HasData(new Field
                 {
                     Id = 1,
                     Name = "Description",
@@ -417,8 +418,8 @@ namespace DM.DAL
                     CreatedAt = DateTime.Now,
                     RecordId = 1,
                 });
-            modelBuilder.Entity<FieldEntity>()
-                .HasData(new FieldEntity
+            modelBuilder.Entity<Field>()
+                .HasData(new Field
                 {
                     Id = 2,
                     Name = "Employee",
@@ -428,8 +429,8 @@ namespace DM.DAL
                     CreatedAt = DateTime.Now,
                     RecordId = 2,
                 });
-            modelBuilder.Entity<FieldEntity>()
-                .HasData(new FieldEntity
+            modelBuilder.Entity<Field>()
+                .HasData(new Field
                 {
                     Id = 3,
                     Name = "Description",
@@ -439,8 +440,8 @@ namespace DM.DAL
                     CreatedAt = DateTime.Now,
                     TemplateId = 1,
                 });
-            modelBuilder.Entity<FieldEntity>()
-                .HasData(new FieldEntity
+            modelBuilder.Entity<Field>()
+                .HasData(new Field
                 {
                     Id = 4,
                     Name = "Estimate",

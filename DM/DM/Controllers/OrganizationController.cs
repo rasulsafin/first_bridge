@@ -5,14 +5,15 @@ using Microsoft.Extensions.Logging;
 
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
-using DM.Domain.Implementations;
 using DM.Domain.Helpers;
-using DM.Domain.Exceptions;
+using DM.Domain.Services;
+using DM.Domain.Infrastructure.Exceptions;
 
 using DM.DAL;
-using DM.DAL.Enums;
 
-using DM.Helpers;
+using DM.Common.Enums;
+
+using DM.Validators.Attributes;
 
 using static DM.Validators.ServiceResponsesValidator;
 
@@ -24,7 +25,7 @@ namespace DM.Controllers
     public class OrganizationController : ControllerBase
     {
         private readonly DmDbContext _context;
-        private readonly UserModel _currentUser;
+        private readonly UserDto _currentUser;
 
         private readonly IOrganizationService _organizationService;
         private readonly ILogger<OrganizationService> _logger;
@@ -73,7 +74,7 @@ namespace DM.Controllers
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while creating new organization.</response>
         [HttpPost]
-        public async Task<IActionResult> Create(OrganizationForCreateModel organizationForCreateModel)
+        public async Task<IActionResult> Create(OrganizationForCreateDto organizationForCreateModel)
         {
             try
             {
@@ -100,7 +101,7 @@ namespace DM.Controllers
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while updating organization.</response>
         [HttpPut]
-        public async Task<IActionResult> Update(OrganizationForUpdateModel organizationForUpdateModel)
+        public async Task<IActionResult> Update(OrganizationForUpdateDto organizationForUpdateModel)
         {
             try
             {

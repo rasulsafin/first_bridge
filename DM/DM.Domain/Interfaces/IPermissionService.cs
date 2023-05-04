@@ -10,7 +10,8 @@ namespace DM.Domain.Interfaces
 {
     public interface IPermissionService
     {
-        public Task<List<PermissionModel>> GetAllByRole(long roleId);
-        public Task<bool> UpdatePermissionOnRole(PermissionModel permissionModel);
+        public Task<IEnumerable<PermissionDto>> GetAllByRole(long roleId);
+        public Task<bool> UpdatePermissionOnRole(PermissionDto permissionModel);
+        void Dispose();
     }
 }

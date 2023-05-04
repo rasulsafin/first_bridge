@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
-using DM.Domain.Implementations;
+using DM.Domain.Services;
 using Microsoft.Extensions.Logging;
 
 namespace DM.Domain.Helpers

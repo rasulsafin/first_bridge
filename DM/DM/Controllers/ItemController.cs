@@ -11,14 +11,16 @@ using Xbim.Ifc;
 using Xbim.ModelGeometry.Scene;
 
 using DM.Domain.Helpers;
-using DM.Domain.Implementations;
+using DM.Domain.Services;
 using DM.Domain.Interfaces;
 using DM.Domain.Models;
 
 using DM.DAL;
-using DM.DAL.Enums;
 
-using DM.Helpers;
+using DM.Common.Enums;
+using DM.Common.Helpers;
+
+using DM.Validators.Attributes;
 
 namespace DM.Controllers
 {
@@ -28,7 +30,7 @@ namespace DM.Controllers
     public class ItemController : ControllerBase
     {
         private readonly DmDbContext _context;
-        private readonly UserModel _currentUser;
+        private readonly UserDto _currentUser;
 
         private readonly IItemService _itemService;
 
@@ -173,7 +175,7 @@ namespace DM.Controllers
                     await file.CopyToAsync(fstream); // Put an Object
                 }
 
-                var itemModel = new ItemModel()
+                var itemModel = new ItemDto()
                 {
                     Name = fileNameWithoutExtension + "_v" + lastVersion + fileExtension,
                     RelativePath = pathForCreate,
