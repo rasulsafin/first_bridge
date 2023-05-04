@@ -42,7 +42,10 @@ function ChildModal() {
 
   return (
     <React.Fragment>
-      <Controls.Button onClick={toggleModal}>Настроить доступ</Controls.Button>
+      <Controls.Button 
+        onClick={toggleModal}
+        sx={{ width: "100%" }}
+      >Настроить доступ</Controls.Button>
       <Modal
         open={openModal}
         onClose={toggleModal}
@@ -137,33 +140,38 @@ export const Users = () => {
             formikHelpers.resetForm();
           }}
         />
-        <Box>
+        <Box sx={{ width: "58%" }}>
           <h3>Доступ к проектам</h3>
           <List style={{ height: "300px", overflowY: "auto", overflowX: "hidden" }}>
             {projects ?
               projects.map(project =>
                 <>
-                  <Grid alignItems="center" container>
-                    <Grid item xs={10}>
-                      <ProjectCard key={project.id} project={project} />
-                    </Grid>
-                    <Grid item xs={2}>
-                      <IconButton
-                        aria-label="delete"
-                        // onClick={() => handleDeleteUserFromProject(user.id, projectId)}
-                      >
-                        <CancelIcon />
-                      </IconButton>
-                    </Grid>
-                  </Grid>
+                  
+                      <Box 
+                        sx={{
+                        height: "73px",
+                        backgroundColor: "#F4F4F4",
+                        margin: "4px",
+                        padding: "16px",
+                        borderRadius: "5px"
+                      }}>
+                        <Grid direction="column" container>
+                          <Grid item xs={2}>
+                            <span style={{ "font-size": "12px" }}>Участники: {project.users.length}</span>
+                          </Grid>
+                          <Grid item xs={10}>
+                            <span style={{ "font-weight": "bold"}}>{project.title}</span>
+                          </Grid>
+                        </Grid>
+                      </Box>
                 </>
               )
               : null
             }
           </List>
+          <ChildModal />
         </Box>
         <Box>
-          <ChildModal />
         </Box>
       </Controls.Modal>
       <Controls.RoundButton
