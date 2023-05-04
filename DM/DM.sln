@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DM.Domain", "DM.Domain\DM.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DM.DAL", "DM.DAL\DM.DAL.csproj", "{12B5754F-4386-4FEB-B236-89F574F28DF2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DM.Tests", "DM.Tests\DM.Tests.csproj", "{20F05806-93F7-40DD-97D7-36C6D50A2B23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DM.IntegrationTests", "DM.Tests\DM.IntegrationTests.csproj", "{20F05806-93F7-40DD-97D7-36C6D50A2B23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DM.Common", "DM.Common\DM.Common.csproj", "{49314E03-9228-4CBB-B4A9-ED6A6375CFCD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DM.Common", "DM.Common\DM.Common.csproj", "{49314E03-9228-4CBB-B4A9-ED6A6375CFCD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
