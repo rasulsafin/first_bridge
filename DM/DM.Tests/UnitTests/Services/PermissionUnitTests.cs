@@ -13,7 +13,7 @@ using DM.Common.Enums;
 using System;
 using DM.Domain.DTO;
 
-namespace DM.Tests.UnitTests
+namespace DM.IntegrationTests.UnitTests.Services
 {
     public class PermissionUnitTests
     {

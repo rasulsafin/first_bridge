@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
-namespace DM.Tests.UnitTests
+namespace DM.IntegrationTests.UnitTests.Services
 {
     public class OrganizationUnitTests
     {

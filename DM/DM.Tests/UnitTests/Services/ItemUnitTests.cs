@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DM.Tests.UnitTests
+namespace DM.IntegrationTests.UnitTests.Services
 {
-    public class FieldUnitTests
+    public class ItemUnitTests
     {
     }
 }

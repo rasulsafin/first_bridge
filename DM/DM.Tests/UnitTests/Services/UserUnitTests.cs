@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
+//using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 using Xunit;
@@ -16,8 +17,9 @@ using DM.DAL;
 using DM.Tests.Helpers;
 using System;
 
-namespace DM.Tests.UnitTests
+namespace DM.IntegrationTests.UnitTests.Services
 {
+    //[TestClass]
     public class UserUnitTests
     {
         #region Const
@@ -46,7 +48,7 @@ namespace DM.Tests.UnitTests
             var dmContext = new Mock<DmDbContext>();
             var userRepo = new Mock<IUserService>();
             var userProjectRepo = new Mock<IUserProjectService>();
-            var userController = new UserController( null, userRepo.Object, userProjectRepo.Object);
+            var userController = new UserController(null, userRepo.Object, userProjectRepo.Object);
 
             var userModel = new UserForCreateDto()
             {
@@ -84,7 +86,7 @@ namespace DM.Tests.UnitTests
             var dmContext = new Mock<DmDbContext>();
             var userRepo = new Mock<IUserService>();
             var userProjectRepo = new Mock<IUserProjectService>();
-            var userController = new UserController( null, userRepo.Object, userProjectRepo.Object);
+            var userController = new UserController(null, userRepo.Object, userProjectRepo.Object);
 
             var userModel = new UserForCreateDto()
             {
