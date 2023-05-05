@@ -1,23 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
+  TextField,
   Grid,
   IconButton,
   List,
   ListItemButton,
   Modal,
+  Paper,
+  Box,
   styled
 } from "@mui/material";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import Paper from "@mui/material/Paper";
+import { useDispatch, useSelector } from "react-redux";
 import { ReactComponent as TrashIcon } from "../../../../assets/icons/trashcan.svg";
 import { ReactComponent as ClipIcon } from "../../../../assets/icons/clip.svg";
 import { ReactComponent as CancelIcon } from "../../../../assets/icons/cancel.svg";
 import { Controls } from "../../../controls/Controls";
 import { UserCard } from "../../UsersPage/components/UserCard";
 import { FileItem } from "../../../upload/FileItem";
-import { selectAllFiles, uploadFileService } from "../../../../services/filesSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { uploadFileService } from "../../../../services/filesSlice";
 import { fileExtensions } from "../../../../constants/fileExtensions";
 import { addUserListToProject, deleteUserFromProject, updateProject } from "../../../../services/projectsSlice";
 import { SearchAndSortUserToolbar } from "../../UsersPage/components/SearchAndSortUserToolbar";
@@ -146,18 +146,17 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export function ProjectModal(props) {
   const { project, onClose } = props;
-  const [titleProject, setTitleProject] = useState(project.project.title);
+  const [titleProject, setTitleProject] = useState(project.title);
   const [selectedFile, setSelectedFile] = useState(null);
   const dispatch = useDispatch();
-  const projectId = project.project.id;
+  const projectId = project.id;
   const uploadInputRef = useRef(null);
   const users = useSelector(selectAllUsers);
-  const files = useSelector(selectAllFiles);
   const projectUsers = users.filter(user => user.projects.every(project => project.id !== projectId));
 
   useEffect(() => {
     dispatch(fetchUsers());
-  }, [project]);
+  }, [project, dispatch]);
 
   const handleChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -174,7 +173,7 @@ export function ProjectModal(props) {
   const handleDeleteUserFromProject = (userId, projectId) => {
     dispatch(deleteUserFromProject({ userId, projectId }));
   };
-  
+
   const data = {
     id: projectId,
     title: titleProject
@@ -186,7 +185,7 @@ export function ProjectModal(props) {
   };
 
   const handleCloseModal = () => {
-    setTitleProject(project.project.title);
+    setTitleProject(project.title);
     onClose();
   };
 
@@ -216,29 +215,27 @@ export function ProjectModal(props) {
                 <Box sx={{
                   marginTop: "40px"
                 }}>
-                  <h3>Участники {project.project.users === null
+                  <h3>Участники {project.users === null
                     ? 0
-                    : project.project.users.length
+                    : project.users.length
                   }</h3>
                   <SearchAndSortUserToolbar />
                   <List style={{ height: "300px", overflowY: "auto", overflowX: "hidden" }}>
-                    {project.project.users ?
-                      project.project.users.map(user =>
-                        <>
-                          <Grid alignItems="center" container>
-                            <Grid item xs={10}>
-                              <UserCard key={user.id} user={user} />
-                            </Grid>
-                            <Grid item xs={2}>
-                              <IconButton
-                                aria-label="delete"
-                                onClick={() => handleDeleteUserFromProject(user.id, projectId)}
-                              >
-                                <CancelIcon />
-                              </IconButton>
-                            </Grid>
+                    {project.users ?
+                      project.users.map(user =>
+                        <Grid alignItems="center" container>
+                          <Grid item xs={10}>
+                            <UserCard key={user.id} user={user} />
                           </Grid>
-                        </>
+                          <Grid item xs={2}>
+                            <IconButton
+                              aria-label="delete"
+                              onClick={() => handleDeleteUserFromProject(user.id, projectId)}
+                            >
+                              <CancelIcon />
+                            </IconButton>
+                          </Grid>
+                        </Grid>
                       )
                       : null
                     }
@@ -256,9 +253,9 @@ export function ProjectModal(props) {
               <Item>
                 <span>Файлы</span>
                 <List style={{ height: "150px", overflowY: "auto", overflowX: "hidden" }}>
-                  {(project.project.items === undefined)
+                  {(project.items === undefined)
                     ? ""
-                    : (project.project.items.map(file => <FileItem key={file.id} file={file} />))}
+                    : (project.items.map(file => <FileItem key={file.id} file={file} />))}
                 </List>
                 <>
                   <input

@@ -5,5 +5,5 @@ export const users = {
   email: "Email",
   role: "Роль",
   position: "Должность",
-  password: "Пароль",
+  password: "Пароль"
 };

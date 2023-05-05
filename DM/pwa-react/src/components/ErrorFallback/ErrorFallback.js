@@ -1,3 +1,5 @@
+import React from "react";
+
 export function ErrorFallback({ error, resetErrorBoundary }) {
   return (
     <div role="alert">
@@ -11,7 +13,11 @@ export function ErrorFallback({ error, resetErrorBoundary }) {
       }}>
         {error.message}
       </div>
-      <button onClick={resetErrorBoundary}>Try again</button>
+      <button
+        onClick={resetErrorBoundary}
+        type="button"
+      >Try again
+      </button>
     </div>
   );
 }

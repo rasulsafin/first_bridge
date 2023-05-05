@@ -6,13 +6,14 @@ import {
   ListItemText
 } from "@mui/material";
 
-export const TemplateCard = (template) => {
+export const TemplateCard = (props) => {
+  const { template } = props;
   const [checked, setChecked] = useState([]);
 
   const handleToggle = (templateId) => () => {
     const currentIndex = checked.indexOf(templateId);
     const newChecked = [...checked];
-    console.log(templateId)
+    console.log(templateId);
     if (currentIndex === -1) {
       newChecked.push(templateId);
     } else {
@@ -23,45 +24,43 @@ export const TemplateCard = (template) => {
   };
 
   const handleOpenModal = () => {
-    console.log("open modal")
-  }
+    console.log("open modal");
+  };
 
   return (
-    <>
-      <ListItem
+    <ListItem
+      sx={{
+        width: "425px",
+        backgroundColor: "#FFF",
+        margin: "10px",
+        padding: "12px",
+        borderRadius: "5px"
+      }}
+      dense
+      key={template.id}
+    >
+      <Checkbox
+        edge="start"
+        onChange={handleToggle(template.id)}
+        checked={checked.indexOf(template.id) !== -1}
+        inputProps={{ "aria-labelledby": template.id }}
         sx={{
-          width: "425px",
-          backgroundColor: "#FFF",
-          margin: "10px",
-          padding: "12px",
-          borderRadius: "5px"
+          color: "#2D2926",
+          "&.Mui-checked": {
+            color: "#C32A2A"
+          }
         }}
-        dense
-        key={template.template.id}
+      />
+      <ListItemButton
+        onClick={handleOpenModal}
       >
-        <Checkbox
-          edge="start"
-          onChange={handleToggle(template.template.id)}
-          checked={checked.indexOf(template.template.id) !== -1}
-          inputProps={{ 'aria-labelledby': template.template.id }}
-          sx={{
-            color: "#2D2926",
-            '&.Mui-checked': {
-              color: "#C32A2A",
-            }
-          }}
+        <ListItemText
+          primary={template.name}
         />
-        <ListItemButton
-          onClick={handleOpenModal}
-        >
-          <ListItemText
-            primary={template.template.name}
-          />
-          <ListItemText
-            primary={template.template.createdAt}
-          />
-        </ListItemButton>
-      </ListItem>
-    </>
+        <ListItemText
+          primary={template.createdAt}
+        />
+      </ListItemButton>
+    </ListItem>
   );
 };

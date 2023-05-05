@@ -1,16 +1,15 @@
-import * as React from "react";
-import { Controls } from "../../controls/Controls";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+import { Grid, List } from "@mui/material";
 import {
   fetchRoles,
   selectAllRoles
 } from "../../../services/rolesSlice";
-import { useEffect, useState } from "react";
-import { Grid, List } from "@mui/material";
 import { ReactComponent as BurgerIcon } from "../../../assets/icons/burger.svg";
 import { ReactComponent as StarIcon } from "../../../assets/icons/star.svg";
-import { useNavigate } from "react-router";
 import "./Roles.css";
+import { Controls } from "../../controls/Controls";
 import { RoleCard } from "./components/RoleCard";
 import { SearchAndSortRoleToolbar } from "./components/SearchAndSortRoleToolbar";
 
@@ -89,12 +88,9 @@ export const Roles = () => {
         open={openModal}
         onClose={handleModalClose}
       >
-        {"test"}
+
       </Controls.Modal>
-      <Controls.RoundButton
-        onClick={handleModalOpen}
-      >
-      </Controls.RoundButton>
+      <Controls.RoundButton onClick={handleModalOpen} />
     </div>
   );
 };

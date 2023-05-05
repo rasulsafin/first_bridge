@@ -1,8 +1,8 @@
 import * as React from "react";
+import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, selectUser } from "../../../services/authSlice";
 import { Controls } from "../../controls/Controls";
-import { useNavigate } from "react-router";
 import ProfileForm from "./components/ProfileForm";
 
 export const ProfilePage = () => {
@@ -14,7 +14,7 @@ export const ProfilePage = () => {
     dispatch(logout());
     navigate(`/login`);
   };
-  
+
   return (
     <div className="component-container">
       <h3 className="mb-2">Профиль</h3>

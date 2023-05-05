@@ -5,8 +5,7 @@ import { Controls } from "../../../controls/Controls";
 
 export const UserCard = (props) => {
   const { user } = props;
-  let fullName = user.name + " " + user.lastName;
-  
+  const fullName = `${user.name} ${user.lastName}`;
   return (
     <div className="user-card">
       <Grid container>

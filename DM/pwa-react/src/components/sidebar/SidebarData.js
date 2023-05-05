@@ -6,48 +6,48 @@ import { ReactComponent as TemplateIcon } from "../../assets/icons/templates.svg
 import { ReactComponent as DocIcon } from "../../assets/icons/docs.svg";
 
 export const SidebarData = [
-  
+
   {
     id: 1,
-    title: 'Projects',
-    path: '/projects',
+    title: "Projects",
+    path: "/projects",
     icon: <ProjectIcon className="icon" />,
-    iconActive: <ProjectIcon className="icon active" />,
+    iconActive: <ProjectIcon className="icon active" />
   },
   {
     id: 2,
-    title: 'Records',
-    path: '/records',
+    title: "Records",
+    path: "/records",
     icon: <RecordIcon className="icon" />,
-    iconActive: <RecordIcon className="icon active" />,
+    iconActive: <RecordIcon className="icon active" />
   },
   {
     id: 3,
-    title: 'Models',
-    path: '/models',
+    title: "Models",
+    path: "/models",
     icon: <ModelIcon className="icon" />,
-    iconActive: <ModelIcon className="icon active" />,
+    iconActive: <ModelIcon className="icon active" />
   },
   {
     id: 4,
-    title: 'Users',
-    path: '/users',
-    innerPath: '/roles',
+    title: "Users",
+    path: "/users",
+    innerPath: "/roles",
     icon: <UserIcon className="icon" />,
-    iconActive: <UserIcon className="icon active" />,
+    iconActive: <UserIcon className="icon active" />
   },
   {
     id: 5,
-    title: 'Documents',
-    path: '/',
+    title: "Documents",
+    path: "/",
     icon: <DocIcon className="icon" />,
-    iconActive: <DocIcon className="icon active" />,
+    iconActive: <DocIcon className="icon active" />
   },
   {
     id: 6,
-    title: 'Templates',
-    path: '/templates',
+    title: "Templates",
+    path: "/templates",
     icon: <TemplateIcon className="icon" />,
-    iconActive: <TemplateIcon className="icon active" />,
-  },
-]
+    iconActive: <TemplateIcon className="icon active" />
+  }
+];

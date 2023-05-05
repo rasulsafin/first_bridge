@@ -34,7 +34,7 @@ export const deleteRole = createAsyncThunk(
       }
     }).then(() => console.log("Delete successfully"));
   }
-)
+);
 
 export const rolesSlice = createSlice({
   name: "roles",

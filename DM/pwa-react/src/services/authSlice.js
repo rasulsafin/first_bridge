@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { axiosInstance } from "../axios/axiosInstance";
 import jwtDecode from "jwt-decode";
+import { axiosInstance } from "../axios/axiosInstance";
 
 const initialState = {
   user: null

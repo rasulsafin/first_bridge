@@ -43,9 +43,7 @@
     "redux-promise-middleware": "^6.1.2",
     "redux-promise-middleware-actions": "^3.1.0",
     "redux-thunk": "^2.4.1",
-    "three": "^0.135.0",
-    "web-ifc-three": "^0.0.121",
-    "web-ifc-viewer": "^1.0.213",
+    "web-ifc-viewer": "^1.0.216",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
   },
@@ -58,12 +56,6 @@
     "webpack-dev-server": "webpack-dev-server",
     "dev": "npm run webpack-dev-server -- --env mode=development",
     "prod": "npm run webpack -- --env mode=production"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
   },
   "browserslist": {
     "production": [
@@ -87,6 +79,10 @@
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.7.1",
     "dotenv-webpack": "^8.0.1",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "file-loader": "^6.2.0",
     "flow-bin": "^0.185.0",

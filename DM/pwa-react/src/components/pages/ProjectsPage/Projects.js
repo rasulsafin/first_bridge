@@ -1,17 +1,16 @@
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+import { Box } from "@mui/material";
+import "./Projects.css";
 import {
   fetchProjects,
-  selectAllProjects,
+  selectAllProjects
 } from "../../../services/projectsSlice";
-import { useEffect } from "react";
-import { useNavigate } from "react-router";
-import { ProjectCard } from "./components/ProjectCard";
-import * as React from "react";
-import "./Projects.css";
 import { fetchUsers } from "../../../services/usersSlice";
+import { ProjectCard } from "./components/ProjectCard";
 import { ReactComponent as PlusIcon } from "../../../assets/icons/plus.svg";
 import { SearchAndSortProjectToolbar } from "./components/SearchAndSortProjectToolbar";
-import { Box } from "@mui/material";
 
 export function Projects() {
   const dispatch = useDispatch();
@@ -37,6 +36,7 @@ export function Projects() {
         {projects.map(project => <ProjectCard key={project.id} project={project} />)}
         <div className="new-project-card">
           <button
+            type="button"
             className="btn-add-project"
             onClick={handleToCreatePage}
           >

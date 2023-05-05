@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { SearchBar } from "../../searchBar/SearchBar";
 import { Controls } from "../../controls/Controls";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -12,6 +11,7 @@ import {
   sortRecordTemplatesByNameDesc
 } from "../../../services/recordTemplatesSlice";
 import { List } from "@mui/material";
+import { SearchBar } from "../../searchBar/SearchBar";
 import { TemplateCard } from "./components/TemplateCard";
 
 export const Templates = () => {
@@ -94,8 +94,6 @@ export const Templates = () => {
           >От Я до А</Controls.Button>
         </div>
       </div>
-      <div>
-      </div>
       <List
         sx={{
           display: "flex",
@@ -104,10 +102,7 @@ export const Templates = () => {
         }}>
         {recordTemplates.map(template => <TemplateCard key={template.id} template={template} />)}
       </List>
-      <Controls.RoundButton
-        onClick={handleModalOpen}
-      >
-      </Controls.RoundButton>
+      <Controls.RoundButton onClick={handleModalOpen} />
     </div>
   );
 };

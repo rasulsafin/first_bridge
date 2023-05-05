@@ -1,7 +1,8 @@
 import React from "react";
 import { Avatar as MuiAvatar } from "@mui/material";
 
-const Avatar = (fullName) => {
+function Avatar(props) {
+  const { fullName } = props;
 
   function stringToColor(string: string) {
     let hash = 0;
@@ -23,21 +24,18 @@ const Avatar = (fullName) => {
     return color;
   }
 
-  function stringAvatar(fullName) {
+  function stringAvatar(name) {
     return {
       sx: {
-        bgcolor: stringToColor(fullName.toString())
+        bgcolor: stringToColor(name.toString())
       },
-      children: `${String(fullName).split(" ")[0][0]}${String(fullName).split(" ")[1][0]}`
+      children: `${String(name).split(" ")[0][0]}${String(name).split(" ")[1][0]}`
     };
   }
 
   return (
-    <>
-      <MuiAvatar {...stringAvatar(fullName.fullName)}
-      />
-    </>
+    <MuiAvatar {...stringAvatar(fullName)} />
   );
-};
+}
 
 export default Avatar;
