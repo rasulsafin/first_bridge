@@ -1,10 +1,12 @@
+using System;
 using System.Threading.Tasks;
+using System.Linq;
 
 using Microsoft.AspNetCore.Mvc;
-//using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 using Xunit;
+using AutoMapper;
 
 using DM.Controllers;
 
@@ -15,138 +17,121 @@ using DM.Domain.Services;
 using DM.DAL;
 
 using DM.Tests.Helpers;
-using System;
+using DM.IntegrationTests.Helpers;
+using DM.Domain.Infrastructure;
+using Microsoft.Extensions.Logging;
+using DM.DAL.Repositories;
+using DM.DAL.Interfaces;
+using Microsoft.Extensions.Configuration;
+using DM.DAL.Entities;
+using DM.IntegrationTests.Helpers.MockData;
 
 namespace DM.IntegrationTests.UnitTests.Services
 {
-    //[TestClass]
-    public class UserUnitTests
+    public class UserUnitTests : IClassFixture<TestDbContext>
     {
-        #region Const
-        private readonly UserDto user = new()
+        #region Setup Test
+
+        private EFUnitOfWork UnitOfWork { get; set; }
+        private static UserService service;
+        private static readonly IConfiguration conf;
+
+        public UserUnitTests(TestDbContext fixture)
         {
-            Id = 1,
-            Name = "Robert",
-            LastName = "Reiter",
-            FathersName = "J",
-            Email = "brogrammer@mail.ru",
-            Login = "bromigo",
-            HashedPassword = "1234",
-            Position = "developer",
-            RoleId = 1,
-            OrganizationId = 1,
-        };
+            var _mapper = MockServiceData.TestMapper.CreateMapper();
 
-        #endregion
-
-        #region CreateUserReturnsOkPositiveTesting
-
-        [Fact]
-        public async Task CreateUserReturnsOkPositiveTesting()
-        {
-            // preparation
-            var dmContext = new Mock<DmDbContext>();
-            var userRepo = new Mock<IUserService>();
-            var userProjectRepo = new Mock<IUserProjectService>();
-            var userController = new UserController(null, userRepo.Object, userProjectRepo.Object);
-
-            var userModel = new UserForCreateDto()
-            {
-                Name = user.Name,
-                LastName = user.LastName,
-                FathersName = user.FathersName,
-                Email = user.Email,
-                Login = user.Name,
-                OrganizationId = user.OrganizationId,
-                HashedPassword = user.HashedPassword,
-                RoleId = user.RoleId,
-                Position = user.Position
-            };
-
-            // execution
-            userRepo.Setup(x => x.Create(userModel))
-                .Returns(Task.FromResult(true));
-
-            var result = await userController.Create(userModel);
-            var actualResult = result as OkObjectResult;
-
-            // examination
-            Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(true, actualResult?.Value);
+            UnitOfWork = fixture.UnitOfWork;
+            service = new UserService(UnitOfWork, conf, _mapper, Mock.Of<ILogger<UserService>>());
         }
 
         #endregion
 
-        #region CreateUserReturnsBadRequestByNotExistingRoleTest
+        #region Get Testing
 
         [Fact]
-        public async Task CreateUserReturnsBadRequestByNotExistingRoleTest()
+        public async Task GetAllUsers_Positive()
         {
-            // preparation
-            var dmContext = new Mock<DmDbContext>();
-            var userRepo = new Mock<IUserService>();
-            var userProjectRepo = new Mock<IUserProjectService>();
-            var userController = new UserController(null, userRepo.Object, userProjectRepo.Object);
+            var users = await service.GetAll();
+            var result = users.Any();
 
-            var userModel = new UserForCreateDto()
-            {
-                Name = user.Name,
-                LastName = user.LastName,
-                FathersName = user.FathersName,
-                Email = user.Email,
-                Login = user.Name,
-                OrganizationId = user.OrganizationId,
-                HashedPassword = user.HashedPassword,
-                RoleId = 10,
-                Position = user.Position
-            };
+            Assert.True(result);
+        }
 
-            // execution
-            var result = await userController.Create(userModel);
+        [Fact]
+        public void GetUserById_Positive()
+        {
+            var user = service.GetById(MockServiceData.POSITIVE_ID);
 
-            var actualResult = result as BadRequestObjectResult;
+            Assert.NotNull(user);
+        }
 
-            // examination
-            Assert.Equal("The Role does not exist", actualResult?.Value);
-            Assert.IsType<BadRequestObjectResult>(result);
+        [Fact]
+        public void GetUserByLargeId_Negative()
+        {
+            var user = service.GetById(MockServiceData.LARGE_ID);
+
+            Assert.Null(user);
+        }
+
+        [Fact]
+        public void GetUserByZeroId_Negative()
+        {
+            var user = service.GetById(MockServiceData.ZERO_ID);
+
+            Assert.Null(user);
+        }
+
+        [Fact]
+        public void GetUserByNegativeId_Negative()
+        {
+            var user = service.GetById(MockServiceData.NEGATIVE_ID);
+
+            Assert.Null(user);
         }
 
         #endregion
 
-        #region CreateUserReturnsBadRequestByNullTest
+        #region Create Testing
 
         [Fact]
-        public async Task CreateUserReturnsBadRequestByNullTest()
+        public async Task CreateUserAndGetById_Positive()
         {
-            // preparation
-            var dmContext = new Mock<DmDbContext>();
-            var userRepo = new Mock<IUserService>();
-            var userProjectRepo = new Mock<IUserProjectService>();
-            var userController = new UserController(null, null, null);
+            var users = await service.GetAll();
+            var id_without_added = users.LastOrDefault().Id;
 
-            // execution
-            var result = await userController.Create(null);
+            //TODO added role&organization
+            await service.Create(MockUserData.USER_FOR_CREATE);
 
-            var actualResult = result as BadRequestObjectResult;
+            var user = service.GetById(id_without_added++);
 
-            // examination
-            Assert.Equal(ErrorList.BadRequest, actualResult?.Value);
-            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.NotNull(user);
         }
 
         #endregion
 
-        #region AuthenticateRequestReturnsBadRequestForEmptyContext
+        #region Update Testing
+
+        public async Task UpdateExistingUser_Positive()
+        {
+
+        }
+
+        #endregion
+
+        #region Delete Testing
 
         [Fact]
-        public void AuthenticateRequestReturnsBadRequestForEmptyContext()
+        public async Task DeleteExistingUser_Positive()
         {
-            var userController = new UserController(null, null, null);
+            var users = await service.GetAll();
+            var id_without_added = users.LastOrDefault().Id;
 
-            var result = userController.Authenticate(new AuthenticateRequest()
-            { Login = user.Login, Password = user.HashedPassword });
+            //TODO added role&organization
+            await service.Create(MockUserData.USER_FOR_CREATE);
 
-            Assert.IsType<BadRequestObjectResult>(result.Result);
+            var res = await service.Delete(id_without_added++);
+
+            Assert.True(res);
         }
 
         #endregion

@@ -47,7 +47,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _userService.GetAccess(_currentUser.RoleId, PermissionEnum.User);
+                var permission = await _userService.GetAccess(_currentUser.RoleId);
 
                 if (!permission.Read) return StatusCode(403);
 
@@ -77,7 +77,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _userService.GetAccess(_currentUser.RoleId, PermissionEnum.User);
+                var permission = await _userService.GetAccess(_currentUser.RoleId);
 
                 if (!permission.Read) return BadRequest(403);
 
@@ -110,7 +110,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _userService.GetAccess(_currentUser.RoleId, PermissionEnum.User);
+                var permission = await _userService.GetAccess(_currentUser.RoleId);
 
                 if (!permission.Create) return BadRequest(403);
 
@@ -149,7 +149,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _userService.GetAccess(_currentUser.RoleId, PermissionEnum.User);
+                var permission = await _userService.GetAccess(_currentUser.RoleId);
 
                 if (!permission.Update) return BadRequest(403);
 
@@ -183,7 +183,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _userService.GetAccess(_currentUser.RoleId, PermissionEnum.User);
+                var permission = await _userService.GetAccess(_currentUser.RoleId);
 
                 if (!permission.Delete) return BadRequest(403);
 
@@ -240,7 +240,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _userService.GetAccess(_currentUser.RoleId, PermissionEnum.User);
+                var permission = await _userService.GetAccess(_currentUser.RoleId);
 
                 if (!permission.Create) return BadRequest(403);
 
@@ -273,7 +273,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _userService.GetAccess(_currentUser.RoleId, PermissionEnum.User);
+                var permission = await _userService.GetAccess(_currentUser.RoleId);
 
                 if (!permission.Create) return BadRequest(403);
 
@@ -307,7 +307,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _userService.GetAccess(_currentUser.RoleId, PermissionEnum.User);
+                var permission = await _userService.GetAccess(_currentUser.RoleId);
 
                 if (!permission.Delete) return BadRequest(403);
 

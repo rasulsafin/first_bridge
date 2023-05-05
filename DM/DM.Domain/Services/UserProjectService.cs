@@ -81,9 +81,9 @@ namespace DM.Domain.Services
             return _mapper.Map<List<UserProject>>(normalizedUserProjects);
         }
 
-        public async Task<PermissionDto> GetAccess(long roleId, PermissionEnum permission)
+        public async Task<PermissionDto> GetAccess(long roleId)
         {
-            var access = await Context.Permissions.GetByRoleAndType(roleId, permission);
+            var access = await Context.Permissions.GetByRoleAndType(roleId, PermissionEnum.Project);
             return _mapper.Map<PermissionDto>(access);
         }
 

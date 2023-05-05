@@ -42,7 +42,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _roleService.GetAccess(_currentUser.RoleId, PermissionEnum.Role);
+                var permission = await _roleService.GetAccess(_currentUser.RoleId);
 
                 if (!permission.Read) return StatusCode(403);
 
@@ -71,7 +71,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _roleService.GetAccess(_currentUser.RoleId, PermissionEnum.Role);
+                var permission = await _roleService.GetAccess(_currentUser.RoleId);
 
                 if (!permission.Read) return StatusCode(403);
 
@@ -102,7 +102,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _roleService.GetAccess(_currentUser.RoleId, PermissionEnum.Role);
+                var permission = await _roleService.GetAccess(_currentUser.RoleId);
 
                 if (!permission.Create) return StatusCode(403);
 
@@ -129,7 +129,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _roleService.GetAccess(_currentUser.RoleId, PermissionEnum.Role);
+                var permission = await _roleService.GetAccess(_currentUser.RoleId);
 
                 if (!permission.Update) return StatusCode(403);
 
@@ -158,7 +158,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _roleService.GetAccess(_currentUser.RoleId, PermissionEnum.Role);
+                var permission = await _roleService.GetAccess(_currentUser.RoleId);
 
                 if (!permission.Delete) return StatusCode(403);
 
