@@ -1,9 +1,10 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { 
+import {
   searchRolesByName,
-  sortRolesByNameAsc, 
-  sortRolesByNameDesc } from "../../../../services/rolesSlice";
+  sortRolesByNameAsc,
+  sortRolesByNameDesc
+} from "../../../../services/rolesSlice";
 import { SearchBar } from "../../../searchBar/SearchBar";
 import { Controls } from "../../../controls/Controls";
 

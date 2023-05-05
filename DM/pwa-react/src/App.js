@@ -32,31 +32,29 @@ function App() {
   });
 
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route element={<RequireAuth />}>
-              <Route index element={<Home />} />
-              <Route path="/users" element={<Users />} />
-              <Route path="/roles" element={<Roles />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/records" element={<Records />} />
-              <Route path="/models" element={<Models />} />
-              <Route path="/templates" element={<Templates />} />
-              <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/admin" element={<AdminPage />} />
-              <Route path="/ifc" element={<ViewerIfc />} />
-              <Route path="/ifcViewer" element={<IfcComponent />} />
-            </Route>
-
-            <Route path="/login" element={<LoginPage />} />
-
-            <Route path="*" element={<NotFoundPage />} />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route element={<RequireAuth />}>
+            <Route index element={<Home />} />
+            <Route path="/users" element={<Users />} />
+            <Route path="/roles" element={<Roles />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/records" element={<Records />} />
+            <Route path="/models" element={<Models />} />
+            <Route path="/templates" element={<Templates />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/admin" element={<AdminPage />} />
+            <Route path="/ifc" element={<ViewerIfc />} />
+            <Route path="/ifcViewer" element={<IfcComponent />} />
           </Route>
-        </Routes>
-      </BrowserRouter>
-    </>
+
+          <Route path="/login" element={<LoginPage />} />
+
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

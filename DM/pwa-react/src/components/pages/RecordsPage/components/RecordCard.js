@@ -8,7 +8,9 @@ import {
   ListItemText
 } from "@mui/material";
 
-export const RecordCard = (record) => {
+export const RecordCard = (props) => {
+  const { record } = props;
+
   const [checked, setChecked] = useState([]);
 
   const handleToggle = (recordId) => () => {
@@ -29,55 +31,53 @@ export const RecordCard = (record) => {
   };
 
   return (
-    <>
-      <ListItem
+    <ListItem
+      sx={{
+        height: "51px",
+        backgroundColor: "#FFF",
+        marginY: "10px",
+        padding: "12px",
+        borderRadius: "10px"
+      }}
+      dense
+      key={record.id}
+    >
+      <Checkbox
+        edge="start"
+        onChange={handleToggle(record.id)}
+        checked={checked.indexOf(record.id) !== -1}
+        inputProps={{ "aria-labelledby": record.id }}
         sx={{
-          height: "51px",
-          backgroundColor: "#FFF",
-          marginY: "10px",
-          padding: "12px",
-          borderRadius: "10px"
+          color: "#2D2926",
+          "&.Mui-checked": {
+            color: "#C32A2A"
+          }
         }}
-        dense
-        key={record.record.id}
+      />
+      <ListItemButton
+        onClick={handleOpenModal}
       >
-        <Checkbox
-          edge="start"
-          onChange={handleToggle(record.record.id)}
-          checked={checked.indexOf(record.record.id) !== -1}
-          inputProps={{ "aria-labelledby": record.record.id }}
-          sx={{
-            color: "#2D2926",
-            "&.Mui-checked": {
-              color: "#C32A2A"
-            }
-          }}
+        <ListItemText
+          id={record.id}
+          primary="State"
         />
-        <ListItemButton
-          onClick={handleOpenModal}
-        >
-          <ListItemText
-            id={record.id}
-            primary={`State`}
+        <ListItemText
+          id={record.id}
+          primary={record.name}
+        />
+        <ListItemText
+          id={record.id}
+          primary="Description"
+        />
+        <ListItemText
+          id={record.id}
+          primary={record.createdAt}
+        />
+        <ListItemAvatar>
+          <Avatar
           />
-          <ListItemText
-            id={record.record.id}
-            primary={record.record.name}
-          />
-          <ListItemText
-            id={record.id}
-            primary={`Description`}
-          />
-          <ListItemText
-            id={record.id}
-            primary={record.record.createdAt}
-          />
-          <ListItemAvatar>
-            <Avatar
-            />
-          </ListItemAvatar>
-        </ListItemButton>
-      </ListItem>
-    </>
+        </ListItemAvatar>
+      </ListItemButton>
+    </ListItem>
   );
 };

@@ -44,7 +44,7 @@ export const RoleCard = (props) => {
             </Grid>
             <Grid item lg={6}>
               <ListItemText
-                primary={`Description`}
+                primary="Description"
               />
             </Grid>
           </Grid>

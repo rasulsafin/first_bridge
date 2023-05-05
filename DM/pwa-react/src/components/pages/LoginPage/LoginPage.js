@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Controls } from "../../controls/Controls";
-import "./LoginPage.css";
-import { useDispatch } from "react-redux";
-import { login } from "../../../services/authSlice";
 import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import "./LoginPage.css";
+import { Controls } from "../../controls/Controls";
+import { login } from "../../../services/authSlice";
 
 export const LoginPage = () => {
   const [user, setUser] = useState("");

@@ -1,10 +1,11 @@
+import React from "react";
 import {
   AreaChart,
   Area,
   XAxis,
   CartesianGrid,
   Tooltip,
-  ResponsiveContainer,
+  ResponsiveContainer
 } from "recharts";
 
 const data = [
@@ -13,7 +14,7 @@ const data = [
   { name: "March", Total: 8 },
   { name: "April", Total: 16 },
   { name: "May", Total: 9 },
-  { name: "June", Total: 17 },
+  { name: "June", Total: 17 }
 ];
 
 const Chart = ({ aspect, title }) => {

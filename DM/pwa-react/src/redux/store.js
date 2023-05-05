@@ -4,6 +4,7 @@ import logger from "redux-logger";
 import { persistStore, persistReducer } from "redux-persist";
 // import storage from "redux-persist/lib/storage";
 import storage from 'redux-persist-indexeddb-storage';
+import autoMergeLevel2 from "redux-persist/es/stateReconciler/autoMergeLevel2";
 import usersReducer from "../services/usersSlice";
 import organizationsReducer from "../services/organizationsSlice";
 import projectsReducer from "../services/projectsSlice";
@@ -15,7 +16,6 @@ import rolesReducer from "../services/rolesSlice";
 import permissionsReducer from "../services/permissionsSlice";
 import { ifcElementPropsReducer } from "../services/ifcElementPropsSlice";
 import ifcModelReducer from "../services/ifcModelSlice";
-import autoMergeLevel2 from "redux-persist/es/stateReconciler/autoMergeLevel2";
 
 const persistConfig = {
   key: "root",

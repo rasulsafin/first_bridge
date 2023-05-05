@@ -1,8 +1,6 @@
-import { SearchBar } from "../../searchBar/SearchBar";
-import { Controls } from "../../controls/Controls";
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { Grid, List } from "@mui/material";
 import {
   fetchRecords,
   searchRecordsByName,
@@ -12,8 +10,9 @@ import {
   sortRecordsByNameAsc,
   sortRecordsByNameDesc
 } from "../../../services/recordsSlice";
+import { SearchBar } from "../../searchBar/SearchBar";
 import { RecordCard } from "./components/RecordCard";
-import { Grid, List } from "@mui/material";
+import { Controls } from "../../controls/Controls";
 import { ReactComponent as PlanIcon } from "../../../assets/icons/plan.svg";
 import { ReactComponent as BurgerIcon } from "../../../assets/icons/burger.svg";
 
@@ -128,26 +127,21 @@ export function Records() {
           >От Я до А</Controls.Button>
         </div>
       </div>
-      <div>
-      </div>
       <List>
         {records.map(record => <RecordCard key={record.id} record={record} />)}
       </List>
       <Controls.Modal
-        titleModal={"TitleCreateModal"}
+        titleModal="TitleCreateModal"
         open={openModal}
         onClose={handleModalClose}
       >
         <Grid container direction="column">
           <Grid item>
-            test
+
           </Grid>
         </Grid>
       </Controls.Modal>
-      <Controls.RoundButton
-        onClick={handleModalOpen}
-      >
-      </Controls.RoundButton>
+      <Controls.RoundButton onClick={handleModalOpen} />
     </div>
   );
 }

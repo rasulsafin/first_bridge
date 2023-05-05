@@ -5,5 +5,5 @@ export const profile = {
   email: "Email",
   role: "Роль",
   position: "Должность",
-  password: "Пароль",
+  password: "Пароль"
 };

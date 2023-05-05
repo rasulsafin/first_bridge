@@ -1,14 +1,13 @@
 import React from "react";
-import { Button, InputAdornment } from "@mui/material";
+import { InputAdornment, TextField } from "@mui/material";
 import { ReactComponent as SearchIcon } from "../../assets/icons/search.svg";
-import { ReactComponent as CancelIcon } from "../../assets/icons/cancel.svg";
-import TextField from "@mui/material/TextField";
 import "./SearchBar.css";
 
-export const SearchBar = ({onChange}) => {
+export const SearchBar = (props) => {
+  const { onChange } = props;
   
   return (
-    <div style={{ width: "100%"}}>
+    <div style={{ width: "100%" }}>
       <TextField
         className="search-input"
         placeholder="Поиск"
@@ -19,7 +18,7 @@ export const SearchBar = ({onChange}) => {
         onChange={onChange}
         InputProps={{
           startAdornment: (
-            <InputAdornment 
+            <InputAdornment
               position="start"
               style={{
                 marginLeft: "5px"
@@ -27,7 +26,7 @@ export const SearchBar = ({onChange}) => {
             >
               <SearchIcon />
             </InputAdornment>
-          ),
+          )
           // endAdornment: value && (
           //   <Button 
           //     onClick={() => setValue("")}

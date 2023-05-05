@@ -1,8 +1,12 @@
+import React from "react";
 import { useDispatch } from "react-redux";
-import { searchUsersByName, sortUsersByNameAsc, sortUsersByNameDesc } from "../../../../services/usersSlice";
+import {
+  searchUsersByName,
+  sortUsersByNameAsc,
+  sortUsersByNameDesc
+} from "../../../../services/usersSlice";
 import { SearchBar } from "../../../searchBar/SearchBar";
 import { Controls } from "../../../controls/Controls";
-import React from "react";
 
 export function SearchAndSortUserToolbar() {
   const dispatch = useDispatch();
@@ -42,5 +46,5 @@ export function SearchAndSortUserToolbar() {
         onClick={handleSortByDesc}
       >От Я до А</Controls.Button>
     </>
-  )
+  );
 }

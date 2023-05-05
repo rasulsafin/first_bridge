@@ -1,7 +1,6 @@
-import { PdfViewer } from "../../pdfViewer/PdfViewer";
-import { PdfCreate } from "../../pdfCreate/PdfCreate";
-import Chart from "../../charts/Chart";
+import React from "react";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import Chart from "../../charts/Chart";
 
 export const Home = () => {
   const percentage = 66;
@@ -17,41 +16,35 @@ export const Home = () => {
         alignItems: "center",
         justifyContent: "flex-start"
       }}>
-        {/*<PdfViewer />*/}
-        {/*<PdfCreate />*/}
         <div className="col-12">
           <Chart title="Quantity of Records for 6 Months" aspect={2 / 1} />
         </div>
-
         <div className="col-2 p-4">
           <h6 className="pl-2">Done tasks</h6>
-
           <CircularProgressbar
-            
             value={percentage}
             text={`${percentage}%`}
             styles={buildStyles({
               // Rotation of path and trail, in number of turns (0-1)
               rotation: 0.25,
               // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
-              strokeLinecap: 'butt',
+              strokeLinecap: "butt",
               // Text size
-              textSize: '16px',
+              textSize: "16px",
               // How long animation takes to go from one percentage to another, in seconds
               pathTransitionDuration: 0.5,
               // Can specify path transition in more detail, or remove it entirely
               // pathTransition: 'none',
               // Colors
               pathColor: `rgba(62, 152, 199, ${percentage / 100})`,
-              textColor: '#f88',
-              trailColor: '#d6d6d6',
-              backgroundColor: '#3e98c7',
+              textColor: "#f88",
+              trailColor: "#d6d6d6",
+              backgroundColor: "#3e98c7"
             })}
           />
         </div>
         <div className="col-2 p-4">
           <h6 className="pl-2">Tasks in process</h6>
-
           <CircularProgressbar
             value={percentage1}
             text={`${percentage1}%`}
@@ -59,48 +52,46 @@ export const Home = () => {
               // Rotation of path and trail, in number of turns (0-1)
               rotation: 0.25,
               // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
-              strokeLinecap: 'butt',
+              strokeLinecap: "butt",
               // Text size
-              textSize: '16px',
+              textSize: "16px",
               // How long animation takes to go from one percentage to another, in seconds
               pathTransitionDuration: 0.5,
               // Can specify path transition in more detail, or remove it entirely
               // pathTransition: 'none',
               // Colors
               pathColor: `rgba(210, 5, 43, ${percentage1 / 100})`,
-              textColor: '#f88',
-              trailColor: '#d6d6d6',
-              backgroundColor: '#d2052b',
+              textColor: "#f88",
+              trailColor: "#d6d6d6",
+              backgroundColor: "#d2052b"
             })}
           />
         </div>
         <div className="col-2 p-4">
           <h6 className="pl-2">Failed tasks</h6>
           <CircularProgressbar
-            
             value={percentage2}
             text={`${percentage2}%`}
             styles={buildStyles({
               // Rotation of path and trail, in number of turns (0-1)
               rotation: 0.25,
               // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
-              strokeLinecap: 'butt',
+              strokeLinecap: "butt",
               // Text size
-              textSize: '16px',
+              textSize: "16px",
               // How long animation takes to go from one percentage to another, in seconds
               pathTransitionDuration: 0.5,
               // Can specify path transition in more detail, or remove it entirely
               // pathTransition: 'none',
               // Colors
               pathColor: `rgba(210, 5, 43, ${percentage1 / 100})`,
-              textColor: '#f88',
-              trailColor: '#d6d6d6',
-              backgroundColor: '#d2052b',
+              textColor: "#f88",
+              trailColor: "#d6d6d6",
+              backgroundColor: "#d2052b"
             })}
           />
         </div>
       </div>
     </div>
-    
   );
 };

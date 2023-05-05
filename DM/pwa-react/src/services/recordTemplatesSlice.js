@@ -12,7 +12,7 @@ export const fetchRecordTemplates = createAsyncThunk(
   "recordTemplates/fetchRecordTemplates", async (projectId) => {
     const response = await axiosInstance.get("api/template", {
       params: {
-        projectId: projectId
+        projectId
       }
     });
     return response.data;

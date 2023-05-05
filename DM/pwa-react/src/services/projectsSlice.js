@@ -43,11 +43,11 @@ export const addUserListToProject = createAsyncThunk(
   });
 
 export const deleteUserFromProject = createAsyncThunk(
-  "projects/deleteUserFromProject", async ({userId, projectId}, thunkAPI) => {
+  "projects/deleteUserFromProject", async ({ userId, projectId }, thunkAPI) => {
     await axiosInstance.delete("api/project/deleteUserFromProject", {
       params: {
-        userId: userId,
-        projectId: projectId
+        userId,
+        projectId
       }
     });
     thunkAPI.dispatch(fetchProjects());

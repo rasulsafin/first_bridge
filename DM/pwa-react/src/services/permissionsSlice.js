@@ -1,7 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { axiosInstance } from "../axios/axiosInstance";
 
-const initialState = [];
+const initialState = {
+  permissions: [],
+  isLoading: true,
+  error: null
+};
 
 export const fetchPermissions = createAsyncThunk(
   "permissions/fetchPermissions", async () => {
@@ -30,11 +34,12 @@ export const permissionsSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder.addCase(fetchPermissions.fulfilled, (state, action) => {
-      return action.payload;
+      state.isLoading = false;
+      state.permissions = action.payload;
     });
   }
 });
 
-export const selectAllPermissions = (state) => state.permissions;
+export const selectAllPermissions = (state) => state.permissions.permissions;
 
 export default permissionsSlice.reducer;

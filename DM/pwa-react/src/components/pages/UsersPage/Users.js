@@ -1,26 +1,22 @@
-import * as React from "react";
-import { Controls } from "../../controls/Controls";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
+import { Box, Grid, List, Modal } from "@mui/material";
 import {
   addNewUser,
   fetchUsers,
   selectAllUsers
 } from "../../../services/usersSlice";
-import { useEffect, useState } from "react";
 import { UserCard } from "./components/UserCard";
 import "./Users.css";
-import { Box, Button, Grid, IconButton, List, Modal } from "@mui/material";
 import { ReactComponent as BurgerIcon } from "../../../assets/icons/burger.svg";
 import { ReactComponent as StarIcon } from "../../../assets/icons/star.svg";
 import UserForm from "./components/UserForm";
 import { getInitialValues } from "./utils/getInitialValues";
-import { useNavigate } from "react-router";
 import { SearchAndSortUserToolbar } from "./components/SearchAndSortUserToolbar";
-import { ReactComponent as CancelIcon } from "../../../assets/icons/cancel.svg";
 import { useModal } from "../../../hooks/useModal";
 import { selectAllProjects } from "../../../services/projectsSlice";
-import { ProjectCard } from "../ProjectsPage/components/ProjectCard";
-
+import { Controls } from "../../controls/Controls";
 
 const style = {
   position: "absolute",
@@ -41,8 +37,8 @@ function ChildModal() {
   const [openModal, toggleModal] = useModal();
 
   return (
-    <React.Fragment>
-      <Controls.Button 
+    <>
+      <Controls.Button
         onClick={toggleModal}
         sx={{ width: "100%" }}
       >Настроить доступ</Controls.Button>
@@ -66,7 +62,7 @@ function ChildModal() {
           {/*<Button onClick={toggleModal}>Close Child Modal</Button>*/}
         </Box>
       </Modal>
-    </React.Fragment>
+    </>
   );
 }
 
@@ -145,39 +141,31 @@ export const Users = () => {
           <List style={{ height: "300px", overflowY: "auto", overflowX: "hidden" }}>
             {projects ?
               projects.map(project =>
-                <>
-                  
-                      <Box 
-                        sx={{
-                        height: "73px",
-                        backgroundColor: "#F4F4F4",
-                        margin: "4px",
-                        padding: "16px",
-                        borderRadius: "5px"
-                      }}>
-                        <Grid direction="column" container>
-                          <Grid item xs={2}>
-                            <span style={{ "font-size": "12px" }}>Участники: {project.users.length}</span>
-                          </Grid>
-                          <Grid item xs={10}>
-                            <span style={{ "font-weight": "bold"}}>{project.title}</span>
-                          </Grid>
-                        </Grid>
-                      </Box>
-                </>
+                <Box
+                  sx={{
+                    height: "73px",
+                    backgroundColor: "#F4F4F4",
+                    margin: "4px",
+                    padding: "16px",
+                    borderRadius: "5px"
+                  }}>
+                  <Grid direction="column" container>
+                    <Grid item xs={2}>
+                      <span style={{ "font-size": "12px" }}>Участники: {project.users.length}</span>
+                    </Grid>
+                    <Grid item xs={10}>
+                      <span style={{ "font-weight": "bold" }}>{project.title}</span>
+                    </Grid>
+                  </Grid>
+                </Box>
               )
               : null
             }
           </List>
           <ChildModal />
         </Box>
-        <Box>
-        </Box>
       </Controls.Modal>
-      <Controls.RoundButton
-        onClick={toggleModal}
-      >
-      </Controls.RoundButton>
+      <Controls.RoundButton onClick={toggleModal} />
     </div>
   );
 };

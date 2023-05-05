@@ -24,7 +24,7 @@ export const editRecord = createAsyncThunk(
   "records/editRecord", async (editableRec) => {
     await axiosInstance.put("api/record", editableRec);
   }
-)
+);
 
 export const deleteRecord = createAsyncThunk(
   "records/deleteRecord", async (id) => {
@@ -34,7 +34,7 @@ export const deleteRecord = createAsyncThunk(
       }
     }).then(() => console.log("Delete successfully"));
   }
-)
+);
 
 export const recordsSlice = createSlice({
   name: "records",
@@ -70,12 +70,12 @@ export const recordsSlice = createSlice({
   }
 });
 
-export const { 
-  searchRecordsByName, 
-  sortRecordsByNameAsc, 
-  sortRecordsByNameDesc, 
-  sortRecordsByDateAsc, 
-  sortRecordsByDateDesc,
+export const {
+  searchRecordsByName,
+  sortRecordsByNameAsc,
+  sortRecordsByNameDesc,
+  sortRecordsByDateAsc,
+  sortRecordsByDateDesc
 } = recordsSlice.actions;
 
 export const selectAllRecords = (state) => state.records.records;

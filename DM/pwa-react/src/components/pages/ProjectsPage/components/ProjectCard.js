@@ -1,24 +1,29 @@
 import React, { useState } from "react";
-import "./ProjectCard.css";
-import { Controls } from "../../../controls/Controls";
-import { Grid, IconButton, MenuItem } from "@mui/material";
+import { useDispatch } from "react-redux";
+import {
+  Grid,
+  IconButton,
+  MenuItem,
+  Menu,
+  Dialog
+} from "@mui/material";
 import { ReactComponent as MoreIcon } from "../../../../assets/icons/more.svg";
 import { ReactComponent as TrashIcon } from "../../../../assets/icons/trashcan.svg";
 import { ReactComponent as EditIcon } from "../../../../assets/icons/edit.svg";
-import Menu from "@mui/material/Menu";
+import { Controls } from "../../../controls/Controls";
+import "./ProjectCard.css";
 import { ProjectModal } from "./ProjectModal";
-import { useDispatch } from "react-redux";
-import Dialog from "@mui/material/Dialog";
 import { deleteProject } from "../../../../services/projectsSlice";
 import { formatDate } from "../utils/formatDate";
 
-export const ProjectCard = (project) => {
+export const ProjectCard = (props) => {
+  const { project } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const dispatch = useDispatch();
   const isMenuOpen = Boolean(anchorEl);
-  const projectId = project.project.id;
+  const projectId = project.id;
 
   const handleOpenModal = () => {
     setAnchorEl(null);
@@ -49,10 +54,8 @@ export const ProjectCard = (project) => {
   function handleDeleteProject() {
     dispatch(deleteProject(projectId));
   }
-  
-  const optimizeTitle = (title) => {
-      return title.slice(0, 20) + "...";
-  }
+
+  const optimizeTitle = title => `${title.slice(0, 20)}...`;
 
   const renderMenu = (
     <Menu
@@ -98,7 +101,7 @@ export const ProjectCard = (project) => {
       <Grid container>
         <Grid item md={12}>
           <span>
-           {`Вы действительно хотите удалить проект ${project.project.title} ?`}
+           {`Вы действительно хотите удалить проект ${project.title} ?`}
           </span>
           <Controls.Button onClick={handleDeleteProject} variant="outlined" color="error">Да</Controls.Button>
           <Controls.Button onClick={handleCloseDialog} variant="outlined" autoFocus>
@@ -113,7 +116,7 @@ export const ProjectCard = (project) => {
     <div className="project-card">
       <div className="project-title-container">
         <span className="project-title">
-          {project.project.title.length > 20 ? optimizeTitle(project.project.title) : project.project.title}
+          {project.title.length > 20 ? optimizeTitle(project.title) : project.title}
         </span>
         <div>
           <IconButton
@@ -130,12 +133,12 @@ export const ProjectCard = (project) => {
         open={openModal}
         onClose={handleCloseModal}
       />
-      <span className="project-date">{formatDate(project.project.createdAt)}</span>
+      <span className="project-date">{formatDate(project.createdAt)}</span>
       <div className="users-in-project">
         <span className="quantity-users-text">Участников {
-          project.project.users === null
+          project.users === null
             ? 0
-            : project.project.users.length
+            : project.users.length
         }</span>
       </div>
       <div className="btn-holder">

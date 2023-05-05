@@ -57,12 +57,6 @@
     "dev": "npm run webpack-dev-server -- --env mode=development",
     "prod": "npm run webpack -- --env mode=production"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -85,6 +79,10 @@
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.7.1",
     "dotenv-webpack": "^8.0.1",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "file-loader": "^6.2.0",
     "flow-bin": "^0.185.0",
