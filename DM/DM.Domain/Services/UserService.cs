@@ -55,8 +55,15 @@ namespace DM.Domain.Services
 
         public async Task<IEnumerable<UserForReadDto>> GetAll()
         {
-            var users = await Context.Users.GetAll();
-            return _mapper.Map<IEnumerable<UserForReadDto>>(users);
+            try
+            {
+                var users = await Context.Users.GetAll();
+                return _mapper.Map<IEnumerable<UserForReadDto>>(users);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public UserForReadDto GetById(long? userId)
@@ -120,9 +127,9 @@ namespace DM.Domain.Services
             return result;
         }
 
-        public async Task<PermissionDto> GetAccess(long roleId, PermissionEnum permission)
+        public async Task<PermissionDto> GetAccess(long roleId)
         {
-            var access = await Context.Permissions.GetByRoleAndType(roleId, permission);
+            var access = await Context.Permissions.GetByRoleAndType(roleId, PermissionEnum.User);
             return _mapper.Map<PermissionDto>(access);
         }
 

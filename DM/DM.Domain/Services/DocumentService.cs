@@ -36,7 +36,7 @@ namespace DM.Domain.Services
             throw new NotImplementedException();
         }
 
-        public async Task<PermissionDto> GetAccess(long roleId, PermissionEnum permission)
+        public async Task<PermissionDto> GetAccess(long roleId)
         {
             throw new NotImplementedException();
         }

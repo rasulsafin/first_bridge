@@ -48,9 +48,9 @@ namespace DM.Domain.Services
             return true;
         }
 
-        public async Task<PermissionDto> GetAccess(long roleId, PermissionEnum permission)
+        public async Task<PermissionDto> GetAccess(long roleId)
         {
-            var access = await Context.Permissions.GetByRoleAndType(roleId, permission);
+            var access = await Context.Permissions.GetByRoleAndType(roleId, PermissionEnum.Role);
             return _mapper.Map<PermissionDto>(access);
         }
 

@@ -46,7 +46,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _projectService.GetAccess(_currentUser.RoleId, PermissionEnum.Project);
+                var permission = await _projectService.GetAccess(_currentUser.RoleId);
 
                 if (!permission.Read) return StatusCode(403);
 
@@ -75,7 +75,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _projectService.GetAccess(_currentUser.RoleId, PermissionEnum.Project);
+                var permission = await _projectService.GetAccess(_currentUser.RoleId);
 
                 if (!permission.Read) return StatusCode(403);
 
@@ -109,7 +109,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _projectService.GetAccess(_currentUser.RoleId, PermissionEnum.Project);
+                var permission = await _projectService.GetAccess(_currentUser.RoleId);
 
                 if (!permission.Create) return StatusCode(403);
 
@@ -136,7 +136,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _projectService.GetAccess(_currentUser.RoleId, PermissionEnum.Project);
+                var permission = await _projectService.GetAccess(_currentUser.RoleId);
 
                 if (!permission.Update) return StatusCode(403);
 
@@ -165,7 +165,7 @@ namespace DM.Controllers
         [HttpDelete]
         public async Task<IActionResult> Archive(long projectId)
         {
-            var permission = await _projectService.GetAccess(_currentUser.RoleId, PermissionEnum.Project);
+            var permission = await _projectService.GetAccess(_currentUser.RoleId);
 
             if (!permission.Delete) return StatusCode(403);
 
@@ -190,7 +190,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _projectService.GetAccess(_currentUser.RoleId, PermissionEnum.Project);
+                var permission = await _projectService.GetAccess(_currentUser.RoleId);
 
                 if (!permission.Create) return BadRequest(403);
 
@@ -222,7 +222,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _projectService.GetAccess(_currentUser.RoleId, PermissionEnum.Project);
+                var permission = await _projectService.GetAccess(_currentUser.RoleId);
 
                 if (!permission.Create) return BadRequest(403);
 
@@ -255,7 +255,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _projectService.GetAccess(_currentUser.RoleId, PermissionEnum.Project);
+                var permission = await _projectService.GetAccess(_currentUser.RoleId);
 
                 if (!permission.Delete) return BadRequest(403);
 

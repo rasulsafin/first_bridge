@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.17" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
     <PackageReference Include="Moq" Version="4.18.4" />
@@ -24,8 +25,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DM.Common\DM.Common.csproj" />
+    <ProjectReference Include="..\DM.DAL\DM.DAL.csproj" />
     <ProjectReference Include="..\DM.Domain\DM.Domain.csproj" />
     <ProjectReference Include="..\DM\DM.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Helpers\Exceptions\" />
+    <Folder Include="UnitTests\Helpers\" />
   </ItemGroup>
 
 </Project>
