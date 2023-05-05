@@ -1,29 +1,17 @@
-using System;
 using System.Threading.Tasks;
 using System.Linq;
 
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
 
 using Moq;
 using Xunit;
-using AutoMapper;
 
-using DM.Controllers;
-
-using DM.Domain.Interfaces;
-using DM.Domain.DTO;
 using DM.Domain.Services;
 
-using DM.DAL;
-
-using DM.Tests.Helpers;
-using DM.IntegrationTests.Helpers;
-using DM.Domain.Infrastructure;
-using Microsoft.Extensions.Logging;
 using DM.DAL.Repositories;
-using DM.DAL.Interfaces;
-using Microsoft.Extensions.Configuration;
-using DM.DAL.Entities;
+
+using DM.IntegrationTests.Helpers;
 using DM.IntegrationTests.Helpers.MockData;
 
 namespace DM.IntegrationTests.UnitTests.Services
