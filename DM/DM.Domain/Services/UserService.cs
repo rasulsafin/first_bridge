@@ -8,13 +8,14 @@ using Microsoft.Extensions.Logging;
 using AutoMapper;
 
 using DM.Domain.Interfaces;
-using DM.Domain.Models;
-using DM.Domain.Helpers;
+using DM.Domain.DTO;
+using DM.Domain.Infrastructure;
 
 using DM.DAL.Entities;
 using DM.DAL.Interfaces;
 
 using DM.Common.Helpers;
+using DM.Common.Enums;
 
 namespace DM.Domain.Services
 {
@@ -33,9 +34,9 @@ namespace DM.Domain.Services
             _logger = logger;
         }
 
-        public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest model)
+        public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest request)
         {
-            var user = await Context.Users.Authenticate(model.Login);
+            var user = await Context.Users.Authenticate(request.Login);
 
             if (user == null)
             {
@@ -43,7 +44,7 @@ namespace DM.Domain.Services
                 return null;
             }
 
-            var passwordChecker = PasswordHelper.VerifyHashedPassword(user.HashedPassword, model.Password);
+            var passwordChecker = PasswordHelper.VerifyHashedPassword(user.HashedPassword, request.Password);
 
             if (!passwordChecker) return null;
 
@@ -54,8 +55,15 @@ namespace DM.Domain.Services
 
         public async Task<IEnumerable<UserForReadDto>> GetAll()
         {
-            var users = await Context.Users.GetAll();
-            return _mapper.Map<IEnumerable<UserForReadDto>>(users);
+            try
+            {
+                var users = await Context.Users.GetAll();
+                return _mapper.Map<IEnumerable<UserForReadDto>>(users);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public UserForReadDto GetById(long? userId)
@@ -66,19 +74,19 @@ namespace DM.Domain.Services
             return _mapper.Map<UserForReadDto>(user);
         }
 
-        public async Task<bool> Create(UserForCreateDto userForCreateModel)
+        public async Task<bool> Create(UserForCreateDto userForCreateDto)
         {
-            var hashedPass = PasswordHelper.HashPassword(userForCreateModel.HashedPassword);
+            var hashedPass = PasswordHelper.HashPassword(userForCreateDto.HashedPassword);
             var user = _mapper.Map<User>(new UserForCreateDto
             {
-                Login = userForCreateModel.Login,
-                Name = userForCreateModel.Name,
-                LastName = userForCreateModel.LastName,
-                FathersName = userForCreateModel.FathersName,
-                Email = userForCreateModel.Email,
-                RoleId = userForCreateModel.RoleId,
-                Position = userForCreateModel.Position,
-                OrganizationId = userForCreateModel.OrganizationId,
+                Login = userForCreateDto.Login,
+                Name = userForCreateDto.Name,
+                LastName = userForCreateDto.LastName,
+                FathersName = userForCreateDto.FathersName,
+                Email = userForCreateDto.Email,
+                RoleId = userForCreateDto.RoleId,
+                Position = userForCreateDto.Position,
+                OrganizationId = userForCreateDto.OrganizationId,
                 HashedPassword = hashedPass,
             });
 
@@ -88,21 +96,21 @@ namespace DM.Domain.Services
             return true;
         }
 
-        public async Task<bool> Update(UserForUpdateDto userForUpdateModel)
+        public async Task<bool> Update(UserForUpdateDto userForUpdateDto)
         {
-            var user = Context.Users.GetById(userForUpdateModel.Id);
+            var user = Context.Users.GetById(userForUpdateDto.Id);
 
             if (user == null) return false;
 
-            user.Name = userForUpdateModel.Name;
-            user.LastName = userForUpdateModel.LastName;
-            user.FathersName = userForUpdateModel.FathersName;
-            user.Email = userForUpdateModel.Email;
-            user.Login = userForUpdateModel.Login;
-            user.HashedPassword = userForUpdateModel.HashedPassword;
-            user.Position = userForUpdateModel.Position;
-            user.RoleId = userForUpdateModel.RoleId;
-            user.OrganizationId = userForUpdateModel.OrganizationId;
+            user.Name = userForUpdateDto.Name;
+            user.LastName = userForUpdateDto.LastName;
+            user.FathersName = userForUpdateDto.FathersName;
+            user.Email = userForUpdateDto.Email;
+            user.Login = userForUpdateDto.Login;
+            user.HashedPassword = userForUpdateDto.HashedPassword;
+            user.Position = userForUpdateDto.Position;
+            user.RoleId = userForUpdateDto.RoleId;
+            user.OrganizationId = userForUpdateDto.OrganizationId;
             user.UpdatedAt = DateTime.UtcNow;
 
             Context.Users.Update(user);
@@ -117,6 +125,12 @@ namespace DM.Domain.Services
             await Context.SaveAsync();
 
             return result;
+        }
+
+        public async Task<PermissionDto> GetAccess(long roleId)
+        {
+            var access = await Context.Permissions.GetByRoleAndType(roleId, PermissionEnum.User);
+            return _mapper.Map<PermissionDto>(access);
         }
 
         public void Dispose()

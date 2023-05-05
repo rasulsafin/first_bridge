@@ -5,12 +5,9 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 
 using DM.Domain.Interfaces;
-using DM.Domain.Models;
-using DM.Domain.Helpers;
+using DM.Domain.DTO;
 using DM.Domain.Services;
 using DM.Domain.Infrastructure.Exceptions;
-
-using DM.DAL;
 
 using DM.Common.Enums;
 
@@ -24,16 +21,14 @@ namespace DM.Controllers
     [Route("api/users")]
     public class UserController : ControllerBase
     {
-        private readonly DmDbContext _context;
         private readonly UserDto _currentUser;
 
         private readonly IUserService _userService;
         private readonly IUserProjectService _userProjectService;
 
-        public UserController(DmDbContext context, CurrentUserService currentUserService,
+        public UserController(CurrentUserService currentUserService,
             IUserService userService, IUserProjectService userProjectService)
         {
-            _context = context;
             _currentUser = currentUserService.CurrentUser;
             _userService = userService;
             _userProjectService = userProjectService;
@@ -52,9 +47,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionEnum.User);
+                var permission = await _userService.GetAccess(_currentUser.RoleId);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Read) return StatusCode(403);
 
                 var users = await _userService.GetAll();
 
@@ -78,13 +73,13 @@ namespace DM.Controllers
         /// <response code="500">Something went wrong while fetching the user.</response>
         [HttpGet("{userId}")]
         [Authorize]
-        public IActionResult GetById(long userId)
+        public async Task<IActionResult> GetById(long userId)
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionEnum.User);
+                var permission = await _userService.GetAccess(_currentUser.RoleId);
 
-                if (!permission) return BadRequest(403);
+                if (!permission.Read) return BadRequest(403);
 
                 var user = _userService.GetById(userId);
 
@@ -103,7 +98,7 @@ namespace DM.Controllers
         /// <summary>
         /// Create new user.
         /// </summary>
-        /// <param name="userModel"></param>
+        /// <param name="userDto"></param>
         /// <returns>Id of created user.</returns>        
         /// <response code="200">User created.</response>
         /// <response code="400">User with the same login already exists OR one/multiple of required values is/are empty.</response>
@@ -111,17 +106,17 @@ namespace DM.Controllers
         /// <response code="500">Something went wrong while creating new user.</response>
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Create(UserForCreateDto userModel)
+        public async Task<IActionResult> Create(UserForCreateDto userDto)
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionEnum.User);
+                var permission = await _userService.GetAccess(_currentUser.RoleId);
 
-                if (!permission) return BadRequest(403);
+                if (!permission.Create) return BadRequest(403);
 
-                if (userModel == null) return NotFound();
+                if (userDto == null) return NotFound();
 
-                var id = await _userService.Create(userModel);
+                var id = await _userService.Create(userDto);
 
                 return Ok(id);
             }
@@ -142,7 +137,7 @@ namespace DM.Controllers
         /// <summary>
         /// Updating an existing user.
         /// </summary>
-        /// <param name="userModel"></param>
+        /// <param name="userDto"></param>
         /// <returns>Boolean value about function execution.</returns>        
         /// <response code="200">User updated.</response>
         /// <response code="400">User with the same login already exists OR one/multiple of required values is/are empty.</response>
@@ -150,15 +145,15 @@ namespace DM.Controllers
         /// <response code="500">Something went wrong while updating user.</response>
         [HttpPut]
         [Authorize]
-        public async Task<IActionResult> Update(UserForUpdateDto userModel)
+        public async Task<IActionResult> Update(UserForUpdateDto userDto)
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionEnum.User);
+                var permission = await _userService.GetAccess(_currentUser.RoleId);
 
-                if (!permission) return BadRequest(403);
+                if (!permission.Update) return BadRequest(403);
 
-                var checker = await _userService.Update(userModel);
+                var checker = await _userService.Update(userDto);
 
                 return Ok(checker);
             }
@@ -188,9 +183,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionEnum.User);
+                var permission = await _userService.GetAccess(_currentUser.RoleId);
 
-                if (!permission) return BadRequest(403);
+                if (!permission.Delete) return BadRequest(403);
 
                 var checker = await _userService.Delete(userId);
 
@@ -209,16 +204,16 @@ namespace DM.Controllers
         /// <summary>
         /// Authorization of an existing user.
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="Dto"></param>
         /// <returns>Boolean value about function execution.</returns>        
         /// <response code="200">User found.</response>
         /// <response code="500">Something went wrong when authorizing the user.</response>
         [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate(AuthenticateRequest model)
+        public async Task<IActionResult> Authenticate(AuthenticateRequest Dto)
         {
             try
             {
-                var response = await _userService.Authenticate(model);
+                var response = await _userService.Authenticate(Dto);
 
                 if (response == null) return BadRequest(new { message = "Username or password is incorrect" });
 
@@ -233,7 +228,7 @@ namespace DM.Controllers
         /// <summary>
         /// Add user to project.
         /// </summary>
-        /// <param name="userProjectModel"></param>
+        /// <param name="userProjectDto"></param>
         /// <returns>Boolean value about function execution.</returns>        
         /// <response code="200">User added.</response>
         /// <response code="403">Access denied.</response>
@@ -241,15 +236,15 @@ namespace DM.Controllers
         /// <response code="500">Something went wrong when adding to the project.</response>
         [HttpPost("addToProject")]
         [Authorize]
-        public async Task<IActionResult> AddToProject(UserProjectDto userProjectModel)
+        public async Task<IActionResult> AddToProject(UserProjectDto userProjectDto)
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionEnum.User);
+                var permission = await _userService.GetAccess(_currentUser.RoleId);
 
-                if (!permission) return BadRequest(403);
+                if (!permission.Create) return BadRequest(403);
 
-                var checker = await _userProjectService.AddToProject(userProjectModel);
+                var checker = await _userProjectService.AddToProject(userProjectDto);
 
                 return Ok(checker);
             }
@@ -266,7 +261,7 @@ namespace DM.Controllers
         /// <summary>
         /// Adding a list of projects to the user.
         /// </summary>
-        /// <param name="userProjectModel"></param>
+        /// <param name="userProjectDto"></param>
         /// <returns>Boolean value about function execution.</returns>        
         /// <response code="200">Users added.</response>
         /// <response code="403">Access denied.</response>
@@ -274,15 +269,15 @@ namespace DM.Controllers
         /// <response code="500">Something went wrong when adding to the project.</response>
         [HttpPost("addProjectListToUser")]
         [Authorize]
-        public async Task<IActionResult> AddToProjects(List<UserProjectDto> userProjectModel)
+        public async Task<IActionResult> AddToProjects(List<UserProjectDto> userProjectDto)
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionEnum.User);
+                var permission = await _userService.GetAccess(_currentUser.RoleId);
 
-                if (!permission) return BadRequest(403);
+                if (!permission.Create) return BadRequest(403);
 
-                var checker = await _userProjectService.AddToProjects(userProjectModel);
+                var checker = await _userProjectService.AddToProjects(userProjectDto);
 
                 return Ok(checker);
             }
@@ -312,9 +307,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionEnum.User);
+                var permission = await _userService.GetAccess(_currentUser.RoleId);
 
-                if (!permission) return BadRequest(403);
+                if (!permission.Delete) return BadRequest(403);
 
                 var checker = await _userProjectService.DeleteFromProject(userId, projectId);
 

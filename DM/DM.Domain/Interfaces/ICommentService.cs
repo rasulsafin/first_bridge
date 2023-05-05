@@ -1,14 +1,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DM.Domain.Models;
+using DM.Domain.DTO;
 
 namespace DM.Domain.Interfaces
 {
-    public interface ICommentService
+    public interface ICommentService : IGetAccess
     {
-     //   public List<CommentModel> GetAllCommentsOfRecord(long recordId);
-        public Task<long> Create(CommentDto commentModel);
-        public Task<bool> Update(CommentForUpdateModel commentModel);
+        public Task<long> Create(CommentDto comment);
+        public Task<bool> Update(CommentForUpdateDto comment);
         public Task<bool> Delete(long commentId);
         void Dispose();
     }

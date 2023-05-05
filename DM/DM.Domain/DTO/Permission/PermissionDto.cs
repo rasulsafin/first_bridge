@@ -1,6 +1,7 @@
 ﻿using DM.Common.Enums;
+using DM.Domain.DTO;
 
-namespace DM.Domain.Models
+namespace DM.Domain.DTO
 {
     public class PermissionDto : BaseDto
     {

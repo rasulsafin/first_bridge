@@ -1,4 +1,4 @@
-﻿using DM.Domain.Models;
+﻿using DM.Domain.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace DM.Domain.Interfaces
 {
-    public interface IRecordService
+    public interface IRecordService : IGetAccess
     {
         public Task<IEnumerable<RecordForReadDto>> GetAll();
         public RecordForReadDto GetById(long recordId);
-        public Task<long> Create(RecordForCreateDto recordModel);
-        public Task<bool> Update(RecordDto recordModel);
+        public Task<long> Create(RecordForCreateDto record);
+        public Task<bool> Update(RecordDto record);
         public Task<bool> Delete(long recordId);
         void Dispose();
     }

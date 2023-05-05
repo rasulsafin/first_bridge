@@ -4,13 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using DM.Controllers;
 using DM.Domain.Interfaces;
-using DM.Domain.Models;
+using DM.Domain.DTO;
 using DM.Tests.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
-namespace DM.Tests.UnitTests
+namespace DM.IntegrationTests.UnitTests.Services
 {
     public class TemplateUnitTests
     {
@@ -59,7 +59,7 @@ namespace DM.Tests.UnitTests
         public async Task GetProjectTemplateOfRecordReturnBadRequestForNonExistingAndCorrectObject()
         {
             var templateRepo = new Mock<ITemplateService>();
-            var templateController = new TemplateController(null, null, templateRepo.Object, null);
+            var templateController = new TemplateController(null, templateRepo.Object);
 
             var result = await templateController.GetProjectTemplateOfRecord(100);
 

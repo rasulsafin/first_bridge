@@ -1,15 +1,11 @@
 ﻿using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 using DM.Domain.Interfaces;
-using DM.Domain.Models;
-using DM.Domain.Helpers;
+using DM.Domain.DTO;
 using DM.Domain.Services;
 using DM.Domain.Infrastructure.Exceptions;
-
-using DM.DAL;
 
 using DM.Common.Enums;
 
@@ -24,19 +20,14 @@ namespace DM.Controllers
     [Route("api/organization")]
     public class OrganizationController : ControllerBase
     {
-        private readonly DmDbContext _context;
         private readonly UserDto _currentUser;
 
         private readonly IOrganizationService _organizationService;
-        private readonly ILogger<OrganizationService> _logger;
 
-        public OrganizationController(DmDbContext context, CurrentUserService currentUserService,
-            IOrganizationService organizationService, ILogger<OrganizationService> logger)
+        public OrganizationController(CurrentUserService currentUserService, IOrganizationService organizationService)
         {
-            _context = context;
             _currentUser = currentUserService.CurrentUser;
             _organizationService = organizationService;
-            _logger = logger;
         }
 
         /// <summary>
@@ -51,9 +42,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionEnum.Organization);
+                var permission = await _organizationService.GetAccess(_currentUser.RoleId);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Read) return StatusCode(403);
 
                 var organizations = await _organizationService.GetAll();
 
@@ -68,21 +59,21 @@ namespace DM.Controllers
         /// <summary>
         /// Create new organization.
         /// </summary>
-        /// <param name="organizationForCreateModel"></param>
+        /// <param name="organizationForCreateDto"></param>
         /// <returns>Boolean value about function execution.</returns>        
         /// <response code="200">Organization created.</response>
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while creating new organization.</response>
         [HttpPost]
-        public async Task<IActionResult> Create(OrganizationForCreateDto organizationForCreateModel)
+        public async Task<IActionResult> Create(OrganizationForCreateDto organizationForCreateDto)
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionEnum.Organization);
+                var permission = await _organizationService.GetAccess(_currentUser.RoleId);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Create) return StatusCode(403);
 
-                var checker = await _organizationService.Create(organizationForCreateModel);
+                var checker = await _organizationService.Create(organizationForCreateDto);
 
                 return Ok(checker);
             }
@@ -95,21 +86,21 @@ namespace DM.Controllers
         /// <summary>
         /// Updating an existing organization.
         /// </summary>
-        /// <param name="organizationForUpdateModel"></param>
+        /// <param name="organizationForUpdateDto"></param>
         /// <returns>Boolean value about function execution.</returns>        
         /// <response code="200">Organization updated.</response>
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while updating organization.</response>
         [HttpPut]
-        public async Task<IActionResult> Update(OrganizationForUpdateDto organizationForUpdateModel)
+        public async Task<IActionResult> Update(OrganizationForUpdateDto organizationForUpdateDto)
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionEnum.Organization);
+                var permission = await _organizationService.GetAccess(_currentUser.RoleId);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Update) return StatusCode(403);
 
-                var checker = await _organizationService.Update(organizationForUpdateModel);
+                var checker = await _organizationService.Update(organizationForUpdateDto);
 
                 if (!checker) return NotFound();
 
@@ -136,9 +127,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionEnum.Organization);
+                var permission = await _organizationService.GetAccess(_currentUser.RoleId);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Delete) return StatusCode(403);
 
                 var checker = await _organizationService.Delete(organizationId);
 

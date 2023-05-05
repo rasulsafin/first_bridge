@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 
-using Microsoft.EntityFrameworkCore;
-
 using AutoMapper;
 
 using DM.Domain.Interfaces;
-using DM.Domain.Models;
+using DM.Domain.DTO;
 
 using DM.DAL.Entities;
 using DM.DAL.Interfaces;
+using DM.Common.Enums;
 
 namespace DM.Domain.Services
 {
@@ -51,14 +50,14 @@ namespace DM.Domain.Services
         /// <summary>
         /// Create new Record
         /// </summary>
-        public async Task<long> Create(RecordForCreateDto recordForCreateModel)
+        public async Task<long> Create(RecordForCreateDto recordForCreateDto)
         {
             var record = _mapper.Map<Record>(new RecordForCreateDto
             {
-                Name = recordForCreateModel.Name,
-                ProjectId = recordForCreateModel.ProjectId,
-                Fields = recordForCreateModel.Fields.ToList(),
-                ListFields = recordForCreateModel.ListFields.ToList()
+                Name = recordForCreateDto.Name,
+                ProjectId = recordForCreateDto.ProjectId,
+                Fields = recordForCreateDto.Fields.ToList(),
+                ListFields = recordForCreateDto.ListFields.ToList()
             });
 
             await Context.Records.Create(record);
@@ -70,14 +69,14 @@ namespace DM.Domain.Services
         /// <summary>
         /// Update only the columns of an existing Record
         /// </summary>
-        public async Task<bool> Update(RecordDto recordModel)
+        public async Task<bool> Update(RecordDto recordDto)
         {
-            var record = Context.Records.GetById(recordModel.Id);
+            var record = Context.Records.GetById(recordDto.Id);
 
             if (record == null) return false;
 
-            record.Name = recordModel.Name;
-            record.ProjectId = recordModel.ProjectId;
+            record.Name = recordDto.Name;
+            record.ProjectId = recordDto.ProjectId;
             record.UpdatedAt = DateTime.UtcNow;
 
             Context.Records.Update(record);
@@ -95,6 +94,12 @@ namespace DM.Domain.Services
             await Context.SaveAsync();
 
             return result;
+        }
+
+        public async Task<PermissionDto> GetAccess(long roleId)
+        {
+            var access = await Context.Permissions.GetByRoleAndType(roleId, PermissionEnum.Record);
+            return _mapper.Map<PermissionDto>(access);
         }
 
         public void Dispose()

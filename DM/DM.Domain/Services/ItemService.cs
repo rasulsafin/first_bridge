@@ -7,10 +7,11 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 
 using DM.Domain.Interfaces;
-using DM.Domain.Models;
+using DM.Domain.DTO;
 
 using DM.DAL.Entities;
 using DM.DAL.Interfaces;
+using DM.Common.Enums;
 
 namespace DM.Domain.Services
 {
@@ -41,14 +42,20 @@ namespace DM.Domain.Services
             return _mapper.Map<ItemDto>(item);
         }
 
-        public async Task<long> Create(ItemDto itemModel)
+        public async Task<long> Create(ItemDto itemDto)
         {
-            var item = _mapper.Map<Item>(itemModel);
+            var item = _mapper.Map<Item>(itemDto);
 
             await Context.Items.Create(item);
             await Context.SaveAsync();
 
             return item.Id;
+        }
+
+        public async Task<PermissionDto> GetAccess(long roleId)
+        {
+            var access = await Context.Permissions.GetByRoleAndType(roleId, PermissionEnum.Item);
+            return _mapper.Map<PermissionDto>(access);
         }
 
         public void Dispose()

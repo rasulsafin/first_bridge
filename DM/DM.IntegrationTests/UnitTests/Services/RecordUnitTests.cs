@@ -6,12 +6,12 @@ using DM.Controllers;
 using DM.DAL;
 using DM.Domain.Services;
 using DM.Domain.Interfaces;
-using DM.Domain.Models;
+using DM.Domain.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
-namespace DM.Tests.UnitTests
+namespace DM.IntegrationTests.UnitTests.Services
 {
     public class RecordUnitTests
     {

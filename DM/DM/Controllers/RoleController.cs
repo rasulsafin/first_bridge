@@ -1,15 +1,11 @@
 ﻿using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 using DM.Domain.Interfaces;
-using DM.Domain.Models;
-using DM.Domain.Helpers;
+using DM.Domain.DTO;
 using DM.Domain.Services;
 using DM.Domain.Infrastructure.Exceptions;
-
-using DM.DAL;
 
 using DM.Common.Enums;
 
@@ -24,19 +20,14 @@ namespace DM.Controllers
     [Route("api/role")]
     public class RoleController : ControllerBase
     {
-
-        private readonly DmDbContext _context;
         private readonly UserDto _currentUser;
 
         private readonly IRoleService _roleService;
-        private readonly ILogger<RoleService> _logger;
 
-        public RoleController(DmDbContext context, CurrentUserService currentUserService, IRoleService roleService, ILogger<RoleService> logger)
+        public RoleController(CurrentUserService currentUserService, IRoleService roleService)
         {
-            _context = context;
             _currentUser = currentUserService.CurrentUser;
             _roleService = roleService;
-            _logger = logger;
         }
 
         /// <summary>
@@ -51,9 +42,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionEnum.Role);
+                var permission = await _roleService.GetAccess(_currentUser.RoleId);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Read) return StatusCode(403);
 
                 var roles = await _roleService.GetAll();
 
@@ -76,13 +67,13 @@ namespace DM.Controllers
         /// <response code="404">Could not find role.</response>
         /// <response code="500">Something went wrong while fetching the role.</response>
         [HttpGet("{roleId}")]
-        public IActionResult GetById(long roleId)
+        public async Task<IActionResult> GetById(long roleId)
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForRead(_context, _currentUser, PermissionEnum.Role);
+                var permission = await _roleService.GetAccess(_currentUser.RoleId);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Read) return StatusCode(403);
 
                 var role = _roleService.GetById(roleId);
 
@@ -101,21 +92,21 @@ namespace DM.Controllers
         /// <summary>
         /// Create new role.
         /// </summary>
-        /// <param name="roleModel"></param>
+        /// <param name="roleDto"></param>
         /// <returns>Id of created role.</returns>        
         /// <response code="200">Role created.</response>
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while creating new role.</response>
         [HttpPost]
-        public async Task<IActionResult> Create(RoleForCreateDto roleModel)
+        public async Task<IActionResult> Create(RoleForCreateDto roleDto)
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionEnum.Role);
+                var permission = await _roleService.GetAccess(_currentUser.RoleId);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Create) return StatusCode(403);
 
-                var id = await _roleService.Create(roleModel);
+                var id = await _roleService.Create(roleDto);
 
                 return Ok(id);
             }
@@ -128,21 +119,21 @@ namespace DM.Controllers
         /// <summary>
         /// Updating an existing role.
         /// </summary>
-        /// <param name="roleModel"></param>
+        /// <param name="roleDto"></param>
         /// <returns>Boolean value about function execution.</returns>        
         /// <response code="200">Role updated.</response>
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while updating role.</response>
         [HttpPut]
-        public async Task<IActionResult> Update(RoleForUpdateDto roleModel)
+        public async Task<IActionResult> Update(RoleForUpdateDto roleDto)
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForUpdate(_context, _currentUser, PermissionEnum.Role);
+                var permission = await _roleService.GetAccess(_currentUser.RoleId);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Update) return StatusCode(403);
 
-                var checker = await _roleService.Update(roleModel);
+                var checker = await _roleService.Update(roleDto);
 
                 return Ok(checker);
             }
@@ -167,9 +158,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionEnum.Role);
+                var permission = await _roleService.GetAccess(_currentUser.RoleId);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Delete) return StatusCode(403);
 
                 var checker = await _roleService.Delete(roleId);
 

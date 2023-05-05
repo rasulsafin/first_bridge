@@ -48,7 +48,7 @@ tests:
   tags:
     - docker-on-host
   script:
-    - docker run --rm --entrypoint "dotnet" -t  $IMAGE_NAME_BACKEND   DM.Tests.dll
+    - docker run --rm --entrypoint "dotnet" -t  $IMAGE_NAME_BACKEND   DM.IntegrationTests.dll
 
 
 push:

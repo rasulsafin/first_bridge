@@ -1,19 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 
-using Microsoft.EntityFrameworkCore;
-
 using AutoMapper;
 
-using DM.Domain.Models;
+using DM.Domain.DTO;
 using DM.Domain.Interfaces;
 
-using DM.DAL;
 using DM.DAL.Entities;
-using System;
 using DM.DAL.Interfaces;
-using DM.Domain.Helpers;
+
+using DM.Common.Enums;
 
 namespace DM.Domain.Services
 {
@@ -46,14 +44,14 @@ namespace DM.Domain.Services
             return _mapper.Map<ProjectForReadDto>(project);
         }
 
-        public async Task<long> Create(ProjectForReadDto projectForReadModel)
+        public async Task<long> Create(ProjectForReadDto projectForReadDto)
         {
             var project = _mapper.Map<Project>(new ProjectForReadDto
             {
-                Title = projectForReadModel.Title,
-                OrganizationId = projectForReadModel.OrganizationId,
-                Items = projectForReadModel.Items.ToList(),
-                Users = projectForReadModel.Users.ToList(),
+                Title = projectForReadDto.Title,
+                OrganizationId = projectForReadDto.OrganizationId,
+                Items = projectForReadDto.Items.ToList(),
+                Users = projectForReadDto.Users.ToList(),
             });
 
             await Context.Projects.Create(project);
@@ -62,14 +60,14 @@ namespace DM.Domain.Services
             return project.Id;
         }
 
-        public async Task<bool> Update(ProjectForUpdateDto projectForUpdateModel)
+        public async Task<bool> Update(ProjectForUpdateDto projectForUpdateDto)
         {
-            var project = Context.Projects.GetById(projectForUpdateModel.Id);
+            var project = Context.Projects.GetById(projectForUpdateDto.Id);
 
             if (project == null) return false;
 
-            project.Title = projectForUpdateModel.Title;
-            project.IsInArchive = projectForUpdateModel.IsInArchive;
+            project.Title = projectForUpdateDto.Title;
+            project.IsInArchive = projectForUpdateDto.IsInArchive;
             project.UpdatedAt = DateTime.UtcNow;
 
             Context.Projects.Update(project);
@@ -84,6 +82,12 @@ namespace DM.Domain.Services
             await Context.SaveAsync();
 
             return result;
+        }
+
+        public async Task<PermissionDto> GetAccess(long roleId)
+        {
+            var access = await Context.Permissions.GetByRoleAndType(roleId, PermissionEnum.Project);
+            return _mapper.Map<PermissionDto>(access);
         }
 
         public void Dispose()

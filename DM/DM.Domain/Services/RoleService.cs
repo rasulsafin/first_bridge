@@ -1,18 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-
-using Microsoft.EntityFrameworkCore;
 
 using AutoMapper;
 
 using DM.Domain.Interfaces;
-using DM.Domain.Models;
+using DM.Domain.DTO;
 
-using DM.DAL;
 using DM.DAL.Entities;
-using System;
 using DM.DAL.Interfaces;
+using DM.Common.Enums;
 
 namespace DM.Domain.Services
 {
@@ -41,13 +38,13 @@ namespace DM.Domain.Services
             return _mapper.Map<RoleDto>(role);
         }
 
-        public async Task<bool> Create(RoleForCreateDto roleForCreateModel)
+        public async Task<bool> Create(RoleForCreateDto roleForCreateDto)
         {
             var role = _mapper.Map<Role>(new RoleDto
             {
-                Name = roleForCreateModel.Name,
-                Description = roleForCreateModel.Description,
-                Permissions = roleForCreateModel.Permissions,
+                Name = roleForCreateDto.Name,
+                Description = roleForCreateDto.Description,
+                Permissions = roleForCreateDto.Permissions,
             });
 
             await Context.Roles.Create(role);
@@ -55,14 +52,14 @@ namespace DM.Domain.Services
 
             return true;
         }
-        public async Task<bool> Update(RoleForUpdateDto roleForUpdateModel)
+        public async Task<bool> Update(RoleForUpdateDto roleForUpdateDto)
         {
-            var role = Context.Roles.GetById(roleForUpdateModel.Id);
+            var role = Context.Roles.GetById(roleForUpdateDto.Id);
 
             if (role == null) return false;
 
-            role.Name = roleForUpdateModel.Name;
-            role.Description = roleForUpdateModel.Description;
+            role.Name = roleForUpdateDto.Name;
+            role.Description = roleForUpdateDto.Description;
             role.UpdatedAt = DateTime.UtcNow;
 
             Context.Roles.Update(role);
@@ -76,6 +73,12 @@ namespace DM.Domain.Services
             await Context.SaveAsync();
 
             return result;
+        }
+
+        public async Task<PermissionDto> GetAccess(long roleId)
+        {
+            var access = await Context.Permissions.GetByRoleAndType(roleId, PermissionEnum.Role);
+            return _mapper.Map<PermissionDto>(access);
         }
 
         public void Dispose()

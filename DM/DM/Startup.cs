@@ -12,6 +12,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+
+using Serilog;
+
 using DM.Domain.Interfaces;
 using DM.Domain.Helpers;
 using DM.Domain.Infrastructure;

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using DM.Domain.Models;
+using DM.Domain.DTO;
 
 namespace DM.Domain.Interfaces
 {
-    public interface IUserService
+    public interface IUserService : IGetAccess
     {
         public Task<AuthenticateResponse> Authenticate(AuthenticateRequest user);
         public Task<IEnumerable<UserForReadDto>> GetAll();

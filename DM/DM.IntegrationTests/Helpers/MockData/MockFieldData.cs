@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DM.Tests.UnitTests
+namespace DM.IntegrationTests.Helpers.MockData
 {
-    public class RoleUnitTests
+    internal class MockFieldData
     {
     }
 }

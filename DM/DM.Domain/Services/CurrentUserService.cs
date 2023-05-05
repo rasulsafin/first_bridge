@@ -2,7 +2,7 @@
 
 using AutoMapper;
 
-using DM.Domain.Models;
+using DM.Domain.DTO;
 
 using DM.DAL;
 

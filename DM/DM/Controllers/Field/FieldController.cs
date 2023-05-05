@@ -1,15 +1,11 @@
 ﻿using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 using DM.Domain.Interfaces;
-using DM.Domain.Models;
-using DM.Domain.Helpers;
+using DM.Domain.DTO;
 using DM.Domain.Services;
 using DM.Domain.Infrastructure.Exceptions;
-
-using DM.DAL;
 
 using DM.Common.Enums;
 
@@ -24,38 +20,34 @@ namespace DM.Controllers
     [Route("api/field")]
     public class FieldController : ControllerBase
     {
-        private readonly DmDbContext _context;
         private readonly UserDto _currentUser;
 
         private readonly IFieldService _fieldService;
-        private readonly ILogger<FieldService> _logger;
 
-        public FieldController(DmDbContext context, CurrentUserService currentUserService, IFieldService fieldService, ILogger<FieldService> logger)
+        public FieldController(CurrentUserService currentUserService, IFieldService fieldService)
         {
-            _context = context;
             _currentUser = currentUserService.CurrentUser;
             _fieldService = fieldService;
-            _logger = logger;
         }
 
         /// <summary>
         /// Create new field.
         /// </summary>
-        /// <param name="fieldModel"></param>
+        /// <param name="fieldDto"></param>
         /// <returns>Id of created field.</returns>        
         /// <response code="200">Field created.</response>
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while creating new field.</response>
         [HttpPost]
-        public async Task<IActionResult> Create(FieldDto fieldModel)
+        public async Task<IActionResult> Create(FieldDto fieldDto)
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForCreate(_context, _currentUser, PermissionEnum.Template);
+                var permission = await _fieldService.GetAccess(_currentUser.RoleId);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Create) return StatusCode(403);
 
-                var checker = await _fieldService.Create(fieldModel);
+                var checker = await _fieldService.Create(fieldDto);
 
                 return Ok(checker);
             }
@@ -80,9 +72,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = AuthorizationHelper.CheckUserPermissionsForDelete(_context, _currentUser, PermissionEnum.Template);
+                var permission = await _fieldService.GetAccess(_currentUser.RoleId);
 
-                if (!permission) return StatusCode(403);
+                if (!permission.Delete) return StatusCode(403);
 
                 var checker = await _fieldService.Delete(fieldId);
 

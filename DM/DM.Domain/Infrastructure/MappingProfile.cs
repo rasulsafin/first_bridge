@@ -3,8 +3,7 @@
 using AutoMapper;
 
 using DM.DAL.Entities;
-
-using DM.Domain.Models;
+using DM.Domain.DTO;
 
 namespace DM.Domain.Infrastructure
 {
@@ -51,7 +50,7 @@ namespace DM.Domain.Infrastructure
             //Comment map
             CreateMap<Comment, CommentDto>().ReverseMap();
             CreateMap<Comment, CommentForReadDto>().ReverseMap();
-            CreateMap<Comment, CommentForUpdateModel>().ReverseMap();
+            CreateMap<Comment, CommentForUpdateDto>().ReverseMap();
 
             //Template map
             CreateMap<Template, TemplateDto>().ReverseMap();

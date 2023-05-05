@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using DM.Domain.Models;
+using DM.Domain.DTO;
 
 namespace DM.Domain.Interfaces
 {
-    public interface IRoleService
+    public interface IRoleService : IGetAccess
     {
         public Task<IEnumerable<RoleDto>> GetAll();
         public RoleDto GetById(long roleId);
-        public Task<bool> Create(RoleForCreateDto roleModel);
-        public Task<bool> Update(RoleForUpdateDto roleModel);
-        public Task<bool> Delete(long roleModel);
+        public Task<bool> Create(RoleForCreateDto role);
+        public Task<bool> Update(RoleForUpdateDto role);
+        public Task<bool> Delete(long role);
         void Dispose();
     }
 }

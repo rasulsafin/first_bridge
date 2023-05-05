@@ -1,17 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Linq;
-
-using Microsoft.Extensions.Configuration;
 
 using AutoMapper;
 
 using DM.Domain.Interfaces;
-using DM.Domain.Models;
+using DM.Domain.DTO;
 
-using DM.DAL;
 using DM.DAL.Entities;
 using DM.DAL.Interfaces;
+using DM.Common.Enums;
 
 namespace DM.Domain.Services
 {
@@ -26,16 +23,16 @@ namespace DM.Domain.Services
             _mapper = mapper;
         }
 
-        public async Task<bool> AddToProject(UserProjectDto userProjectModel)
+        public async Task<bool> AddToProject(UserProjectDto userProjectDto)
         {
-            var isExist = await Context.UserProjects.IsExist(userProjectModel.UserId, userProjectModel.ProjectId);
+            var isExist = await Context.UserProjects.IsExist(userProjectDto.UserId, userProjectDto.ProjectId);
 
             if (isExist) return false;
 
             var userProject = _mapper.Map<UserProject>(new UserProjectDto
             {
-                UserId = userProjectModel.UserId,
-                ProjectId = userProjectModel.ProjectId
+                UserId = userProjectDto.UserId,
+                ProjectId = userProjectDto.ProjectId
             });
 
             await Context.UserProjects.Create(userProject);
@@ -44,11 +41,11 @@ namespace DM.Domain.Services
             return true;
         }
 
-        public async Task<bool> AddToProjects(List<UserProjectDto> userProjectsModel)
+        public async Task<bool> AddToProjects(List<UserProjectDto> userProjectsDto)
         {
-            if (userProjectsModel == null) return false;
+            if (userProjectsDto == null) return false;
 
-            var up = _mapper.Map<List<UserProject>>(userProjectsModel);
+            var up = _mapper.Map<List<UserProject>>(userProjectsDto);
 
             var userProjects = await NormalizedList(up);
 
@@ -82,6 +79,12 @@ namespace DM.Domain.Services
             }
 
             return _mapper.Map<List<UserProject>>(normalizedUserProjects);
+        }
+
+        public async Task<PermissionDto> GetAccess(long roleId)
+        {
+            var access = await Context.Permissions.GetByRoleAndType(roleId, PermissionEnum.Project);
+            return _mapper.Map<PermissionDto>(access);
         }
 
         public void Dispose()

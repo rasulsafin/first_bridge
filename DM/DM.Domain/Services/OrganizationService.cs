@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using AutoMapper;
 
 using DM.Domain.Interfaces;
-using DM.Domain.Models;
+using DM.Domain.DTO;
 
 using DM.DAL.Entities;
 using DM.DAL.Interfaces;
+using DM.Common.Enums;
 
 namespace DM.Domain.Services
 {
@@ -37,17 +38,17 @@ namespace DM.Domain.Services
             return _mapper.Map<OrganizationDto>(organization);
         }
 
-        public async Task<bool> Create(OrganizationForCreateDto organizationForCreateModel)
+        public async Task<bool> Create(OrganizationForCreateDto organizationForCreateDto)
         {
             var organization = _mapper.Map<Organization>(new OrganizationForCreateDto
             {
-                Inn = organizationForCreateModel.Inn,
-                Kpp = organizationForCreateModel.Kpp,
-                Name = organizationForCreateModel.Name,
-                Ogrn = organizationForCreateModel.Ogrn,
-                Phone = organizationForCreateModel.Phone,
-                Email = organizationForCreateModel.Email,
-                Address = organizationForCreateModel.Address
+                Inn = organizationForCreateDto.Inn,
+                Kpp = organizationForCreateDto.Kpp,
+                Name = organizationForCreateDto.Name,
+                Ogrn = organizationForCreateDto.Ogrn,
+                Phone = organizationForCreateDto.Phone,
+                Email = organizationForCreateDto.Email,
+                Address = organizationForCreateDto.Address
             });
 
             await Context.Organizations.Create(organization);
@@ -56,19 +57,19 @@ namespace DM.Domain.Services
             return true;
         }
 
-        public async Task<bool> Update(OrganizationForUpdateDto organizationForUpdateModel)
+        public async Task<bool> Update(OrganizationForUpdateDto organizationForUpdateDto)
         {
-            var organization = Context.Organizations.GetById(organizationForUpdateModel.Id);
+            var organization = Context.Organizations.GetById(organizationForUpdateDto.Id);
 
             if (organization == null) return false;
 
-            organization.Name = organizationForUpdateModel.Name;
-            organization.Address = organizationForUpdateModel.Address;
-            organization.Inn = organizationForUpdateModel.Inn;
-            organization.Ogrn = organizationForUpdateModel.Ogrn;
-            organization.Kpp = organizationForUpdateModel.Kpp;
-            organization.Phone = organizationForUpdateModel.Phone;
-            organization.Email = organizationForUpdateModel.Email;
+            organization.Name = organizationForUpdateDto.Name;
+            organization.Address = organizationForUpdateDto.Address;
+            organization.Inn = organizationForUpdateDto.Inn;
+            organization.Ogrn = organizationForUpdateDto.Ogrn;
+            organization.Kpp = organizationForUpdateDto.Kpp;
+            organization.Phone = organizationForUpdateDto.Phone;
+            organization.Email = organizationForUpdateDto.Email;
             organization.UpdatedAt = DateTime.UtcNow;
 
             Context.Organizations.Update(organization);
@@ -83,6 +84,12 @@ namespace DM.Domain.Services
             await Context.SaveAsync();
 
             return result;
+        }
+
+        public async Task<PermissionDto> GetAccess(long roleId)
+        {
+            var access = await Context.Permissions.GetByRoleAndType(roleId, PermissionEnum.Organization);
+            return _mapper.Map<PermissionDto>(access);
         }
 
         public void Dispose()
