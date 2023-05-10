@@ -7,11 +7,10 @@ using DM.Domain.DTO;
 using DM.Domain.Interfaces;
 using DM.Domain.Infrastructure.Exceptions;
 
-using DM.Common.Enums;
-
 using DM.Validators.Attributes;
 
 using static DM.Validators.ServiceResponsesValidator;
+using DM.Common.Enums;
 
 namespace DM.Controllers
 {
@@ -45,9 +44,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _templateService.GetAccess(_currentUser.RoleId);
+                var permission = await _templateService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
 
-                if (!permission.Read) return StatusCode(403);
+                if (!permission) return StatusCode(403);
 
                 var templates = await _templateService.GetAllOfProject(projectId);
 
@@ -78,9 +77,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _templateService.GetAccess(_currentUser.RoleId);
+                var permission = await _templateService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
 
-                if (!permission.Create) return StatusCode(403);
+                if (!permission) return StatusCode(403);
 
                 if (templateForCreateDto == null) return NotFound();
 
@@ -108,9 +107,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _templateService.GetAccess(_currentUser.RoleId);
+                var permission = await _templateService.GetAccess(_currentUser.RoleId, ActionEnum.Update);
 
-                if (!permission.Update) return StatusCode(403);
+                if (!permission) return StatusCode(403);
 
                 var checker = await _templateService.Update(templateDtoForEdit);
 

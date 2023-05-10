@@ -4,7 +4,6 @@ using System.Linq;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 
-using Moq;
 using Xunit;
 
 using DM.Domain.Services;
@@ -13,6 +12,13 @@ using DM.DAL.Repositories;
 
 using DM.IntegrationTests.Helpers;
 using DM.IntegrationTests.Helpers.MockData;
+using DM.Controllers;
+using DM.DAL.Entities;
+using DM.Domain.DTO;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Moq;
+using System.Security.Claims;
 
 namespace DM.IntegrationTests.UnitTests.Services
 {
@@ -22,15 +28,22 @@ namespace DM.IntegrationTests.UnitTests.Services
 
         private EFUnitOfWork UnitOfWork { get; set; }
         private static UserService service;
+
         private static readonly IConfiguration conf;
+        private static readonly ILogger<UserService> logger;
 
         public UserUnitTests(TestDbContext fixture)
         {
             var _mapper = MockServiceData.TestMapper.CreateMapper();
 
             UnitOfWork = fixture.UnitOfWork;
-            service = new UserService(UnitOfWork, conf, _mapper, Mock.Of<ILogger<UserService>>());
+            service = new UserService(UnitOfWork, conf, _mapper, logger);
         }
+
+        #endregion
+
+        #region Authorization testing
+
 
         #endregion
 

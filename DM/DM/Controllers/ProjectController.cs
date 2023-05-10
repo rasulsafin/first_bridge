@@ -8,11 +8,10 @@ using DM.Domain.DTO;
 using DM.Domain.Services;
 using DM.Domain.Infrastructure.Exceptions;
 
-using DM.Common.Enums;
-
 using DM.Validators.Attributes;
 
 using static DM.Validators.ServiceResponsesValidator;
+using DM.Common.Enums;
 
 namespace DM.Controllers
 {
@@ -46,9 +45,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _projectService.GetAccess(_currentUser.RoleId);
+                var permission = await _projectService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
 
-                if (!permission.Read) return StatusCode(403);
+                if (!permission) return StatusCode(403);
 
                 var projects = await _projectService.GetAll();
 
@@ -75,9 +74,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _projectService.GetAccess(_currentUser.RoleId);
+                var permission = await _projectService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
 
-                if (!permission.Read) return StatusCode(403);
+                if (!permission) return StatusCode(403);
 
                 var project = _projectService.GetById(projectId);
 
@@ -109,9 +108,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _projectService.GetAccess(_currentUser.RoleId);
+                var permission = await _projectService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
 
-                if (!permission.Create) return StatusCode(403);
+                if (!permission) return StatusCode(403);
 
                 var id = await _projectService.Create(projectDto);
 
@@ -136,9 +135,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _projectService.GetAccess(_currentUser.RoleId);
+                var permission = await _projectService.GetAccess(_currentUser.RoleId, ActionEnum.Update);
 
-                if (!permission.Update) return StatusCode(403);
+                if (!permission) return StatusCode(403);
 
                 var checker = await _projectService.Update(projectDto);
 
@@ -165,9 +164,9 @@ namespace DM.Controllers
         [HttpDelete]
         public async Task<IActionResult> Archive(long projectId)
         {
-            var permission = await _projectService.GetAccess(_currentUser.RoleId);
+            var permission = await _projectService.GetAccess(_currentUser.RoleId, ActionEnum.Delete);
 
-            if (!permission.Delete) return StatusCode(403);
+            if (!permission) return StatusCode(403);
 
             var checker = await _projectService.Archive(projectId);
 
@@ -190,9 +189,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _projectService.GetAccess(_currentUser.RoleId);
+                var permission = await _projectService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
 
-                if (!permission.Create) return BadRequest(403);
+                if (!permission) return StatusCode(403);
 
                 var checker = await _userProjectService.AddToProject(userProjectDto);
 
@@ -222,9 +221,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _projectService.GetAccess(_currentUser.RoleId);
+                var permission = await _projectService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
 
-                if (!permission.Create) return BadRequest(403);
+                if (!permission) return StatusCode(403);
 
                 var checker = await _userProjectService.AddToProjects(userProjectDto);
 
@@ -255,9 +254,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _projectService.GetAccess(_currentUser.RoleId);
+                var permission = await _projectService.GetAccess(_currentUser.RoleId, ActionEnum.Delete);
 
-                if (!permission.Delete) return BadRequest(403);
+                if (!permission) return StatusCode(403);
 
                 var checker = await _userProjectService.DeleteFromProject(userId, projectId);
 

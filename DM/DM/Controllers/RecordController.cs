@@ -7,11 +7,10 @@ using DM.Domain.DTO;
 using DM.Domain.Services;
 using DM.Domain.Infrastructure.Exceptions;
 
-using DM.Common.Enums;
-
 using DM.Validators.Attributes;
 
 using static DM.Validators.ServiceResponsesValidator;
+using DM.Common.Enums;
 
 namespace DM.Controllers
 {
@@ -42,9 +41,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _recordService.GetAccess(_currentUser.RoleId);
+                var permission = await _recordService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
 
-                if (!permission.Read) return StatusCode(403);
+                if (!permission) return StatusCode(403);
 
                 var records = await _recordService.GetAll();
 
@@ -71,9 +70,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _recordService.GetAccess(_currentUser.RoleId);
+                var permission = await _recordService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
 
-                if (!permission.Read) return StatusCode(403);
+                if (!permission) return StatusCode(403);
 
                 var record = _recordService.GetById(recordId);
 
@@ -104,9 +103,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _recordService.GetAccess(_currentUser.RoleId);
+                var permission = await _recordService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
 
-                if (!permission.Create) return StatusCode(403);
+                if (!permission) return StatusCode(403);
 
                 var id = await _recordService.Create(recordDto);
 
@@ -133,9 +132,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _recordService.GetAccess(_currentUser.RoleId);
+                var permission = await _recordService.GetAccess(_currentUser.RoleId, ActionEnum.Update);
 
-                if (!permission.Update) return StatusCode(403);
+                if (!permission) return StatusCode(403);
 
                 var checker = await _recordService.Update(recordDto);
 
@@ -164,9 +163,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _recordService.GetAccess(_currentUser.RoleId);
+                var permission = await _recordService.GetAccess(_currentUser.RoleId, ActionEnum.Delete);
 
-                if (!permission.Delete) return StatusCode(403);
+                if (!permission) return StatusCode(403);
 
                 var checker = await _recordService.Delete(recordId);
 

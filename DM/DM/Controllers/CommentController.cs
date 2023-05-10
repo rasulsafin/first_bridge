@@ -7,11 +7,10 @@ using DM.Domain.DTO;
 using DM.Domain.Services;
 using DM.Domain.Infrastructure.Exceptions;
 
-using DM.Common.Enums;
-
 using DM.Validators.Attributes;
 
 using static DM.Validators.ServiceResponsesValidator;
+using DM.Common.Enums;
 
 namespace DM.Controllers
 {
@@ -43,9 +42,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _commentService.GetAccess(_currentUser.RoleId);
+                var permission = await _commentService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
 
-                if (!permission.Create) return StatusCode(403);
+                if (!permission) return StatusCode(403);
 
                 var id = await _commentService.Create(commentDto);
 
@@ -74,9 +73,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _commentService.GetAccess(_currentUser.RoleId);
+                var permission = await _commentService.GetAccess(_currentUser.RoleId, ActionEnum.Delete);
 
-                if (!permission.Delete) return StatusCode(403);
+                if (!permission) return StatusCode(403);
 
                 var checker = await _commentService.Delete(commentId);
 
@@ -107,9 +106,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _commentService.GetAccess(_currentUser.RoleId);
+                var permission = await _commentService.GetAccess(_currentUser.RoleId, ActionEnum.Update);
 
-                if (!permission.Update) return StatusCode(403);
+                if (!permission) return StatusCode(403);
 
                 var checker = await _commentService.Update(commentForUpdateDto);
 

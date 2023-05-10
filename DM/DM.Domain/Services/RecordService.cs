@@ -96,10 +96,26 @@ namespace DM.Domain.Services
             return result;
         }
 
-        public async Task<PermissionDto> GetAccess(long roleId)
+        public async Task<bool> GetAccess(long roleId, ActionEnum action)
         {
-            var access = await Context.Permissions.GetByRoleAndType(roleId, PermissionEnum.Record);
-            return _mapper.Map<PermissionDto>(access);
+            try
+            {
+                var access = await Context.Permissions.GetByRoleAndType(roleId, PermissionEnum.User);
+
+                return action switch
+                {
+                    ActionEnum.Read => access.Read,
+                    ActionEnum.Create => access.Create,
+                    ActionEnum.Delete => access.Delete,
+                    ActionEnum.Update => access.Update,
+                    _ => false,
+                };
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public void Dispose()
