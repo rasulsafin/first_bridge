@@ -2,8 +2,9 @@
 
 using AutoMapper;
 
-using DM.DAL.Entities;
 using DM.Domain.DTO;
+
+using DM.DAL.Entities;
 
 namespace DM.Domain.Infrastructure
 {

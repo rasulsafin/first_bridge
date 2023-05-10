@@ -16,10 +16,12 @@ using DM.Domain.DTO;
 
 using DM.DAL;
 
-using DM.Common.Enums;
 using DM.Common.Helpers;
 
 using DM.Validators.Attributes;
+
+using static DM.Validators.ServiceResponsesValidator;
+using DM.Common.Enums;
 
 namespace DM.Controllers
 {
@@ -137,9 +139,9 @@ namespace DM.Controllers
         [HttpPost, DisableRequestSizeLimit, Route("file")]
         public async Task<IActionResult> Post(long project, IFormFile file)
         {
-            var permission = await _itemService.GetAccess(_currentUser.RoleId);
+            var permission = await _itemService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
 
-            if (!permission.Create) return StatusCode(403);
+            if (!permission) return StatusCode(403);
 
             var fileExtension = Path.GetExtension(file.FileName);
             var fileNameWithoutExtension = file.FileName.Remove(file.FileName.Length - 4); // Folder Name

@@ -42,6 +42,8 @@ namespace DM
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(MappingProfile));
+            services.AddMvc();
+            //services.AddSingleton<ILogger>();
 
             services.AddScoped<IUnitOfWork, EFUnitOfWork>();
             services.AddScoped<IUserService, UserService>();
@@ -156,7 +158,6 @@ namespace DM
                     policy.AllowCredentials();
                 });
             });
-
 
             services.Configure<FormOptions>(o =>
             {

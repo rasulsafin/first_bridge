@@ -43,9 +43,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _listFieldService.GetAccess(_currentUser.RoleId);
+                var permission = await _listFieldService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
 
-                if (!permission.Create) return StatusCode(403);
+                if (!permission) return StatusCode(403);
 
                 var checker = await _listFieldService.Create(listFieldDto);
 
@@ -72,9 +72,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _listFieldService.GetAccess(_currentUser.RoleId);
+                var permission = await _listFieldService.GetAccess(_currentUser.RoleId, ActionEnum.Delete);
 
-                if (!permission.Delete) return StatusCode(403);
+                if (!permission) return StatusCode(403);
 
                 var checker = await _listFieldService.Delete(listFieldId);
 

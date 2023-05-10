@@ -8,7 +8,6 @@ using Dotmim.Sync.Enumerations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
-
 namespace DM.Controllers
 {
     [ApiController]

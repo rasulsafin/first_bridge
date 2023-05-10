@@ -7,11 +7,10 @@ using DM.Domain.DTO;
 using DM.Domain.Services;
 using DM.Domain.Infrastructure.Exceptions;
 
-using DM.Common.Enums;
-
 using DM.Validators.Attributes;
 
 using static DM.Validators.ServiceResponsesValidator;
+using DM.Common.Enums;
 
 namespace DM.Controllers
 {
@@ -45,9 +44,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _permissionService.GetAccess(_currentUser.RoleId);
+                var permission = await _permissionService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
 
-                if (!permission.Read) return StatusCode(403);
+                if (!permission) return StatusCode(403);
 
                 var permissions = await _permissionService.GetAllByRole(roleId);
 
@@ -78,9 +77,9 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _permissionService.GetAccess(_currentUser.RoleId);
+                var permission = await _permissionService.GetAccess(_currentUser.RoleId, ActionEnum.Update);
 
-                if (!permission.Update) return StatusCode(403);
+                if (!permission) return StatusCode(403);
 
                 var result = await _permissionService.UpdatePermissionOnRole(permissionDto);
 

@@ -36,21 +36,29 @@ namespace DM.Domain.Services
 
         public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest request)
         {
-            var user = await Context.Users.Authenticate(request.Login);
-
-            if (user == null)
+            try
             {
-                // todo: need to add logger
-                return null;
+                var user = await Context.Users.Authenticate(request.Login);
+
+                if (user == null)
+                {
+                    // todo: need to add logger
+                    return null;
+                }
+
+                var passwordChecker = PasswordHelper.VerifyHashedPassword(user.HashedPassword, request.Password);
+
+                if (!passwordChecker) return null;
+
+                var token = _configuration.GenerateJwtToken(user);
+
+                return new AuthenticateResponse(token);
             }
+            catch (Exception)
+            {
 
-            var passwordChecker = PasswordHelper.VerifyHashedPassword(user.HashedPassword, request.Password);
-
-            if (!passwordChecker) return null;
-
-            var token = _configuration.GenerateJwtToken(user);
-
-            return new AuthenticateResponse(token);
+                throw;
+            }
         }
 
         public async Task<IEnumerable<UserForReadDto>> GetAll()
@@ -68,69 +76,117 @@ namespace DM.Domain.Services
 
         public UserForReadDto GetById(long? userId)
         {
-            if (userId < 1) return null;
+            try
+            {
+                if (userId < 1) return null;
 
-            var user = Context.Users.GetById(userId);
-            return _mapper.Map<UserForReadDto>(user);
+                var user = Context.Users.GetById(userId);
+                return _mapper.Map<UserForReadDto>(user);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public async Task<bool> Create(UserForCreateDto userForCreateDto)
         {
-            var hashedPass = PasswordHelper.HashPassword(userForCreateDto.HashedPassword);
-            var user = _mapper.Map<User>(new UserForCreateDto
+            try
             {
-                Login = userForCreateDto.Login,
-                Name = userForCreateDto.Name,
-                LastName = userForCreateDto.LastName,
-                FathersName = userForCreateDto.FathersName,
-                Email = userForCreateDto.Email,
-                RoleId = userForCreateDto.RoleId,
-                Position = userForCreateDto.Position,
-                OrganizationId = userForCreateDto.OrganizationId,
-                HashedPassword = hashedPass,
-            });
+                var hashedPass = PasswordHelper.HashPassword(userForCreateDto.HashedPassword);
+                var user = _mapper.Map<User>(new UserForCreateDto
+                {
+                    Login = userForCreateDto.Login,
+                    Name = userForCreateDto.Name,
+                    LastName = userForCreateDto.LastName,
+                    FathersName = userForCreateDto.FathersName,
+                    Email = userForCreateDto.Email,
+                    RoleId = userForCreateDto.RoleId,
+                    Position = userForCreateDto.Position,
+                    OrganizationId = userForCreateDto.OrganizationId,
+                    HashedPassword = hashedPass,
+                });
 
-            await Context.Users.Create(user);
-            await Context.SaveAsync();
+                await Context.Users.Create(user);
+                await Context.SaveAsync();
 
-            return true;
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public async Task<bool> Update(UserForUpdateDto userForUpdateDto)
         {
-            var user = Context.Users.GetById(userForUpdateDto.Id);
+            try
+            {
+                var user = Context.Users.GetById(userForUpdateDto.Id);
 
-            if (user == null) return false;
+                if (user == null) return false;
 
-            user.Name = userForUpdateDto.Name;
-            user.LastName = userForUpdateDto.LastName;
-            user.FathersName = userForUpdateDto.FathersName;
-            user.Email = userForUpdateDto.Email;
-            user.Login = userForUpdateDto.Login;
-            user.HashedPassword = userForUpdateDto.HashedPassword;
-            user.Position = userForUpdateDto.Position;
-            user.RoleId = userForUpdateDto.RoleId;
-            user.OrganizationId = userForUpdateDto.OrganizationId;
-            user.UpdatedAt = DateTime.UtcNow;
+                user.Name = userForUpdateDto.Name;
+                user.LastName = userForUpdateDto.LastName;
+                user.FathersName = userForUpdateDto.FathersName;
+                user.Email = userForUpdateDto.Email;
+                user.Login = userForUpdateDto.Login;
+                user.HashedPassword = userForUpdateDto.HashedPassword;
+                user.Position = userForUpdateDto.Position;
+                user.RoleId = userForUpdateDto.RoleId;
+                user.OrganizationId = userForUpdateDto.OrganizationId;
+                user.UpdatedAt = DateTime.UtcNow;
 
-            Context.Users.Update(user);
-            await Context.SaveAsync();
+                Context.Users.Update(user);
+                await Context.SaveAsync();
 
-            return true;
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public async Task<bool> Delete(long? userId)
         {
-            var result = Context.Users.Delete(userId);
-            await Context.SaveAsync();
+            try
+            {
+                var result = Context.Users.Delete(userId);
+                await Context.SaveAsync();
 
-            return result;
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
-        public async Task<PermissionDto> GetAccess(long roleId)
+        public async Task<bool> GetAccess(long roleId, ActionEnum action)
         {
-            var access = await Context.Permissions.GetByRoleAndType(roleId, PermissionEnum.User);
-            return _mapper.Map<PermissionDto>(access);
+            try
+            {
+                var access = await Context.Permissions.GetByRoleAndType(roleId, PermissionEnum.User);
+
+                return action switch
+                {
+                    ActionEnum.Read => access.Read,
+                    ActionEnum.Create => access.Create,
+                    ActionEnum.Delete => access.Delete,
+                    ActionEnum.Update => access.Update,
+                    _ => false,
+                };
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public void Dispose()

@@ -2,10 +2,12 @@
 
 using DM.Domain.DTO;
 
+using DM.Common.Enums;
+
 namespace DM.Domain.Interfaces
 {
     public interface IGetAccess
     {
-        Task<PermissionDto> GetAccess(long roleId);
+        Task<bool> GetAccess(long roleId, ActionEnum action);
     }
 }

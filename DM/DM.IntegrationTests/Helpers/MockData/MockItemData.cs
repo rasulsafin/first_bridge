@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DM.IntegrationTests.Helpers.MockData
 {
-    internal class MockItemData
+    public class MockItemData
     {
     }
 }
