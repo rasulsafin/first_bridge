@@ -159,7 +159,6 @@ namespace DM.Controllers
                 if (!permission) return StatusCode(403);
 
                 var checker = await _documentService.Delete(documentId);
-                if (!checker) return NotFound();
 
                 return Ok(checker);
             }

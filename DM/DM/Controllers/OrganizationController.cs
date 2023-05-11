@@ -132,8 +132,6 @@ namespace DM.Controllers
 
                 var checker = await _organizationService.Delete(organizationId);
 
-                if (!checker) return NotFound();
-
                 return Ok(checker);
             }
             catch (ANotFoundException ex)

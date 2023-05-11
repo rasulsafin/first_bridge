@@ -170,8 +170,6 @@ namespace DM.Controllers
 
             var checker = await _projectService.Archive(projectId);
 
-            if (!checker) return NotFound();
-
             return Ok(checker);
         }
 
