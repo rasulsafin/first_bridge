@@ -4,7 +4,7 @@ namespace DM.Domain.DTO
 {
     public class DocumentTemplateDto : TemplateDto
     {
-        public List<int> DocumentIds { get; set; }
-        public List<DocumentDto> Documents { get; set; }
+        public ICollection<int> DocumentIds { get; set; }
+        public ICollection<DocumentDto> Documents { get; set; }
     }
 }

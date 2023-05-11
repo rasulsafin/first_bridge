@@ -21,7 +21,6 @@ namespace DM.Controllers
     public class OrganizationController : ControllerBase
     {
         private readonly UserDto _currentUser;
-
         private readonly IOrganizationService _organizationService;
 
         public OrganizationController(CurrentUserService currentUserService, IOrganizationService organizationService)

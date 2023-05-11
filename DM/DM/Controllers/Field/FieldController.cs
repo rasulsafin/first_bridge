@@ -21,7 +21,6 @@ namespace DM.Controllers
     public class FieldController : ControllerBase
     {
         private readonly UserDto _currentUser;
-
         private readonly IFieldService _fieldService;
 
         public FieldController(CurrentUserService currentUserService, IFieldService fieldService)

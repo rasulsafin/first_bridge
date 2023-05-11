@@ -21,7 +21,6 @@ namespace DM.Controllers
     public class TemplateController : ControllerBase
     {
         private readonly UserDto _currentUser;
-
         private readonly ITemplateService _templateService;
 
         public TemplateController(CurrentUserService currentUserService, ITemplateService templateService)

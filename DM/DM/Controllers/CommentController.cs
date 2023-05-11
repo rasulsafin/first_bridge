@@ -21,7 +21,6 @@ namespace DM.Controllers
     public class CommentController : ControllerBase
     {
         private readonly UserDto _currentUser;
-
         public readonly ICommentService _commentService;
 
         public CommentController(CurrentUserService currentUserService, ICommentService commentService)

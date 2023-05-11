@@ -21,7 +21,6 @@ namespace DM.Controllers
     public class PermissionController : ControllerBase
     {
         private readonly UserDto _currentUser;
-
         private readonly IPermissionService _permissionService;
 
         public PermissionController(CurrentUserService currentUserService, IPermissionService permissionService)

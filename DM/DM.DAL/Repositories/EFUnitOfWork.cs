@@ -22,6 +22,7 @@ namespace DM.DAL.Repositories
         private CommentRepository commentRepository;
         private FieldRepository fieldRepository;
         private ListFieldRepository listFieldRepository;
+        private DocumentRepository documentRepository;
 
         private bool disposed = false;
 
@@ -130,6 +131,15 @@ namespace DM.DAL.Repositories
             {
                 listFieldRepository ??= new ListFieldRepository(_dbContext);
                 return listFieldRepository;
+            }
+        }
+
+        public IDocumentRepository<Document> Documents
+        {
+            get
+            {
+                documentRepository ??= new DocumentRepository(_dbContext);
+                return documentRepository;
             }
         }
 

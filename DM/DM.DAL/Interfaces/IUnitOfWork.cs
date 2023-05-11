@@ -19,6 +19,7 @@ namespace DM.DAL.Interfaces
         ICommentRepository<Comment> Comments { get; }
         IFieldRepository<Field> Fields { get; }
         IListFieldRepository<ListField> ListFields { get; }
+        IDocumentRepository<Document> Documents { get; }
 
         void Save();
         Task SaveAsync();

@@ -21,7 +21,6 @@ namespace DM.Controllers
     public class ListFieldController : ControllerBase
     {
         private readonly UserDto _currentUser;
-
         private readonly IListFieldService _listFieldService;
 
         public ListFieldController(CurrentUserService currentUserService, IListFieldService listFieldService)

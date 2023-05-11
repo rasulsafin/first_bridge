@@ -21,7 +21,6 @@ namespace DM.Controllers
     public class RoleController : ControllerBase
     {
         private readonly UserDto _currentUser;
-
         private readonly IRoleService _roleService;
 
         public RoleController(CurrentUserService currentUserService, IRoleService roleService)

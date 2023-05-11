@@ -22,7 +22,6 @@ namespace DM.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserDto _currentUser;
-
         private readonly IUserService _userService;
         private readonly IUserProjectService _userProjectService;
 
