@@ -24,16 +24,15 @@ namespace DM.IntegrationTests.Helpers.MockData
 
         public static OrganizationForUpdateDto ORGANIZATION_FOR_UPDATE = new()
         {
-            //Name = "User",
-            //FathersName = "For",
-            //LastName = "Create",
-            //Login = "create1234",
-            //Email = "create@mail.ru",
-            //HashedPassword = "create_password",
-            //Position = "Create Position",
-            //RoleId = 1,//TODO real id,
-            //OrganizationId = 1,//TODO real id,
-            //CreatedAt = DateTime.Now,
+            Name = "Document Managment For Update",
+            Address = "kazan Gladilova 44",
+            Inn = "222222",
+            Ogrn = "333333",
+            Kpp = "444444",
+            Phone = "89688553243",
+            Email = "email321@mail.ru",
+
+            CreatedAt = DateTime.Now,
         };
     }
 }

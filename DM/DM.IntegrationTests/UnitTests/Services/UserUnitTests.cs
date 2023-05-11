@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using System.Security.Claims;
+using System;
 
 namespace DM.IntegrationTests.UnitTests.Services
 {
@@ -112,9 +113,50 @@ namespace DM.IntegrationTests.UnitTests.Services
 
         #region Update Testing
 
+        [Fact]
         public async Task UpdateExistingUser_Positive()
         {
+            var users = await service.GetAll();
+            var id_without_added = users.LastOrDefault().Id;
 
+            await service.Create(MockUserData.USER_FOR_CREATE);
+
+            var user = service.GetById(id_without_added++);
+
+            UserForUpdateDto userForUpdateDto = new()
+            {
+                Id = user.Id,
+                Name = "New Name",
+                FathersName = "New FathersName",
+                LastName = "New LastName",
+            };
+
+            var result = await service.Update(userForUpdateDto);
+
+            Assert.True(result);
+        }
+
+        [Fact]
+        public async Task UpdateNonExistingUser_Negative()
+        {
+            var users = await service.GetAll();
+            var id_without_added = users.LastOrDefault().Id;
+
+            await service.Create(MockUserData.USER_FOR_CREATE);
+
+            var user = service.GetById(id_without_added++);
+
+            UserForUpdateDto userForUpdateDto = new()
+            {
+                Id = MockServiceData.LARGE_ID,
+                Name = "New Name",
+                FathersName = "New FathersName",
+                LastName = "New LastName",
+            };
+
+            var result = await service.Update(userForUpdateDto);
+
+            Assert.False(result);
         }
 
         #endregion
