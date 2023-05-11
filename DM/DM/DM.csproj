@@ -34,7 +34,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DM.Common\DM.Common.csproj" />
-    <ProjectReference Include="..\DM.DAL\DM.DAL.csproj" />
     <ProjectReference Include="..\DM.Domain\DM.Domain.csproj" />
   </ItemGroup>
 
