@@ -7,7 +7,7 @@ namespace DM.Domain.DTO
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public List<int> PermissionIds { get; set; }
-        public List<PermissionDto> Permissions { get; set; }
+        public ICollection<int> PermissionIds { get; set; }
+        public ICollection<PermissionDto> Permissions { get; set; }
     }
 }

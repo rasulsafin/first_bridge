@@ -21,7 +21,6 @@ namespace DM.Controllers
     public class ListFieldController : ControllerBase
     {
         private readonly UserDto _currentUser;
-
         private readonly IListFieldService _listFieldService;
 
         public ListFieldController(CurrentUserService currentUserService, IListFieldService listFieldService)
@@ -44,7 +43,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _listFieldService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
-
                 if (!permission) return StatusCode(403);
 
                 var checker = await _listFieldService.Create(listFieldDto);
@@ -73,12 +71,9 @@ namespace DM.Controllers
             try
             {
                 var permission = await _listFieldService.GetAccess(_currentUser.RoleId, ActionEnum.Delete);
-
                 if (!permission) return StatusCode(403);
 
                 var checker = await _listFieldService.Delete(listFieldId);
-
-                if (!checker) return NotFound();
 
                 return Ok(checker);
             }

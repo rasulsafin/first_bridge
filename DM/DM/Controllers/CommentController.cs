@@ -21,7 +21,6 @@ namespace DM.Controllers
     public class CommentController : ControllerBase
     {
         private readonly UserDto _currentUser;
-
         public readonly ICommentService _commentService;
 
         public CommentController(CurrentUserService currentUserService, ICommentService commentService)
@@ -44,7 +43,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _commentService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
-
                 if (!permission) return StatusCode(403);
 
                 var id = await _commentService.Create(commentDto);
@@ -75,12 +73,9 @@ namespace DM.Controllers
             try
             {
                 var permission = await _commentService.GetAccess(_currentUser.RoleId, ActionEnum.Delete);
-
                 if (!permission) return StatusCode(403);
 
                 var checker = await _commentService.Delete(commentId);
-
-                if (!checker) return NotFound();
 
                 return Ok(checker);
             }
@@ -108,7 +103,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _commentService.GetAccess(_currentUser.RoleId, ActionEnum.Update);
-
                 if (!permission) return StatusCode(403);
 
                 var checker = await _commentService.Update(commentForUpdateDto);

@@ -8,6 +8,7 @@
         Template = 4,
         Role = 5,
         User = 6,
-        Organization = 7
+        Organization = 7,
+        Document = 8,
     }
 }

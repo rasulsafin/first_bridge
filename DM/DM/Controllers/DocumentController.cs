@@ -17,35 +17,34 @@ namespace DM.Controllers
 {
     [ApiController]
     [Authorize]
-    [Route("api/record")]
-    public class RecordController : ControllerBase
+    [Route("api/document")]
+    public class DocumentController : Controller
     {
         private readonly UserDto _currentUser;
-        private readonly IRecordService _recordService;
+        private readonly IDocumentService _documentService;
 
-        public RecordController(CurrentUserService currentUserService, IRecordService recordService)
+        public DocumentController(CurrentUserService currentUserService, IDocumentService documentService)
         {
             _currentUser = currentUserService.CurrentUser;
-            _recordService = recordService;
+            _documentService = documentService;
         }
 
         /// <summary>
-        /// Get list of all existing records.
+        /// Get list of all existing documents.
         /// </summary>
-        /// <returns>List of records.</returns>
-        /// <response code="200">Records list fetched.</response>
+        /// <returns>List of documents.</returns>
+        /// <response code="200">Documents list fetched.</response>
         /// <response code="403">Access denied.</response>
-        /// <response code="500">Something went wrong while fetching the records.</response>
+        /// <response code="500">Something went wrong while fetching the documents.</response>
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             try
             {
-                var permission = await _recordService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
+                var permission = await _documentService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
                 if (!permission) return StatusCode(403);
 
-                var records = await _recordService.GetAll();
-
+                var records = await _documentService.GetAll();
                 return Ok(records);
             }
             catch (DocumentManagementException ex)
@@ -55,25 +54,24 @@ namespace DM.Controllers
         }
 
         /// <summary>
-        /// Get record by their id.
+        /// Get document by their id.
         /// </summary>
-        /// <param name="recordId"></param>
-        /// <returns>Record Id.</returns>
-        /// <response code="200">Record found.</response>
+        /// <param name="documentid"></param>
+        /// <returns>Document Id.</returns>
+        /// <response code="200">Document found.</response>
         /// <response code="400">Invalid id.</response>
         /// <response code="403">Access denied.</response>
-        /// <response code="404">Could not find record.</response>
-        /// <response code="500">Something went wrong while fetching the record.</response>
-        [HttpGet("{recordId}")]
-        public async Task<IActionResult> GetById(long recordId)
+        /// <response code="404">Could not find document.</response>
+        /// <response code="500">Something went wrong while fetching the document.</response>
+        [HttpGet("{documentid}")]
+        public async Task<IActionResult> GetById(long documentId)
         {
             try
             {
-                var permission = await _recordService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
+                var permission = await _documentService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
                 if (!permission) return StatusCode(403);
 
-                var record = _recordService.GetById(recordId);
-
+                var record = _documentService.GetById(documentId);
                 if (record == null) return NotFound();
 
                 return Ok(record);
@@ -89,23 +87,22 @@ namespace DM.Controllers
         }
 
         /// <summary>
-        /// Create new record.
+        /// Create new document.
         /// </summary>
-        /// <param name="recordDto"></param>
-        /// <returns>Id of created record.</returns>        
-        /// <response code="200">Record created.</response>
+        /// <param name="documentDto"></param>
+        /// <returns>Id of created document.</returns>        
+        /// <response code="200">Document created.</response>
         /// <response code="403">Access denied.</response>
-        /// <response code="500">Something went wrong while creating new record.</response>
+        /// <response code="500">Something went wrong while creating new document.</response>
         [HttpPost]
-        public async Task<IActionResult> Create(RecordForCreateDto recordDto)
+        public async Task<IActionResult> Create(DocumentDto documentDto)
         {
             try
             {
-                var permission = await _recordService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
+                var permission = await _documentService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
                 if (!permission) return StatusCode(403);
 
-                var id = await _recordService.Create(recordDto);
-
+                var id = await _documentService.Create(documentDto);
                 if (id == 0) return BadRequest();
 
                 return Ok(id);
@@ -117,23 +114,22 @@ namespace DM.Controllers
         }
 
         /// <summary>
-        /// Updating an existing record.
+        /// Updating an existing document.
         /// </summary>
-        /// <param name="recordDto"></param>
+        /// <param name="documentDto"></param>
         /// <returns>Boolean value about function execution.</returns>        
-        /// <response code="200">Record updated.</response>
+        /// <response code="200">Document updated.</response>
         /// <response code="403">Access denied.</response>
-        /// <response code="500">Something went wrong while updating record.</response>
+        /// <response code="500">Something went wrong while updating document.</response>
         [HttpPut]
-        public async Task<IActionResult> Update(RecordDto recordDto)
+        public async Task<IActionResult> Update(DocumentDto documentDto)
         {
             try
             {
-                var permission = await _recordService.GetAccess(_currentUser.RoleId, ActionEnum.Update);
+                var permission = await _documentService.GetAccess(_currentUser.RoleId, ActionEnum.Update);
                 if (!permission) return StatusCode(403);
 
-                var checker = await _recordService.Update(recordDto);
-
+                var checker = await _documentService.Update(documentDto);
                 if (!checker) return BadRequest();
 
                 return Ok(checker);
@@ -145,24 +141,24 @@ namespace DM.Controllers
         }
 
         /// <summary>
-        /// Delete existing record.
+        /// Delete existing document.
         /// </summary>
-        /// <param name="recordId">Id of the record to be deleted.</param>
+        /// <param name="documentId">Id of the document to be deleted.</param>
         /// <returns>Boolean value about function execution.</returns>        
-        /// <response code="200">Record was deleted successfully.</response>
+        /// <response code="200">Document was deleted successfully.</response>
         /// <response code="400">Invalid id.</response>
         /// <response code="403">Access denied.</response>
-        /// <response code="404">Record was not found.</response>
-        /// <response code="500">Something went wrong while deleting record.</response>
+        /// <response code="404">Document was not found.</response>
+        /// <response code="500">Something went wrong while deleting document.</response>
         [HttpDelete]
-        public async Task<IActionResult> Delete(long recordId)
+        public async Task<IActionResult> Delete(long documentId)
         {
             try
             {
-                var permission = await _recordService.GetAccess(_currentUser.RoleId, ActionEnum.Delete);
+                var permission = await _documentService.GetAccess(_currentUser.RoleId, ActionEnum.Delete);
                 if (!permission) return StatusCode(403);
 
-                var checker = await _recordService.Delete(recordId);
+                var checker = await _documentService.Delete(documentId);
 
                 return Ok(checker);
             }

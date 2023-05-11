@@ -22,7 +22,6 @@ namespace DM.Controllers
     public class ProjectController : ControllerBase
     {
         private readonly UserDto _currentUser;
-
         private readonly IProjectService _projectService;
         private readonly IUserProjectService _userProjectService;
 
@@ -47,7 +46,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _projectService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
-
                 if (!permission) return StatusCode(403);
 
                 var projects = await _projectService.GetAll();
@@ -76,7 +74,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _projectService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
-
                 if (!permission) return StatusCode(403);
 
                 var project = _projectService.GetById(projectId);
@@ -110,7 +107,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _projectService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
-
                 if (!permission) return StatusCode(403);
 
                 var id = await _projectService.Create(projectDto);
@@ -137,7 +133,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _projectService.GetAccess(_currentUser.RoleId, ActionEnum.Update);
-
                 if (!permission) return StatusCode(403);
 
                 var checker = await _projectService.Update(projectDto);
@@ -166,12 +161,9 @@ namespace DM.Controllers
         public async Task<IActionResult> Archive(long projectId)
         {
             var permission = await _projectService.GetAccess(_currentUser.RoleId, ActionEnum.Delete);
-
             if (!permission) return StatusCode(403);
 
             var checker = await _projectService.Archive(projectId);
-
-            if (!checker) return NotFound();
 
             return Ok(checker);
         }
@@ -191,7 +183,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _projectService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
-
                 if (!permission) return StatusCode(403);
 
                 var checker = await _userProjectService.AddToProject(userProjectDto);
@@ -223,7 +214,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _projectService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
-
                 if (!permission) return StatusCode(403);
 
                 var checker = await _userProjectService.AddToProjects(userProjectDto);
@@ -256,7 +246,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _projectService.GetAccess(_currentUser.RoleId, ActionEnum.Delete);
-
                 if (!permission) return StatusCode(403);
 
                 var checker = await _userProjectService.DeleteFromProject(userId, projectId);

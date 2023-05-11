@@ -11,7 +11,6 @@ namespace DM.DAL
     public class DmDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
-        //public DbSet<ObjectiveEntity> Objective { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Record> Records { get; set; }
         public DbSet<Document> Documents { get; set; }

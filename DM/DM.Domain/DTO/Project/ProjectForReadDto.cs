@@ -4,10 +4,10 @@ namespace DM.Domain.DTO
 {
     public class ProjectForReadDto : ProjectDto
     {
-        public List<int> ItemIds { get; set; }
-        public List<ItemDto> Items { get; set; }
+        public ICollection<int> ItemIds { get; set; }
+        public ICollection<ItemDto> Items { get; set; }
 
-        public List<int> UserIds { get; set; }
-        public List<UserDto> Users { get; set; }
+        public ICollection<int> UserIds { get; set; }
+        public ICollection<UserDto> Users { get; set; }
     }
 }

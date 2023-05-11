@@ -4,7 +4,7 @@ namespace DM.Domain.DTO
 {
     public class UserForReadDto : UserDto
     {
-        public List<int> ProjectsIds { get; set; }
-        public List<ProjectDto> Projects { get; set; }
+        public ICollection<int> ProjectsIds { get; set; }
+        public ICollection<ProjectDto> Projects { get; set; }
     }
 }

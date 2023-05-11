@@ -21,7 +21,6 @@ namespace DM.Controllers
     public class TemplateController : ControllerBase
     {
         private readonly UserDto _currentUser;
-
         private readonly ITemplateService _templateService;
 
         public TemplateController(CurrentUserService currentUserService, ITemplateService templateService)
@@ -46,7 +45,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _templateService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
-
                 if (!permission) return StatusCode(403);
 
                 var templates = await _templateService.GetAllOfProject(projectId);
@@ -82,7 +80,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _templateService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
-
                 if (!permission) return BadRequest(403);
 
                 var user = _templateService.GetById(templateId);
@@ -113,7 +110,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _templateService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
-
                 if (!permission) return StatusCode(403);
 
                 if (templateForCreateDto == null) return NotFound();
@@ -143,7 +139,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _templateService.GetAccess(_currentUser.RoleId, ActionEnum.Update);
-
                 if (!permission) return StatusCode(403);
 
                 var checker = await _templateService.Update(templateDtoForEdit);

@@ -14,8 +14,8 @@ namespace DM.Domain.DTO
         public long? RecordId { get; set; }
         public long? TemplateId { get; set; }
 
-        public List<int> ListIds { get; set; }
-        public List<ListDto> Lists { get; set; }
+        public ICollection<int> ListIds { get; set; }
+        public ICollection<ListDto> Lists { get; set; }
 
         public ListFieldDto()
         {

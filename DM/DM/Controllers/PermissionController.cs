@@ -21,7 +21,6 @@ namespace DM.Controllers
     public class PermissionController : ControllerBase
     {
         private readonly UserDto _currentUser;
-
         private readonly IPermissionService _permissionService;
 
         public PermissionController(CurrentUserService currentUserService, IPermissionService permissionService)
@@ -46,7 +45,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _permissionService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
-
                 if (!permission) return StatusCode(403);
 
                 var permissions = await _permissionService.GetAllByRole(roleId);
@@ -79,7 +77,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _permissionService.GetAccess(_currentUser.RoleId, ActionEnum.Update);
-
                 if (!permission) return StatusCode(403);
 
                 var result = await _permissionService.UpdatePermissionOnRole(permissionDto);

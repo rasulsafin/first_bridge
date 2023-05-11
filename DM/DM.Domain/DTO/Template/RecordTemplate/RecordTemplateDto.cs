@@ -4,7 +4,7 @@ namespace DM.Domain.DTO
 {
     public class RecordTemplateDto
     {
-        public List<int> RecordIds { get; set; }
-        public List<RecordDto> Records { get; set; }
+        public ICollection<int> RecordIds { get; set; }
+        public ICollection<RecordDto> Records { get; set; }
     }
 }

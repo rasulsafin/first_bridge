@@ -4,7 +4,7 @@ namespace DM.Domain.DTO
 {
     public class RecordForReadDto : RecordDto
     {
-        public List<int> CommentIds { get; set; }
-        public List<CommentForReadDto> Comments { get; set; }
+        public ICollection<int> CommentIds { get; set; }
+        public ICollection<CommentForReadDto> Comments { get; set; }
     }
 }

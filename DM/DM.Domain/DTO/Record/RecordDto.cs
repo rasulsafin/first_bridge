@@ -22,10 +22,10 @@ namespace DM.Domain.DTO
         public long ProjectId { get; set; }
         public long? TemplateId { get; set; }
 
-        public List<int> FieldIds { get; set; }
-        public List<FieldDto> Fields { get; set; }
+        public ICollection<int> FieldIds { get; set; }
+        public ICollection<FieldDto> Fields { get; set; }
 
-        public List<int> ListFieldIds { get; set; }
-        public List<ListFieldDto> ListFields { get; set; }
+        public ICollection<int> ListFieldIds { get; set; }
+        public ICollection<ListFieldDto> ListFields { get; set; }
     }
 }

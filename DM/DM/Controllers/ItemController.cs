@@ -28,11 +28,7 @@ namespace DM.Controllers
     public class ItemController : ControllerBase
     {
         private readonly UserDto _currentUser;
-
         private readonly IItemService _itemService;
-
-        private static readonly string pathServerStorage = "C:\\others\\";
-        private static readonly string currentPathServerStorage = "E:\\full-project\\document-manager\\DM\\DM\\";
 
         public ItemController(IItemService itemService, CurrentUserService userService)
         {
@@ -53,6 +49,7 @@ namespace DM.Controllers
                 if (!permission) return StatusCode(403);
 
                 var items = await _itemService.GetAll(projectId);
+
                 return Ok(items);
             }
             catch (System.Exception)
@@ -72,11 +69,9 @@ namespace DM.Controllers
             if (!permission) return StatusCode(403);
 
             var file = _itemService.Find(fileName);
-
             if (file == null) return BadRequest($"File with name={fileName} Not Found.");
 
             var filePath = file.RelativePath;
-
             var bytes = await SO.ReadAllBytesAsync(filePath);
 
             return File(bytes, FileHelper.GetFileTypes(Path.GetExtension(fileName)), fileName);
@@ -98,10 +93,10 @@ namespace DM.Controllers
             // проверка формата файла
             if (Path.GetExtension(fileName) != ".ifc") return BadRequest("Incorrect file format");
 
-            var storagePath = pathServerStorage + fileName;
+            var storagePath = FileHelper.PathServerStorage + fileName;
 
             // проверка существования готового wexBim
-            var pathIfExist = currentPathServerStorage + Path.GetFileNameWithoutExtension(fileName) + ".wexBim";
+            var pathIfExist = FileHelper.CurrentPathServerStorage + Path.GetFileNameWithoutExtension(fileName) + ".wexBim";
             if (SO.Exists(pathIfExist))
             {
                 var resultIfExist = SO.OpenRead(pathIfExist);
@@ -115,7 +110,7 @@ namespace DM.Controllers
 
             var wexBimFilename = Path.ChangeExtension(fileName, "wexBim");
 
-            var newStoragePath = currentPathServerStorage + wexBimFilename;
+            var newStoragePath = FileHelper.CurrentPathServerStorage + wexBimFilename;
 
             await using var wexBimFile = SO.Create(wexBimFilename);
 

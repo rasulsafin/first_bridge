@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 using DM.Common.Enums;
 
@@ -13,7 +12,10 @@ namespace DM.DAL.Entities
         public string Location { get; set; }
         public string Object { get; set; }
         public string Photo { get; set; }
+        public bool IsInArchive { get; set; }
 
         public StatusEnum Status { get; set; }
+
+
     }
 }
