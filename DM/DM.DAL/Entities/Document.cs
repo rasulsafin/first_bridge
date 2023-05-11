@@ -15,5 +15,7 @@ namespace DM.DAL.Entities
         public bool IsInArchive { get; set; }
 
         public StatusEnum Status { get; set; }
+
+
     }
 }
