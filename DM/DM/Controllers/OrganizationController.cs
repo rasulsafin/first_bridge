@@ -42,7 +42,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _organizationService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
-
                 if (!permission) return StatusCode(403);
 
                 var organizations = await _organizationService.GetAll();
@@ -69,7 +68,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _organizationService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
-
                 if (!permission) return StatusCode(403);
 
                 var checker = await _organizationService.Create(organizationForCreateDto);
@@ -96,7 +94,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _organizationService.GetAccess(_currentUser.RoleId, ActionEnum.Update);
-
                 if (!permission) return StatusCode(403);
 
                 var checker = await _organizationService.Update(organizationForUpdateDto);
@@ -127,7 +124,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _organizationService.GetAccess(_currentUser.RoleId, ActionEnum.Delete);
-
                 if (!permission) return StatusCode(403);
 
                 var checker = await _organizationService.Delete(organizationId);

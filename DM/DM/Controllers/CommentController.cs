@@ -43,7 +43,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _commentService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
-
                 if (!permission) return StatusCode(403);
 
                 var id = await _commentService.Create(commentDto);
@@ -74,7 +73,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _commentService.GetAccess(_currentUser.RoleId, ActionEnum.Delete);
-
                 if (!permission) return StatusCode(403);
 
                 var checker = await _commentService.Delete(commentId);
@@ -105,7 +103,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _commentService.GetAccess(_currentUser.RoleId, ActionEnum.Update);
-
                 if (!permission) return StatusCode(403);
 
                 var checker = await _commentService.Update(commentForUpdateDto);

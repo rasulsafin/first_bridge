@@ -46,7 +46,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _itemService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
-
                 if (!permission) return StatusCode(403);
 
                 var items = await _itemService.GetAll(projectId);

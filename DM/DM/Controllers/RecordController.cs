@@ -42,7 +42,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _recordService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
-
                 if (!permission) return StatusCode(403);
 
                 var records = await _recordService.GetAll();
@@ -71,7 +70,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _recordService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
-
                 if (!permission) return StatusCode(403);
 
                 var record = _recordService.GetById(recordId);
@@ -104,7 +102,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _recordService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
-
                 if (!permission) return StatusCode(403);
 
                 var id = await _recordService.Create(recordDto);
@@ -133,7 +130,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _recordService.GetAccess(_currentUser.RoleId, ActionEnum.Update);
-
                 if (!permission) return StatusCode(403);
 
                 var checker = await _recordService.Update(recordDto);
@@ -164,7 +160,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _recordService.GetAccess(_currentUser.RoleId, ActionEnum.Delete);
-
                 if (!permission) return StatusCode(403);
 
                 var checker = await _recordService.Delete(recordId);

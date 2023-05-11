@@ -43,7 +43,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _fieldService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
-
                 if (!permission) return StatusCode(403);
 
                 var checker = await _fieldService.Create(fieldDto);
@@ -72,7 +71,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _fieldService.GetAccess(_currentUser.RoleId, ActionEnum.Delete);
-
                 if (!permission) return StatusCode(403);
 
                 var checker = await _fieldService.Delete(fieldId);

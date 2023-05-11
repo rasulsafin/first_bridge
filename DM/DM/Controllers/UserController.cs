@@ -47,7 +47,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _userService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
-
                 if (!permission) return StatusCode(403);
 
                 var users = await _userService.GetAll();
@@ -77,7 +76,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _userService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
-
                 if (!permission) return BadRequest(403);
 
                 var user = _userService.GetById(userId);
@@ -110,7 +108,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _userService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
-
                 if (!permission) return BadRequest(403);
 
                 if (userDto == null) return NotFound();
@@ -149,7 +146,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _userService.GetAccess(_currentUser.RoleId, ActionEnum.Update);
-
                 if (!permission) return BadRequest(403);
 
                 var checker = await _userService.Update(userDto);
@@ -183,7 +179,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _userService.GetAccess(_currentUser.RoleId, ActionEnum.Delete);
-
                 if (!permission) return BadRequest(403);
 
                 var checker = await _userService.Delete(userId);
@@ -213,7 +208,6 @@ namespace DM.Controllers
             try
             {
                 var response = await _userService.Authenticate(Dto);
-
                 if (response == null) return BadRequest(new { message = "Username or password is incorrect" });
 
                 return Ok(response);
@@ -240,7 +234,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _userService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
-
                 if (!permission) return BadRequest(403);
 
                 var checker = await _userProjectService.AddToProject(userProjectDto);
@@ -273,7 +266,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _userService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
-
                 if (!permission) return BadRequest(403);
 
                 var checker = await _userProjectService.AddToProjects(userProjectDto);
@@ -307,7 +299,6 @@ namespace DM.Controllers
             try
             {
                 var permission = await _userService.GetAccess(_currentUser.RoleId, ActionEnum.Delete);
-
                 if (!permission) return BadRequest(403);
 
                 var checker = await _userProjectService.DeleteFromProject(userId, projectId);
