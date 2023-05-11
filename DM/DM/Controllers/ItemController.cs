@@ -1,11 +1,9 @@
 ﻿using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using SO = System.IO.File;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 using Xbim.Ifc;
 using Xbim.ModelGeometry.Scene;
@@ -13,15 +11,14 @@ using Xbim.ModelGeometry.Scene;
 using DM.Domain.Services;
 using DM.Domain.Interfaces;
 using DM.Domain.DTO;
-
-using DM.DAL;
+using DM.Domain.Infrastructure.Exceptions;
 
 using DM.Common.Helpers;
+using DM.Common.Enums;
 
 using DM.Validators.Attributes;
 
 using static DM.Validators.ServiceResponsesValidator;
-using DM.Common.Enums;
 
 namespace DM.Controllers
 {
@@ -30,20 +27,16 @@ namespace DM.Controllers
     [Route("api/item")]
     public class ItemController : ControllerBase
     {
-        private readonly DmDbContext _context;
         private readonly UserDto _currentUser;
 
         private readonly IItemService _itemService;
 
-        private static string pathServerStorage = "C:\\others\\";
-        private static string currentPathServerStorage = "E:\\full-project\\document-manager\\DM\\DM\\";
+        private static readonly string pathServerStorage = "C:\\others\\";
+        private static readonly string currentPathServerStorage = "E:\\full-project\\document-manager\\DM\\DM\\";
 
-        private int lastVersion = 1;  // variable for version tracking
-
-        public ItemController(IItemService itemService, DmDbContext context, CurrentUserService userService)
+        public ItemController(IItemService itemService, CurrentUserService userService)
         {
             _itemService = itemService;
-            _context = context;
             _currentUser = userService.CurrentUser;
         }
 
@@ -54,9 +47,19 @@ namespace DM.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll(long projectId)
         {
-            var items = await _itemService.GetAll(projectId);
+            try
+            {
+                var permission = await _itemService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
+                if (!permission) return StatusCode(403);
 
-            return Ok(items);
+                var items = await _itemService.GetAll(projectId);
+                return Ok(items);
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
         }
 
         /// <summary>
@@ -65,37 +68,30 @@ namespace DM.Controllers
         [HttpGet("download")]
         public async Task<IActionResult> DownloadFile(string fileName)
         {
-            var file = await _context.Items.FirstOrDefaultAsync(x => x.Name == fileName);
+            var permission = await _itemService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
+            if (!permission) return StatusCode(403);
+
+            var file = _itemService.Find(fileName);
 
             if (file == null) return BadRequest($"File with name={fileName} Not Found.");
-
-            var folderName = fileName.Remove(fileName.Length - 7);
 
             var filePath = file.RelativePath;
 
             var bytes = await SO.ReadAllBytesAsync(filePath);
 
-            return File(bytes, MimeHelper.GetMimeTypes(Path.GetExtension(fileName)), fileName);
+            return File(bytes, FileHelper.GetFileTypes(Path.GetExtension(fileName)), fileName);
         }
 
         [HttpGet("downloadWexBim")]
         public async Task<IActionResult> DownloadWexBim(string fileName) // название файла вместе с расширением .ifc
         {
+            var permission = await _itemService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
+            if (!permission) return StatusCode(403);
+
             var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
-            var fileId = await _context.Items.Where(x => x.Name.Contains(fileNameWithoutExtension)).Select(q => q.Id).FirstOrDefaultAsync();
+            var file = _itemService.Find(fileName);
 
-            if (fileId == 0) return BadRequest("Such file does not exist");
-
-            //TODO: вернуть пермишны перед деплоем
-
-            /*
-            var permission = AuthorizationHelper.CheckUsersPermissionsById(_context, _currentUser, PermissionType.Item, fileId);
-            
-            if (permission == null || !permission.Read)
-            {
-                return StatusCode(403);
-            }
-            */
+            if (file == null) return BadRequest("Such file does not exist");
 
             if (fileName == null) return BadRequest("fileName is empty");
 
@@ -135,59 +131,60 @@ namespace DM.Controllers
         /// <summary>
         /// Upload file with versioning
         /// </summary>
+        /// <param name="project"></param>
+        /// <param name="file"></param>
         /// <returns>id of uploaded file</returns>
+        /// <response code="200">File added.</response>
+        /// <response code="403">Access denied.</response>
+        /// <response code="500">Something went wrong while adding new file.</response>
         [HttpPost, DisableRequestSizeLimit, Route("file")]
         public async Task<IActionResult> Post(long project, IFormFile file)
         {
-            var permission = await _itemService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
-
-            if (!permission) return StatusCode(403);
-
-            var fileExtension = Path.GetExtension(file.FileName);
-            var fileNameWithoutExtension = file.FileName.Remove(file.FileName.Length - 4); // Folder Name
-            var pathSaveFile = pathServerStorage + fileNameWithoutExtension;
-
-            if (fileExtension == ".jpg" || fileExtension == ".png" || fileExtension == ".bim" || fileExtension == ".ifc")
+            try
             {
-                if (!Directory.Exists(pathSaveFile)) // Check the directory exists
-                {
-                    Directory.CreateDirectory(pathSaveFile);
-                }
+                var permission = await _itemService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
+                if (!permission) return StatusCode(403);
 
-                var files = Directory.GetFiles(pathSaveFile);
-
-                if (files.Length > 0) // Check if folder contains files with certain name
-                {
-                    foreach (var a in Directory.GetFiles(pathSaveFile))
-                    {
-
-                        if (a.Contains(lastVersion.ToString()))
-                        {
-                            lastVersion += 1;
-                        }
-                    }
-                }
-
-                var pathForCreate = pathServerStorage + fileNameWithoutExtension + @"\" + fileNameWithoutExtension + "_v" + lastVersion + fileExtension;
-
-                using (var fstream = new FileInfo(pathForCreate).Create()) // Create instance to put an Object
-                {
-                    var c = fstream;
-                    await file.CopyToAsync(fstream); // Put an Object
-                }
-
-                var itemDto = new ItemDto()
-                {
-                    Name = fileNameWithoutExtension + "_v" + lastVersion + fileExtension,
-                    RelativePath = pathForCreate,
-                    ProjectId = project
-                };
-
-                var item = await _itemService.Create(itemDto); // Adding a Record about new Item
+                var item = await _itemService.Create(new ItemDto { ProjectId = project }, file);
                 return Ok(item);
             }
-            else
-            { return BadRequest(new { message = "invalid file format" }); }
+            catch (DocumentManagementException ex)
+            {
+                return CreateProblemResult(this, 500, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Delete existing user.
+        /// </summary>
+        /// <param name="userId">Id of the user to be deleted.</param>
+        /// <returns>Boolean value about function execution.</returns>        
+        /// <response code="200">User was deleted successfully.</response>
+        /// <response code="400">Invalid id.</response>
+        /// <response code="403">Access denied.</response>
+        /// <response code="404">User was not found.</response>
+        /// <response code="500">Something went wrong while deleting user.</response>
+        [HttpDelete]
+        [Authorize]
+        public async Task<IActionResult> Delete(string fileName)
+        {
+            try
+            {
+                var permission = await _itemService.GetAccess(_currentUser.RoleId, ActionEnum.Delete);
+                if (!permission) return BadRequest(403);
+
+                var checker = _itemService.Delete(fileName);
+
+                return Ok(checker);
+            }
+            catch (ANotFoundException ex)
+            {
+                return CreateProblemResult(this, 404, ex.Message);
+            }
+            catch (DocumentManagementException ex)
+            {
+                return CreateProblemResult(this, 500, ex.Message);
+            }
         }
     }
 }

@@ -7,10 +7,11 @@ using DM.Domain.DTO;
 using DM.Domain.Interfaces;
 using DM.Domain.Infrastructure.Exceptions;
 
+using DM.Common.Enums;
+
 using DM.Validators.Attributes;
 
 using static DM.Validators.ServiceResponsesValidator;
-using DM.Common.Enums;
 
 namespace DM.Controllers
 {
@@ -53,6 +54,40 @@ namespace DM.Controllers
                 if (templates == null) return NotFound();
 
                 return Ok(templates);
+            }
+            catch (ANotFoundException ex)
+            {
+                return CreateProblemResult(this, 404, ex.Message);
+            }
+            catch (DocumentManagementException ex)
+            {
+                return CreateProblemResult(this, 500, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get template by their id.
+        /// </summary>
+        /// <param name="templateId"></param>
+        /// <returns>Template Id.</returns>        
+        /// <response code="200">Template found.</response>
+        /// <response code="400">Invalid id.</response>
+        /// <response code="403">Access denied.</response>
+        /// <response code="404">Could not find template.</response>
+        /// <response code="500">Something went wrong while fetching the template.</response>
+        [HttpGet("{templateId}")]
+        [Authorize]
+        public async Task<IActionResult> GetById(long templateId)
+        {
+            try
+            {
+                var permission = await _templateService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
+
+                if (!permission) return BadRequest(403);
+
+                var user = _templateService.GetById(templateId);
+
+                return Ok(user);
             }
             catch (ANotFoundException ex)
             {

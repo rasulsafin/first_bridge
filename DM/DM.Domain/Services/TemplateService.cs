@@ -39,12 +39,12 @@ namespace DM.Domain.Services
             return _mapper.Map<IEnumerable<TemplateDto>>(templates);
         }
 
-        public TemplateDto GetById(long templateId)
+        public TemplateForReadDto GetById(long templateId)
         {
             if (templateId < 1) return null;
 
             var template = Context.Templates.GetById(templateId);
-            return _mapper.Map<TemplateDto>(template);
+            return _mapper.Map<TemplateForReadDto>(template);
         }
 
         public async Task<bool> Create(TemplateForCreateDto templateForCreateDto)

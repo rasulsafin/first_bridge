@@ -8,10 +8,11 @@ using DM.Domain.DTO;
 using DM.Domain.Services;
 using DM.Domain.Infrastructure.Exceptions;
 
+using DM.Common.Enums;
+
 using DM.Validators.Attributes;
 
 using static DM.Validators.ServiceResponsesValidator;
-using DM.Common.Enums;
 
 namespace DM.Controllers
 {

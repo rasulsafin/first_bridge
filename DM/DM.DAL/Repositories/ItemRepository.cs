@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -40,19 +41,31 @@ namespace DM.DAL.Repositories
             return true;
         }
 
+        public Item Find(string fileName)
+        {
+            Item item = _dbContext.Items.FirstOrDefault(x => x.Name.Contains(fileName));
+            return item;
+        }
+
         public bool Delete(long? id)
         {
-            throw new System.NotImplementedException();
+            Item item = _dbContext.Items.Find(id);
+            if (item != null)
+            {
+                _dbContext.Items.Remove(item);
+                return true;
+            }
+            return false;
         }
 
         public Task<IEnumerable<Item>> GetAll()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void Update(Item item)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }
