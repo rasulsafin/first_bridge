@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+
+using Xbim.Ifc;
+using Xbim.ModelGeometry.Scene;
 
 using AutoMapper;
 
@@ -11,8 +15,9 @@ using DM.Domain.DTO;
 
 using DM.DAL.Entities;
 using DM.DAL.Interfaces;
+
 using DM.Common.Enums;
-using System;
+using DM.Common.Helpers;
 
 namespace DM.Domain.Services
 {
@@ -43,14 +48,82 @@ namespace DM.Domain.Services
             return _mapper.Map<ItemDto>(item);
         }
 
-        public async Task<long> Create(ItemDto itemDto)
+        public ItemDto Find(string fileName)
         {
-            var item = _mapper.Map<Item>(itemDto);
+            if (string.IsNullOrEmpty(fileName)) return null;
 
-            await Context.Items.Create(item);
-            await Context.SaveAsync();
+            var item = Context.Items.Find(fileName);
+            return _mapper.Map<ItemDto>(item);
+        }
 
-            return item.Id;
+        public async Task<long> Create(ItemDto itemDto, IFormFile file)
+        {
+            try
+            {
+                var fileExtension = Path.GetExtension(file.FileName);
+
+                if (FileHelper.ValidateFileExtension(fileExtension))
+                {
+                    var fileNameWithoutExtension = FileHelper.DeleteFileExtention(file.FileName); // Folder Name
+                    var pathSaveFile = FileHelper.PathServerStorage + fileNameWithoutExtension;
+
+                    if (!Directory.Exists(pathSaveFile)) // Check the directory exists
+                        Directory.CreateDirectory(pathSaveFile);
+
+                    string version = FileHelper.GenerateFileVersion(pathSaveFile);
+                    string pathForCreate = FileHelper.CreateFilePath(fileNameWithoutExtension, version, fileExtension);
+
+                    using (var fstream = new FileInfo(pathForCreate).Create()) // Create instance to put an Object
+                    {
+                        var c = fstream;
+                        await file.CopyToAsync(fstream); // Put an Object
+                    }
+
+                    itemDto.Name = fileNameWithoutExtension + "_v" + version + fileExtension;
+                    itemDto.RelativePath = pathForCreate;
+
+                    var item = _mapper.Map<Item>(itemDto);
+
+                    await Context.Items.Create(item);
+                    await Context.SaveAsync();
+
+                    return item.Id;
+                }
+                else
+                {
+                    throw new Exception("Incorrect file extention");
+                }
+            }
+            catch (Exception)
+            {
+                throw new Exception("Incorrect file extention");
+            }
+        }
+
+        public async Task<bool> Delete(string fileName)
+        {
+            try
+            {
+                var result = false;
+
+                var item = Context.Items.Find(fileName);
+                if (item == null) return result;
+
+                FileInfo fileInf = new(item.RelativePath);
+                if (fileInf.Exists)
+                {
+                    fileInf.Delete();
+
+                    result = Context.Items.Delete(item.Id);
+                    await Context.SaveAsync();
+                }
+
+                return result;
+            }
+            catch (Exception)
+            {
+                throw new Exception("Incorrect file extention");
+            }
         }
 
         public async Task<bool> GetAccess(long roleId, ActionEnum action)
@@ -70,7 +143,6 @@ namespace DM.Domain.Services
             }
             catch (Exception)
             {
-
                 throw;
             }
         }

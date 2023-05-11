@@ -55,6 +55,9 @@ namespace DM.Domain.Infrastructure
 
             //Template map
             CreateMap<Template, TemplateDto>().ReverseMap();
+            CreateMap<Template, TemplateForReadDto>().ForMember(n => n.FieldIds, m => m.MapFrom(o => o.Fields.Select(u => u.Id)))
+                                                   .ForMember(n => n.ListFieldIds, m => m.MapFrom(o => o.ListFields.Select(u => u.Id)))
+                                                   .ReverseMap();
             CreateMap<Template, TemplateForCreateDto>().ForMember(n => n.FieldIds, m => m.MapFrom(o => o.Fields.Select(u => u.Id)))
                                                                .ForMember(n => n.ListFieldIds, m => m.MapFrom(o => o.ListFields.Select(u => u.Id)))
                                                                .ReverseMap();
