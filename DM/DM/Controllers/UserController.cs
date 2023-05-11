@@ -9,9 +9,9 @@ using DM.Domain.DTO;
 using DM.Domain.Services;
 using DM.Domain.Infrastructure.Exceptions;
 
-using DM.Validators.Attributes;
-
 using DM.Common.Enums;
+
+using DM.Validators.Attributes;
 
 using static DM.Validators.ServiceResponsesValidator;
 
