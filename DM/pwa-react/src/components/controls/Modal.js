@@ -1,7 +1,10 @@
-import React, { useState } from "react";
-import { List, Modal as MuiModal } from "@mui/material";
-import Box from "@mui/material/Box";
-import { Grid } from "@mui/material";
+import React from "react";
+import {
+  List,
+  Box,
+  Grid,
+  Modal as MuiModal
+} from "@mui/material";
 import { Controls } from "./Controls";
 import { ReactComponent as TrashIcon } from "../../assets/icons/trashcan.svg";
 
@@ -22,8 +25,7 @@ const style = {
 
 const Modal = (props) => {
   const { titleModal, onClose, ...other } = props;
-  
-  
+
   return (
     <div>
       <MuiModal
@@ -48,7 +50,7 @@ const Modal = (props) => {
                 >Сохранить
                 </Controls.Button>
                 <Controls.Button
-                onClick={onClose}
+                  onClick={onClose}
                 >
                   Отменить
                 </Controls.Button>

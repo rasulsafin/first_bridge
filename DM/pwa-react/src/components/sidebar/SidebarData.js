@@ -1,3 +1,4 @@
+import React from "react";
 import { ReactComponent as ProjectIcon } from "../../assets/icons/projects.svg";
 import { ReactComponent as UserIcon } from "../../assets/icons/users.svg";
 import { ReactComponent as RecordIcon } from "../../assets/icons/records.svg";

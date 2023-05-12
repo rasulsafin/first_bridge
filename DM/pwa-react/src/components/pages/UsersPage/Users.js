@@ -59,7 +59,6 @@ function ChildModal() {
           <Controls.Button
             onClick={toggleModal}
           >Отменить</Controls.Button>
-          {/*<Button onClick={toggleModal}>Close Child Modal</Button>*/}
         </Box>
       </Modal>
     </>
@@ -142,6 +141,7 @@ export const Users = () => {
             {projects ?
               projects.map(project =>
                 <Box
+                  key={project.id}
                   sx={{
                     height: "73px",
                     backgroundColor: "#F4F4F4",
@@ -151,10 +151,10 @@ export const Users = () => {
                   }}>
                   <Grid direction="column" container>
                     <Grid item xs={2}>
-                      <span style={{ "font-size": "12px" }}>Участники: {project.users.length}</span>
+                      <span style={{ "fontSize": "12px" }}>Участники: {project.users.length}</span>
                     </Grid>
                     <Grid item xs={10}>
-                      <span style={{ "font-weight": "bold" }}>{project.title}</span>
+                      <span style={{ "fontWeight": "bold" }}>{project.title}</span>
                     </Grid>
                   </Grid>
                 </Box>

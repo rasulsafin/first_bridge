@@ -12,7 +12,6 @@ import { RequireAuth } from "./components/RequireAuth/RequireAuth";
 import { AdminPage } from "./components/pages/AdminPage/AdminPage";
 import { Layout } from "./components/layout/Layout";
 import { NotFoundPage } from "./components/pages/NotFoundPage/NotFoundPage";
-import ViewerIfc from "./components/pages/FilesPage/ViewerIfc";
 import IfcComponent from "./components/ifc/IfcComponent";
 import { Models } from "./components/pages/ModelPage/Models";
 import { Templates } from "./components/pages/TemplatePage/Templates";
@@ -45,7 +44,6 @@ function App() {
             <Route path="/templates" element={<Templates />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/admin" element={<AdminPage />} />
-            <Route path="/ifc" element={<ViewerIfc />} />
             <Route path="/ifcViewer" element={<IfcComponent />} />
           </Route>
 
