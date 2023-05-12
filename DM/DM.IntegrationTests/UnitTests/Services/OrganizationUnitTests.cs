@@ -1,102 +1,156 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using DM.Controllers;
-using DM.DAL;
-using DM.DAL.Entities;
-using DM.Domain.Services;
-using DM.Domain.Interfaces;
-using DM.Domain.DTO;
-using Microsoft.AspNetCore.Mvc;
-using Moq;
+using System.Linq;
+
+using Microsoft.Extensions.Logging;
+
 using Xunit;
+
+using DM.Domain.Services;
+
+using DM.DAL.Repositories;
+
+using DM.IntegrationTests.Helpers;
+using DM.IntegrationTests.Helpers.MockData;
+
+using DM.Domain.DTO;
+using DM.DAL.Entities;
+using System;
 
 namespace DM.IntegrationTests.UnitTests.Services
 {
-    public class OrganizationUnitTests
+    public class OrganizationUnitTests : IClassFixture<TestDbContext>
     {
-        #region Const
-        private readonly UserDto user = new()
+        #region Setup Test
+
+        private EFUnitOfWork UnitOfWork { get; set; }
+        private static OrganizationService service;
+        private static CurrentUserService currentUserService;
+        private static readonly ILogger<OrganizationService> logger;
+
+        public OrganizationUnitTests(TestDbContext fixture)
         {
-            Id = 1,
-            Name = "Robert",
-            LastName = "Reiter",
-            FathersName = "J",
-            Email = "brogrammer@mail.ru",
-            Login = "bromigo",
-            HashedPassword = "1234",
-            Position = "developer",
-            RoleId = 1,
-            OrganizationId = 1,
-        };
+            var _mapper = MockServiceData.TestMapper.CreateMapper();
 
-        #endregion
+            UnitOfWork = fixture.UnitOfWork;
 
-        #region CreateOrganizationPositiveTesting
-        [Fact]
-        public async Task CreateOrganizationPositiveTesting()
-        {
-            var dmContext = new Mock<DmDbContext>();
-            var organizationRepo = new Mock<IOrganizationService>();
-            var organizationController = new OrganizationController(null, organizationRepo.Object);
+            currentUserService = new CurrentUserService(UnitOfWork, _mapper);
+            currentUserService.SetCurrentUser(1);
 
-            var organizationModelForCreate = new OrganizationForCreateDto()
-            {
-                Name = "BRIO",
-                Address = "Kazan",
-                Email = "BRIO@mail.ru",
-                Inn = "000",
-                Kpp = "000",
-                Ogrn = "000",
-                Phone = "000"
-            };
-
-            // execution 
-            organizationRepo.Setup(x => x.Create(organizationModelForCreate))
-                .Returns(Task.FromResult(true));
-
-            var result = await organizationController.Create(organizationModelForCreate);
-
-            var actualResult = result as OkObjectResult;
-
-            // examination
-            Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(true, actualResult?.Value);
+            service = new OrganizationService(UnitOfWork, _mapper);
         }
 
+        #endregion
+
+        #region Get Testing
+
+        [Fact]
+        public async Task GetAllOrganization_Positive()
+        {
+            var organizations = await service.GetAll();
+            var result = organizations.Any();
+
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void GetOrganizationById_Positive()
+        {
+            var organization = service.GetById(MockServiceData.POSITIVE_ID);
+
+            Assert.NotNull(organization);
+        }
+
+        [Fact]
+        public void GetOrganizationByLargeId_Negative()
+        {
+            var organization = service.GetById(MockServiceData.LARGE_ID);
+
+            Assert.Null(organization);
+        }
+
+        [Fact]
+        public void GetOrganizationByZeroId_Negative()
+        {
+            var organization = service.GetById(MockServiceData.ZERO_ID);
+
+            Assert.Null(organization);
+        }
+
+        [Fact]
+        public void GetOrganizationByNegativeId_Negative()
+        {
+            var organization = service.GetById(MockServiceData.NEGATIVE_ID);
+
+            Assert.Null(organization);
+        }
 
         #endregion
 
-        #region GetOrganizationPositiveTesting
+        #region Create Testing
 
         [Fact]
-        public async Task GetOrganizationPositiveTesting()
+        public async Task CreateOrganizationAndGetById_Positive()
         {
-            // preparation
-            const string organizationName = "BRIO";
-            const string organizationName2 = "MRS";
-            var organizationRepo = new Mock<IOrganizationService>();
-            var organizationController = new OrganizationController(null, organizationRepo.Object);
-            var organizationResult = new List<OrganizationDto>(); // проверяемый объект
+            var organizations = await service.GetAll();
+            var id_without_added = organizations.LastOrDefault().Id;
 
-            organizationResult.Add(new OrganizationForCreateDto() { Name = organizationName });
-            organizationResult.Add(new OrganizationForCreateDto() { Name = organizationName2 });
+            //TODO added role&organization
+            await service.Create(MockOrganizationData.ORGANIZATION_FOR_CREATE);
 
-            // execution
-            organizationRepo.Setup(x => x.GetAll());
-            var result = await organizationController.GetAll();
+            var organization = service.GetById(id_without_added++);
 
-            var actualResult = result as OkObjectResult;
-            var enumerableValue = actualResult?.Value as IEnumerable;
+            Assert.NotNull(organization);
+        }
 
-            var fieldOfReceivedObject = enumerableValue?.Cast<Organization>().First().Name;
-            var fieldOfSecondReceivedObject = enumerableValue?.Cast<Organization>().ElementAtOrDefault(1).Name;
+        #endregion
 
-            // examination
-            Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(organizationName, fieldOfReceivedObject);
-            Assert.Equal(organizationName2, fieldOfSecondReceivedObject);
+        #region Update Testing
+
+        [Fact]
+        public async Task UpdateExistingOrganization_Positive()
+        {
+            var organizations = await service.GetAll();
+            var id_without_added = organizations.LastOrDefault().Id;
+
+            await service.Create(MockOrganizationData.ORGANIZATION_FOR_CREATE);
+
+            var organization = service.GetById(id_without_added++);
+
+            var updated_organization = MockOrganizationData.ORGANIZATION_FOR_UPDATE;
+            updated_organization.Id = organization.Id;
+
+            var result = await service.Update(updated_organization);
+
+            Assert.True(result);
+        }
+
+        [Fact]
+        public async Task UpdateNonExistingOrganization_Negative()
+        {
+            var updated_organization = MockOrganizationData.ORGANIZATION_FOR_UPDATE;
+            updated_organization.Id = MockServiceData.LARGE_ID;
+
+            var result = await service.Update(updated_organization);
+
+            Assert.False(result);
+        }
+
+        #endregion
+
+        #region Delete Testing
+
+        [Fact]
+        public async Task DeleteExistingOrganization_Positive()
+        {
+            var users = await service.GetAll();
+            var id_without_added = users.LastOrDefault().Id;
+
+            //TODO added role&organization
+            await service.Create(MockOrganizationData.ORGANIZATION_FOR_CREATE);
+
+            var res = await service.Delete(id_without_added++);
+
+            Assert.True(res);
         }
 
         #endregion

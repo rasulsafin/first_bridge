@@ -56,8 +56,8 @@ namespace DM.Domain.Services
             {
                 Name = recordForCreateDto.Name,
                 ProjectId = recordForCreateDto.ProjectId,
-                Fields = recordForCreateDto.Fields.ToList(),
-                ListFields = recordForCreateDto.ListFields.ToList()
+                Fields = recordForCreateDto.Fields,
+                ListFields = recordForCreateDto.ListFields
             });
 
             await Context.Records.Create(record);

@@ -34,6 +34,7 @@ namespace DM.Domain.Infrastructure
             CreateMap<Project, ProjectForReadDto>().ForMember(n => n.Users, m => m.MapFrom(o => o.UserProjects.Select(u => u.User)))
                                                            .ForMember(n => n.UserIds, m => m.MapFrom(o => o.UserProjects.Select(u => u.UserId)))
                                                            .ForMember(n => n.ItemIds, m => m.MapFrom(o => o.Items.Select(u => u.Id)))
+                                                           .ForMember(n => n.TemplateIds, m => m.MapFrom(o => o.Templates.Select(u => u.Id)))
                                                            .ReverseMap();
             CreateMap<Project, ProjectForUpdateDto>().ReverseMap();
 

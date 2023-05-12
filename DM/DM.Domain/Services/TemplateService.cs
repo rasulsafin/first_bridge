@@ -53,8 +53,8 @@ namespace DM.Domain.Services
             {
                 Name = templateForCreateDto.Name,
                 ProjectId = templateForCreateDto.ProjectId,
-                Fields = templateForCreateDto.Fields.ToList(),
-                ListFields = templateForCreateDto.ListFields.ToList()
+                Fields = templateForCreateDto.Fields,
+                ListFields = templateForCreateDto.ListFields
             });
 
             await Context.Templates.Create(template);
