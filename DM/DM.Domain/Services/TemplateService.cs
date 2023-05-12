@@ -79,6 +79,14 @@ namespace DM.Domain.Services
             return true;
         }
 
+        public async Task<bool> Delete(long? templateId)
+        {
+            var result = Context.Templates.Delete(templateId);
+            await Context.SaveAsync();
+
+            return result;
+        }
+
         public async Task<bool> GetAccess(long roleId, ActionEnum action)
         {
             try
