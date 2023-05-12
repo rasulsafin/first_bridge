@@ -45,12 +45,12 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _projectService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
-                if (!permission) return StatusCode(403);
-
                 var projects = await _projectService.GetAll();
-
                 return Ok(projects);
+            }
+            catch (AccessDeniedException ex)
+            {
+                return CreateProblemResult(this, 403, ex.Message);
             }
             catch (DocumentManagementException ex)
             {

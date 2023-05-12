@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Linq;
 
 using AutoMapper;
 
 using DM.Domain.DTO;
 using DM.Domain.Interfaces;
+using DM.Domain.Infrastructure.Exceptions;
 
 using DM.DAL.Entities;
 using DM.DAL.Interfaces;
@@ -32,6 +32,10 @@ namespace DM.Domain.Services
 
         public async Task<IEnumerable<ProjectForReadDto>> GetAll()
         {
+            var access = await GetAccess(_currentUser.RoleId, ActionEnum.Read);
+            if (!access)
+                throw new AccessDeniedException("Access Denied");
+
             var projects = await Context.Projects.GetAll();
             return _mapper.Map<IEnumerable<ProjectForReadDto>>(projects);
         }
@@ -88,7 +92,7 @@ namespace DM.Domain.Services
         {
             try
             {
-                var access = await Context.Permissions.GetByRoleAndType(roleId, PermissionEnum.User);
+                var access = await Context.Permissions.GetByRoleAndType(roleId, PermissionEnum.Project);
 
                 return action switch
                 {
