@@ -66,7 +66,7 @@ export const filesSlice = createSlice({
     builder.addCase(getFile.fulfilled, (state, action) => {
       return action.payload;
     });
-    builder.addCase(uploadFileService.fulfilled, (state, action) => {
+    builder.addCase(uploadFileService.fulfilled, (state) => {
       state.isLoading = false;
     })
   }

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { Controls } from "../../controls/Controls";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { List } from "@mui/material";
 import {
   fetchRecordTemplates,
   searchRecordTemplatesByName,
@@ -10,14 +10,15 @@ import {
   sortRecordTemplatesByNameAsc,
   sortRecordTemplatesByNameDesc
 } from "../../../services/recordTemplatesSlice";
-import { List } from "@mui/material";
+import { Controls } from "../../controls/Controls";
 import { SearchBar } from "../../searchBar/SearchBar";
 import { TemplateCard } from "./components/TemplateCard";
+import { useModal } from "../../../hooks/useModal";
 
 export const Templates = () => {
   const dispatch = useDispatch();
   const recordTemplates = useSelector(selectAllRecordTemplates);
-  const [openModal, setModal] = useState(false);
+  const [openModal, toggleModal] = useModal();
 
   useEffect(() => {
     dispatch(fetchRecordTemplates(1));
@@ -41,14 +42,6 @@ export const Templates = () => {
 
   const handleSortByNameDesc = () => {
     dispatch(sortRecordTemplatesByNameDesc());
-  };
-
-  const handleModalOpen = () => {
-    setModal(true);
-  };
-
-  const handleModalClose = () => {
-    setModal(false);
   };
 
   return (
@@ -102,7 +95,12 @@ export const Templates = () => {
         }}>
         {recordTemplates.map(template => <TemplateCard key={template.id} template={template} />)}
       </List>
-      <Controls.RoundButton onClick={handleModalOpen} />
+      <Controls.Modal
+        open={openModal}
+        onClose={toggleModal}
+      >
+    </Controls.Modal>
+      <Controls.RoundButton onClick={toggleModal} />
     </div>
   );
 };

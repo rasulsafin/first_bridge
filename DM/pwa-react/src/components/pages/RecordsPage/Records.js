@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Grid, List } from "@mui/material";
 import {
@@ -15,11 +15,12 @@ import { RecordCard } from "./components/RecordCard";
 import { Controls } from "../../controls/Controls";
 import { ReactComponent as PlanIcon } from "../../../assets/icons/plan.svg";
 import { ReactComponent as BurgerIcon } from "../../../assets/icons/burger.svg";
+import { useModal } from "../../../hooks/useModal";
 
 export function Records() {
   const dispatch = useDispatch();
   const records = useSelector(selectAllRecords);
-  const [openModal, setModal] = useState(false);
+  const [openModal, toggleModal] = useModal();
 
   useEffect(() => {
     dispatch(fetchRecords());
@@ -43,14 +44,6 @@ export function Records() {
 
   const handleSortByNameDesc = () => {
     dispatch(sortRecordsByNameDesc());
-  };
-
-  const handleModalOpen = () => {
-    setModal(true);
-  };
-
-  const handleModalClose = () => {
-    setModal(false);
   };
 
   const iconBurger = (
@@ -133,7 +126,7 @@ export function Records() {
       <Controls.Modal
         titleModal="TitleCreateModal"
         open={openModal}
-        onClose={handleModalClose}
+        onClose={toggleModal}
       >
         <Grid container direction="column">
           <Grid item>
@@ -141,7 +134,7 @@ export function Records() {
           </Grid>
         </Grid>
       </Controls.Modal>
-      <Controls.RoundButton onClick={handleModalOpen} />
+      <Controls.RoundButton onClick={toggleModal} />
     </div>
   );
 }

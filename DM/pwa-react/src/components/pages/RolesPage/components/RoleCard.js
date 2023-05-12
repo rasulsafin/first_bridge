@@ -7,6 +7,7 @@ import {
   ListItemText
 } from "@mui/material";
 import { Controls } from "../../../controls/Controls";
+import { RoleForm } from "./RoleForm";
 
 export const RoleCard = (props) => {
   const { role } = props;
@@ -55,7 +56,7 @@ export const RoleCard = (props) => {
         open={openModal}
         onClose={handleCloseModal}
       >
-
+        <RoleForm role={role} />
       </Controls.Modal>
     </>
   );

@@ -125,7 +125,18 @@ const UserForm = (props) => {
                   required
                 />
               </Grid>
-              <Grid item xs={12}></Grid>
+              <Grid item xs={12}>
+                <InputLabel>{users.password}
+                </InputLabel>
+                <Controls.ValidationFormTextfield
+                  name="password"
+                  // type="password"
+                  type="text"
+                  fullWidth
+                  size="small"
+                  required
+                />
+              </Grid>
             </Grid>
           </div>
           {textButton ? (<Button
