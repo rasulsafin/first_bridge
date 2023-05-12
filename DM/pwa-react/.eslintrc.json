@@ -45,6 +45,7 @@
         ]
       }
     ],
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
     "react/prop-types": "off",
     "arrow-body-style": 0,
     "import/prefer-default-export": "off",

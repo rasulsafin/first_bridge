@@ -40,7 +40,7 @@ export const SidebarData = [
   {
     id: 5,
     title: "Documents",
-    path: "/",
+    path: "/documents",
     icon: <DocIcon className="icon" />,
     iconActive: <DocIcon className="icon active" />
   },

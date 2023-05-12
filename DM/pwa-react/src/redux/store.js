@@ -16,6 +16,7 @@ import rolesReducer from "../services/rolesSlice";
 import permissionsReducer from "../services/permissionsSlice";
 import { ifcElementPropsReducer } from "../services/ifcElementPropsSlice";
 import ifcModelReducer from "../services/ifcModelSlice";
+import documentsReducer from "../services/documentsSlice";
 
 const persistConfig = {
   key: "root",
@@ -36,6 +37,7 @@ const rootReducer = combineReducers({
   ifcElementProps: ifcElementPropsReducer,
   ifcModel: ifcModelReducer,
   roles: rolesReducer,
+  documents: documentsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
