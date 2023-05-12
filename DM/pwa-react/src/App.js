@@ -9,13 +9,12 @@ import { Records } from "./components/pages/RecordsPage/Records";
 import { LoginPage } from "./components/pages/LoginPage/LoginPage";
 import { ProfilePage } from "./components/pages/ProfilePage/ProfilePage";
 import { RequireAuth } from "./components/RequireAuth/RequireAuth";
-import { AdminPage } from "./components/pages/AdminPage/AdminPage";
 import { Layout } from "./components/layout/Layout";
 import { NotFoundPage } from "./components/pages/NotFoundPage/NotFoundPage";
-import IfcComponent from "./components/ifc/IfcComponent";
 import { Models } from "./components/pages/ModelPage/Models";
 import { Templates } from "./components/pages/TemplatePage/Templates";
 import { Roles } from "./components/pages/RolesPage/Roles";
+import { Documents } from "./components/pages/DocumentsPage/Documents";
 
 function App() {
   window.addEventListener("load", () => {
@@ -42,9 +41,8 @@ function App() {
             <Route path="/records" element={<Records />} />
             <Route path="/models" element={<Models />} />
             <Route path="/templates" element={<Templates />} />
+            <Route path="/documents" element={<Documents />} />
             <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/admin" element={<AdminPage />} />
-            <Route path="/ifcViewer" element={<IfcComponent />} />
           </Route>
 
           <Route path="/login" element={<LoginPage />} />
