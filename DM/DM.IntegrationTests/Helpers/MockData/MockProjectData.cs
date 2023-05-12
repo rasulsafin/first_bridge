@@ -20,7 +20,7 @@ namespace DM.IntegrationTests.Helpers.MockData
 
         public static ProjectForUpdateDto PROJECT_FOR_UPDATE = new()
         {
-            Title = "Project - 1",
+            Title = "Project - 2",
             IsInArchive = false,
             OrganizationId = 1,//TODO real id,
                                //TODO add Items

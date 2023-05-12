@@ -12,14 +12,8 @@ using DM.DAL.Repositories;
 
 using DM.IntegrationTests.Helpers;
 using DM.IntegrationTests.Helpers.MockData;
-using DM.Controllers;
-using DM.DAL.Entities;
+
 using DM.Domain.DTO;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using Moq;
-using System.Security.Claims;
-using System;
 
 namespace DM.IntegrationTests.UnitTests.Services
 {
@@ -139,13 +133,6 @@ namespace DM.IntegrationTests.UnitTests.Services
         [Fact]
         public async Task UpdateNonExistingUser_Negative()
         {
-            var users = await service.GetAll();
-            var id_without_added = users.LastOrDefault().Id;
-
-            await service.Create(MockUserData.USER_FOR_CREATE);
-
-            var user = service.GetById(id_without_added++);
-
             UserForUpdateDto userForUpdateDto = new()
             {
                 Id = MockServiceData.LARGE_ID,

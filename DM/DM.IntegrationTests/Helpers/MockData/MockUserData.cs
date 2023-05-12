@@ -1,12 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using DM.DAL.Entities;
 using DM.Domain.DTO;
 
 namespace DM.IntegrationTests.Helpers.MockData
 {
     public static class MockUserData
     {
+        public static User USER_ENTITY= new()
+        {
+            Name = "User",
+            FathersName = "Current",
+            LastName = "Entity",
+            Login = "current_11",
+            Email = "current11@mail.ru",
+            HashedPassword = "current1234",
+            Position = "Current 4 Position",
+            RoleId = 1,//TODO real id,
+            OrganizationId = 1,//TODO real id,
+            CreatedAt = DateTime.Now,
+        };
+
         public static AuthenticateRequest AUTH_REQUEST_POSITIVE = new()
         {
             Login = "create@mail.ru",

@@ -1,114 +1,100 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using DM.Controllers;
-using DM.DAL.Entities;
-using DM.Domain.Interfaces;
-using DM.Tests.Helpers;
-using Microsoft.AspNetCore.Mvc;
-using Moq;
+using System.Linq;
+
+using Microsoft.Extensions.Logging;
+
 using Xunit;
-using DM.Common.Enums;
-using System;
+
+using DM.Domain.Services;
+
+using DM.DAL.Repositories;
+
+using DM.IntegrationTests.Helpers;
+using DM.IntegrationTests.Helpers.MockData;
+
 using DM.Domain.DTO;
+using DM.DAL.Entities;
 
 namespace DM.IntegrationTests.UnitTests.Services
 {
-    public class PermissionUnitTests
+    public class PermissionUnitTests : IClassFixture<TestDbContext>
     {
+        #region Setup Test
 
-        private readonly List<PermissionDto> permissions = new List<PermissionDto>
+        private EFUnitOfWork UnitOfWork { get; set; }
+        private static PermissionService service;
+        private static CurrentUserService currentUserService;
+        private static readonly ILogger<ProjectService> logger;
+
+        public PermissionUnitTests(TestDbContext fixture)
         {
-            new PermissionDto { Id=1, RoleId = 1, Type = PermissionEnum.Project, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
-            new PermissionDto { Id=2, RoleId = 1, Type = PermissionEnum.Role, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
-            new PermissionDto { Id=3, RoleId = 1, Type = PermissionEnum.Organization, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
-            new PermissionDto { Id=4, RoleId = 1, Type = PermissionEnum.Template, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
-            new PermissionDto { Id=5, RoleId = 1, Type = PermissionEnum.Record, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
-            new PermissionDto { Id=6, RoleId = 1, Type = PermissionEnum.Item, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
-            new PermissionDto { Id=7, RoleId = 1, Type = PermissionEnum.User, Create = true, Read = true, Update = true, Delete = true, CreatedAt = DateTime.Today},
-        };
+            var _mapper = MockServiceData.TestMapper.CreateMapper();
 
-        #region CreatePermissionReturnsOkPositiveTesting
+            UnitOfWork = fixture.UnitOfWork;
+
+            currentUserService = new CurrentUserService(UnitOfWork, _mapper);
+            currentUserService.SetCurrentUser(1);
+
+            service = new PermissionService(UnitOfWork, _mapper);
+        }
+
+        #endregion
+
+        #region Get Testing
 
         [Fact]
-        public async Task CreatePermissionReturnsOkPositiveTesting()
+        public async Task GetPermissionsByRoleId_Positive()
         {
-            var permissionRepo = new Mock<IPermissionService>();
-            var permissionController = new PermissionController(null, permissionRepo.Object);
-            var permissionListResult = new List<PermissionDto>();
-            var permissionForResult = new PermissionDto()
+            var permissions = await service.GetAllByRole(MockServiceData.POSITIVE_ID);
+            var result = permissions.Any();
+
+            Assert.True(result);
+        }
+
+        [Fact]
+        public async Task GetPermissionsByRoleLargeId_Negative()
+        {
+            var permissions = await service.GetAllByRole(MockServiceData.LARGE_ID);
+            var result = permissions.Any();
+
+            Assert.False(result);
+        }
+
+        [Fact]
+        public async Task GetPermissionsByRoleZeroId_Negative()
+        {
+            var permissions = await service.GetAllByRole(MockServiceData.ZERO_ID);
+
+            Assert.Null(permissions);
+        }
+
+        [Fact]
+        public async Task GetPermissionsByRoleNegativeId_Negative()
+        {
+            var permissions = await service.GetAllByRole(MockServiceData.NEGATIVE_ID);
+
+            Assert.Null(permissions);
+        }
+
+        #endregion
+
+        #region Update Testing
+
+        [Fact]
+        public async Task UpdateNonExistingProject_Negative()
+        {
+            PermissionDto projectForUpdateDto = new()
             {
+                Id = MockServiceData.LARGE_ID,
                 Create = true,
-                Delete = true,
-                Read = true,
-                Update = true,
-                Type = PermissionEnum.Item,
-                RoleId = 1
+                Delete = false,
             };
-            permissionListResult.Add(permissionForResult);
 
-            permissionRepo.Setup(x => x.GetAllByRole(1));
-            var result = await permissionController.GetAllByRole(1);
+            var result = await service.UpdatePermissionOnRole(projectForUpdateDto);
 
-            var actualResult = result as OkObjectResult;
-            var model = (actualResult?.Value as IEnumerable)!.Cast<Permission>().First();
-            Assert.NotNull(model);
-
-            Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(permissionForResult.Create, model.Create);
-            Assert.Equal(permissionForResult.Delete, model.Delete);
-            Assert.Equal(permissionForResult.Read, model.Read);
-            Assert.Equal(permissionForResult.Update, model.Update);
-            Assert.Equal(permissionForResult.RoleId, model.RoleId);
+            Assert.False(result);
         }
 
         #endregion
-
-        #region GetAllPermissionsReturnsNotFound
-
-        [Fact]
-        public async Task GetAllPermissionsReturnsNotFound()
-        {
-            var permissionRepo = new Mock<IPermissionService>();
-            var permissionController = new PermissionController(null, permissionRepo.Object);
-
-            var result = await permissionController.GetAllByRole(1);
-            Assert.IsType<NotFoundResult>(result);
-        }
-
-        #endregion
-
-        //#region AddPermissionsToUserReturnsBadRequestWithNotExistingUser
-
-        //[Fact]
-        //public async Task AddPermissionsToUserReturnsBadRequestWithNotExistingUser()
-        //{
-        //    var permissionRepo = new Mock<IPermissionService>();
-        //    var permissionController = new PermissionController(permissionRepo.Object);
-
-        //    var model = new PermissionModel() { RoleId = 1, Create = true };
-
-        //    var result = await permissionController.CreatePermissionToRole(model);
-        //    Assert.IsType<BadRequestObjectResult>(result);
-        //    Assert.Equal(ErrorList.NotFoundUser,  result.GetPropertyValue("Value"));
-        //}
-
-        //#endregion
-
-        //#region AddPermissionsToUserReturnsBadRequestWithWrongRequest
-
-        //[Fact]
-        //public async Task AddPermissionsToUserReturnsBadRequestWithWrongRequest()
-        //{
-        //    var permissionRepo = new Mock<IPermissionService>();
-        //    var permissionController = new PermissionController(permissionRepo.Object);
-
-        //    var result = await permissionController.CreatePermissionToRole(null);
-        //    Assert.IsType<BadRequestObjectResult>(result);
-        //    Assert.Equal(ErrorList.BadRequest,  result.GetPropertyValue("Value"));
-        //}
-
-        //#endregion
     }
 }

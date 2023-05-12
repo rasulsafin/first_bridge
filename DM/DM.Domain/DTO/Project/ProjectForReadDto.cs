@@ -9,5 +9,9 @@ namespace DM.Domain.DTO
 
         public ICollection<int> UserIds { get; set; }
         public ICollection<UserDto> Users { get; set; }
+
+        public ICollection<int> TemplateIds { get; set; }
+        public ICollection<TemplateDto>? Templates { get; set; }
+
     }
 }

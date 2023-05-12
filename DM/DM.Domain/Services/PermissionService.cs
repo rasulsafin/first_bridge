@@ -25,6 +25,8 @@ namespace DM.Domain.Services
 
         public async Task<IEnumerable<PermissionDto>> GetAllByRole(long roleId)
         {
+            if (roleId < 1) return null;
+
             var permissions = await Context.Permissions.GetAllByRole(roleId);
             return _mapper.Map<IEnumerable<PermissionDto>>(permissions);
         }

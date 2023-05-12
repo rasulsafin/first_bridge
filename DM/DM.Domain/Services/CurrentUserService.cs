@@ -5,25 +5,26 @@ using AutoMapper;
 using DM.Domain.DTO;
 
 using DM.DAL;
+using DM.DAL.Interfaces;
 
 namespace DM.Domain.Services
 {
     public class CurrentUserService
     {
-        private readonly DmDbContext _context;
+        private IUnitOfWork Context { get; set; }
         public UserDto CurrentUser { get; set; }
 
         private readonly IMapper _mapper;
 
-        public CurrentUserService(DmDbContext context, IMapper mapper)
+        public CurrentUserService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _context = context;
+            Context = unitOfWork;
             _mapper = mapper;
         }
 
         public void SetCurrentUser(long userId)
         {
-            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+            var user = Context.Users.GetById(userId);
 
             CurrentUser = _mapper.Map<UserDto>(user);
         }

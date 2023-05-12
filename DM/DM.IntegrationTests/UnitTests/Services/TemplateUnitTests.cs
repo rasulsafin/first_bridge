@@ -1,69 +1,142 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using DM.Controllers;
-using DM.Domain.Interfaces;
-using DM.Domain.DTO;
-using DM.Tests.Helpers;
-using Microsoft.AspNetCore.Mvc;
-using Moq;
+using System.Linq;
+
+using Microsoft.Extensions.Logging;
+
 using Xunit;
+
+using DM.Domain.Services;
+
+using DM.DAL.Repositories;
+
+using DM.IntegrationTests.Helpers;
+using DM.IntegrationTests.Helpers.MockData;
+
+using DM.Domain.DTO;
+using DM.DAL.Entities;
 
 namespace DM.IntegrationTests.UnitTests.Services
 {
-    public class TemplateUnitTests
+    public class TemplateUnitTests : IClassFixture<TestDbContext>
     {
-        //[Fact]
-        //public async Task CreatePermissionWithEmptyRequestReturnsBadRequest()
-        //{
-        //    var templateRepo = new Mock<ITemplateService>();
-        //    var permissionController = new TemplateController(null, null, templateRepo.Object, null);
+        #region Setup Test
 
-        //    var result = permissionController.AddTemplateToProject(null);
+        private EFUnitOfWork UnitOfWork { get; set; }
+        private static TemplateService service;
+        private static CurrentUserService currentUserService;
+        private static readonly ILogger<TemplateService> logger;
 
-        //    var actualResult = result as BadRequestObjectResult;
+        public TemplateUnitTests(TestDbContext fixture)
+        {
+            var _mapper = MockServiceData.TestMapper.CreateMapper();
 
-        //    Assert.Equal(ErrorList.BadRequest, actualResult?.Value);
-        //    Assert.IsType<BadRequestObjectResult>(result);
-        //}
+            UnitOfWork = fixture.UnitOfWork;
 
-        //[Fact]
-        //public async Task GetProjectTemplateOfRecordReturnOkAndCorrectObject()
-        //{
-        //    const string tempName = "Temp";
-        //    const int projId = 1;
-        //    var templateRepo = new Mock<ITemplateService>();
-        //    var templateController = new TemplateController(null, null, templateRepo.Object, null);
+            currentUserService = new CurrentUserService(UnitOfWork, _mapper);
+            currentUserService.SetCurrentUser(1);
 
-        //    var templateResult = new List<TemplateDto>();
-        //    templateResult.Add(new TemplateDto() { Name = tempName });
-        //    templateResult.Add(new TemplateDto() { ProjectId = projId });
+            service = new TemplateService(UnitOfWork, _mapper, currentUserService);
+        }
 
-        //    templateRepo.Setup(x => x.GetAllOfProject(1))
-        //        .Returns(templateResult);
-        //    var result = await templateController.GetProjectTemplateOfRecord(1);
+        #endregion
 
-        //    var actualResult = result as OkObjectResult;
-        //    var enumerableValue = actualResult?.Value as IEnumerable;
-
-        //    var fieldOfReceivedObject = enumerableValue?.Cast<TemplateDto>().First().Name;
-        //    var fieldOfSecondReceivedObject = enumerableValue?.Cast<TemplateDto>().ElementAtOrDefault(1).ProjectId;
-
-        //    Assert.IsType<OkObjectResult>(result);
-        //    Assert.Equal(tempName, fieldOfReceivedObject);
-        //    Assert.Equal(projId, fieldOfSecondReceivedObject);
-        //}
+        #region Get Testing
 
         [Fact]
-        public async Task GetProjectTemplateOfRecordReturnBadRequestForNonExistingAndCorrectObject()
+        public async Task GetAllOfProject_Positive()
         {
-            var templateRepo = new Mock<ITemplateService>();
-            var templateController = new TemplateController(null, templateRepo.Object);
+            var templates = await service.GetAllOfProject(1);
+            var result = templates.Any();
 
-            var result = await templateController.GetProjectTemplateOfRecord(100);
-
-            Assert.IsType<NotFoundResult>(result);
+            Assert.True(result);
         }
+
+        [Fact]
+        public void GetProjectById_Positive()
+        {
+            var template = service.GetById(MockServiceData.POSITIVE_ID);
+
+            Assert.NotNull(template);
+        }
+
+        [Fact]
+        public void GetProjectByLargeId_Negative()
+        {
+            var template = service.GetById(MockServiceData.LARGE_ID);
+
+            Assert.Null(template);
+        }
+
+        [Fact]
+        public void GetProjectByZeroId_Negative()
+        {
+            var template = service.GetById(MockServiceData.ZERO_ID);
+
+            Assert.Null(template);
+        }
+
+        [Fact]
+        public void GetProjectByNegativeId_Negative()
+        {
+            var template = service.GetById(MockServiceData.NEGATIVE_ID);
+
+            Assert.Null(template);
+        }
+
+        #endregion
+
+        #region Create Testing
+
+        [Fact]
+        public async Task CreateProjectAndGetById_Positive()
+        {
+            var templates = await service.GetAllOfProject(1);
+            var id_without_added = templates.LastOrDefault().Id;
+
+            //TODO added role&organization
+            await service.Create(MockTemplateData.TEMPLATE_FOR_CREATE);
+
+            var template = service.GetById(id_without_added++);
+
+            Assert.NotNull(template);
+        }
+
+        #endregion
+
+        #region Update Testing
+
+        [Fact]
+        public async Task UpdateExistingProject_Positive()
+        {
+            var templates = await service.GetAllOfProject(1);
+            var id_without_added = templates.LastOrDefault().Id;
+
+            await service.Create(MockTemplateData.TEMPLATE_FOR_CREATE);
+
+            var template = service.GetById(id_without_added++);
+
+            var updated_template = MockTemplateData.TEMPLATE_FOR_UPDATE;
+            updated_template.Id = template.Id;
+
+            var result = await service.Update(updated_template);
+
+            Assert.True(result);
+        }
+
+        [Fact]
+        public async Task UpdateNonExistingProject_Negative()
+        {
+            TemplateForUpdateDto templateForUpdateDto = new()
+            {
+                Id = MockServiceData.LARGE_ID,
+                Name = "Template - 1 (new Name)",
+            };
+
+            var result = await service.Update(templateForUpdateDto);
+
+            Assert.False(result);
+        }
+
+        #endregion
     }
 }

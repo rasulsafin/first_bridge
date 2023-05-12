@@ -50,8 +50,8 @@ namespace DM.Domain.Services
             {
                 Title = projectForReadDto.Title,
                 OrganizationId = projectForReadDto.OrganizationId,
-                Items = projectForReadDto.Items.ToList(),
-                Users = projectForReadDto.Users.ToList(),
+                Items = projectForReadDto.Items,
+                Users = projectForReadDto.Users,
             });
 
             await Context.Projects.Create(project);
