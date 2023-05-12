@@ -1,10 +1,7 @@
-﻿using System.Linq;
-
-using AutoMapper;
+﻿using AutoMapper;
 
 using DM.Domain.DTO;
 
-using DM.DAL;
 using DM.DAL.Interfaces;
 
 namespace DM.Domain.Services

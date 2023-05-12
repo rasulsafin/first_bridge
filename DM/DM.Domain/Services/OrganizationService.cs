@@ -90,7 +90,7 @@ namespace DM.Domain.Services
         {
             try
             {
-                var access = await Context.Permissions.GetByRoleAndType(roleId, PermissionEnum.User);
+                var access = await Context.Permissions.GetByRoleAndType(roleId, PermissionEnum.Organization);
 
                 return action switch
                 {

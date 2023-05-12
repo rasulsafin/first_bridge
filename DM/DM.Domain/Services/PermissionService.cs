@@ -54,7 +54,7 @@ namespace DM.Domain.Services
         {
             try
             {
-                var access = await Context.Permissions.GetByRoleAndType(roleId, PermissionEnum.User);
+                var access = await Context.Permissions.GetByRoleAndType(roleId, PermissionEnum.Role);
 
                 return action switch
                 {
