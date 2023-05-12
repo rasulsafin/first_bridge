@@ -154,5 +154,37 @@ namespace DM.Controllers
                 return CreateProblemResult(this, 500, ex.Message);
             }
         }
+
+        /// <summary>
+        /// Delete existing template.
+        /// </summary>
+        /// <param name="templateId">Id of the template to be deleted.</param>
+        /// <returns>Boolean value about function execution.</returns>        
+        /// <response code="200">Template was deleted successfully.</response>
+        /// <response code="400">Invalid id.</response>
+        /// <response code="403">Access denied.</response>
+        /// <response code="404">Template was not found.</response>
+        /// <response code="500">Something went wrong while deleting template.</response>
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int templateId)
+        {
+            try
+            {
+                var permission = await _templateService.GetAccess(_currentUser.RoleId, ActionEnum.Delete);
+                if (!permission) return BadRequest(403);
+
+                var checker = await _templateService.Delete(templateId);
+
+                return Ok(checker);
+            }
+            catch (ANotFoundException ex)
+            {
+                return CreateProblemResult(this, 404, ex.Message);
+            }
+            catch (DocumentManagementException ex)
+            {
+                return CreateProblemResult(this, 500, ex.Message);
+            }
+        }
     }
 }
