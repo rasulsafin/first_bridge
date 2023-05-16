@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
-  Grid,
   IconButton,
   MenuItem,
   Menu,
-  Dialog
 } from "@mui/material";
 import { ReactComponent as MoreIcon } from "../../../../assets/icons/more.svg";
 import { ReactComponent as TrashIcon } from "../../../../assets/icons/trashcan.svg";
@@ -15,6 +13,8 @@ import "./ProjectCard.css";
 import { ProjectModal } from "./ProjectModal";
 import { deleteProject } from "../../../../services/projectsSlice";
 import { formatDate } from "../utils/formatDate";
+import { reduceTitle } from "../utils/reduceTitle";
+import { ProjectDeleteDialog } from "./ProjectDeleteDialog";
 
 export const ProjectCard = (props) => {
   const { project } = props;
@@ -53,9 +53,8 @@ export const ProjectCard = (props) => {
 
   function handleDeleteProject() {
     dispatch(deleteProject(projectId));
+    setOpenDialog(false);
   }
-
-  const optimizeTitle = title => `${title.slice(0, 20)}...`;
 
   const renderMenu = (
     <Menu
@@ -89,34 +88,36 @@ export const ProjectCard = (props) => {
     </Menu>
   );
 
-  const deleteDialog = (
-    <Dialog
-      PaperProps={{ sx: { position: "fixed", bottom: 50, left: "35vw", maxWidth: "md", m: 0, padding: 2 } }}
-      open={openDialog}
-      onClose={handleCloseDialog}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-      hideBackdrop
-    >
-      <Grid container>
-        <Grid item md={12}>
-          <span>
-           {`Вы действительно хотите удалить проект ${project.title} ?`}
-          </span>
-          <Controls.Button onClick={handleDeleteProject} variant="outlined" color="error">Да</Controls.Button>
-          <Controls.Button onClick={handleCloseDialog} variant="outlined" autoFocus>
-            Нет
-          </Controls.Button>
-        </Grid>
-      </Grid>
-    </Dialog>
-  );
+  
+  
+  // const deleteDialog = (
+  //   <Dialog
+  //     PaperProps={{ sx: { position: "fixed", bottom: 50, left: "35vw", maxWidth: "md", m: 0, padding: 2 } }}
+  //     open={openDialog}
+  //     onClose={handleCloseDialog}
+  //     aria-labelledby="alert-dialog-title"
+  //     aria-describedby="alert-dialog-description"
+  //     hideBackdrop
+  //   >
+  //     <Grid container>
+  //       <Grid item md={12}>
+  //         <span>
+  //          {`Вы действительно хотите удалить проект ${project.title} ?`}
+  //         </span>
+  //         <Controls.Button onClick={handleDeleteProject} variant="outlined" color="error">Да</Controls.Button>
+  //         <Controls.Button onClick={handleCloseDialog} variant="outlined" autoFocus>
+  //           Нет
+  //         </Controls.Button>
+  //       </Grid>
+  //     </Grid>
+  //   </Dialog>
+  // );
 
   return (
     <div className="project-card">
       <div className="project-title-container">
         <span className="project-title">
-          {project.title.length > 20 ? optimizeTitle(project.title) : project.title}
+          {project.title.length > 20 ? reduceTitle(project.title) : project.title}
         </span>
         <div>
           <IconButton
@@ -126,7 +127,12 @@ export const ProjectCard = (props) => {
           </IconButton>
         </div>
         {renderMenu}
-        {deleteDialog}
+        <ProjectDeleteDialog
+          open={openDialog}
+          close={handleCloseDialog}
+        project={project}
+        handleDeleteProject={handleDeleteProject}
+        />
       </div>
       <ProjectModal
         project={project}
