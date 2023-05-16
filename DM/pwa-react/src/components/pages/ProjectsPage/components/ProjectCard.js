@@ -1,20 +1,17 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
-  Grid,
-  IconButton,
-  MenuItem,
-  Menu,
-  Dialog
+  IconButton
 } from "@mui/material";
 import { ReactComponent as MoreIcon } from "../../../../assets/icons/more.svg";
-import { ReactComponent as TrashIcon } from "../../../../assets/icons/trashcan.svg";
-import { ReactComponent as EditIcon } from "../../../../assets/icons/edit.svg";
 import { Controls } from "../../../controls/Controls";
 import "./ProjectCard.css";
 import { ProjectModal } from "./ProjectModal";
 import { deleteProject } from "../../../../services/projectsSlice";
 import { formatDate } from "../utils/formatDate";
+import { reduceTitle } from "../utils/reduceTitle";
+import { ProjectDeleteDialog } from "./ProjectDeleteDialog";
+import { MenuProjectCard } from "./MenuProjectCard";
 
 export const ProjectCard = (props) => {
   const { project } = props;
@@ -51,72 +48,16 @@ export const ProjectCard = (props) => {
     setAnchorEl(null);
   };
 
-  function handleDeleteProject() {
+  const handleDeleteProject = () => {
     dispatch(deleteProject(projectId));
-  }
-
-  const optimizeTitle = title => `${title.slice(0, 20)}...`;
-
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right"
-      }}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right"
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem
-        onClick={handleOpenModal}>
-        <IconButton>
-          <EditIcon />
-        </IconButton>
-        Редактировать
-      </MenuItem>
-      <MenuItem
-        onClick={handleOpenDialog}>
-        <IconButton>
-          <TrashIcon />
-        </IconButton>
-        В архив
-      </MenuItem>
-    </Menu>
-  );
-
-  const deleteDialog = (
-    <Dialog
-      PaperProps={{ sx: { position: "fixed", bottom: 50, left: "35vw", maxWidth: "md", m: 0, padding: 2 } }}
-      open={openDialog}
-      onClose={handleCloseDialog}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-      hideBackdrop
-    >
-      <Grid container>
-        <Grid item md={12}>
-          <span>
-           {`Вы действительно хотите удалить проект ${project.title} ?`}
-          </span>
-          <Controls.Button onClick={handleDeleteProject} variant="outlined" color="error">Да</Controls.Button>
-          <Controls.Button onClick={handleCloseDialog} variant="outlined" autoFocus>
-            Нет
-          </Controls.Button>
-        </Grid>
-      </Grid>
-    </Dialog>
-  );
+    setOpenDialog(false);
+  };
 
   return (
     <div className="project-card">
       <div className="project-title-container">
         <span className="project-title">
-          {project.title.length > 20 ? optimizeTitle(project.title) : project.title}
+          {project.title.length > 20 ? reduceTitle(project.title) : project.title}
         </span>
         <div>
           <IconButton
@@ -125,8 +66,19 @@ export const ProjectCard = (props) => {
             <MoreIcon />
           </IconButton>
         </div>
-        {renderMenu}
-        {deleteDialog}
+        <MenuProjectCard
+          anchorEl={anchorEl}
+          open={isMenuOpen}
+          handleOpenModal={handleOpenModal}
+          onClose={handleMenuClose}
+          handleOpenDialog={handleOpenDialog}
+        />
+        <ProjectDeleteDialog
+          open={openDialog}
+          close={handleCloseDialog}
+          project={project}
+          handleDeleteProject={handleDeleteProject}
+        />
       </div>
       <ProjectModal
         project={project}
@@ -135,11 +87,13 @@ export const ProjectCard = (props) => {
       />
       <span className="project-date">{formatDate(project.createdAt)}</span>
       <div className="users-in-project">
-        <span className="quantity-users-text">Участников {
-          project.users === null
-            ? 0
-            : project.users.length
-        }</span>
+        <span className="quantity-users-text">Участников
+          {
+            project.users === null
+              ? 0
+              : project.users.length
+          }
+        </span>
       </div>
       <div className="btn-holder">
         <Controls.Button
