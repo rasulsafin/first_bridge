@@ -88,31 +88,6 @@ export const ProjectCard = (props) => {
     </Menu>
   );
 
-  
-  
-  // const deleteDialog = (
-  //   <Dialog
-  //     PaperProps={{ sx: { position: "fixed", bottom: 50, left: "35vw", maxWidth: "md", m: 0, padding: 2 } }}
-  //     open={openDialog}
-  //     onClose={handleCloseDialog}
-  //     aria-labelledby="alert-dialog-title"
-  //     aria-describedby="alert-dialog-description"
-  //     hideBackdrop
-  //   >
-  //     <Grid container>
-  //       <Grid item md={12}>
-  //         <span>
-  //          {`Вы действительно хотите удалить проект ${project.title} ?`}
-  //         </span>
-  //         <Controls.Button onClick={handleDeleteProject} variant="outlined" color="error">Да</Controls.Button>
-  //         <Controls.Button onClick={handleCloseDialog} variant="outlined" autoFocus>
-  //           Нет
-  //         </Controls.Button>
-  //       </Grid>
-  //     </Grid>
-  //   </Dialog>
-  // );
-
   return (
     <div className="project-card">
       <div className="project-title-container">
