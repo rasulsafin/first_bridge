@@ -3,8 +3,8 @@ import { Dialog, Grid } from "@mui/material";
 import { Controls } from "../../../controls/Controls";
 
 export const ProjectDeleteDialog = (props) => {
-  const { project, handleDeleteProject, open, close} = props;
-  
+  const { project, handleDeleteProject, open, close } = props;
+
   return (
     <Dialog
       PaperProps={{ sx: { position: "fixed", bottom: 50, left: "35vw", maxWidth: "md", m: 0, padding: 2 } }}
@@ -17,14 +17,14 @@ export const ProjectDeleteDialog = (props) => {
           <span>
            {`Вы действительно хотите удалить проект ${project.title} ?`}
           </span>
-          <Controls.Button 
+          <Controls.Button
             onClick={handleDeleteProject}
             variant="outlined"
             color="error"
           >Да</Controls.Button>
-          <Controls.Button 
-            onClick={close} 
-            variant="outlined" 
+          <Controls.Button
+            onClick={close}
+            variant="outlined"
             autoFocus
           >
             Нет

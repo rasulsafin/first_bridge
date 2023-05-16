@@ -1,13 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
-  IconButton,
-  MenuItem,
-  Menu,
+  IconButton
 } from "@mui/material";
 import { ReactComponent as MoreIcon } from "../../../../assets/icons/more.svg";
-import { ReactComponent as TrashIcon } from "../../../../assets/icons/trashcan.svg";
-import { ReactComponent as EditIcon } from "../../../../assets/icons/edit.svg";
 import { Controls } from "../../../controls/Controls";
 import "./ProjectCard.css";
 import { ProjectModal } from "./ProjectModal";
@@ -15,6 +11,7 @@ import { deleteProject } from "../../../../services/projectsSlice";
 import { formatDate } from "../utils/formatDate";
 import { reduceTitle } from "../utils/reduceTitle";
 import { ProjectDeleteDialog } from "./ProjectDeleteDialog";
+import { MenuProjectCard } from "./MenuProjectCard";
 
 export const ProjectCard = (props) => {
   const { project } = props;
@@ -51,42 +48,10 @@ export const ProjectCard = (props) => {
     setAnchorEl(null);
   };
 
-  function handleDeleteProject() {
+  const handleDeleteProject = () => {
     dispatch(deleteProject(projectId));
     setOpenDialog(false);
-  }
-
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right"
-      }}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right"
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem
-        onClick={handleOpenModal}>
-        <IconButton>
-          <EditIcon />
-        </IconButton>
-        Редактировать
-      </MenuItem>
-      <MenuItem
-        onClick={handleOpenDialog}>
-        <IconButton>
-          <TrashIcon />
-        </IconButton>
-        В архив
-      </MenuItem>
-    </Menu>
-  );
+  };
 
   return (
     <div className="project-card">
@@ -101,12 +66,18 @@ export const ProjectCard = (props) => {
             <MoreIcon />
           </IconButton>
         </div>
-        {renderMenu}
+        <MenuProjectCard
+          anchorEl={anchorEl}
+          open={isMenuOpen}
+          handleOpenModal={handleOpenModal}
+          onClose={handleMenuClose}
+          handleOpenDialog={handleOpenDialog}
+        />
         <ProjectDeleteDialog
           open={openDialog}
           close={handleCloseDialog}
-        project={project}
-        handleDeleteProject={handleDeleteProject}
+          project={project}
+          handleDeleteProject={handleDeleteProject}
         />
       </div>
       <ProjectModal
@@ -116,11 +87,13 @@ export const ProjectCard = (props) => {
       />
       <span className="project-date">{formatDate(project.createdAt)}</span>
       <div className="users-in-project">
-        <span className="quantity-users-text">Участников {
-          project.users === null
-            ? 0
-            : project.users.length
-        }</span>
+        <span className="quantity-users-text">Участников
+          {
+            project.users === null
+              ? 0
+              : project.users.length
+          }
+        </span>
       </div>
       <div className="btn-holder">
         <Controls.Button
