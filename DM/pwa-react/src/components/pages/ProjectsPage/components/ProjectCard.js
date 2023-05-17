@@ -21,6 +21,7 @@ export const ProjectCard = (props) => {
   const dispatch = useDispatch();
   const isMenuOpen = Boolean(anchorEl);
   const projectId = project.id;
+  const titleUsersInProject = `Участников ${project.users === null ? 0 : project.users.length}`;
 
   const handleOpenModal = () => {
     setAnchorEl(null);
@@ -87,12 +88,7 @@ export const ProjectCard = (props) => {
       />
       <span className="project-date">{formatDate(project.createdAt)}</span>
       <div className="users-in-project">
-        <span className="quantity-users-text">Участников
-          {
-            project.users === null
-              ? 0
-              : project.users.length
-          }
+        <span className="quantity-users-text">{titleUsersInProject}
         </span>
       </div>
       <div className="btn-holder">

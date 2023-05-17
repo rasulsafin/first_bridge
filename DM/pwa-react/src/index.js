@@ -6,16 +6,13 @@ import { PersistGate } from 'redux-persist/integration/react';
 import store, {persistor} from "./redux/store";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { AuthProvider } from "./context/AuthProvider";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
-      <AuthProvider>
         <App />
-      </AuthProvider>
       </PersistGate>
     </Provider>
   // </React.StrictMode>
