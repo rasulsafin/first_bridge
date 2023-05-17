@@ -39,7 +39,7 @@ export function SearchAndSortUserToolbar() {
       >От А до Я</Controls.Button>
       <Controls.Button
         style={{
-          backgroundColor: "#b4b3b2",
+          backgroundColor: "#FFF",
           color: "#2D2926",
           border: "none"
         }}

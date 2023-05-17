@@ -1,13 +1,11 @@
 import React from "react";
 import { Navigate, Outlet, useLocation } from "react-router";
 import { useSelector } from "react-redux";
-import { useAuth } from "../../hooks/useAuth";
-import { selectUser } from "../../services/authSlice";
+import { selectCurrentUser } from "../../services/authSlice";
 
 export const RequireAuth = () => {
-  // const { auth } = useAuth();
   const location = useLocation();
-  const currentUser = useSelector(selectUser);
+  const currentUser = useSelector(selectCurrentUser);
   
   return(
     currentUser

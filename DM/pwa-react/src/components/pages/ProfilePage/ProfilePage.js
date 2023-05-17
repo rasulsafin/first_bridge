@@ -1,14 +1,14 @@
 import * as React from "react";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { logout, selectUser } from "../../../services/authSlice";
+import { logout, selectCurrentUser } from "../../../services/authSlice";
 import { Controls } from "../../controls/Controls";
 import ProfileForm from "./components/ProfileForm";
 
 export const ProfilePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const currentUser = useSelector(selectUser);
+  const currentUser = useSelector(selectCurrentUser);
 
   const handleLogout = () => {
     dispatch(logout());

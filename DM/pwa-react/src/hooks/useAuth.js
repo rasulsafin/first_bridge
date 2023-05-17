@@ -1,8 +1,10 @@
-import { useContext } from "react";
-import AuthContext from "../context/AuthProvider";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../services/authSlice";
 
 export const useAuth = () => {
-  return useContext(AuthContext);
+  const currentUser = useSelector(selectCurrentUser);
+  const fullName = currentUser !== null ? `${currentUser.name} ${currentUser.lastName}` : " ";
+  return { fullName }
 };
 
  

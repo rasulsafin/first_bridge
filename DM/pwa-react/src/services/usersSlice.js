@@ -79,7 +79,11 @@ export const usersSlice = createSlice({
   }
 });
 
-export const { searchUsersByName, sortUsersByNameAsc, sortUsersByNameDesc } = usersSlice.actions;
+export const {
+  searchUsersByName,
+  sortUsersByNameAsc,
+  sortUsersByNameDesc
+} = usersSlice.actions;
 
 export const selectAllUsers = (state) => state.users.users;
 
