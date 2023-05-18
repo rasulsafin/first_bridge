@@ -1,5 +1,5 @@
 import React from "react";
-import { FormControl, InputLabel, MenuItem, Select as MuiSelect } from "@mui/material";
+import { FormControl, Select as MuiSelect } from "@mui/material";
 
 export default function Select(props) {
   const { name, label, value, onChange, options, ...other } = props;
@@ -8,29 +8,20 @@ export default function Select(props) {
     <FormControl
       variant="outlined"
       sx={{
-        width: { sm: 200, md: 300 },
+        width: { sm: 500, md: 500 },
         "& .MuiInputBase-root": {
-          height: 45,
+          height: 35,
           marginRight: 3,
 
         }
       }}>
-      <InputLabel>{label}</InputLabel>
       <MuiSelect
-        label={label}
         name={name}
         value={value}
         onChange={onChange}
         autoWidth={false}
         {...other}
-      >
-        <MenuItem></MenuItem>
-        {
-          options.map(
-            item => (<MenuItem key={item.id} value={item.name}>{item.name}</MenuItem>)
-          )
-        }
-      </MuiSelect>
+      />
     </FormControl>
   );
 }

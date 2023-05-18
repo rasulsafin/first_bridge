@@ -15,9 +15,9 @@ export const fetchUsers = createAsyncThunk(
   });
 
 export const addNewUser = createAsyncThunk(
-  "users/addNewUser", async (newUser) => {
-    const response = await axiosInstance.post("api/users", newUser);
-    return response.data;
+  "users/addNewUser", async (newUser, thunkAPI) => {
+    await axiosInstance.post("api/users", newUser);
+    thunkAPI.dispatch(fetchUsers());
   });
 
 export const editUser = createAsyncThunk(
