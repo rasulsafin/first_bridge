@@ -5,9 +5,9 @@ export const getInitialValues = () => {
     fathersName: "",
     login: "",
     email: "",
-    password: "",
-    roles: "",
+    hashedPassword: "",
+    roleId: 1,
     position: "",
-    organizationId: ""
+    organizationId: 1
   };
 };

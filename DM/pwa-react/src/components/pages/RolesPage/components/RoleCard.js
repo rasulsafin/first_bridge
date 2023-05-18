@@ -38,12 +38,12 @@ export const RoleCard = (props) => {
           onClick={handleOpenModal}
         >
           <Grid container>
-            <Grid item lg={6}>
+            <Grid item xs={6} md={6} lg={6}>
               <ListItemText
                 primary={role.name}
               />
             </Grid>
-            <Grid item lg={6}>
+            <Grid item xs={6} md={6} lg={6}>
               <ListItemText
                 primary="Description"
               />

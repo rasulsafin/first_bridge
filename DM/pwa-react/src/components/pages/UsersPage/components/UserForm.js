@@ -1,12 +1,12 @@
 import React from "react";
-import { Form, Formik } from "formik";
-import { Button, Grid, InputLabel } from "@mui/material";
+import { Field, Form, Formik } from "formik";
+import { Grid, InputLabel, MenuItem } from "@mui/material";
 import { Controls } from "../../../controls/Controls";
 import { userValidationSchema } from "../utils/validationSchema";
-import { users } from "../../../../locale/ru/users";
+import { user } from "../../../../locale/ru/user";
 
 const UserForm = (props) => {
-  const { onSubmit, initialValues, textButton } = props;
+  const { initialValues, onSubmit, roles } = props;
 
   return (
     <Formik
@@ -16,143 +16,56 @@ const UserForm = (props) => {
     >
       {({ isValid, dirty }) => (
         <Form>
-          <div
-            className="col-10 flex"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "flex-start",
-              alignItems: "flex-start",
-              flexWrap: "wrap"
-            }}
-          >
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <InputLabel>{users.name}
-                </InputLabel>
-                <Controls.ValidationFormTextfield
-                  name="name"
-                  // type="name"
-                  variant="outlined"
-                  type="text"
-                  fullWidth
-                  size="small"
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <InputLabel>{users.lastName}
-                </InputLabel>
-                <Controls.ValidationFormTextfield
-                  name="lastName"
-                  // type="lastName"
-                  type="text"
-                  fullWidth
-                  size="small"
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <InputLabel>{users.fathersName}
-                </InputLabel>
-                <Controls.ValidationFormTextfield
-                  name="fathersName"
-                  // type="fathersName"
-                  type="text"
-                  fullWidth
-                  size="small"
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <InputLabel>Login
-                </InputLabel>
-                <Controls.ValidationFormTextfield
-                  name="login"
-                  // type="login"
-                  type="text"
-                  fullWidth
-                  size="small"
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <InputLabel>{users.email}
-                </InputLabel>
-                <Controls.ValidationFormTextfield
-                  name="email"
-                  // type="email"
-                  type="text"
-                  fullWidth
-                  size="small"
-                  required
-                />
-              </Grid>
-
-              <Grid item xs={12}>
-                <InputLabel>{users.role}
-                </InputLabel>
-                <Controls.ValidationFormTextfield
-                  name="roles"
-                  // type="roles"
-                  type="text"
-                  fullWidth
-                  size="small"
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <InputLabel>{users.position}
-                </InputLabel>
-                <Controls.ValidationFormTextfield
-                  name="position"
-                  // type="position"
-                  type="text"
-                  fullWidth
-                  size="small"
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <InputLabel>{users.password}
-                </InputLabel>
-                <Controls.ValidationFormTextfield
-                  name="password"
-                  // type="password"
-                  type="text"
-                  fullWidth
-                  size="small"
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <InputLabel>{users.password}
-                </InputLabel>
-                <Controls.ValidationFormTextfield
-                  name="password"
-                  // type="password"
-                  type="text"
-                  fullWidth
-                  size="small"
-                  required
-                />
-              </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={12} lg={12}>
+              <InputLabel>{user.lastName}</InputLabel>
+              <Field name="lastName" as={Controls.ValidationFormTextfield} />
             </Grid>
-          </div>
-          {textButton ? (<Button
-              sx={{
-                width: { sm: 100, md: 150 },
-                marginTop: 3
-              }}
-              type="submit"
-              variant="contained"
-              size="small"
-              margin="normal"
-              disabled={!isValid || !dirty}
-            >
-              {textButton}
-            </Button>)
-            : null}
+            <Grid item xs={12} md={12} lg={12}>
+              <InputLabel>{user.name}</InputLabel>
+              <Field name="name" as={Controls.ValidationFormTextfield} />
+            </Grid>
+            <Grid item xs={12} md={12} lg={12}>
+              <InputLabel>{user.fathersName}</InputLabel>
+              <Field name="fathersName" as={Controls.ValidationFormTextfield} />
+            </Grid>
+            <Grid item xs={12} md={12} lg={12}>
+              <InputLabel>{user.login}</InputLabel>
+              <Field name="login" as={Controls.ValidationFormTextfield} />
+            </Grid>
+            <Grid item xs={12} md={12} lg={12}>
+              <InputLabel>{user.email}</InputLabel>
+              <Field name="email" as={Controls.ValidationFormTextfield} />
+            </Grid>
+            <Grid item xs={12} md={12} lg={12}>
+              <InputLabel>{user.role}</InputLabel>
+              <Field name="roleId" as={Controls.Select}>
+                {roles.map(role => (
+                  <MenuItem
+                    key={role.id}
+                    value={role.id}
+                  >{role.name}
+                  </MenuItem>)
+                )}
+              </Field>
+            </Grid>
+            <Grid item xs={12} md={12} lg={12}>
+              <InputLabel>{user.position}</InputLabel>
+              <Field name="position" as={Controls.ValidationFormTextfield} />
+            </Grid>
+            <Grid item xs={12} md={12} lg={12}>
+              <InputLabel>{user.password}</InputLabel>
+              <Field name="hashedPassword" as={Controls.ValidationFormTextfield} />
+            </Grid>
+            <Grid item xs={12} md={12} lg={12}>
+              <Field name="organizationId" as={Controls.ValidationFormTextfield} hidden />
+            </Grid>
+          </Grid>
+          <Controls.Button
+            type="submit"
+            disabled={!isValid || !dirty}
+          >Сохранить
+          </Controls.Button>
         </Form>
       )}
     </Formik>

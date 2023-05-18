@@ -19,6 +19,7 @@ import { useModal } from "../../../hooks/useModal";
 import { selectAllProjects } from "../../../services/projectsSlice";
 import { Controls } from "../../controls/Controls";
 import { SearchAndSortProjectToolbar } from "../ProjectsPage/components/SearchAndSortProjectToolbar";
+import { fetchRoles, selectAllRoles } from "../../../services/rolesSlice";
 
 const style = {
   position: "absolute",
@@ -139,11 +140,13 @@ export const Users = () => {
   const dispatch = useDispatch();
   const users = useSelector(selectAllUsers);
   const projects = useSelector(selectAllProjects);
+  const roles = useSelector(selectAllRoles);
   const initialValues = getInitialValues();
   const title = "Добавление участника";
 
   useEffect(() => {
     dispatch(fetchUsers());
+    dispatch(fetchRoles());
   }, [dispatch]);
 
   const handleNavigateToRolesPage = () => {
@@ -202,6 +205,7 @@ export const Users = () => {
             dispatch(addNewUser(values));
             formikHelpers.resetForm();
           }}
+          roles={roles}
         />
         <Box sx={{ width: "58%" }}>
           <h3>Доступ к проектам</h3>
@@ -230,9 +234,7 @@ export const Users = () => {
               : null
             }
           </List>
-          <ChildModal
-            projects={projects}
-          />
+          <ChildModal projects={projects} />
         </Box>
       </Controls.Modal>
       <Controls.RoundButton onClick={toggleModal} />
