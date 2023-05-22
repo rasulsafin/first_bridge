@@ -60,6 +60,10 @@ export const TemplateCard = (props) => {
         />
         <ListItemText
           primary={formatDate(template.createdAt)}
+          primaryTypographyProps={{
+            display: "flex",
+            justifyContent: "end"
+          }}
         />
       </ListItemButton>
     </ListItem>
