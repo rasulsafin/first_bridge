@@ -1,7 +1,7 @@
 .add-round-button {
-    position: absolute;
+    position: fixed;
     right: 30px;
-    bottom: 30px;
+    bottom: 17px;
     background: #C32A2A;
     border: none;
     font-size: 1.5em;

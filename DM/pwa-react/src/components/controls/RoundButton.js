@@ -6,14 +6,13 @@ const RoundButton = (props) => {
   const { ...other } = props;
 
   return (
-    <div>
       <button
         className="add-round-button"
-        {...props}
+        type="button"
+        {...other}
       >
         <PlusIcon />
       </button>
-    </div>
   );
 };
 

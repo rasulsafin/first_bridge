@@ -13,9 +13,6 @@ namespace DM.DAL.Entities
         public string Object { get; set; }
         public string Photo { get; set; }
         public bool IsInArchive { get; set; }
-
         public StatusEnum Status { get; set; }
-
-
     }
 }
