@@ -1,22 +1,17 @@
 import React, { useState } from "react";
-import {
-  Checkbox,
-  ListItem,
-  ListItemButton,
-  ListItemText
-} from "@mui/material";
+import { Checkbox, ListItem, ListItemButton, ListItemText } from "@mui/material";
 import { formatDate } from "../../../../utils/formatDate";
 
-export const TemplateCard = (props) => {
-  const { template } = props;
+const DocumentCard = (props) => {
+  const { document } = props;
   const [checked, setChecked] = useState([]);
 
-  const handleToggle = (templateId) => () => {
-    const currentIndex = checked.indexOf(templateId);
+  const handleToggle = (documentId) => () => {
+    const currentIndex = checked.indexOf(documentId);
     const newChecked = [...checked];
-    console.log(templateId);
+    console.log(documentId);
     if (currentIndex === -1) {
-      newChecked.push(templateId);
+      newChecked.push(documentId);
     } else {
       newChecked.splice(currentIndex, 1);
     }
@@ -27,7 +22,7 @@ export const TemplateCard = (props) => {
   const handleOpenModal = () => {
     console.log("open modal");
   };
-
+  
   return (
     <ListItem
       sx={{
@@ -38,13 +33,13 @@ export const TemplateCard = (props) => {
         borderRadius: "5px"
       }}
       dense
-      key={template.id}
+      key={document.id}
     >
       <Checkbox
         edge="start"
-        onChange={handleToggle(template.id)}
-        checked={checked.indexOf(template.id) !== -1}
-        inputProps={{ "aria-labelledby": template.id }}
+        onChange={handleToggle(document.id)}
+        checked={checked.indexOf(document.id) !== -1}
+        inputProps={{ "aria-labelledby": document.id }}
         sx={{
           color: "#2D2926",
           "&.Mui-checked": {
@@ -56,12 +51,14 @@ export const TemplateCard = (props) => {
         onClick={handleOpenModal}
       >
         <ListItemText
-          primary={template.name}
+          primary={document.name}
         />
         <ListItemText
-          primary={formatDate(template.createdAt)}
+          primary={formatDate(document.createdAt)}
         />
       </ListItemButton>
     </ListItem>
   );
 };
+
+export default DocumentCard;

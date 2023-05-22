@@ -8,10 +8,10 @@ import { Controls } from "../../../controls/Controls";
 import "./ProjectCard.css";
 import { ProjectModal } from "./ProjectModal";
 import { deleteProject } from "../../../../services/projectsSlice";
-import { formatDate } from "../utils/formatDate";
 import { reduceTitle } from "../utils/reduceTitle";
 import { ProjectDeleteDialog } from "./ProjectDeleteDialog";
 import { MenuProjectCard } from "./MenuProjectCard";
+import { formatDate } from "../../../../utils/formatDate";
 
 export const ProjectCard = (props) => {
   const { project } = props;
