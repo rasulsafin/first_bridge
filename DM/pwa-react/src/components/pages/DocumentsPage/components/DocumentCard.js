@@ -55,6 +55,10 @@ const DocumentCard = (props) => {
         />
         <ListItemText
           primary={formatDate(document.createdAt)}
+          primaryTypographyProps={{
+            display: "flex",
+            justifyContent: "end"
+          }}
         />
       </ListItemButton>
     </ListItem>

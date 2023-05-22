@@ -39,7 +39,7 @@ export const documentsSlice = createSlice({
   name: "documents",
   initialState,
   reducers: {
-    searchUsersByName: (state, action) => {
+    searchDocumentsByName: (state, action) => {
       state.documents = state.filteredDocuments
         .filter(document => document.name.toLowerCase().includes(action.payload.toLowerCase().trim()));
     },
@@ -50,6 +50,14 @@ export const documentsSlice = createSlice({
     sortDocumentsByNameDesc: (state) => {
       state.documents = state.documents
         .sort((a, b) => b.name < a.name ? -1 : 1);
+    },
+    sortDocumentsByDateAsc: (state) => {
+      state.documents = state.documents
+        .sort((a, b) => new Date(a.createdAt) < new Date(b.createdAt) ? -1 : 1);
+    },
+    sortDocumentsByDateDesc: (state) => {
+      state.documents = state.documents
+        .sort((a, b) => new Date(b.createdAt) < new Date(a.createdAt) ? -1 : 1);
     }
   },
   extraReducers(builder) {
@@ -62,7 +70,13 @@ export const documentsSlice = createSlice({
   }
 });
 
-export const { searchDocumentsByName, sortDocumentsByNameAsc, sortDocumentsByNameDesc } = documentsSlice.actions;
+export const {
+  searchDocumentsByName,
+  sortDocumentsByNameAsc,
+  sortDocumentsByNameDesc,
+  sortDocumentsByDateAsc,
+  sortDocumentsByDateDesc
+} = documentsSlice.actions;
 
 export const selectAllDocuments = (state) => state.documents.documents;
 
