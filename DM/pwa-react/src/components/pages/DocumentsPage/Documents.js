@@ -13,10 +13,12 @@ import {
 import { SearchBar } from "../../searchBar/SearchBar";
 import DocumentCard from "./components/DocumentCard";
 import { Controls } from "../../controls/Controls";
+import { useModal } from "../../../hooks/useModal";
 
 export const Documents = () => {
   const dispatch = useDispatch();
   const documents = useSelector(selectAllDocuments);
+  const [openModal, toggleModal] = useModal();
 
   useEffect(() => {
     dispatch(fetchDocuments());
@@ -93,6 +95,12 @@ export const Documents = () => {
         }}>
         {documents.map(document => <DocumentCard key={document.id} document={document} />)}
       </List>
+      <Controls.Modal
+        open={openModal}
+        onClose={toggleModal}
+      >
+      </Controls.Modal>
+      <Controls.RoundButton onClick={toggleModal} />
     </div>
   );
 };

@@ -46,6 +46,10 @@ const IfcComponent = () => {
     // setTimeout(() => {
     //   viewerRef.current.IFC.selector.pickIfcItemsByID(0, ifcElementProps.expressId, true);
     // }, 1000)
+
+    return () => {
+      viewerAPI.dispose();
+    };
   }, []);
 
   const ifcOnLoad = async (e) => {
@@ -100,6 +104,8 @@ const IfcComponent = () => {
     }
   };
   
+  console.log(stateLoading)
+  
   return (
     <>
       <input
@@ -133,7 +139,10 @@ const IfcComponent = () => {
         }}
         open={stateLoading}
       >
-        <CircularProgress />
+        {stateLoading && <CircularProgress 
+          color="error" 
+          size="10rem"
+        />}
       </Backdrop>
       <SideDrawerWrapper/>
     </>
