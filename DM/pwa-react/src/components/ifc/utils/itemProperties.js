@@ -23,34 +23,6 @@ function decodeIFCString(ifcString) {
   let resultString = ifcString;
   let match = ifcUnicodeRegEx.exec(ifcString);
 
-
-  if (resultString.includes("04")) {
-    const fromStr = resultString.split("\\");
-    const arr = [];
-    const normalString = [];
-
-    for (let i = 0; i < fromStr.length; i++) {
-      if (fromStr[i].startsWith("04")) {
-        arr.push(fromStr[i]);
-      }
-    }
-
-    for (let i = 0; i < arr.length; i++) {
-      const innerArr = arr[i].split("04");
-      for (let i = 0; i < innerArr.length; i++) {
-        if (innerArr[i] !== "") {
-          const normalChar = String.fromCodePoint(Number(`0x04${innerArr[i]}`));
-          normalString.push(normalChar);
-        } else {
-          normalString.push(" ");
-        }
-      }
-    }
-    return normalString.join("");
-  } else {
-    return resultString;
-  }
-
   while (match) {
 
 

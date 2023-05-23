@@ -99,7 +99,7 @@ export const Templates = () => {
         open={openModal}
         onClose={toggleModal}
       >
-    </Controls.Modal>
+      </Controls.Modal>
       <Controls.RoundButton onClick={toggleModal} />
     </div>
   );

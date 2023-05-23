@@ -8,6 +8,7 @@ export const getInitialValues = () => {
     hashedPassword: "",
     roleId: 1,
     position: "",
-    organizationId: 1
+    organizationId: 1,
+    projectsIds: []
   };
 };
