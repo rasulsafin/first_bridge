@@ -11,6 +11,7 @@ namespace DM.Domain.Interfaces
         public Task<IEnumerable<UserForReadDto>> GetAll();
         public UserForReadDto GetById(long? id);
         public Task<bool> Create(UserForCreateDto user);
+        public Task<long> CreateUserWithProjects(UserForCreateDto user);
         public Task<bool> Update(UserForUpdateDto user);
         public Task<bool> Delete(long? id);
         void Dispose();

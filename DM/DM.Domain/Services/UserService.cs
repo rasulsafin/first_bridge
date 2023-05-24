@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Configuration;
@@ -116,6 +117,51 @@ namespace DM.Domain.Services
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+
+        public async Task<long> CreateUserWithProjects(UserForCreateDto userForCreateDto)
+        {
+            try
+            {
+                var hashedPass = PasswordHelper.HashPassword(userForCreateDto.HashedPassword);
+                var user = _mapper.Map<User>(new UserForCreateDto
+                {
+                    Login = userForCreateDto.Login,
+                    Name = userForCreateDto.Name,
+                    LastName = userForCreateDto.LastName,
+                    FathersName = userForCreateDto.FathersName,
+                    Email = userForCreateDto.Email,
+                    RoleId = userForCreateDto.RoleId,
+                    Position = userForCreateDto.Position,
+                    OrganizationId = userForCreateDto.OrganizationId,
+                    HashedPassword = hashedPass,
+                });
+
+                var result = await Context.Users.CreateUserWithProjects(user);
+
+                await Context.SaveAsync();
+
+                if (userForCreateDto.ProjectsIds != null && userForCreateDto.ProjectsIds.Any())
+                {
+                    foreach (var projectId in userForCreateDto.ProjectsIds)
+                    {
+                        var userProject = _mapper.Map<UserProject>(new UserProjectDto
+                        {
+                            UserId = result.Entity.Id,
+                            ProjectId = projectId
+                        });
+
+                        await Context.UserProjects.Create(userProject);
+                        await Context.SaveAsync();
+                    }
+                }
+
+                return result.Entity.Id;
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }
