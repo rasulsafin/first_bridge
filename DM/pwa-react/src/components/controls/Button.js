@@ -7,7 +7,8 @@ const { augmentColor } = palette;
 const createColor = (mainColor) => augmentColor({ color: { main: mainColor } });
 const theme = createTheme({
   palette: {
-    primary: createColor("#2D2926")
+    primary: createColor("#2D2926"),
+    secondary: createColor("#FFF")
   },
   typography: {
     button: {

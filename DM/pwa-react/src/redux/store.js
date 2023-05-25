@@ -2,7 +2,7 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
 import logger from "redux-logger";
 import { persistStore, persistReducer } from "redux-persist";
-import storage from 'redux-persist-indexeddb-storage';
+import storage from "redux-persist-indexeddb-storage";
 import autoMergeLevel2 from "redux-persist/es/stateReconciler/autoMergeLevel2";
 import usersReducer from "../services/usersSlice";
 import organizationsReducer from "../services/organizationsSlice";
@@ -16,10 +16,11 @@ import permissionsReducer from "../services/permissionsSlice";
 import { ifcElementPropsReducer } from "../services/ifcElementPropsSlice";
 import ifcModelReducer from "../services/ifcModelSlice";
 import documentsReducer from "../services/documentsSlice";
+import { controlUIReducer } from "../services/controlUISlice";
 
 const persistConfig = {
   key: "root",
-  storage: storage('myDB'),
+  storage: storage("myDB"),
   stateReconciler: autoMergeLevel2,
   blacklist: ["ifcModel"]
 };
@@ -37,6 +38,7 @@ const rootReducer = combineReducers({
   ifcModel: ifcModelReducer,
   roles: rolesReducer,
   documents: documentsReducer,
+  controlUI: controlUIReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

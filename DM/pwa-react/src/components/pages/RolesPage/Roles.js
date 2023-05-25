@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { Grid, List } from "@mui/material";
@@ -12,10 +12,11 @@ import "./Roles.css";
 import { Controls } from "../../controls/Controls";
 import { RoleCard } from "./components/RoleCard";
 import { SearchAndSortRoleToolbar } from "./components/SearchAndSortRoleToolbar";
+import { useModal } from "../../../hooks/useModal";
 
 export const Roles = () => {
   const navigate = useNavigate();
-  const [openModal, setModal] = useState(false);
+  const [openModal, toggleModal] = useModal();
   const dispatch = useDispatch();
   const roles = useSelector(selectAllRoles);
   const title = "Редактирование роли";
@@ -23,14 +24,6 @@ export const Roles = () => {
   useEffect(() => {
     dispatch(fetchRoles());
   }, [dispatch]);
-
-  const handleModalOpen = () => {
-    setModal(true);
-  };
-
-  const handleModalClose = () => {
-    setModal(false);
-  };
 
   const handleNavigateToUsersPage = () => {
     navigate(`/users`);
@@ -84,13 +77,12 @@ export const Roles = () => {
           />)}
       </List>
       <Controls.Modal
-        titleModal={title}
         open={openModal}
-        onClose={handleModalClose}
+        onClose={toggleModal}
       >
 
       </Controls.Modal>
-      <Controls.RoundButton onClick={handleModalOpen} />
+      <Controls.RoundButton onClick={toggleModal} />
     </div>
   );
 };
