@@ -11,6 +11,8 @@ import Avatar from "./Avatar";
 import RoundButton from "./RoundButton";
 import Modal from "./Modal";
 import FormTextfield from "./FormTextfield";
+import { ModalContent } from "./ModalContent";
+import { ModalForm } from "./ModalForm";
 
 export const Controls = {
   Input,
@@ -25,5 +27,7 @@ export const Controls = {
   FormTextfield,
   Avatar,
   RoundButton,
-  Modal
+  Modal,
+  ModalContent,
+  ModalForm,
 }

@@ -8,11 +8,10 @@ export default function Select(props) {
     <FormControl
       variant="outlined"
       sx={{
-        width: { sm: 500, md: 500 },
+        width: { sm: 250, md: 500 },
         "& .MuiInputBase-root": {
           height: 35,
-          marginRight: 3,
-
+          marginRight: 3
         }
       }}>
       <MuiSelect

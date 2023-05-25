@@ -23,10 +23,14 @@ namespace DM.Domain.Infrastructure
 
             //User map
             CreateMap<User, UserDto>().ReverseMap();
-            CreateMap<User, UserForReadDto>().ForMember(n => n.Projects, m => m.MapFrom(o => o.UserProjects.Select(u => u.Project)))
-                                                     .ForMember(n => n.ProjectsIds, m => m.MapFrom(o => o.UserProjects.Select(u => u.ProjectId)))
-                                                     .ReverseMap();
-            CreateMap<User, UserForCreateDto>().ReverseMap();
+            CreateMap<User, UserForReadDto>()
+                .ForMember(n => n.Projects, m => m.MapFrom(o => o.UserProjects.Select(u => u.Project)))
+                .ForMember(n => n.ProjectsIds, m => m.MapFrom(o => o.UserProjects.Select(u => u.ProjectId)))
+                .ReverseMap();
+            CreateMap<User, UserForCreateDto>().ForMember(n => n.Projects,
+                    m => m.MapFrom(o => o.UserProjects.Select(u => u.Project)))
+                .ForMember(n => n.ProjectsIds, m => m.MapFrom(o => o.UserProjects.Select(u => u.ProjectId)))
+                .ReverseMap();
             CreateMap<User, UserForUpdateDto>().ReverseMap();
 
             //Project map

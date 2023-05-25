@@ -129,6 +129,45 @@ namespace DM.Controllers
                 return CreateProblemResult(this, 500, ex.Message);
             }
         }
+        
+        /// <summary>
+        /// Create new user with projects.
+        /// </summary>
+        /// <param name="userDto"></param>
+        /// <returns>Id of created user.</returns>        
+        /// <response code="200">User created.</response>
+        /// <response code="400">User with the same login already exists OR one/multiple of required values is/are empty.</response>
+        /// <response code="403">Access denied.</response>
+        /// <response code="500">Something went wrong while creating new user.</response>
+        [HttpPost]
+        [Authorize]
+        [Route("createUserWithProjects")]
+        public async Task<IActionResult> CreateUserWithProjects(UserForCreateDto userDto)
+        {
+            try
+            {
+                var permission = await _userService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
+                if (!permission) return BadRequest(403);
+
+                if (userDto == null) return NotFound();
+
+                var id = await _userService.CreateUserWithProjects(userDto);
+
+                return Ok(id);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest("Organization does not exist:" + ex.Message);
+            }
+            catch (ArgumentValidationException ex)
+            {
+                return CreateProblemResult(this, 400, ex.Message);
+            }
+            catch (DocumentManagementException ex)
+            {
+                return CreateProblemResult(this, 500, ex.Message);
+            }
+        }
 
         /// <summary>
         /// Updating an existing user.

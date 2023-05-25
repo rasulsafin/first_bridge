@@ -5,7 +5,8 @@ const initialState = {
   users: [],
   filteredUsers: [],
   isLoading: true,
-  error: null
+  error: null,
+  userProjectsIds: []
 };
 
 export const fetchUsers = createAsyncThunk(
@@ -17,6 +18,12 @@ export const fetchUsers = createAsyncThunk(
 export const addNewUser = createAsyncThunk(
   "users/addNewUser", async (newUser, thunkAPI) => {
     await axiosInstance.post("api/users", newUser);
+    thunkAPI.dispatch(fetchUsers());
+  });
+
+export const addNewUserWithProjects = createAsyncThunk(
+  "users/addNewUserWithProjects", async (newUser, thunkAPI) => {
+    await axiosInstance.post("api/users/createUserWithProjects", newUser);
     thunkAPI.dispatch(fetchUsers());
   });
 

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 using DM.DAL.Entities;
 using DM.DAL.Interfaces;
@@ -48,6 +49,12 @@ namespace DM.DAL.Repositories
         {
             await _dbContext.Users.AddAsync(user);
             return true;
+        }
+        
+        public async Task<EntityEntry<User>> CreateUserWithProjects(User user)
+        {
+            var result = await _dbContext.Users.AddAsync(user);
+            return result;
         }
 
         public void Update(User user)

@@ -1,12 +1,8 @@
 import React from "react";
 import {
-  List,
   Box,
-  Grid,
   Modal as MuiModal
 } from "@mui/material";
-import { Controls } from "./Controls";
-import { ReactComponent as TrashIcon } from "../../assets/icons/trashcan.svg";
 
 const style = {
   position: "absolute",
@@ -24,46 +20,16 @@ const style = {
 };
 
 const Modal = (props) => {
-  const { titleModal, onClose, ...other } = props;
+  const { open, onClose, children } = props;
 
   return (
     <div>
       <MuiModal
-        {...props}
+        open={open}
+        onClose={onClose}
       >
         <Box sx={{ ...style, width: "70%", height: "90%" }}>
-          <h2 id="parent-modal-title" style={{ marginBottom: "30px" }}>{titleModal}</h2>
-          <Box style={{ height: "80%" }}>
-            <List style={{ height: "100%", overflow: "auto" }}>
-              {props.children}
-            </List>
-          </Box>
-          <Box
-            m={1}
-            display="flex"
-            justifyContent="flex-end"
-            alignItems="flex-end"
-          >
-            <Grid container>
-              <Grid item xs={10}>
-                <Controls.Button
-                >Сохранить
-                </Controls.Button>
-                <Controls.Button
-                  onClick={onClose}
-                >
-                  Отменить
-                </Controls.Button>
-              </Grid>
-              <Grid item xs={2}>
-                <Controls.Button
-                  startIcon={<TrashIcon />}
-                >
-                  В архив
-                </Controls.Button>
-              </Grid>
-            </Grid>
-          </Box>
+          {children}
         </Box>
       </MuiModal>
     </div>
