@@ -4,7 +4,6 @@ import {
   Grid,
   IconButton,
   List,
-  ListItemButton,
   Modal,
   Paper,
   Box,
@@ -19,9 +18,10 @@ import { UserCard } from "../../UsersPage/components/UserCard";
 import { FileItem } from "../../../upload/FileItem";
 import { uploadFileService } from "../../../../services/filesSlice";
 import { fileExtensions } from "../../../../constants/fileExtensions";
-import { addUserListToProject, deleteUserFromProject, updateProject } from "../../../../services/projectsSlice";
+import { deleteUserFromProject, updateProject } from "../../../../services/projectsSlice";
 import { SearchAndSortUserToolbar } from "../../UsersPage/components/SearchAndSortUserToolbar";
 import { fetchUsers, selectAllUsers } from "../../../../services/usersSlice";
+import { ProjectUpdateChildModal } from "./ProjectUpdateChildModal";
 
 const style = {
   position: "absolute",
@@ -38,104 +38,6 @@ const style = {
   pb: 3
 };
 
-function ChildModal(props) {
-  const { projectId, users } = props;
-  const dispatch = useDispatch();
-  const [open, setOpen] = useState(false);
-  const [checked, setChecked] = useState([]);
-  const [usersAddToProject, setUsersAddToProject] = useState([]);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-    setUsersAddToProject([]);
-    setChecked([]);
-  };
-
-  const handleToggle = (user) => {
-    const currentIndex = checked.indexOf(user.id);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(user.id);
-      setUsersAddToProject(usersAddToProject => [...usersAddToProject, { userId: user.id, projectId }]);
-    } else {
-      newChecked.splice(currentIndex, 1);
-      setUsersAddToProject(usersAddToProject => usersAddToProject.filter(userProj => userProj.userId !== user.id));
-    }
-
-    setChecked(newChecked);
-  };
-
-  const handleAddUsersToProject = () => {
-    dispatch(addUserListToProject(usersAddToProject));
-    setOpen(false);
-    setUsersAddToProject([]);
-    setChecked([]);
-  };
-
-  return (
-    <>
-      <Controls.Button
-        onClick={handleOpen}
-        className="m-0"
-        sx={{ width: "100%" }}
-      >Добавить</Controls.Button>
-      <Modal
-        hideBackdrop
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="child-modal-title"
-        aria-describedby="child-modal-description"
-      >
-        <Box sx={{ ...style, width: 500 }}>
-          <h2 id="child-modal-title">Добавление участника</h2>
-          <Box sx={{
-            marginTop: "40px"
-          }}>
-            <SearchAndSortUserToolbar />
-            <p>Выбрано: {usersAddToProject.length <= 0 ? 0 : usersAddToProject.length}</p>
-            <List style={{ height: "300px", gap: "2px", overflowY: "auto", overflowX: "hidden" }}>
-              {users.map(user =>
-                <ListItemButton
-                  key={user.id}
-                  sx={{
-                    margin: "2px",
-                    padding: 0,
-                    "&.Mui-selected": {
-                      backgroundColor: "#FFF",
-                      border: "1px gray solid",
-                      borderRadius: "5px"
-                    },
-                    "&.Mui-selected:hover": {
-                      backgroundColor: "#FFF"
-                    }
-                  }}
-                  autoFocus={false}
-                  onClick={() => handleToggle(user)}
-                  dense
-                  selected={checked.indexOf(user.id) !== -1}
-                >
-                  <UserCard key={user.id} user={user} />
-                </ ListItemButton>
-              )}
-            </List>
-          </Box>
-          <Controls.Button
-            onClick={handleAddUsersToProject}
-          >Добавить</Controls.Button>
-          <Controls.Button
-            onClick={handleClose}
-          >Отменить</Controls.Button>
-        </Box>
-      </Modal>
-    </>
-  );
-}
-
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#F4F4F4",
   padding: theme.spacing(2),
@@ -144,7 +46,7 @@ const Item = styled(Paper)(({ theme }) => ({
   marginBottom: "10px"
 }));
 
-export function ProjectModal(props) {
+export function ProjectUpdateModal(props) {
   const { project, onClose } = props;
   const [titleProject, setTitleProject] = useState(project.title);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -152,7 +54,7 @@ export function ProjectModal(props) {
   const projectId = project.id;
   const uploadInputRef = useRef(null);
   const users = useSelector(selectAllUsers);
-  const projectUsers = users.filter(user => user.projects.every(project => project.id !== projectId));
+  const projectUsers = users.filter(user => user.projects.every(proj => proj.id !== projectId));
 
   useEffect(() => {
     dispatch(fetchUsers());
@@ -242,7 +144,7 @@ export function ProjectModal(props) {
                   </List>
                 </Box>
                 <Box>
-                  <ChildModal
+                  <ProjectUpdateChildModal
                     users={projectUsers}
                     projectId={projectId}
                   />

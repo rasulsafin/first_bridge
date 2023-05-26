@@ -11,8 +11,12 @@ import { fetchUsers } from "../../../services/usersSlice";
 import { ProjectCard } from "./components/ProjectCard";
 import { ReactComponent as PlusIcon } from "../../../assets/icons/plus.svg";
 import { SearchAndSortProjectToolbar } from "./components/SearchAndSortProjectToolbar";
+import { useModal } from "../../../hooks/useModal";
+import { UserCreateModal } from "../UsersPage/components/UserCreateModal";
+import { ProjectCreateModal } from "./components/ProjectCreateModal";
 
 export function Projects() {
+  const [openModal, toggleModal] = useModal();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const projects = useSelector(selectAllProjects);
@@ -22,7 +26,7 @@ export function Projects() {
     dispatch(fetchUsers());
   }, []);
 
-  function handleToCreatePage() {
+  function handleToCreateProject() {
     navigate(`/project/create`);
   }
 
@@ -38,13 +42,19 @@ export function Projects() {
           <button
             type="button"
             className="btn-add-project"
-            onClick={handleToCreatePage}
+            onClick={toggleModal}
           >
             <PlusIcon />
           </button>
           <span className="label-add-project">Добавить проект</span>
         </div>
       </div>
+      {openModal &&
+        <ProjectCreateModal
+          toggleModal={toggleModal}
+          projects={projects}
+        />
+      }
     </div>
   );
 }
