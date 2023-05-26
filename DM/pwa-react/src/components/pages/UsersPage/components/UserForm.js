@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Field, useFormikContext } from "formik";
-import { Box, Grid, InputLabel, List, MenuItem } from "@mui/material";
+import { Box, Grid, InputLabel, List, MenuItem, Typography } from "@mui/material";
 import { Controls } from "../../../controls/Controls";
 import { user } from "../../../../locale/ru/user";
 import { UserCreateChildModal } from "./UserCreateChildModal";
@@ -79,9 +79,9 @@ const UserForm = (props) => {
         </Grid>
       </Grid>
 
-      <Box sx={{ width: "58%" }}>
-        <h3>Доступ к проектам</h3>
-        <List style={{ height: "300px", overflowY: "auto", overflowX: "hidden" }}>
+      <Box sx={{ width: "480px" }}>
+        <Typography variant="h5">Доступ к проектам</Typography>
+        <List style={{ height: "200px", overflowY: "auto", overflowX: "hidden" }}>
           {filterProjects ?
             filterProjects.map(project =>
               <Box
