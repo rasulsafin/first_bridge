@@ -7,7 +7,7 @@ import { UserCreateChildModal } from "./UserCreateChildModal";
 
 const UserForm = (props) => {
   const { roles, projects } = props;
-  const { values, setFieldValue } = useFormikContext();
+  const { setFieldValue } = useFormikContext();
   const [addedProjects, setAddedProjects] = useState([]);
   console.log(addedProjects);
 

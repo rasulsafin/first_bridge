@@ -6,12 +6,12 @@ import {
 import { ReactComponent as MoreIcon } from "../../../../assets/icons/more.svg";
 import { Controls } from "../../../controls/Controls";
 import "./ProjectCard.css";
-import { ProjectModal } from "./ProjectModal";
 import { deleteProject } from "../../../../services/projectsSlice";
 import { reduceTitle } from "../utils/reduceTitle";
 import { ProjectDeleteDialog } from "./ProjectDeleteDialog";
 import { MenuProjectCard } from "./MenuProjectCard";
 import { formatDate } from "../../../../utils/formatDate";
+import { ProjectUpdateModal } from "./ProjectUpdateModal";
 
 export const ProjectCard = (props) => {
   const { project } = props;
@@ -81,7 +81,7 @@ export const ProjectCard = (props) => {
           handleDeleteProject={handleDeleteProject}
         />
       </div>
-      <ProjectModal
+      <ProjectUpdateModal
         project={project}
         open={openModal}
         onClose={handleCloseModal}
