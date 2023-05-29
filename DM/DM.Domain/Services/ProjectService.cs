@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using AutoMapper;
@@ -58,8 +59,23 @@ namespace DM.Domain.Services
                 Users = projectForReadDto.Users,
             });
 
-            await Context.Projects.Create(project);
+            var result = await Context.Projects.CreateProjectWithUsers(project);
             await Context.SaveAsync();
+
+            if (projectForReadDto.UserIds != null && projectForReadDto.UserIds.Any())
+            {
+                foreach (var userId in projectForReadDto.UserIds)
+                {
+                    var userProject = _mapper.Map<UserProject>(new UserProjectDto
+                    {
+                        UserId = userId,
+                        ProjectId = result.Entity.Id
+                    });
+
+                    await Context.UserProjects.Create(userProject);
+                    await Context.SaveAsync();
+                }
+            }
 
             return project.Id;
         }

@@ -1,34 +1,28 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
 import { Box } from "@mui/material";
 import "./Projects.css";
 import {
   fetchProjects,
   selectAllProjects
 } from "../../../services/projectsSlice";
-import { fetchUsers } from "../../../services/usersSlice";
+import { fetchUsers, selectAllUsers } from "../../../services/usersSlice";
 import { ProjectCard } from "./components/ProjectCard";
 import { ReactComponent as PlusIcon } from "../../../assets/icons/plus.svg";
 import { SearchAndSortProjectToolbar } from "./components/SearchAndSortProjectToolbar";
 import { useModal } from "../../../hooks/useModal";
-import { UserCreateModal } from "../UsersPage/components/UserCreateModal";
 import { ProjectCreateModal } from "./components/ProjectCreateModal";
 
 export function Projects() {
   const [openModal, toggleModal] = useModal();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const projects = useSelector(selectAllProjects);
+  const users = useSelector(selectAllUsers);
 
   useEffect(() => {
     dispatch(fetchProjects());
     dispatch(fetchUsers());
   }, []);
-
-  function handleToCreateProject() {
-    navigate(`/project/create`);
-  }
 
   return (
     <div className="component-container">
@@ -53,6 +47,7 @@ export function Projects() {
         <ProjectCreateModal
           toggleModal={toggleModal}
           projects={projects}
+          users={users}
         />
       }
     </div>

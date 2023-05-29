@@ -1,15 +1,14 @@
-import { Controls } from "../../../controls/Controls";
 import { useDispatch } from "react-redux";
-import { getInitialValues } from "../utils/getInitialValues";
 import React, { useState } from "react";
-import { userValidationSchema } from "../../UsersPage/utils/validationSchema";
-import { addNewUserWithProjects } from "../../../../services/usersSlice";
-import UserForm from "../../UsersPage/components/UserForm";
 import { Formik } from "formik";
+import { Controls } from "../../../controls/Controls";
+import { getInitialValues } from "../utils/getInitialValues";
 import { ProjectForm } from "./ProjectForm";
+import { addNewProject } from "../../../../services/projectsSlice";
+import { projectValidationSchema } from "../utils/validationSchema";
 
 export const ProjectCreateModal = (props) => {
-  const { toggleModal } = props;
+  const { toggleModal, users } = props;
   const dispatch = useDispatch();
   const initialValues = getInitialValues();
   const [isOpen, setIsOpen] = useState(true);
@@ -27,10 +26,10 @@ export const ProjectCreateModal = (props) => {
     >
       <Formik
         initialValues={initialValues}
-        validationSchema={userValidationSchema}
+        validationSchema={projectValidationSchema}
         onSubmit={(values, formikHelpers) => {
           console.log(values);
-          dispatch(addNewUserWithProjects(values));
+          dispatch(addNewProject(values));
           formikHelpers.resetForm();
           toggleIt();
         }}
@@ -46,7 +45,7 @@ export const ProjectCreateModal = (props) => {
               }}
               cancelButtonProps={{ onClick: toggleIt }}
             >
-              <ProjectForm />
+              <ProjectForm users={users} />
             </Controls.ModalContent>
           </Controls.ModalForm>
         )}

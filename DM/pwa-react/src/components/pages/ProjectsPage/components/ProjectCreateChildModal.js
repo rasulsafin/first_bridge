@@ -5,6 +5,7 @@ import { addUserListToProject } from "../../../../services/projectsSlice";
 import { Controls } from "../../../controls/Controls";
 import { SearchAndSortUserToolbar } from "../../UsersPage/components/SearchAndSortUserToolbar";
 import { UserCard } from "../../UsersPage/components/UserCard";
+import { useModal } from "../../../../hooks/useModal";
 
 const style = {
   position: "absolute",
@@ -22,16 +23,15 @@ const style = {
 };
 
 export function ProjectCreateChildModal(props) {
-  const { users } = props;
+  const { users, setAddedUsers } = props;
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [checked, setChecked] = useState([]);
   const [usersAddToProject, setUsersAddToProject] = useState([]);
   const projectId = 1;
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
+  const [openModal, toggleModal] = useModal();
+  
+  
   const handleClose = () => {
     setOpen(false);
     setUsersAddToProject([]);
@@ -53,24 +53,28 @@ export function ProjectCreateChildModal(props) {
     setChecked(newChecked);
   };
 
+  setAddedUsers(checked);
+  
   const handleAddUsersToProject = () => {
-    dispatch(addUserListToProject(usersAddToProject));
-    setOpen(false);
-    setUsersAddToProject([]);
-    setChecked([]);
+    // dispatch(addUserListToProject(usersAddToProject));
+    // setOpen(false);
+    // setUsersAddToProject([]);
+    // setChecked([]);
+    
+    toggleModal();
   };
 
   return (
     <>
       <Controls.Button
-        onClick={handleOpen}
+        onClick={toggleModal}
         className="m-0"
         sx={{ width: "100%" }}
       >Добавить</Controls.Button>
       <Modal
         hideBackdrop
-        open={open}
-        onClose={handleClose}
+        open={openModal}
+        onClose={toggleModal}
         aria-labelledby="child-modal-title"
         aria-describedby="child-modal-description"
       >
@@ -111,7 +115,7 @@ export function ProjectCreateChildModal(props) {
             onClick={handleAddUsersToProject}
           >Добавить</Controls.Button>
           <Controls.Button
-            onClick={handleClose}
+            onClick={toggleModal}
           >Отменить</Controls.Button>
         </Box>
       </Modal>
