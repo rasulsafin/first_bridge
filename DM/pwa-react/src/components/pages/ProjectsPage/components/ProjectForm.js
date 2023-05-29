@@ -1,16 +1,14 @@
-import { Field, Form, Formik } from "formik";
+import React, { useEffect, useRef, useState } from "react";
+import { Field, useFormikContext } from "formik";
+import { Box, Grid, IconButton, InputLabel, List, Paper, styled, Typography } from "@mui/material";
 import { Controls } from "../../../controls/Controls";
-import { projectValidationSchema } from "../utils/validationSchema";
-import { Box, Button, Grid, IconButton, InputLabel, List, Paper, styled } from "@mui/material";
 import { project } from "../../../../locale/ru/project";
-import React, { useRef } from "react";
 import { SearchAndSortUserToolbar } from "../../UsersPage/components/SearchAndSortUserToolbar";
 import { UserCard } from "../../UsersPage/components/UserCard";
 import { ReactComponent as CancelIcon } from "../../../../assets/icons/cancel.svg";
 import { FileItem } from "../../../upload/FileItem";
 import { fileExtensions } from "../../../../constants/fileExtensions";
 import { ReactComponent as ClipIcon } from "../../../../assets/icons/clip.svg";
-import { ProjectUpdateChildModal } from "./ProjectUpdateChildModal";
 import { ProjectCreateChildModal } from "./ProjectCreateChildModal";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -22,11 +20,20 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export const ProjectForm = (props) => {
-  const { onSubmit } = props;
+  const { users } = props;
+  const { values, setFieldValue } = useFormikContext();
   const uploadInputRef = useRef(null);
 
-  const projectUsers = [];
-  const items = [];
+  const [addedUsers, setAddedUsers] = useState([]);
+  console.log(addedUsers);
+
+  const filterUsers = users.filter(user => addedUsers.some(id => id === user.id));
+  
+  const items = []
+
+  useEffect(() => {
+    setFieldValue("userIds", addedUsers);
+  }, [addedUsers]);
 
   return (
     <div>
@@ -37,14 +44,14 @@ export const ProjectForm = (props) => {
           <Box sx={{
             marginTop: "40px"
           }}>
-            <h3>Участники {projectUsers === null
+            <Typography variant="h5">Участники {filterUsers === null
               ? 0
-              : projectUsers.length
-            }</h3>
+              : filterUsers.length
+            }</Typography>
             <SearchAndSortUserToolbar />
             <List style={{ height: "300px", overflowY: "auto", overflowX: "hidden" }}>
-              {projectUsers ?
-                projectUsers.map(user =>
+              {filterUsers ?
+                filterUsers.map(user =>
                   <Grid alignItems="center" container>
                     <Grid item xs={10}>
                       <UserCard key={user.id} user={user} />
@@ -63,7 +70,8 @@ export const ProjectForm = (props) => {
               }
             </List>
             <ProjectCreateChildModal
-              users={projectUsers}
+              users={users}
+              setAddedUsers={setAddedUsers}
             />
           </Box>
         </Grid>
@@ -106,7 +114,6 @@ export const ProjectForm = (props) => {
           </Item>
         </Grid>
       </Grid>
-
     </div>
   );
 };

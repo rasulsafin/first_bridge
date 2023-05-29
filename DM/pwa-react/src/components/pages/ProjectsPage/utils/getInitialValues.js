@@ -1,5 +1,8 @@
 export const getInitialValues = () => {
   return {
-    title: ""
+    title: "",
+    organizationId: 1,
+    userIds: [],
+    files: []
   };
 };

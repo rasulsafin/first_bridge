@@ -15,9 +15,9 @@ export const fetchProjects = createAsyncThunk(
   });
 
 export const addNewProject = createAsyncThunk(
-  "projects/addNewProject", async (newProject) => {
+  "projects/addNewProject", async (newProject, thunkAPI) => {
     const response = await axiosInstance.post("api/project", newProject);
-    return response.data;
+    thunkAPI.dispatch(fetchProjects());
   });
 
 export const updateProject = createAsyncThunk(
