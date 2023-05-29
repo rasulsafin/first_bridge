@@ -5,6 +5,7 @@ import { ReactComponent as RecordIcon } from "../../assets/icons/records.svg";
 import { ReactComponent as ModelIcon } from "../../assets/icons/models.svg";
 import { ReactComponent as TemplateIcon } from "../../assets/icons/templates.svg";
 import { ReactComponent as DocIcon } from "../../assets/icons/docs.svg";
+import { ReactComponent as DashboardIcon } from "../../assets/icons/dashboard.svg";
 
 export const SidebarData = [
 
@@ -17,20 +18,28 @@ export const SidebarData = [
   },
   {
     id: 2,
+    title: "Dashboard",
+    path: "/dashboard",
+    innerPath: "/",
+    icon: <DashboardIcon className="icon" />,
+    iconActive: <DashboardIcon className="icon active" />
+  },
+  {
+    id: 3,
     title: "Records",
     path: "/records",
     icon: <RecordIcon className="icon" />,
     iconActive: <RecordIcon className="icon active" />
   },
   {
-    id: 3,
+    id: 4,
     title: "Models",
     path: "/models",
     icon: <ModelIcon className="icon" />,
     iconActive: <ModelIcon className="icon active" />
   },
   {
-    id: 4,
+    id: 5,
     title: "Users",
     path: "/users",
     innerPath: "/roles",
@@ -38,14 +47,14 @@ export const SidebarData = [
     iconActive: <UserIcon className="icon active" />
   },
   {
-    id: 5,
+    id: 6,
     title: "Documents",
     path: "/documents",
     icon: <DocIcon className="icon" />,
     iconActive: <DocIcon className="icon active" />
   },
   {
-    id: 6,
+    id: 7,
     title: "Templates",
     path: "/templates",
     icon: <TemplateIcon className="icon" />,
