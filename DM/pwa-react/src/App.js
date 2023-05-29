@@ -35,6 +35,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route element={<RequireAuth />}>
             <Route index element={<Home />} />
+            <Route path="/dashboard" element={<Home />} />
             <Route path="/users" element={<Users />} />
             <Route path="/roles" element={<Roles />} />
             <Route path="/projects" element={<Projects />} />
