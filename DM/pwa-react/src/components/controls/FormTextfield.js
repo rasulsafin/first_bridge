@@ -7,12 +7,19 @@ const FormTextfield = ({ ...otherProps }) => {
     ...otherProps,
     variant: "outlined",
     padding: "normal",
-    InputProps: { style: { fontSize: 16 } },
+    InputProps: {
+      style: {
+        fontSize: 16
+      }
+    },
     sx: {
       width: { md: 500 },
       "& .MuiInputBase-root": {
         height: 35,
-        marginRight: 3
+        marginRight: 3,
+        input: {
+          paddingLeft: "8px"
+        }
       }
     }
   };

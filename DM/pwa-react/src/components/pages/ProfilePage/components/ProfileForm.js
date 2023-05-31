@@ -1,16 +1,23 @@
 import React from "react";
-import { Grid, InputLabel } from "@mui/material";
+import { Grid, InputLabel, Typography } from "@mui/material";
 import { Controls } from "../../../controls/Controls";
 import { profile } from "../../../../locale/ru/profile";
 
 const ProfileForm = (props) => {
   const { user } = props;
-
+  
+  const styleInput = {
+    backgroundColor: "#FFF",
+    margin: "5px",
+    padding: "12px",
+    borderRadius: "5px"
+  }
+  
   return (
     <form
     >
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
+      <Grid container spacing={2} style={{ width: "542px"}}>
+        <Grid item xs={12} sx={styleInput}>
           <InputLabel>{profile.name}</InputLabel>
           <Controls.FormTextfield
             value={user?.userName ?? ""}
@@ -20,7 +27,7 @@ const ProfileForm = (props) => {
             size="small"
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} sx={styleInput}>
           <InputLabel>{profile.lastName}</InputLabel>
           <Controls.FormTextfield
             value={user?.lastName ?? ""}
@@ -29,7 +36,7 @@ const ProfileForm = (props) => {
             size="small"
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} sx={styleInput}>
           <InputLabel>{profile.fathersName}</InputLabel>
           <Controls.FormTextfield
             value={user?.fathersName ?? ""}
@@ -38,7 +45,7 @@ const ProfileForm = (props) => {
             size="small"
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} sx={styleInput}>
           <InputLabel>{profile.position}</InputLabel>
           <Controls.FormTextfield
             value={user?.position ?? ""}
@@ -48,7 +55,7 @@ const ProfileForm = (props) => {
             size="small"
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} sx={styleInput}>
           <InputLabel>{profile.role}</InputLabel>
           <Controls.FormTextfield
             value={user?.roleName ?? ""}
@@ -58,7 +65,7 @@ const ProfileForm = (props) => {
             size="small"
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} sx={styleInput}>
           <InputLabel>{profile.email}</InputLabel>
           <Controls.FormTextfield
             value={user?.email ?? ""}
@@ -67,8 +74,9 @@ const ProfileForm = (props) => {
             fullWidth
             size="small"
           />
+          <Typography variant="body2">Сменить E-mail</Typography>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} sx={styleInput}>
           <InputLabel>{profile.password}</InputLabel>
           <Controls.FormTextfield
             value={user?.password ?? ""}
@@ -76,6 +84,7 @@ const ProfileForm = (props) => {
             fullWidth
             size="small"
           />
+          <Typography variant="body2">Сменить пароль</Typography>
         </Grid>
       </Grid>
     </form>

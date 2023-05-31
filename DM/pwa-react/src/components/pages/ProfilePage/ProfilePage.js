@@ -17,7 +17,7 @@ export const ProfilePage = () => {
 
   return (
     <div className="component-container">
-      <h3 className="mb-2">Профиль</h3>
+      <h3 className="mb-4">Профиль</h3>
       <ProfileForm user={currentUser} />
       <div
         style={{
