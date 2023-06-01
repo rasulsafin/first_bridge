@@ -16,11 +16,13 @@ import { Controls } from "../../controls/Controls";
 import { ReactComponent as PlanIcon } from "../../../assets/icons/plan.svg";
 import { ReactComponent as BurgerIcon } from "../../../assets/icons/burger.svg";
 import { useModal } from "../../../hooks/useModal";
+import { useLocation } from "react-router";
 
 export function Records() {
   const dispatch = useDispatch();
   const records = useSelector(selectAllRecords);
   const [openModal, toggleModal] = useModal();
+  const location = useLocation();
 
   useEffect(() => {
     dispatch(fetchRecords());
@@ -49,6 +51,16 @@ export function Records() {
   const iconBurger = (
     <BurgerIcon className="icon-role active" />
   );
+
+  useEffect(() => {
+    console.log(location.state);
+    if (location.state) {
+      if (location.state.open) {
+        toggleModal();
+        location.state.open = false;
+      }
+    }
+  }, [location.state]);
 
   return (
     <div>
@@ -130,7 +142,6 @@ export function Records() {
       >
         <Grid container direction="column">
           <Grid item>
-
           </Grid>
         </Grid>
       </Controls.Modal>

@@ -1,11 +1,13 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IfcViewerAPI } from "web-ifc-viewer";
 import { Backdrop, CircularProgress } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { selectIfcElementProps } from "../../services/ifcElementPropsSlice";
-import { Color, MeshLambertMaterial } from "three";
+import { Color } from "three";
 import SideDrawerWrapper from "./SideDrawer";
 import { selectIfcModel, setElement, setIfcModel } from "../../services/ifcModelSlice";
+import NavPanel from "./NavPanel";
+import MenuOfElementModel from "./MenuOfElementModel";
 
 const IfcComponent = () => {
   const viewerRef = useRef();
@@ -19,7 +21,18 @@ const IfcComponent = () => {
   // const path = `../../${ifcElementProps.fileName}`;
   const model = useSelector(selectIfcModel);
   const [viewer, setViewer] = useState();
-  const [loadingMessage, setLoadingMessage] = useState()
+  const [loadingMessage, setLoadingMessage] = useState();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const isMenuOpen = Boolean(anchorEl);
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
 
   useEffect(() => {
     const container = document.getElementById("viewer-container");
@@ -33,19 +46,9 @@ const IfcComponent = () => {
       USE_FAST_BOOLS: true
     });
     viewerRef.current = viewerAPI;
-    setViewer(viewerAPI)
-    // viewerRef.current.IFC.loadIfcUrl(path, true, (progressEvent) => {
-    //   if (Number.isFinite(progressEvent.loaded)) {
-    //     const loadedBytes = progressEvent.loaded
-    //     const loadedMegs = (loadedBytes / (1024 * 1024)).toFixed(2)
-    //     setLoadingMessage(`${loadedMegs} MB`)
-    //   }
-      setInstanceViewer(viewerRef.current)
-    // });
-    //
-    // setTimeout(() => {
-    //   viewerRef.current.IFC.selector.pickIfcItemsByID(0, ifcElementProps.expressId, true);
-    // }, 1000)
+    setViewer(viewerAPI);
+
+    setInstanceViewer(viewerRef.current);
 
     return () => {
       viewerAPI.dispose();
@@ -56,36 +59,21 @@ const IfcComponent = () => {
     const file = e && e.target && e.target.files && e.target.files[0];
     setStateLoading(true);
     if (file && viewerRef) {
-      const ifcModel = await viewerRef.current.IFC.loadIfc(file, true, (progressEvent) => {
-        if (Number.isFinite(progressEvent.loaded)) {
-              const loadedBytes = progressEvent.loaded
-              const loadedMegs = (loadedBytes / (1024 * 1024)).toFixed(2)
-              setLoadingMessage(`${loadedMegs} MB`)
-            }
-      });
+      const ifcModel = await viewerRef.current.IFC.loadIfc(file, true);
       dispatch(setIfcModel(ifcModel));
     }
-    
+
     setStateLoading(false);
   };
 
-
   const ifcOnClick = async (event) => {
+    setAnchorEl(event.currentTarget);
     if (viewer) {
-      // if (viewer.IFC.selector) {
-      //   viewer.IFC.selector.selection.material = new MeshLambertMaterial({
-      //     // transparent: true,
-      //     // opacity: 0.9,
-      //     // color: "#c32a2a",
-      //     // depthTest: true,
-      //   })
-      // }
-      
       const result = await viewer.IFC.selector.pickIfcItem(true);
 
       if (result) {
         const props = await viewer.IFC.getProperties(result.modelID, result.id, true, true);
-        dispatch(setElement(props))
+        dispatch(setElement(props));
 
         const type = viewer.IFC.loader.ifcManager.getIfcType(result.modelID, result.id);
         setCurrentElementId(result.id);
@@ -96,16 +84,14 @@ const IfcComponent = () => {
             item.HasProperties.map(i => {
               if (i.Name.value === "GUID") {
                 if (i.NominalValue.value)
-                setGuidEl(i.NominalValue.value);
+                  setGuidEl(i.NominalValue.value);
               }
             }));
         }
       }
     }
   };
-  
-  console.log(stateLoading)
-  
+
   return (
     <>
       <input
@@ -118,8 +104,6 @@ const IfcComponent = () => {
       <label htmlFor="file">
         Open File
       </label>
-      {loadingMessage ? loadingMessage : null}
-
       <div
         id="viewer-container"
         style={{
@@ -139,14 +123,18 @@ const IfcComponent = () => {
         }}
         open={stateLoading}
       >
-        {stateLoading && <CircularProgress 
-          color="error" 
+        {stateLoading && <CircularProgress
+          color="error"
           size="10rem"
         />}
       </Backdrop>
-      <SideDrawerWrapper/>
+      <SideDrawerWrapper />
+      <MenuOfElementModel
+        anchorEl={anchorEl}
+        open={isMenuOpen}
+        onClose={handleMenuClose}
+      />
     </>
-
   );
 };
 

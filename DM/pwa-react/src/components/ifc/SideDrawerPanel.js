@@ -2,9 +2,10 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import ItemProperties from "./ItemProperties";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectIfcElementProps } from "../../services/ifcElementPropsSlice";
 import { ToggleButton } from "@mui/material";
+import { toggleDrawer } from "../../services/controlUISlice";
 
 function PanelTitle({ title, controlsGroup }) {
   return (
@@ -26,17 +27,18 @@ function PanelTitle({ title, controlsGroup }) {
 
 export function PropertiesPanel() {
   const ifcElement = useSelector(selectIfcElementProps);
-
+  const dispatch = useDispatch();
   const selectedElement = true;
+
   return (
     <>
       <PanelTitle
-        title="Properties"
+        title={ifcElement.fileName}
         controlsGroup={
           <Box>
             <ToggleButton
               title="toggle drawer"
-              // onClick={toggleIsPropertiesOn}
+              onClick={() => dispatch(toggleDrawer())}
               icon={
                 <Box sx={{
                   display: "flex",
@@ -74,16 +76,6 @@ export function PropertiesPanel() {
               Please select an element
             </Typography>
           </Box>
-        }
-        {ifcElement ?
-          (<>
-            <p>
-              Type: {ifcElement.name}
-            </p>
-            <p>
-              ExpressedId: {ifcElement.expressId}
-            </p>
-          </>) : null
         }
       </Box>
     </>

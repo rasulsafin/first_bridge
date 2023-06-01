@@ -18,10 +18,13 @@ export const ProjectCard = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
+  const [isActive, setActive] = useState(false);
   const dispatch = useDispatch();
   const isMenuOpen = Boolean(anchorEl);
   const projectId = project.id;
   const titleUsersInProject = `Участников ${project.users === null ? 0 : project.users.length}`;
+
+  const titleButton = isActive ? "Выбран" : "Выбрать";
 
   const handleOpenModal = () => {
     setAnchorEl(null);
@@ -52,6 +55,10 @@ export const ProjectCard = (props) => {
   const handleDeleteProject = () => {
     dispatch(deleteProject(projectId));
     setOpenDialog(false);
+  };
+
+  const handleSelectedProject = () => {
+    setActive(!isActive);
   };
 
   return (
@@ -97,11 +104,13 @@ export const ProjectCard = (props) => {
           style={{
             width: "340px",
             height: "43px",
-            backgroundColor: "#2D2926",
+            backgroundColor: isActive ? "#B3B3B3" : "#2D2926",
             color: "#FFF",
             border: "none"
           }}
-        >Выбрать</Controls.Button>
+          onClick={handleSelectedProject}
+        >{titleButton}
+        </Controls.Button>
       </div>
     </div>
   );
