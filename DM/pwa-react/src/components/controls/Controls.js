@@ -13,6 +13,8 @@ import Modal from "./Modal";
 import FormTextfield from "./FormTextfield";
 import { ModalContent } from "./ModalContent";
 import { ModalForm } from "./ModalForm";
+import { Drawer } from "./Drawer";
+import { DrawerContent } from "./DrawerContent";
 
 export const Controls = {
   Input,
@@ -30,4 +32,6 @@ export const Controls = {
   Modal,
   ModalContent,
   ModalForm,
+  Drawer,
+  DrawerContent
 }
