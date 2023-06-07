@@ -9,12 +9,13 @@ import { Button } from "./Button";
 import ValidationFormTextfield from "./ValidationFormTextfield";
 import Avatar from "./Avatar";
 import RoundButton from "./RoundButton";
-import Modal from "./Modal";
 import FormTextfield from "./FormTextfield";
-import { ModalContent } from "./ModalContent";
-import { ModalForm } from "./ModalForm";
-import { Drawer } from "./Drawer";
-import { DrawerContent } from "./DrawerContent";
+import { Modal } from "./Modal/Modal";
+import { ModalContent } from "./Modal/ModalContent";
+import { ModalForm } from "./Modal/ModalForm";
+import { Drawer } from "./Drawer/Drawer";
+import { DrawerContent } from "./Drawer/DrawerContent";
+import { DrawerForm } from "./Drawer/DrawerForm";
 
 export const Controls = {
   Input,
@@ -33,5 +34,6 @@ export const Controls = {
   ModalContent,
   ModalForm,
   Drawer,
-  DrawerContent
+  DrawerContent,
+  DrawerForm,
 }
