@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { List } from "@mui/material";
+import { Formik } from "formik";
 import {
   fetchDocuments,
   searchDocumentsByName,
@@ -14,14 +15,25 @@ import { SearchBar } from "../../searchBar/SearchBar";
 import DocumentCard from "./components/DocumentCard";
 import { Controls } from "../../controls/Controls";
 import { useModal } from "../../../hooks/useModal";
+import DocumentFilterForm from "./components/DocumentFilterForm";
+import { fetchProjects, selectAllProjects } from "../../../services/projectsSlice";
+import { getInitialValues } from "./utils/getInitialValues";
+import { isDrawerOpenFromStore } from "../../../services/controlUISlice";
+import { fetchUsers, selectAllUsers } from "../../../services/usersSlice";
 
 export const Documents = () => {
   const dispatch = useDispatch();
   const documents = useSelector(selectAllDocuments);
+  const projects = useSelector(selectAllProjects);
+  const users = useSelector(selectAllUsers);
   const [openModal, toggleModal] = useModal();
+  const initialValues = getInitialValues();
+  const isOpen = useSelector(isDrawerOpenFromStore);
 
   useEffect(() => {
     dispatch(fetchDocuments());
+    dispatch(fetchProjects());
+    dispatch(fetchUsers());
   }, []);
 
   function filterByInput(e) {
@@ -50,6 +62,7 @@ export const Documents = () => {
       <div className="toolbar-project">
         <SearchBar
           onChange={e => filterByInput(e)}
+          filter="true"
         />
         <div>
           <Controls.Button
@@ -100,6 +113,30 @@ export const Documents = () => {
         onClose={toggleModal}
       >
       </Controls.Modal>
+      <Controls.Drawer
+        open={isOpen}
+        onClose={() => dispatch(toggleDrawer)}
+      >
+        <Formik
+          initialValues={initialValues}
+          onSubmit={(values, formikHelpers) => {
+            console.log(values);
+            // formikHelpers.resetForm();
+          }}
+        >
+          <Controls.DrawerForm>
+            <Controls.DrawerContent
+              title="Фильтр"
+              isWithActions="true"
+            >
+              <DocumentFilterForm
+                projects={projects}
+                users={users}
+              />
+            </Controls.DrawerContent>
+          </Controls.DrawerForm>
+        </Formik>
+      </Controls.Drawer>
       <Controls.RoundButton onClick={toggleModal} />
     </div>
   );
