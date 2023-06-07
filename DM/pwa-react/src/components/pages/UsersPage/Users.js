@@ -26,8 +26,6 @@ export const Users = () => {
   const roles = useSelector(selectAllRoles);
   const title = "Добавление участника";
 
-  console.log(openModal);
-
   useEffect(() => {
     dispatch(fetchUsers());
     dispatch(fetchRoles());
