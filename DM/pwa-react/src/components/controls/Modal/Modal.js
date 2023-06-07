@@ -19,7 +19,7 @@ const style = {
   pb: 3
 };
 
-const Modal = (props) => {
+export const Modal = (props) => {
   const { open, onClose, children } = props;
 
   return (
@@ -35,5 +35,3 @@ const Modal = (props) => {
     </div>
   );
 };
-
-export default Modal;

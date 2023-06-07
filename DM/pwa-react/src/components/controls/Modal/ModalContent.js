@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import { Controls } from "./Controls";
+import { Controls } from "../Controls";
 
 export const ModalContent = (props) => {
   const {
