@@ -10,7 +10,6 @@ import ValidationFormTextfield from "./ValidationFormTextfield";
 import Avatar from "./Avatar";
 import RoundButton from "./RoundButton";
 import FormTextfield from "./FormTextfield";
-import ValidationDrawerTextfield from "./ValidationDrawerTextfield";
 import { Modal } from "./Modal/Modal";
 import { ModalContent } from "./Modal/ModalContent";
 import { ModalForm } from "./Modal/ModalForm";
@@ -37,5 +36,4 @@ export const Controls = {
   Drawer,
   DrawerContent,
   DrawerForm,
-  ValidationDrawerTextfield
 }

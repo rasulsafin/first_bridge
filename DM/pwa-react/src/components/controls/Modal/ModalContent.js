@@ -22,7 +22,7 @@ export const ModalContent = (props) => {
       >
         <Typography variant="h5">{title}</Typography>
       </Box>
-      <Box sx={{ height: "80%", overflow: "auto" }}>
+      <Box sx={{ width: "100%", height: "80%", overflow: "auto", overflowX: "hidden" }}>
         {children}
       </Box>
       {isWithActions && (
