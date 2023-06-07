@@ -1,9 +1,9 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Badge, IconButton, InputAdornment, TextField, Typography } from "@mui/material";
 import { ReactComponent as SearchIcon } from "../../assets/icons/search.svg";
 import { ReactComponent as FilterIcon } from "../../assets/icons/filter.svg";
 import "./SearchBar.css";
-import { useDispatch } from "react-redux";
 import { toggleDrawer } from "../../services/controlUISlice";
 
 export const SearchBar = (props) => {
