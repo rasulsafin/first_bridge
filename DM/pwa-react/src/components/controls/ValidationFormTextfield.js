@@ -10,15 +10,14 @@ const ValidationFormTextfield = ({ name, ...otherProps }) => {
     ...otherProps,
     variant: "outlined",
     padding: "normal",
-    
-    InputProps: { 
-      style: { fontSize: 16 }, 
-      autoComplete: "off" },
+    fullWidth: true,
+    InputProps: {
+      style: { fontSize: 16 },
+      autoComplete: "off"
+    },
     sx: {
-      width: { md: 500 },
       "& .MuiInputBase-root": {
-        height: 35,
-        marginRight: 3
+        height: 35
       },
       "& .MuiFormHelperText-root": {
         margin: 0
