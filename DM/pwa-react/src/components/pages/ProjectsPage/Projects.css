@@ -74,3 +74,18 @@
     color: #FFFFFF;
     border: none;
 }
+
+.header-toolbar {
+    position: sticky;
+    top: 0;
+    background-color: #f4f4f4;
+    z-index: 3;
+    padding-top: 24px;
+}
+
+.header-title {
+    font-size: 32px;
+    font-weight: 600;
+    padding-bottom: 16px;
+    line-height: 38px;
+}

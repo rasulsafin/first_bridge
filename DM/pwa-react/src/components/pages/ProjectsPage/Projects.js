@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Box } from "@mui/material";
 import "./Projects.css";
 import {
   fetchProjects,
@@ -26,10 +25,10 @@ export function Projects() {
 
   return (
     <div className="component-container">
-      <h3 className="mb-2">Проекты</h3>
-      <Box>
+      <div className="header-toolbar">
+        <div className="header-title">Проекты</div>
         <SearchAndSortProjectToolbar />
-      </Box>
+      </div>
       <div className="card-container">
         {projects.map(project => <ProjectCard key={project.id} project={project} />)}
         <div className="new-project-card">
