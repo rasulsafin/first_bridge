@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { Box, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import {
   fetchUsers,
   selectAllUsers
@@ -16,6 +16,7 @@ import { fetchProjects, selectAllProjects } from "../../../services/projectsSlic
 import { Controls } from "../../controls/Controls";
 import { fetchRoles, selectAllRoles } from "../../../services/rolesSlice";
 import { UserCreateModal } from "./components/UserCreateModal";
+import "../../layout/Layout.css";
 
 export const Users = () => {
   const [openModal, toggleModal] = useModal();
@@ -41,38 +42,38 @@ export const Users = () => {
   );
 
   return (
-    <div>
-      <Grid direction="row" container>
-        <Grid item xs={9} sm={9} lg={9}>
-          <h3 className="mb-2">Участники</h3>
-        </Grid>
-        <Grid container item xs={3} sm={3} lg={3} justifyContent="flex-end">
-          <Grid item>
-            <Controls.Button
-              startIcon={iconBurger}
-              className="m-0"
-              style={{
-                backgroundColor: "#2D2926",
-                color: "#FFF",
-                border: "none"
-              }}
-            >Участники</Controls.Button>
-            <Controls.Button
-              startIcon={<StarIcon />}
-              className="m-0"
-              style={{
-                backgroundColor: "#FFF",
-                color: "#2D2926",
-                border: "none"
-              }}
-              onClick={handleNavigateToRolesPage}
-            >Роли</Controls.Button>
+    <div className="component-container">
+      <div className="header-toolbar">
+        <Grid direction="row" container>
+          <Grid item xs={9} sm={9} lg={9}>
+            <div className="header-title">Участники</div>
+          </Grid>
+          <Grid container item xs={3} sm={3} lg={3} justifyContent="flex-end">
+            <Grid item>
+              <Controls.Button
+                startIcon={iconBurger}
+                className="m-0"
+                style={{
+                  backgroundColor: "#2D2926",
+                  color: "#FFF",
+                  border: "none"
+                }}
+              >Участники</Controls.Button>
+              <Controls.Button
+                startIcon={<StarIcon />}
+                className="m-0"
+                style={{
+                  backgroundColor: "#FFF",
+                  color: "#2D2926",
+                  border: "none"
+                }}
+                onClick={handleNavigateToRolesPage}
+              >Роли</Controls.Button>
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
-      <Box>
         <SearchAndSortUserToolbar />
-      </Box>
+      </div>
       <div className="user-cards-container">
         {users.map(user => <UserCard key={user.id} user={user} />)}
       </div>

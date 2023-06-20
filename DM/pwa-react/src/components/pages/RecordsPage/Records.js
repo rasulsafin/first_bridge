@@ -16,7 +16,7 @@ import { Controls } from "../../controls/Controls";
 import { ReactComponent as PlanIcon } from "../../../assets/icons/plan.svg";
 import { ReactComponent as BurgerIcon } from "../../../assets/icons/burger.svg";
 import { useModal } from "../../../hooks/useModal";
-import "./Records.css";
+import "../../layout/Layout.css";
 
 export function Records() {
   const dispatch = useDispatch();

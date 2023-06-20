@@ -11,6 +11,7 @@ import { ReactComponent as PlusIcon } from "../../../assets/icons/plus.svg";
 import { SearchAndSortProjectToolbar } from "./components/SearchAndSortProjectToolbar";
 import { useModal } from "../../../hooks/useModal";
 import { ProjectCreateModal } from "./components/ProjectCreateModal";
+import "../../layout/Layout.css";
 
 export function Projects() {
   const [openModal, toggleModal] = useModal();

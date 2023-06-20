@@ -14,6 +14,7 @@ import { Controls } from "../../controls/Controls";
 import { SearchBar } from "../../searchBar/SearchBar";
 import { TemplateCard } from "./components/TemplateCard";
 import { useModal } from "../../../hooks/useModal";
+import "../../layout/Layout.css";
 
 export const Templates = () => {
   const dispatch = useDispatch();
@@ -45,11 +46,12 @@ export const Templates = () => {
   };
 
   return (
-    <div>
-      <h3 className="mb-2">Шаблоны</h3>
-      <div className="toolbar-project">
+    <div className="component-container">
+      <div className="header-toolbar">
+        <div className="header-title">Шаблоны</div>
         <SearchBar
           onChange={e => filterByInput(e)}
+          filter="true"
         />
         <div>
           <Controls.Button
