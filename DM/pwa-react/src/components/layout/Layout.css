@@ -1,5 +1,5 @@
 .container {
-    display: flex;
+    display: inline-block;
     margin-left: 60px;
     padding-left: 24px;
 }
@@ -7,6 +7,6 @@
 .component-container {
     display: flex;
     flex-direction: column;
-    width: 100vw;
+    width: 92vw;
     height: 100%;
 }

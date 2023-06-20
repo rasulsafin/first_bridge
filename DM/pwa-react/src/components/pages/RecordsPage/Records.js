@@ -16,13 +16,12 @@ import { Controls } from "../../controls/Controls";
 import { ReactComponent as PlanIcon } from "../../../assets/icons/plan.svg";
 import { ReactComponent as BurgerIcon } from "../../../assets/icons/burger.svg";
 import { useModal } from "../../../hooks/useModal";
-import { useLocation } from "react-router";
+import "./Records.css";
 
 export function Records() {
   const dispatch = useDispatch();
   const records = useSelector(selectAllRecords);
   const [openModal, toggleModal] = useModal();
-  const location = useLocation();
 
   useEffect(() => {
     dispatch(fetchRecords());
@@ -52,49 +51,40 @@ export function Records() {
     <BurgerIcon className="icon-role active" />
   );
 
-  useEffect(() => {
-    console.log(location.state);
-    if (location.state) {
-      if (location.state.open) {
-        toggleModal();
-        location.state.open = false;
-      }
-    }
-  }, [location.state]);
-
   return (
-    <div>
-      <Grid direction="row" container>
-        <Grid item xs={9} sm={9} lg={9}>
-          <h3 className="mb-2">Задачи</h3>
-        </Grid>
-        <Grid container item xs={3} sm={3} lg={3} justifyContent="flex-end">
-          <Grid item>
-            <Controls.Button
-              startIcon={iconBurger}
-              className="m-0"
-              style={{
-                backgroundColor: "#2D2926",
-                color: "#FFF",
-                border: "none"
-              }}
-            >Список</Controls.Button>
-            <Controls.Button
-              startIcon={<PlanIcon />}
-              className="m-0"
-              style={{
-                backgroundColor: "#FFF",
-                color: "#2D2926",
-                border: "none"
-              }}
-              // onClick={handleNavigateToRolesPage}
-            >План</Controls.Button>
+    <div className="component-container">
+      <div className="header-toolbar">
+        <Grid direction="row" container>
+          <Grid item xs={9} sm={9} lg={9}>
+            <div className="header-title">Задачи</div>
+          </Grid>
+          <Grid container item xs={3} sm={3} lg={3} justifyContent="flex-end">
+            <Grid item>
+              <Controls.Button
+                startIcon={iconBurger}
+                className="m-0"
+                style={{
+                  backgroundColor: "#2D2926",
+                  color: "#FFF",
+                  border: "none"
+                }}
+              >Список</Controls.Button>
+              <Controls.Button
+                startIcon={<PlanIcon />}
+                className="m-0"
+                style={{
+                  backgroundColor: "#FFF",
+                  color: "#2D2926",
+                  border: "none"
+                }}
+                // onClick={handleNavigateToRolesPage}
+              >План</Controls.Button>
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
-      <div className="toolbar-project">
         <SearchBar
           onChange={e => filterByInput(e)}
+          filter="true"
         />
         <div>
           <Controls.Button
@@ -105,7 +95,7 @@ export function Records() {
               border: "none"
             }}
             onClick={handleSortByDateAsc}
-          >Сначала новые</Controls.Button>
+          >Новые</Controls.Button>
           <Controls.Button
             style={{
               backgroundColor: "#FFF",
@@ -113,7 +103,7 @@ export function Records() {
               border: "none"
             }}
             onClick={handleSortByDateDesc}
-          >Сначала старые</Controls.Button>
+          >Старые</Controls.Button>
           <Controls.Button
             style={{
               backgroundColor: "#FFF",
