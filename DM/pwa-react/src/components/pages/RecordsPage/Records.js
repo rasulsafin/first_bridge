@@ -15,6 +15,8 @@ import { RecordCard } from "./components/RecordCard";
 import { Controls } from "../../controls/Controls";
 import { ReactComponent as PlanIcon } from "../../../assets/icons/plan.svg";
 import { ReactComponent as BurgerIcon } from "../../../assets/icons/burger.svg";
+import { ReactComponent as TrashIcon } from "../../../assets/icons/trashcan.svg";
+import { ReactComponent as ReportIcon } from "../../../assets/icons/report.svg";
 import { useModal } from "../../../hooks/useModal";
 import "../../layout/Layout.css";
 
@@ -86,41 +88,66 @@ export function Records() {
           onChange={e => filterByInput(e)}
           filter="true"
         />
-        <div>
-          <Controls.Button
-            className="ml-0"
-            style={{
-              backgroundColor: "#2D2926",
-              color: "#FFF",
-              border: "none"
-            }}
-            onClick={handleSortByDateAsc}
-          >Новые</Controls.Button>
-          <Controls.Button
-            style={{
-              backgroundColor: "#FFF",
-              color: "#2D2926",
-              border: "none"
-            }}
-            onClick={handleSortByDateDesc}
-          >Старые</Controls.Button>
-          <Controls.Button
-            style={{
-              backgroundColor: "#FFF",
-              color: "#2D2926",
-              border: "none"
-            }}
-            onClick={handleSortByNameAsc}
-          >От А до Я</Controls.Button>
-          <Controls.Button
-            style={{
-              backgroundColor: "#FFF",
-              color: "#2D2926",
-              border: "none"
-            }}
-            onClick={handleSortByNameDesc}
-          >От Я до А</Controls.Button>
-        </div>
+        <Grid direction="row" container>
+          <Grid item xs={8} sm={8} lg={8}>
+            <div>
+              <Controls.Button
+                className="ml-0"
+                style={{
+                  backgroundColor: "#2D2926",
+                  color: "#FFF",
+                  border: "none"
+                }}
+                onClick={handleSortByDateAsc}
+              >Новые</Controls.Button>
+              <Controls.Button
+                style={{
+                  backgroundColor: "#FFF",
+                  color: "#2D2926",
+                  border: "none"
+                }}
+                onClick={handleSortByDateDesc}
+              >Старые</Controls.Button>
+              <Controls.Button
+                style={{
+                  backgroundColor: "#FFF",
+                  color: "#2D2926",
+                  border: "none"
+                }}
+                onClick={handleSortByNameAsc}
+              >От А до Я</Controls.Button>
+              <Controls.Button
+                style={{
+                  backgroundColor: "#FFF",
+                  color: "#2D2926",
+                  border: "none"
+                }}
+                onClick={handleSortByNameDesc}
+              >От Я до А</Controls.Button>
+            </div>
+          </Grid>
+          <Grid container item xs={4} sm={4} lg={4} justifyContent="flex-end">
+            <div>
+              <Controls.Button
+                startIcon={<ReportIcon />}
+                style={{
+                  backgroundColor: "#FFF",
+                  color: "#2D2926",
+                  border: "none"
+                }}
+              >Отчет</Controls.Button>
+              <Controls.Button
+                startIcon={<TrashIcon />}
+                className="m-3 mr-0"
+                style={{
+                  backgroundColor: "#FFF",
+                  color: "#2D2926",
+                  border: "none"
+                }}
+              >В архив</Controls.Button>
+            </div>
+          </Grid>
+        </Grid>
       </div>
       <List>
         {records.map(record => <RecordCard key={record.id} record={record} />)}
