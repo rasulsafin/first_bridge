@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout, selectCurrentUser } from "../../../services/authSlice";
 import { Controls } from "../../controls/Controls";
 import ProfileForm from "./components/ProfileForm";
+import "../../layout/Layout.css";
 
 export const ProfilePage = () => {
   const dispatch = useDispatch();
@@ -17,7 +18,9 @@ export const ProfilePage = () => {
 
   return (
     <div className="component-container">
-      <h3 className="mb-4">Профиль</h3>
+      <div className="header-toolbar">
+        <div className="header-title">Профиль</div>
+      </div>
       <ProfileForm user={currentUser} />
       <div
         style={{
