@@ -7,6 +7,7 @@ import {
   ListItemButton,
   ListItemText
 } from "@mui/material";
+import { formatDate } from "../../../../utils/formatDate";
 
 export const RecordCard = (props) => {
   const { record } = props;
@@ -71,7 +72,7 @@ export const RecordCard = (props) => {
         />
         <ListItemText
           id={record.id}
-          primary={record.createdAt}
+          primary={formatDate(record.createdAt)}
         />
         <ListItemAvatar>
           <Avatar
