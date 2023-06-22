@@ -14,8 +14,8 @@ const style = {
   border: "none",
   borderRadius: 3,
   boxShadow: 24,
-  pt: 2,
-  px: 4,
+  pt: 4,
+  px: 3,
   pb: 3
 };
 

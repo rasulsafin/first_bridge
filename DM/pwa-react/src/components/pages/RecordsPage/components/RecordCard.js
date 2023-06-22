@@ -5,13 +5,18 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemButton,
+  ListItemIcon,
   ListItemText
 } from "@mui/material";
+import { formatDate } from "../../../../utils/formatDate";
+import { ReactComponent as ModelIcon } from "../../../../assets/icons/models.svg";
+import { statusEnum } from "../../../../constants/statusEnum";
 
 export const RecordCard = (props) => {
   const { record } = props;
-
   const [checked, setChecked] = useState([]);
+
+  const statusRecord = statusEnum.find(item => item.id === record.status);
 
   const handleToggle = (recordId) => () => {
     const currentIndex = checked.indexOf(recordId);
@@ -57,21 +62,37 @@ export const RecordCard = (props) => {
       <ListItemButton
         onClick={handleOpenModal}
       >
+          <span
+            style={{
+              paddingRight: "5px",
+              paddingLeft: 0,
+              marginLeft: 0,
+              fontSize: "30px",
+              color: statusRecord.color.toString()
+            }}>
+            &#x2022;
+          </span>
         <ListItemText
+          sx={{ width: "50px", flexDirection: "row" }}
           id={record.id}
-          primary="State"
+          primary={statusRecord.title.toString()}
         />
         <ListItemText
+          sx={{ width: "50px" }}
           id={record.id}
           primary={record.name}
         />
+        <ListItemIcon>
+          <ModelIcon />
+        </ListItemIcon>
         <ListItemText
           id={record.id}
-          primary="Description"
+          primary="model title is too long"
         />
         <ListItemText
           id={record.id}
-          primary={record.createdAt}
+          primary={formatDate(record.createdAt)}
+          primaryTypographyProps={{ align: "right", marginRight: "18px" }}
         />
         <ListItemAvatar>
           <Avatar

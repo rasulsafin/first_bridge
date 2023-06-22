@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { Controls } from "../Controls";
 
 export const ModalContent = (props) => {
@@ -13,16 +13,8 @@ export const ModalContent = (props) => {
 
   return (
     <>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          paddingY: "8px"
-        }}
-      >
-        <Typography variant="h5">{title}</Typography>
-      </Box>
-      <Box sx={{ width: "100%", height: "80%", overflow: "auto", overflowX: "hidden" }}>
+      <Box sx={{ width: "100%", overflow: "auto", overflowX: "hidden" }}>
+        <h2 style={{ marginBottom: "30px" }}>{title}</h2>
         {children}
       </Box>
       {isWithActions && (

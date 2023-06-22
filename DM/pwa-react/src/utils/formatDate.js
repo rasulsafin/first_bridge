@@ -4,5 +4,5 @@ export const formatDate = (date) => {
     month: "long",
     day: "numeric"
   };
-  return new Date(date).toLocaleDateString("ru", options);
+  return new Date(date).toLocaleDateString("ru", options).slice(0, -3);
 };

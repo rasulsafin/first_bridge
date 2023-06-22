@@ -1,8 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Field, useFormikContext } from "formik";
-import { Box, Grid, IconButton, InputLabel, List, Paper, styled, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  IconButton,
+  InputLabel,
+  List,
+  Paper,
+  styled,
+  Typography
+} from "@mui/material";
 import { Controls } from "../../../controls/Controls";
-import { project } from "../../../../locale/ru/project";
 import { SearchAndSortUserToolbar } from "../../UsersPage/components/SearchAndSortUserToolbar";
 import { UserCard } from "../../UsersPage/components/UserCard";
 import { ReactComponent as CancelIcon } from "../../../../assets/icons/cancel.svg";
@@ -16,20 +24,20 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
   textAlign: "left",
   color: theme.palette.text.secondary,
-  marginBottom: "10px"
+  marginBottom: "10px",
+  boxShadow: "none"
 }));
 
 export const ProjectForm = (props) => {
   const { users } = props;
   const { values, setFieldValue } = useFormikContext();
   const uploadInputRef = useRef(null);
-
   const [addedUsers, setAddedUsers] = useState([]);
   console.log(addedUsers);
 
   const filterUsers = users.filter(user => addedUsers.some(id => id === user.id));
-  
-  const items = []
+
+  const items = [];
 
   useEffect(() => {
     setFieldValue("userIds", addedUsers);
@@ -39,7 +47,7 @@ export const ProjectForm = (props) => {
     <div>
       <Grid container spacing={2}>
         <Grid item xs={7} md={7} lg={7}>
-          <InputLabel>{project.title}</InputLabel>
+          <InputLabel>Название проекта</InputLabel>
           <Field name="title" as={Controls.ValidationFormTextfield} />
           <Box sx={{
             marginTop: "40px"
@@ -59,7 +67,7 @@ export const ProjectForm = (props) => {
                     <Grid item xs={2}>
                       <IconButton
                         aria-label="delete"
-                        // onClick={() => handleDeleteUserFromProject(user.id, projectId)}
+                        // onClick={() => addedUsers(user.id, projectId)}
                       >
                         <CancelIcon />
                       </IconButton>

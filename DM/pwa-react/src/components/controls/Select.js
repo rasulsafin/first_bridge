@@ -7,7 +7,7 @@ export default function Select(props) {
   return (
     <FormControl
       variant="outlined"
-      fullWidth="true"
+      fullWidth={true}
       sx={{
         "& .MuiInputBase-root": {
           height: 35

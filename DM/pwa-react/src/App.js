@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Home } from "./components/pages/HomePage/Home";
+import { Dashboard } from "./components/pages/DashboardPage/Dashboard";
 import { Users } from "./components/pages/UsersPage/Users";
 import { Projects } from "./components/pages/ProjectsPage/Projects";
 import { Records } from "./components/pages/RecordsPage/Records";
@@ -34,8 +34,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route element={<RequireAuth />}>
-            <Route index element={<Home />} />
-            <Route path="/dashboard" element={<Home />} />
+            <Route index element={<Projects />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/users" element={<Users />} />
             <Route path="/roles" element={<Roles />} />
             <Route path="/projects" element={<Projects />} />

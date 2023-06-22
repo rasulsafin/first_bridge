@@ -7,7 +7,7 @@ import {
   Modal,
   Paper,
   Box,
-  styled
+  styled, InputLabel
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { ReactComponent as TrashIcon } from "../../../../assets/icons/trashcan.svg";
@@ -33,8 +33,8 @@ const style = {
   border: "none",
   borderRadius: 3,
   boxShadow: 24,
-  pt: 2,
-  px: 4,
+  pt: 4,
+  px: 3,
   pb: 3
 };
 
@@ -43,7 +43,8 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
   textAlign: "left",
   color: theme.palette.text.secondary,
-  marginBottom: "10px"
+  marginBottom: "10px",
+  boxShadow: "none"
 }));
 
 export function ProjectUpdateModal(props) {
@@ -99,13 +100,11 @@ export function ProjectUpdateModal(props) {
         aria-describedby="parent-modal-description"
       >
         <Box sx={{ ...style, width: "70%", height: "90%" }}>
-          <h2 id="parent-modal-title" style={{ marginBottom: "30px" }}>Редактирование проекта</h2>
+          <h2 style={{ marginBottom: "30px" }}>Редактирование проекта</h2>
           <Grid container spacing={5}>
             <Grid item xs={7}>
               <Box>
-               <span style={{ color: "#B3B3B3" }}>
-                 Название проекта 
-               </span>
+                <InputLabel>Название проекта</InputLabel>
                 <TextField
                   value={titleProject}
                   onChange={(e) => setTitleProject(e.target.value)}

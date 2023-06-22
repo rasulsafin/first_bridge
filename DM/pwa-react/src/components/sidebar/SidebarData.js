@@ -13,6 +13,7 @@ export const SidebarData = [
     id: 1,
     title: "Projects",
     path: "/projects",
+    innerPath: "/",
     icon: <ProjectIcon className="icon" />,
     iconActive: <ProjectIcon className="icon active" />
   },
@@ -20,7 +21,6 @@ export const SidebarData = [
     id: 2,
     title: "Dashboard",
     path: "/dashboard",
-    innerPath: "/",
     icon: <DashboardIcon className="icon" />,
     iconActive: <DashboardIcon className="icon active" />
   },

@@ -1,14 +1,17 @@
 import React from "react";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import Chart from "../../charts/Chart";
+import "../../layout/Layout.css";
 
-export const Home = () => {
+export const Dashboard = () => {
   const percentage = 66;
   const percentage1 = 47;
   const percentage2 = 17;
   return (
     <div className="component-container">
-      <h3> Dashboard </h3>
+      <div className="header-toolbar">
+      <div className="header-title">Dashboard</div>
+      </div>
       <div style={{
         display: "flex",
         // flexDirection: "row",
