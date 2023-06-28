@@ -24,7 +24,7 @@ export function Button(props) {
     <ThemeProvider theme={theme}>
       <MuiButton
         className={className || "m-3"}
-        variant={variant || "outlined"}
+        variant={variant || "text"}
         size={size || "small"}
         color={color || "primary"}
         {...other}

@@ -7,9 +7,9 @@ import "./SearchBar.css";
 import { toggleDrawer } from "../../services/controlUISlice";
 
 export const SearchBar = (props) => {
-  const { onChange, filter } = props;
+  const { onChange, filter, numberOfActiveFilters } = props;
   const dispatch = useDispatch();
-
+  
   return (
     <div style={{ width: "100%", display: "flex", flexDirection: "row" }}>
       <TextField
@@ -74,7 +74,7 @@ export const SearchBar = (props) => {
             }}
           />
           <Badge
-            badgeContent={2}
+            badgeContent={numberOfActiveFilters}
             color="error"
             sx={{
               "& .MuiBadge-badge":

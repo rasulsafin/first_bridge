@@ -50,15 +50,15 @@ export const recordsSlice = createSlice({
     },
     sortRecordsByNameDesc: (state) => {
       state.records = state.records
-        .sort((a, b) => b.name < a.name ? -1 : 1);
+        .sort((a, b) => a.name > b.name ? -1 : 1);
     },
     sortRecordsByDateAsc: (state) => {
       state.records = state.records
-        .sort((a, b) => new Date(a.createdAt) < new Date(b.createdAt) ? -1 : 1);
+        .sort((a, b) => new Date(a.createdAt) > new Date(b.createdAt) ? -1 : 1);
     },
     sortRecordsByDateDesc: (state) => {
       state.records = state.records
-        .sort((a, b) => new Date(b.createdAt) < new Date(a.createdAt) ? -1 : 1);
+        .sort((a, b) => new Date(a.createdAt) < new Date(b.createdAt) ? -1 : 1);
     }
   },
   extraReducers(builder) {
