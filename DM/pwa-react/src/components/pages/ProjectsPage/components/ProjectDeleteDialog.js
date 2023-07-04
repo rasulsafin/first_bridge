@@ -12,7 +12,7 @@ export const ProjectDeleteDialog = (props) => {
       PaperProps={{
         sx: {
           borderRadius: "10px",
-          minWidth: "40vw",
+          minWidth: "35vw",
           height: "58px",
           position: "fixed",
           bottom: "16px",
@@ -28,8 +28,13 @@ export const ProjectDeleteDialog = (props) => {
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
-          justifyContent: "center",
-          height: "58px"
+          justifyContent: "space-evenly",
+          height: "58px",
+          fontSize: "16px",
+          fontFamily: "Myriad Pro",
+          marginLeft: "20px",
+          marginRight: "20px",
+          letterSpacing: "0.02rem"
         }}
       >
         {`Вы действительно хотите удалить проект ${reduceTitle(project.title)}?`}

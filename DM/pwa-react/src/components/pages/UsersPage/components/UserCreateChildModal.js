@@ -56,6 +56,7 @@ export function UserCreateChildModal(props) {
         onClick={toggleModal}
         sx={{ width: "100%" }}
         className="ml-0 mb-2"
+        variant="outlined"
       >Настроить доступ</Controls.Button>
       <Modal
         open={openModal}
@@ -64,7 +65,7 @@ export function UserCreateChildModal(props) {
         aria-describedby="child-modal-description"
       >
         <Box sx={{ ...style, width: 450 }}>
-          <h3 >Доступ к проектам</h3>
+          <h3>Доступ к проектам</h3>
           <SearchAndSortProjectToolbar />
           <p>Выбрано: {projectsAddToUser.length <= 0 ? 0 : projectsAddToUser.length}</p>
           <List style={{ height: "300px", gap: "2px", overflowY: "auto", overflowX: "hidden" }}>
@@ -111,9 +112,11 @@ export function UserCreateChildModal(props) {
             )}
           </List>
           <Controls.Button
+            variant="outlined"
             onClick={handleAddProjectsToUser}
           >Продолжить</Controls.Button>
           <Controls.Button
+            variant="outlined"
             onClick={toggleModal}
           >Отменить</Controls.Button>
         </Box>

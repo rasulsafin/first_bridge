@@ -1,84 +1,114 @@
 import React, { useEffect, useState } from "react";
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import { PropertiesPanel } from "./SideDrawerPanel";
+import { Box, Drawer } from "@mui/material";
 import { useSelector } from "react-redux";
-import { isDrawerOpen, isDrawerOpenFromStore } from "../../services/controlUISlice";
+import { PropertiesPanel } from "./SideDrawerPanel";
+import { isDrawerOpenFromStore } from "../../services/controlUISlice";
+import NavTree from "./NavTree";
+import NavPanel from "./NavPanel";
+import { selectIfcModel, selectRootElt } from "../../services/ifcModelSlice";
 
 export function SideDrawer({ isDrawerOpen, closeDrawer, isPropertiesOn }) {
-  useEffect(() => {
-    if (!isPropertiesOn && isDrawerOpen) {
-      closeDrawer();
-    }
-  }, [isPropertiesOn, isDrawerOpen, closeDrawer]);
+
+  // useEffect(() => {
+  //   if (!isPropertiesOn && isDrawerOpen) {
+  //     closeDrawer();
+  //   }
+  // }, [isPropertiesOn, isDrawerOpen, closeDrawer]);
+  
+  const model = useSelector(selectIfcModel);
+  const rootElement = useSelector(selectRootElt);
 
   return (
-      <Drawer
-        open={isDrawerOpen}
-        anchor="right"
-        variant="persistent"
-        elevation={4}
+    <Drawer
+      open={isDrawerOpen}
+      anchor="right"
+      variant="persistent"
+      elevation={4}
+      sx={{
+        "&::-webkit-scrollbar": {
+          display: "none"
+        },
+        "& > .MuiPaper-root": {
+          width: "415px",
+          padding: "4px 1em"
+        },
+        "& .MuiPaper-root": {
+          marginTop: "0px",
+          borderRadius: "0px"
+        }
+      }}
+    >
+      <Box 
         sx={{
-          "&::-webkit-scrollbar": {
-            display: "none"
-          },
-          "& > .MuiPaper-root": {
-            width: "415px",
-            padding: "4px 1em"
-          },
-          "& .MuiPaper-root": {
-            marginTop: "0px",
-            borderRadius: "0px"
-          }
-        }}
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        overflowX: "hidden",
+        overflowY: "auto"
+      }}
       >
-        <Box sx={{
+        {/*<Box*/}
+        {/*  sx={{*/}
+        {/*    display: "none",*/}
+        {/*    height: isPropertiesOn ? "50%" : "100%",*/}
+        {/*    borderRadius: "0px",*/}
+        {/*    borderBottom: `1px solid #212529`,*/}
+        {/*    paddingTop: "20px",*/}
+        {/*    overflowX: "hidden",*/}
+        {/*    overflowY: "auto"*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  */}
+        {/*</Box>*/}
+        <Box 
+          sx={{
+          display: isPropertiesOn ? "block" : "none",
           height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
+          borderRadius: "5px",
           overflowX: "hidden",
           overflowY: "auto"
         }}
         >
-          <Box
-            sx={{
-              display: "none",
-              height: isPropertiesOn ? "50%" : "100%",
-              borderRadius: "0px",
-              borderBottom: `1px solid #212529`,
-              paddingTop: "20px",
-              overflowX: "hidden",
-              overflowY: "auto"
-            }}
-          >
-          </Box>
-          <Box sx={{
-            display: isPropertiesOn ? "block" : "none",
-            height: "100%",
-            borderRadius: "5px",
-            overflowX: "hidden",
-            overflowY: "auto"
-          }}
-          >
-            {isPropertiesOn && <PropertiesPanel />}
-          </Box>
+          {isPropertiesOn && <PropertiesPanel />}
+          {/*{isLayersOn && <LayersPanel />}*/}
+          {/*<NavTree />*/}
+          {/*{model &&*/}
+          {/*  <NavPanel*/}
+          {/*    model={model}*/}
+          {/*    element={rootElement}*/}
+          {/*    defaultExpandedElements={defaultExpandedElements}*/}
+          {/*    defaultExpandedTypes={defaultExpandedTypes}*/}
+          {/*    expandedElements={expandedElements}*/}
+          {/*    setExpandedElements={setExpandedElements}*/}
+          {/*    expandedTypes={expandedTypes}*/}
+          {/*    setExpandedTypes={setExpandedTypes}*/}
+          {/*    navigationMode={navigationMode}*/}
+          {/*    setNavigationMode={setNavigationMode}*/}
+          {/*    selectWithShiftClickEvents={selectWithShiftClickEvents}*/}
+          {/*    pathPrefix={*/}
+          {/*      pathPrefix + (modelPath.gitpath ? modelPath.getRepoPath() : modelPath.filepath)*/}
+          {/*    }*/}
+          {/*  />*/}
+          {/*}*/}
         </Box>
-      </Drawer>
+      </Box>
+    </Drawer>
   );
 }
 
 export default function SideDrawerWrapper() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [closeDrawer, setCloseDrawer] = useState(false);
-  const [isPropertiesOn, setIsPropertiesOn] = useState(true);
+  const [isPropertiesOn, setIsPropertiesOn] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(true);
   const isOpen = useSelector(isDrawerOpenFromStore);
 
   useEffect(() => {
-    setIsDrawerOpen(isOpen)
-  }, [isOpen])
-  
+    setIsDrawerOpen(isOpen);
+    setIsPropertiesOn(isOpen)
+  }, [isOpen]);
+
   return (
     <>
       {isDrawerOpen &&

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Checkbox,
   ListItem,
@@ -8,21 +8,7 @@ import {
 import { formatDate } from "../../../../utils/formatDate";
 
 export const TemplateCard = (props) => {
-  const { template } = props;
-  const [checked, setChecked] = useState([]);
-
-  const handleToggle = (templateId) => () => {
-    const currentIndex = checked.indexOf(templateId);
-    const newChecked = [...checked];
-    console.log(templateId);
-    if (currentIndex === -1) {
-      newChecked.push(templateId);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    setChecked(newChecked);
-  };
+  const { template, handleToggle, checked } = props;
 
   const handleOpenModal = () => {
     console.log("open modal");

@@ -24,8 +24,6 @@ function decodeIFCString(ifcString) {
   let match = ifcUnicodeRegEx.exec(ifcString);
 
   while (match) {
-
-
     const unicodeChar = String.fromCharCode(parseInt(match[1], 16));
     resultString = resultString.replace(match[0], unicodeChar);
     match = ifcUnicodeRegEx.exec(ifcString);
@@ -34,12 +32,10 @@ function decodeIFCString(ifcString) {
 }
 
 async function deref(ref, webIfc = null, indent = "") {
-  // logger.debug(indent + 'deref, in...')
   if (ref === null || ref === undefined) {
     return "null";
   }
   if (Array.isArray(ref)) {
-    // logger.debug(indent + '... array')
     // Dereference array values.
     await (async () => {
       for (let i = 0; i < ref.length; i++) {
@@ -48,18 +44,16 @@ async function deref(ref, webIfc = null, indent = "") {
     })();
     return ref;
   } else if (typeof ref === "object") { // must be after array check
-    // logger.debug(indent + '... ref is object: expressID: ', ref.expressID)
     if (isTypeValue(ref)) {
-      // logger.debug(indent + '.... and is simple typeValue')
       switch (ref.type) {
         case 1:
-          return decodeIFCString(ref.value); // typically strings.
+          return decodeIFCString(ref.value); // string
         case 2:
-          return ref.value; // no idea.
+          return ref.value;
         case 3:
-          return ref.value; // no idea.. values are typically in CAPS
+          return ref.value;
         case 4:
-          return ref.value; // typically measures of space, time or angle.
+          return ref.value;
         case 5: {
           const refId = stoi(ref.value);
           const refElt = await deref(await webIfc.properties.getItemProperties(0, refId, true), webIfc);
@@ -76,7 +70,6 @@ async function deref(ref, webIfc = null, indent = "") {
           throw new Error("Unknown reference type: " + ref);
       }
     } else {
-      // logger.debug(indent + '... and is complex typeValue')
       for (const objKey in ref) {
         if (!Object.prototype.hasOwnProperty.call(ref, objKey)) {
           continue;
@@ -92,14 +85,12 @@ async function deref(ref, webIfc = null, indent = "") {
         } else if (objKey === "GlobalId" && val.type === 1) {
           ref[objKey] = val.value;
         } else {
-          // logger.debug(indent + `.... recurse on key: ${objKey}`)
           ref[objKey] = await deref(val, webIfc, indent + "  ");
         }
       }
       return ref;
     }
   }
-  // logger.debug(indent + `simple value: `, typeof ref, ref)
   return ref; // number or string, e.g. the value of Name or expressID
 }
 
@@ -129,16 +120,12 @@ export async function createPropertyTable(model, ifcProps, isPset = false, seria
     }
   }
 
-  console.log("rowsrows", ROWS);
-  console.log("props", ifcProps);
-  console.log("model", model);
   return (
     <table key={`table-${serial++}`}>
       <tbody>{ROWS}</tbody>
     </table>
   );
 }
-
 
 async function prettyProps(model, propName, propValue, isPset, serial = 0) {
   let label = `${propName}`;
@@ -298,6 +285,79 @@ function Row({ d1, d2 }) {
   );
 }
 
+export function reifyName(webIfc, element) {
+  if (element.LongName) {
+    if (element.LongName.value) {
+      return decodeIFCString(element.LongName.value.trim())
+    }
+  } else if (element.Name) {
+    if (element.Name.value) {
+      return decodeIFCString(element.Name.value.trim())
+    }
+  }
+  return prettyType(webIfc, element) + ''
+}
+
 const dms = (deg, min, sec) => {
   return `${deg}° ${min}' ${sec}''`;
 };
+
+export function getType(webIfc, elt) {
+  console.log(webIfc.properties)
+  console.log(elt)
+  console.log(webIfc.properties.getIfcType(elt.type))
+  return webIfc.properties.getIfcType(elt.type)
+}
+
+export function prettyType(webIfc, elt) {
+  switch (getType(webIfc, elt)) {
+    case 'IFCANNOTATION': return 'Note'
+    case 'IFCBEAM': return 'Beam'
+    case 'IFCBUILDING': return 'Building'
+    case 'IFCBUILDINGSTOREY': return 'Storey'
+    case 'IFCBUILDINGELEMENTPROXY': return 'Element (generic proxy)'
+    case 'IFCCOLUMN': return 'Column'
+    case 'IFCCOVERING': return 'Covering'
+    case 'IFCDOOR': return 'Door'
+    case 'IFCFLOWSEGMENT': return 'Flow Segment'
+    case 'IFCFLOWTERMINAL': return 'Flow Terminal'
+    case 'IFCPROJECT': return 'Project'
+    case 'IFCRAILING': return 'Railing'
+    case 'IFCROOF': return 'Roof'
+    case 'IFCSITE': return 'Site'
+    case 'IFCSLAB': return 'Slab'
+    case 'IFCSPACE': return 'Space'
+    case 'IFCWALL': return 'Wall'
+    case 'IFCWALLSTANDARDCASE': return 'Wall (std. case)'
+    case 'IFCWINDOW': return 'Window'
+    default:
+      return elt.type
+  }
+}
+
+export function groupElementsByTypes(element, elementTypes) {
+  const type = prettyType(element.type)
+  if (elementTypes === undefined) {
+    elementTypes = []
+  }
+  const lookup = elementTypes.filter((t) => t.name === type)
+  if (lookup.length === 0) {
+    elementTypes.push({
+      name: type,
+      elements: [{expressID: element.expressID,
+        Name: element.Name,
+        LongName: element.LongName}],
+    })
+  } else {
+    lookup[0].elements.push({expressID: element.expressID,
+      Name: element.Name,
+      LongName: element.LongName})
+  }
+  if (element.children.length > 0) {
+    element.children.forEach((e) => {
+      groupElementsByTypes(e, elementTypes)
+    })
+  }
+
+  return elementTypes
+}

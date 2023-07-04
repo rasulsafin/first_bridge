@@ -1,11 +1,12 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import ItemProperties from "./ItemProperties";
+import { IconButton } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import ItemProperties from "./ItemProperties";
 import { selectIfcElementProps } from "../../services/ifcElementPropsSlice";
-import { ToggleButton } from "@mui/material";
 import { toggleDrawer } from "../../services/controlUISlice";
+import { ReactComponent as CancelIcon } from "../../assets/icons/cancel.svg";
 
 function PanelTitle({ title, controlsGroup }) {
   return (
@@ -36,22 +37,12 @@ export function PropertiesPanel() {
         title={ifcElement.fileName}
         controlsGroup={
           <Box>
-            <ToggleButton
+            <IconButton
               title="toggle drawer"
               onClick={() => dispatch(toggleDrawer())}
-              icon={
-                <Box sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  width: "14px",
-                  height: "14px"
-                }}
-                >
-                  x
-                </Box>}
-              value={""}
-            />
+            >
+              <CancelIcon />
+            </IconButton>
           </Box>
         }
       />

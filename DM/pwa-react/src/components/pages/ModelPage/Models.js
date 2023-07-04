@@ -5,10 +5,13 @@ import { ReactComponent as TaskIcon } from "../../../assets/icons/task.svg";
 import { ReactComponent as ModelIcon } from "../../../assets/icons/models.svg";
 import { ReactComponent as LayerIcon } from "../../../assets/icons/layers.svg";
 import "./Models.css";
+import { useDispatch } from "react-redux";
+import { toggleDrawer } from "../../../services/controlUISlice";
 
 export const Models = () => {
   const [showElement, setShowElement] = React.useState(true);
-
+  const dispatch = useDispatch();
+  
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowElement(false);
@@ -63,7 +66,7 @@ export const Models = () => {
             </IconButton>
             <IconButton
               sx={styleIconButton}
-              onClick={() => console.log()}
+              onClick={() => dispatch(toggleDrawer())}
             >
               <LayerIcon
                 className="icon-appbar"

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Grid, List } from "@mui/material";
+import { Collapse, Grid, List, ListItem } from "@mui/material";
 import {
   fetchRecords,
   searchRecordsByName,
@@ -20,6 +20,9 @@ import { ReactComponent as ReportIcon } from "../../../assets/icons/report.svg";
 import { useModal } from "../../../hooks/useModal";
 import "../../layout/Layout.css";
 import "./Records.css";
+import { RecordForm } from "./components/RecordForm";
+import { Formik } from "formik";
+import { getRecordInitialValues } from "./utils/getRecordInitialValues";
 
 export function Records() {
   const dispatch = useDispatch();
@@ -27,7 +30,9 @@ export function Records() {
   const [openModal, toggleModal] = useModal();
   const [checked, setChecked] = useState([]);
   const [activeButton, setActiveButton] = useState("");
-
+  const initialValues = getRecordInitialValues();
+  // const [expandRecord, setExpandRecord] = useState(false);
+  
   useEffect(() => {
     dispatch(fetchRecords());
   }, []);
@@ -72,6 +77,10 @@ export function Records() {
 
     setChecked(newChecked);
   };
+  
+  // const handleExpand = () => {
+  //   setExpandRecord(!expandRecord)
+  // }
 
   return (
     <div className="component-container">
@@ -153,17 +162,15 @@ export function Records() {
                   startIcon={<ReportIcon />}
                   style={{
                     backgroundColor: "#FFF",
-                    color: "#2D2926",
-                    border: "none"
+                    color: "#2D2926"
                   }}
                 >Отчет</Controls.Button>
                 <Controls.Button
                   startIcon={<TrashIcon />}
-                  className="m-3 mr-0"
+                  className="m-0"
                   style={{
                     backgroundColor: "#FFF",
-                    color: "#2D2926",
-                    border: "none"
+                    color: "#2D2926"
                   }}
                 >В архив</Controls.Button>
               </div>
@@ -174,23 +181,55 @@ export function Records() {
       </div>
       <List>
         {records.map(record =>
+          <>
           <RecordCard
             key={record.id}
             record={record}
             handleToggle={handleToggle}
             checked={checked}
-          />)
+          />
+          {/*{record.fields.length !== 0 ?*/}
+          {/*  <Collapse in={expandRecord}>*/}
+          {/*    <List>*/}
+          {/*      {record.fields.map((field) => */}
+          {/*        <ListItem>*/}
+          {/*          {field.name}*/}
+          {/*        </ListItem>*/}
+          {/*      )}*/}
+          {/*    </List>*/}
+          {/*  </Collapse>*/}
+          {/*  : null*/}
+          {/*}*/}
+          </>
+          )
         }
       </List>
       <Controls.Modal
-        titleModal="TitleCreateModal"
         open={openModal}
         onClose={toggleModal}
       >
-        <Grid container direction="column">
-          <Grid item>
-          </Grid>
-        </Grid>
+        <Formik
+          initialValues={initialValues}
+          onSubmit={(values, formikHelpers) => {
+            console.log(values);
+            // dispatch(addNewUserWithProjects(values));
+            formikHelpers.resetForm();
+          }}
+        >
+          <Controls.ModalForm>
+            <Controls.ModalContent
+              title="Sddfsdf"
+              isWithActions="true"
+              confirmButtonProps={{
+                children: "Создать"
+                // disabled: !(isValid && dirty)
+              }}
+              // cancelButtonProps={{ onClick: toggleIt }}
+            >
+              <RecordForm />
+            </Controls.ModalContent>
+          </Controls.ModalForm>
+        </Formik>
       </Controls.Modal>
       <Controls.RoundButton onClick={toggleModal} />
     </div>

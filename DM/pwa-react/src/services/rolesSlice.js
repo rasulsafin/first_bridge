@@ -15,9 +15,9 @@ export const fetchRoles = createAsyncThunk(
   });
 
 export const addNewRole = createAsyncThunk(
-  "roles/addNewRole", async (newRole) => {
-    const response = await axiosInstance.post("api/role", newRole);
-    return response.data;
+  "roles/addNewRole", async (newRole, thunkAPI) => {
+    await axiosInstance.post("api/role", newRole);
+    thunkAPI.dispatch(fetchRoles());
   });
 
 export const editRole = createAsyncThunk(
