@@ -19,9 +19,10 @@ import { statusEnum } from "../../../../constants/statusEnum";
 export const RecordCard = (props) => {
   const { record, handleToggle, checked } = props;
   const [expandRecord, setExpandRecord] = useState(false);
-  const isParentRecord = record.fields.length !== 0;
+  const isParentRecord = record.childRecords.length !== 0;
   const statusRecord = statusEnum.find(item => item.id === record.status);
-
+  const isChild = record.parentId !== null;
+  
   const handleOpenModal = () => {
     console.log("open modal");
   };
@@ -38,6 +39,7 @@ export const RecordCard = (props) => {
           backgroundColor: "#FFF",
           marginY: "10px",
           padding: "12px",
+          paddingLeft: isChild ? "45px" : null,
           borderRadius: "10px"
         }}
         dense
@@ -118,10 +120,13 @@ export const RecordCard = (props) => {
       {isParentRecord ?
         <Collapse in={expandRecord}>
           <List>
-            {record.fields.map((field) =>
-              <ListItem>
-                {field.name}
-              </ListItem>
+            {record.childRecords.map((child) =>
+              <RecordCard
+                key={child.id}
+                record={child}
+                handleToggle={handleToggle}
+                checked={checked}
+              />
             )}
           </List>
         </Collapse>
