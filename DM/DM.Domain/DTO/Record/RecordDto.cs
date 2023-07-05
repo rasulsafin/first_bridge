@@ -21,6 +21,10 @@ namespace DM.Domain.DTO
 
         public long ProjectId { get; set; }
         public long? TemplateId { get; set; }
+        
+        public long? ParentId { get; set; }
+        
+        public ICollection<RecordDto> ChildRecords { get; set; }
 
         public ICollection<int> FieldIds { get; set; }
         public ICollection<FieldDto> Fields { get; set; }

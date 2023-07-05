@@ -57,11 +57,25 @@ namespace DM.Domain.Services
                 Name = recordForCreateDto.Name,
                 ProjectId = recordForCreateDto.ProjectId,
                 Fields = recordForCreateDto.Fields,
-                ListFields = recordForCreateDto.ListFields
+                ListFields = recordForCreateDto.ListFields,
+                Status = recordForCreateDto.Status
             });
 
             await Context.Records.Create(record);
             await Context.SaveAsync();
+            
+            if (recordForCreateDto.ListChildIds != null && recordForCreateDto.ListChildIds.Any())
+            {
+                foreach (var сhildId in recordForCreateDto.ListChildIds)
+                {
+                    var childRecord = Context.Records.GetById(сhildId);
+
+                    childRecord.ParentRecordId = record.Id;
+                    
+                    Context.Records.Update(childRecord);
+                    await Context.SaveAsync();
+                }
+            }
 
             return record.Id;
         }

@@ -24,7 +24,10 @@ namespace DM.DAL.Entities
 
         public StatusEnum Status { get; set; }
         public PriorityEnum Priority { get; set; }
-
+        public long? ParentRecordId { get; set; }
+        public Record ParentRecord { get; set; }
+        public ICollection<Record> ChildRecords { get; set; }
+        
         [Required]
         public long ProjectId { get; set; }
         public Project Project { get; set; }
