@@ -3,8 +3,9 @@ import { Grid, InputLabel, MenuItem } from "@mui/material";
 import { Field } from "formik";
 import { Controls } from "../../../controls/Controls";
 import { document } from "../../../../locale/ru/document";
+import { statusEnum } from "../../../../constants/statusEnum";
 
-const DocumentFilterForm = (props) => {
+export const DocumentFilterForm = (props) => {
   const { projects, users } = props;
 
   return (
@@ -28,7 +29,15 @@ const DocumentFilterForm = (props) => {
         </Grid>
         <Grid item xs={12} md={12} lg={12}>
           <InputLabel>{document.status}</InputLabel>
-          <Field name="status" as={Controls.ValidationFormTextfield} />
+          <Field name="status" as={Controls.Select}>
+            {statusEnum.map(status => (
+              <MenuItem
+                key={status.id}
+                value={status.id}
+              >{status.title}
+              </MenuItem>)
+            )}
+          </Field>
         </Grid>
         <Grid item xs={12} md={12} lg={12}>
           <InputLabel>{document.executor}</InputLabel>
@@ -62,4 +71,3 @@ const DocumentFilterForm = (props) => {
     </div>
   );
 };
-export default DocumentFilterForm;

@@ -13,6 +13,8 @@ import { Controls } from "../../controls/Controls";
 import { RoleCard } from "./components/RoleCard";
 import { SearchAndSortRoleToolbar } from "./components/SearchAndSortRoleToolbar";
 import { useModal } from "../../../hooks/useModal";
+import { RoleCreateModal } from "./components/RoleCreateModal";
+import "../../layout/Layout.css";
 
 export const Roles = () => {
   const navigate = useNavigate();
@@ -34,36 +36,36 @@ export const Roles = () => {
   );
 
   return (
-    <div>
-      <Grid direction="row" container>
-        <Grid item xs={9} sm={9} lg={9}>
-          <h3 className="mb-2">Роли</h3>
-        </Grid>
-        <Grid container item xs={3} sm={3} lg={3} justifyContent="flex-end">
-          <Grid item>
-            <Controls.Button
-              startIcon={<BurgerIcon />}
-              className="m-0"
-              style={{
-                backgroundColor: "#FFF",
-                color: "#2D2926",
-                border: "none"
-              }}
-              onClick={handleNavigateToUsersPage}
-            >Участники</Controls.Button>
-            <Controls.Button
-              startIcon={iconStar}
-              className="m-0"
-              style={{
-                backgroundColor: "#2D2926",
-                color: "#FFF",
-                border: "none"
-              }}
-            >Роли</Controls.Button>
+    <div className="component-container">
+      <div className="header-toolbar">
+        <Grid direction="row" container>
+          <Grid item xs={9} sm={9} lg={9}>
+            <div className="header-title">Роли</div>
+          </Grid>
+          <Grid container item xs={3} sm={3} lg={3} justifyContent="flex-end">
+            <Grid item>
+              <Controls.Button
+                startIcon={<BurgerIcon />}
+                className="m-0"
+                style={{
+                  backgroundColor: "#FFF",
+                  color: "#2D2926",
+                  border: "none"
+                }}
+                onClick={handleNavigateToUsersPage}
+              >Участники</Controls.Button>
+              <Controls.Button
+                startIcon={iconStar}
+                className="m-0"
+                style={{
+                  backgroundColor: "#2D2926",
+                  color: "#FFF",
+                  border: "none"
+                }}
+              >Роли</Controls.Button>
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
-      <div className="toolbar-project">
         <SearchAndSortRoleToolbar />
       </div>
       <List>
@@ -76,12 +78,12 @@ export const Roles = () => {
             // open={openModal}
           />)}
       </List>
-      <Controls.Modal
-        open={openModal}
-        onClose={toggleModal}
-      >
-
-      </Controls.Modal>
+      {openModal &&
+        <RoleCreateModal
+          toggleModal={toggleModal}
+          roles={roles}
+        />
+      }
       <Controls.RoundButton onClick={toggleModal} />
     </div>
   );

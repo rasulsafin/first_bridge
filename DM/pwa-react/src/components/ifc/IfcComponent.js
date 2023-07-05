@@ -1,16 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IfcViewerAPI } from "web-ifc-viewer";
 import { Backdrop, CircularProgress } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { selectIfcElementProps } from "../../services/ifcElementPropsSlice";
 import { Color } from "three";
 import SideDrawerWrapper from "./SideDrawer";
-import { selectIfcModel, setElement, setIfcModel } from "../../services/ifcModelSlice";
+import { selectIfcModel, setElement, setIfcModel, setRootElt } from "../../services/ifcModelSlice";
 import NavPanel from "./NavPanel";
 import MenuOfElementModel from "./MenuOfElementModel";
+import { setupLookupAndParentLinks } from "./utils/TreeUtils";
 
 const IfcComponent = () => {
-  const viewerRef = useRef();
   const dispatch = useDispatch();
   const [currentElementId, setCurrentElementId] = useState();
   const [currentElementName, setCurrentElementName] = useState();
@@ -25,6 +25,7 @@ const IfcComponent = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
   const [openDialog, setOpenDialog] = useState(false);
+  const [elementsById] = useState({})
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -37,7 +38,6 @@ const IfcComponent = () => {
   useEffect(() => {
     const container = document.getElementById("viewer-container");
     const viewerAPI = new IfcViewerAPI({ container, backgroundColor: new Color(0xf4f4f4) });
-
     viewerAPI.axes.setAxes();
     viewerAPI.grid.setGrid();
     viewerAPI.IFC.setWasmPath("../../");
@@ -45,10 +45,7 @@ const IfcComponent = () => {
       COORDINATE_TO_ORIGIN: true,
       USE_FAST_BOOLS: true
     });
-    viewerRef.current = viewerAPI;
     setViewer(viewerAPI);
-
-    setInstanceViewer(viewerRef.current);
 
     return () => {
       viewerAPI.dispose();
@@ -58,9 +55,13 @@ const IfcComponent = () => {
   const ifcOnLoad = async (e) => {
     const file = e && e.target && e.target.files && e.target.files[0];
     setStateLoading(true);
-    if (file && viewerRef) {
-      const ifcModel = await viewerRef.current.IFC.loadIfc(file, true);
+    if (file && viewer) {
+      const ifcModel = await viewer.IFC.loadIfc(file, true);
+      const rootElt = await ifcModel.ifcManager.getSpatialStructure(0, true)
+      dispatch(setRootElt(rootElt));
       dispatch(setIfcModel(ifcModel));
+      const eltExt = {...rootElt}
+      setupLookupAndParentLinks(eltExt, elementsById)
     }
 
     setStateLoading(false);
@@ -76,18 +77,19 @@ const IfcComponent = () => {
         dispatch(setElement(props));
 
         const type = viewer.IFC.loader.ifcManager.getIfcType(result.modelID, result.id);
+        console.log("type", type)
         setCurrentElementId(result.id);
         // setCurrentElementName(convertFromCodePoint(props.Name && props.Name?.value));
 
-        if (props.psets) {
-          props.psets.map(item =>
-            item.HasProperties.map(i => {
-              if (i.Name.value === "GUID") {
-                if (i.NominalValue.value)
-                  setGuidEl(i.NominalValue.value);
-              }
-            }));
-        }
+        // if (props.psets) {
+        //   props.psets.map(item =>
+        //     item.HasProperties.map(i => {
+        //       if (i.Name.value === "GUID") {
+        //         if (i.NominalValue.value)
+        //           setGuidEl(i.NominalValue.value);
+        //       }
+        //     }));
+        // }
       }
     }
   };
@@ -104,6 +106,7 @@ const IfcComponent = () => {
       <label htmlFor="file">
         Open File
       </label>
+      
       <div
         id="viewer-container"
         style={{
@@ -114,6 +117,7 @@ const IfcComponent = () => {
         onMouseMove={viewer && (() => viewer.IFC.selector.prePickIfcItem())}
       >
       </div>
+      
       <Backdrop
         style={{
           zIndex: 100,
@@ -125,10 +129,12 @@ const IfcComponent = () => {
       >
         {stateLoading && <CircularProgress
           color="error"
-          size="10rem"
+          size="5rem"
         />}
       </Backdrop>
+      
       <SideDrawerWrapper />
+      
       <MenuOfElementModel
         anchorEl={anchorEl}
         open={isMenuOpen}

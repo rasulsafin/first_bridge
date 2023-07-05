@@ -1,28 +1,19 @@
-import React, { useState } from "react";
-import { Checkbox, ListItem, ListItemButton, ListItemText } from "@mui/material";
+import React from "react";
+import { 
+  Checkbox,
+  ListItem,
+  ListItemButton,
+  ListItemText
+} from "@mui/material";
 import { formatDate } from "../../../../utils/formatDate";
 
-const DocumentCard = (props) => {
-  const { document } = props;
-  const [checked, setChecked] = useState([]);
-
-  const handleToggle = (documentId) => () => {
-    const currentIndex = checked.indexOf(documentId);
-    const newChecked = [...checked];
-    console.log(documentId);
-    if (currentIndex === -1) {
-      newChecked.push(documentId);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    setChecked(newChecked);
-  };
+export const DocumentCard = (props) => {
+  const { document, checked, handleToggle } = props;
 
   const handleOpenModal = () => {
     console.log("open modal");
   };
-  
+
   return (
     <ListItem
       sx={{
@@ -64,5 +55,3 @@ const DocumentCard = (props) => {
     </ListItem>
   );
 };
-
-export default DocumentCard;

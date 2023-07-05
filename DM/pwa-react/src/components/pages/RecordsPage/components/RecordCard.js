@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import {
   Avatar,
   Checkbox,
+  Collapse,
+  List,
   ListItem,
   ListItemAvatar,
   ListItemButton,
@@ -10,58 +12,69 @@ import {
 } from "@mui/material";
 import { formatDate } from "../../../../utils/formatDate";
 import { ReactComponent as ModelIcon } from "../../../../assets/icons/models.svg";
+import { ReactComponent as CaretIcon } from "../../../../assets/icons/caret.svg";
+import { ReactComponent as CaretUpIcon } from "../../../../assets/icons/caretUp.svg";
 import { statusEnum } from "../../../../constants/statusEnum";
 
 export const RecordCard = (props) => {
-  const { record } = props;
-  const [checked, setChecked] = useState([]);
-
+  const { record, handleToggle, checked } = props;
+  const [expandRecord, setExpandRecord] = useState(false);
+  const isParentRecord = record.fields.length !== 0;
   const statusRecord = statusEnum.find(item => item.id === record.status);
-
-  const handleToggle = (recordId) => () => {
-    const currentIndex = checked.indexOf(recordId);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(recordId);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    setChecked(newChecked);
-  };
 
   const handleOpenModal = () => {
     console.log("open modal");
   };
 
+  const handleExpand = () => {
+    setExpandRecord(!expandRecord);
+  };
+
   return (
-    <ListItem
-      sx={{
-        height: "51px",
-        backgroundColor: "#FFF",
-        marginY: "10px",
-        padding: "12px",
-        borderRadius: "10px"
-      }}
-      dense
-      key={record.id}
-    >
-      <Checkbox
-        edge="start"
-        onChange={handleToggle(record.id)}
-        checked={checked.indexOf(record.id) !== -1}
-        inputProps={{ "aria-labelledby": record.id }}
+    <>
+      <ListItem
         sx={{
-          color: "#2D2926",
-          "&.Mui-checked": {
-            color: "#C32A2A"
-          }
+          height: "51px",
+          backgroundColor: "#FFF",
+          marginY: "10px",
+          padding: "12px",
+          borderRadius: "10px"
         }}
-      />
-      <ListItemButton
-        onClick={handleOpenModal}
+        dense
+        key={record.id}
       >
+        {isParentRecord ?
+          <ListItemButton
+            onClick={handleExpand}
+            sx={{
+              width: "20px",
+              flexGrow: 0,
+              marginRight: "10px",
+              paddingRight: "20px",
+              paddingLeft: "3px"
+            }}
+          >
+            <ListItemIcon>
+              {expandRecord ? <CaretUpIcon /> : <CaretIcon />}
+            </ListItemIcon>
+          </ListItemButton>
+          : null
+        }
+        <Checkbox
+          edge="start"
+          onChange={handleToggle(record.id)}
+          checked={checked.indexOf(record.id) !== -1}
+          inputProps={{ "aria-labelledby": record.id }}
+          sx={{
+            color: "#2D2926",
+            "&.Mui-checked": {
+              color: "#C32A2A"
+            }
+          }}
+        />
+        <ListItemButton
+          onClick={handleOpenModal}
+        >
           <span
             style={{
               paddingRight: "5px",
@@ -72,33 +85,48 @@ export const RecordCard = (props) => {
             }}>
             &#x2022;
           </span>
-        <ListItemText
-          sx={{ width: "50px", flexDirection: "row" }}
-          id={record.id}
-          primary={statusRecord.title.toString()}
-        />
-        <ListItemText
-          sx={{ width: "50px" }}
-          id={record.id}
-          primary={record.name}
-        />
-        <ListItemIcon>
-          <ModelIcon />
-        </ListItemIcon>
-        <ListItemText
-          id={record.id}
-          primary="model title is too long"
-        />
-        <ListItemText
-          id={record.id}
-          primary={formatDate(record.createdAt)}
-          primaryTypographyProps={{ align: "right", marginRight: "18px" }}
-        />
-        <ListItemAvatar>
-          <Avatar
+          <ListItemText
+            sx={{ width: "50px", flexDirection: "row" }}
+            id={record.id}
+            primary={statusRecord.title.toString()}
           />
-        </ListItemAvatar>
-      </ListItemButton>
-    </ListItem>
+          <ListItemText
+            sx={{ width: "50px" }}
+            id={record.id}
+            primary={record.name}
+          />
+          <ListItemIcon>
+            <ModelIcon />
+          </ListItemIcon>
+          <ListItemText
+            sx={{ width: "50px" }}
+            id={record.id}
+            primary="model title is too looooooooooooooooooong"
+          />
+          <ListItemText
+            sx={{ width: "50px" }}
+            id={record.id}
+            primary={formatDate(record.createdAt)}
+            primaryTypographyProps={{ align: "right", marginRight: "18px" }}
+          />
+          <ListItemAvatar>
+            <Avatar
+            />
+          </ListItemAvatar>
+        </ListItemButton>
+      </ListItem>
+      {isParentRecord ?
+        <Collapse in={expandRecord}>
+          <List>
+            {record.fields.map((field) =>
+              <ListItem>
+                {field.name}
+              </ListItem>
+            )}
+          </List>
+        </Collapse>
+        : null
+      }
+    </>
   );
 };

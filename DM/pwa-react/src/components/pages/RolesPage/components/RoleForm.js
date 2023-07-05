@@ -2,52 +2,50 @@ import React, { useState } from "react";
 import { Grid, TextField } from "@mui/material";
 import { getPermissionTypeName } from "../utils/getPermissionTypeName";
 
-export function CheckBoxRow( props ) {
-  const { permission, setPermissions } = props;
-  
-  const styleCheckbox = {
-    "marginLeft": "40px"
-  }
-  
-  console.log(permission)
-  
-  function handleChangedPermission(key, IsChecked) {
-    setPermissions({ ...permission, [key]: IsChecked })
-  }
-  
-  function handleChange(isChecked) {
-    setPermissions(...permission, isChecked)
-  }
-  
-  return (
-    <div>
-      <input
-        style={styleCheckbox}
-        type="checkbox"
-        checked={permission.create}
-        onChange={e => handleChange(e.currentTarget.checked )}
-      />
-      <input
-        style={styleCheckbox}
-        type="checkbox"
-        checked={permission.read}
-        onChange={e => handleChangedPermission("read", e.currentTarget.checked )}
-      />
-      <input
-        style={styleCheckbox}
-        type="checkbox"
-        checked={permission.update}
-        onChange={e => handleChangedPermission("update", e.currentTarget.checked )}
-      />
-      <input
-        style={styleCheckbox}
-        type="checkbox"
-        checked={permission.delete}
-        onChange={e => handleChangedPermission("delete", e.currentTarget.checked )}
-      />
-    </div>
-  );
-}
+// export function CheckBoxRow( props ) {
+//   const { permission, setPermissions } = props;
+//  
+//   const styleCheckbox = {
+//     "marginLeft": "40px"
+//   }
+//  
+//   function handleChangedPermission(key, IsChecked) {
+//     setPermissions({ ...permission, [key]: IsChecked })
+//   }
+//  
+//   function handleChange(isChecked) {
+//     setPermissions(...permission, isChecked)
+//   }
+//  
+//   return (
+//     <div>
+//       <input
+//         style={styleCheckbox}
+//         type="checkbox"
+//         checked={permission.create}
+//         onChange={e => handleChange(e.currentTarget.checked )}
+//       />
+//       <input
+//         style={styleCheckbox}
+//         type="checkbox"
+//         checked={permission.read}
+//         onChange={e => handleChangedPermission("read", e.currentTarget.checked )}
+//       />
+//       <input
+//         style={styleCheckbox}
+//         type="checkbox"
+//         checked={permission.update}
+//         onChange={e => handleChangedPermission("update", e.currentTarget.checked )}
+//       />
+//       <input
+//         style={styleCheckbox}
+//         type="checkbox"
+//         checked={permission.delete}
+//         onChange={e => handleChangedPermission("delete", e.currentTarget.checked )}
+//       />
+//     </div>
+//   );
+// }
 
 export const RoleForm = (props) => {
   const { role } = props;
@@ -55,7 +53,15 @@ export const RoleForm = (props) => {
 
   const [permissions, setPermissions] = useState(role.permissions);
 
-  Object.keys(permissions).map(() => console.log(permissions))
+  // Object.keys(permissions).map(() => console.log(permissions))
+
+  const styleCheckbox = {
+    "marginLeft": "40px"
+  }
+
+  function handleChangedPermission(key, IsChecked) {
+    setPermissions({ ...permissions, [key]: IsChecked })
+  }
   
   return (
     <Grid direction="column" container>
@@ -102,10 +108,38 @@ export const RoleForm = (props) => {
               <h6>{getPermissionTypeName(permission.type)}</h6>
             </Grid>
             <Grid item lg={10}>
-              <CheckBoxRow 
-                permission={permission}
-                setPermissions={newPermissions => setPermissions({ ...permissions, newPermissions })}
+
+              <input
+                style={styleCheckbox}
+                type="checkbox"
+                checked={permission.create}
+                onChange={e => handleChangedPermission("create", e.currentTarget.checked )}
               />
+              <input
+                style={styleCheckbox}
+                type="checkbox"
+                checked={permission.read}
+                onChange={e => handleChangedPermission("read", e.currentTarget.checked )}
+              />
+              <input
+                style={styleCheckbox}
+                type="checkbox"
+                checked={permission.update}
+                onChange={e => handleChangedPermission("update", e.currentTarget.checked )}
+              />
+              <input
+                style={styleCheckbox}
+                type="checkbox"
+                checked={permission.delete}
+                onChange={e => handleChangedPermission("delete", e.currentTarget.checked )}
+              />
+              
+              {/*<CheckBoxRow */}
+              {/*  permission={permission}*/}
+              {/*  setPermissions={newPermissions => setPermissions({ ...permissions, newPermissions })}*/}
+              {/*/>*/}
+              
+              
             </Grid>
           </Grid>
         )}

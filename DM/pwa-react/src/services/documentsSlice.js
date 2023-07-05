@@ -58,6 +58,10 @@ export const documentsSlice = createSlice({
     sortDocumentsByDateDesc: (state) => {
       state.documents = state.documents
         .sort((a, b) => new Date(b.createdAt) < new Date(a.createdAt) ? -1 : 1);
+    },
+    filteringDocuments: (state, action) => {
+      state.documents = state.filteredDocuments
+        .filter(document => Object.keys(action.payload).every(key => document[key] === action.payload[key]));
     }
   },
   extraReducers(builder) {
@@ -75,7 +79,8 @@ export const {
   sortDocumentsByNameAsc,
   sortDocumentsByNameDesc,
   sortDocumentsByDateAsc,
-  sortDocumentsByDateDesc
+  sortDocumentsByDateDesc,
+  filteringDocuments
 } = documentsSlice.actions;
 
 export const selectAllDocuments = (state) => state.documents.documents;
