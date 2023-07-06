@@ -39,7 +39,7 @@ export const RecordCard = (props) => {
           backgroundColor: "#FFF",
           marginTop: "10px",
           padding: "12px",
-          paddingLeft: isChild ? "45px" : null,
+          paddingLeft: isChild ? "57px" : "24px",
           borderRadius: "10px"
         }}
         dense
