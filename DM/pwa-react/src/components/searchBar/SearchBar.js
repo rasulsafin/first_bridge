@@ -7,7 +7,7 @@ import "./SearchBar.css";
 import { toggleDrawer } from "../../services/controlUISlice";
 
 export const SearchBar = (props) => {
-  const { onChange, filter, numberOfActiveFilters } = props;
+  const { onChange, filter, numberOfActiveFilters, darkMode } = props;
   const dispatch = useDispatch();
   
   return (
@@ -21,6 +21,7 @@ export const SearchBar = (props) => {
         autoComplete="off"
         onChange={onChange}
         sx={{
+          backgroundColor: darkMode ? "#F4F4F4" : "#FFFFFF",
           display: "flex",
           alignItems: "center",
           height: "36px",
