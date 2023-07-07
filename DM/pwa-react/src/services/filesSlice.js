@@ -5,6 +5,7 @@ import { fetchProjects } from "./projectsSlice";
 
 const initialState = {
   files: [],
+  filteredFiles: [],
   isLoading: true,
   error: null
 };
@@ -19,7 +20,7 @@ export const fetchFiles = createAsyncThunk(
       });
 
       return response.data;
-      
+
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -28,7 +29,7 @@ export const fetchFiles = createAsyncThunk(
 export const uploadFileService = createAsyncThunk(
   "files/uploadFile", async (formData, thunkAPI) => {
     const response = await axiosInstance.post("/api/item/file", formData, {
-      params: {project: formData.get("id")}
+      params: { project: formData.get("id") }
     });
     thunkAPI.dispatch(fetchProjects());
     return response.data;
@@ -49,7 +50,12 @@ export const getFile = createAsyncThunk(
 export const filesSlice = createSlice({
   name: "files",
   initialState,
-  reducers: {},
+  reducers: {
+    searchFilesByName: (state, action) => {
+      state.files = state.filteredFiles
+        .filter(file => file.name.toLowerCase().includes(action.payload.toLowerCase().trim()));
+    }
+  },
   extraReducers(builder) {
     builder.addCase(fetchFiles.pending, (state) => {
       state.isLoading = true;
@@ -58,6 +64,8 @@ export const filesSlice = createSlice({
     builder.addCase(fetchFiles.fulfilled, (state, action) => {
       state.isLoading = false;
       state.files = action.payload;
+      state.filteredFiles = action.payload;
+      state.error = null;
     });
     builder.addCase(fetchFiles.rejected, (state, action) => {
       state.isLoading = false;
@@ -68,9 +76,11 @@ export const filesSlice = createSlice({
     });
     builder.addCase(uploadFileService.fulfilled, (state) => {
       state.isLoading = false;
-    })
+    });
   }
 });
+
+export const { searchFilesByName } = filesSlice.actions;
 
 export const selectAllFiles = (state) => state.files.files;
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Collapse, Grid, List, ListItem } from "@mui/material";
+import { Grid, List } from "@mui/material";
+import { Formik } from "formik";
 import {
   fetchRecords,
   searchRecordsByName,
@@ -21,7 +22,6 @@ import { useModal } from "../../../hooks/useModal";
 import "../../layout/Layout.css";
 import "./Records.css";
 import { RecordForm } from "./components/RecordForm";
-import { Formik } from "formik";
 import { getRecordInitialValues } from "./utils/getRecordInitialValues";
 
 export function Records() {
@@ -31,8 +31,7 @@ export function Records() {
   const [checked, setChecked] = useState([]);
   const [activeButton, setActiveButton] = useState("");
   const initialValues = getRecordInitialValues();
-  // const [expandRecord, setExpandRecord] = useState(false);
-  
+
   useEffect(() => {
     dispatch(fetchRecords());
   }, []);
@@ -77,10 +76,6 @@ export function Records() {
 
     setChecked(newChecked);
   };
-  
-  // const handleExpand = () => {
-  //   setExpandRecord(!expandRecord)
-  // }
 
   return (
     <div className="component-container">
@@ -181,27 +176,13 @@ export function Records() {
       </div>
       <List>
         {records.map(record =>
-          <>
           <RecordCard
             key={record.id}
             record={record}
             handleToggle={handleToggle}
             checked={checked}
           />
-          {/*{record.fields.length !== 0 ?*/}
-          {/*  <Collapse in={expandRecord}>*/}
-          {/*    <List>*/}
-          {/*      {record.fields.map((field) => */}
-          {/*        <ListItem>*/}
-          {/*          {field.name}*/}
-          {/*        </ListItem>*/}
-          {/*      )}*/}
-          {/*    </List>*/}
-          {/*  </Collapse>*/}
-          {/*  : null*/}
-          {/*}*/}
-          </>
-          )
+        )
         }
       </List>
       <Controls.Modal

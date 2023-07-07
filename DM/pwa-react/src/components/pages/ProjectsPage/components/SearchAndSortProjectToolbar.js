@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   searchProjectsByTitle,
@@ -10,17 +10,20 @@ import { Controls } from "../../../controls/Controls";
 
 export function SearchAndSortProjectToolbar() {
   const dispatch = useDispatch();
+  const [activeButton, setActiveButton] = useState("");
 
   function filterByInput(e) {
     dispatch(searchProjectsByTitle(e.target.value));
   }
 
-  const handleSortByAsc = () => {
+  const handleSortByAsc = (event) => {
     dispatch(sortProjectsByDateDesc());
+    setActiveButton(event.target.id);
   };
 
-  const handleSortByDesc = () => {
+  const handleSortByDesc = (event) => {
     dispatch(sortProjectsByDateAsc());
+    setActiveButton(event.target.id);
   };
 
   return (
@@ -30,21 +33,21 @@ export function SearchAndSortProjectToolbar() {
       />
       <div>
         <Controls.Button
+          id="1"
           className="ml-0"
           style={{
-            backgroundColor: "#2D2926",
-            color: "#FFF",
-            border: "none"
+            backgroundColor: activeButton === "1" ? "#2D2926" : "#FFF",
+            color: activeButton === "1" ? "#FFF" : "#2D2926"
           }}
-          onClick={handleSortByAsc}
+          onClick={(event) => handleSortByAsc(event)}
         >Сначала новые</Controls.Button>
         <Controls.Button
+          id="2"
           style={{
-            backgroundColor: "#FFF",
-            color: "#2D2926",
-            border: "none"
+            backgroundColor: activeButton === "2" ? "#2D2926" : "#FFF",
+            color: activeButton === "2" ? "#FFF" : "#2D2926"
           }}
-          onClick={handleSortByDesc}
+          onClick={(event) => handleSortByDesc(event)}
         >Сначала старые</Controls.Button>
       </div>
     </>

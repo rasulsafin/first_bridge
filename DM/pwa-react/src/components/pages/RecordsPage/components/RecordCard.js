@@ -37,9 +37,9 @@ export const RecordCard = (props) => {
         sx={{
           height: "51px",
           backgroundColor: "#FFF",
-          marginY: "10px",
+          marginTop: "10px",
           padding: "12px",
-          paddingLeft: isChild ? "45px" : null,
+          paddingLeft: isChild ? "57px" : "24px",
           borderRadius: "10px"
         }}
         dense
@@ -118,8 +118,15 @@ export const RecordCard = (props) => {
         </ListItemButton>
       </ListItem>
       {isParentRecord ?
-        <Collapse in={expandRecord}>
-          <List>
+        <Collapse
+          
+          in={expandRecord}>
+          <List
+            sx={{
+              margin: 0,
+              padding: 0
+            }}
+          >
             {record.childRecords.map((child) =>
               <RecordCard
                 key={child.id}

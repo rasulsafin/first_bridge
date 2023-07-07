@@ -6,8 +6,9 @@ import { isDrawerOpenFromStore } from "../../services/controlUISlice";
 import NavTree from "./NavTree";
 import NavPanel from "./NavPanel";
 import { selectIfcModel, selectRootElt } from "../../services/ifcModelSlice";
+import { ModelsDrawerPage } from "../pages/ModelPage/components/ModelsDrawerPage";
 
-export function SideDrawer({ isDrawerOpen, closeDrawer, isPropertiesOn }) {
+export function SideDrawer({ isDrawerOpen, closeDrawer, isPropertiesOn, isModelsOn }) {
 
   // useEffect(() => {
   //   if (!isPropertiesOn && isDrawerOpen) {
@@ -17,7 +18,7 @@ export function SideDrawer({ isDrawerOpen, closeDrawer, isPropertiesOn }) {
   
   const model = useSelector(selectIfcModel);
   const rootElement = useSelector(selectRootElt);
-
+  
   return (
     <Drawer
       open={isDrawerOpen}
@@ -25,12 +26,9 @@ export function SideDrawer({ isDrawerOpen, closeDrawer, isPropertiesOn }) {
       variant="persistent"
       elevation={4}
       sx={{
-        "&::-webkit-scrollbar": {
-          display: "none"
-        },
         "& > .MuiPaper-root": {
           width: "415px",
-          padding: "4px 1em"
+          paddingLeft: "16px"
         },
         "& .MuiPaper-root": {
           marginTop: "0px",
@@ -70,7 +68,8 @@ export function SideDrawer({ isDrawerOpen, closeDrawer, isPropertiesOn }) {
           overflowY: "auto"
         }}
         >
-          {isPropertiesOn && <PropertiesPanel />}
+          {isModelsOn && <ModelsDrawerPage />}
+          {/*{isPropertiesOn && <PropertiesPanel />}*/}
           {/*{isLayersOn && <LayersPanel />}*/}
           {/*<NavTree />*/}
           {/*{model &&*/}
@@ -99,6 +98,7 @@ export function SideDrawer({ isDrawerOpen, closeDrawer, isPropertiesOn }) {
 
 export default function SideDrawerWrapper() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isModelsOn, setIsModelsOn] = useState(true);
   const [closeDrawer, setCloseDrawer] = useState(false);
   const [isPropertiesOn, setIsPropertiesOn] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(true);
@@ -117,6 +117,7 @@ export default function SideDrawerWrapper() {
           closeDrawer={closeDrawer}
           isPropertiesOn={isPropertiesOn}
           openDrawer={openDrawer}
+          isModelsOn={isModelsOn}
         />}
     </>
   );
