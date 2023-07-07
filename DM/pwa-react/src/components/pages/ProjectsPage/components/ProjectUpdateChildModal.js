@@ -66,6 +66,7 @@ export function ProjectUpdateChildModal(props) {
         onClick={handleOpen}
         className="m-0"
         sx={{ width: "100%" }}
+        variant="outlined"
       >Добавить</Controls.Button>
       <Modal
         hideBackdrop
@@ -108,9 +109,11 @@ export function ProjectUpdateChildModal(props) {
             </List>
           </Box>
           <Controls.Button
+            variant="outlined"
             onClick={handleAddUsersToProject}
           >Добавить</Controls.Button>
           <Controls.Button
+            variant="outlined"
             onClick={handleClose}
           >Отменить</Controls.Button>
         </Box>

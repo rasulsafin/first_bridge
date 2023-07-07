@@ -30,8 +30,8 @@ export function ProjectCreateChildModal(props) {
   const [usersAddToProject, setUsersAddToProject] = useState([]);
   const projectId = 1;
   const [openModal, toggleModal] = useModal();
-  
-  
+
+
   const handleClose = () => {
     setOpen(false);
     setUsersAddToProject([]);
@@ -54,13 +54,13 @@ export function ProjectCreateChildModal(props) {
   };
 
   setAddedUsers(checked);
-  
+
   const handleAddUsersToProject = () => {
     // dispatch(addUserListToProject(usersAddToProject));
     // setOpen(false);
     // setUsersAddToProject([]);
     // setChecked([]);
-    
+
     toggleModal();
   };
 
@@ -70,6 +70,7 @@ export function ProjectCreateChildModal(props) {
         onClick={toggleModal}
         className="m-0"
         sx={{ width: "100%" }}
+        variant="outlined"
       >Добавить</Controls.Button>
       <Modal
         hideBackdrop
@@ -112,9 +113,11 @@ export function ProjectCreateChildModal(props) {
             </List>
           </Box>
           <Controls.Button
+            variant="outlined"
             onClick={handleAddUsersToProject}
           >Добавить</Controls.Button>
           <Controls.Button
+            variant="outlined"
             onClick={toggleModal}
           >Отменить</Controls.Button>
         </Box>

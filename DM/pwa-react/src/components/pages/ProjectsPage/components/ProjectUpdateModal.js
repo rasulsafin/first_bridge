@@ -183,6 +183,7 @@ export function ProjectUpdateModal(props) {
                   className="m-0"
                   sx={{ width: "100%" }}
                   startIcon={<ClipIcon />}
+                  disabled
                 >Выберите файл
                 </Controls.Button>
               </Item>
@@ -191,10 +192,12 @@ export function ProjectUpdateModal(props) {
           <Grid style={{ marginTop: "100px" }} container>
             <Grid item xs={10}>
               <Controls.Button
+                variant="outlined"
                 onClick={handleUpdateProject}
               >Сохранить
               </Controls.Button>
               <Controls.Button
+                variant="outlined"
                 onClick={handleCloseModal}
               >Отменить
               </Controls.Button>

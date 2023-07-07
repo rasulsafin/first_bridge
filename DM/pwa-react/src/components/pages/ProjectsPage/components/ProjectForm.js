@@ -83,7 +83,6 @@ export const ProjectForm = (props) => {
             />
           </Box>
         </Grid>
-
         <Grid item xs={5}>
           <Item>
             <span>Файлы</span>
@@ -104,6 +103,8 @@ export const ProjectForm = (props) => {
                 className="m-0 mt-1"
                 sx={{ width: "100%" }}
                 startIcon={<ClipIcon />}
+                variant="outlined"
+                disabled
                 onClick={() => uploadInputRef.current && uploadInputRef.current.click()}
               >Выберите файл</Controls.Button>
             </>
@@ -117,6 +118,8 @@ export const ProjectForm = (props) => {
               className="m-0"
               sx={{ width: "100%" }}
               startIcon={<ClipIcon />}
+              variant="outlined"
+              disabled
             >Выберите файл
             </Controls.Button>
           </Item>

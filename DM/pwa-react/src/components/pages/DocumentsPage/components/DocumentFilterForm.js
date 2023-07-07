@@ -63,10 +63,10 @@ export const DocumentFilterForm = (props) => {
             )}
           </Field>
         </Grid>
-        <Grid item xs={12} md={12} lg={12}>
-          <InputLabel>{document.createdAt}</InputLabel>
-          <Field name="createdAt" as={Controls.DatePicker} />
-        </Grid>
+        {/*<Grid item xs={12} md={12} lg={12}>*/}
+        {/*  <InputLabel>{document.createdAt}</InputLabel>*/}
+        {/*  <Field name="createdAt" as={Controls.DatePicker} />*/}
+        {/*</Grid>*/}
       </Grid>
     </div>
   );
