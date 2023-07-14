@@ -26,9 +26,12 @@ export const ifcModelSlice = createSlice({
   }
 });
 
-export const { setIfcModel } = ifcModelSlice.actions;
-export const { setViewerInstance } = ifcModelSlice.actions;
-export const { setElement, setRootElt } = ifcModelSlice.actions;
+export const {
+  setViewerInstance,
+  setIfcModel,
+  setElement,
+  setRootElt
+} = ifcModelSlice.actions;
 
 export const selectIfcModel = (state) => state.ifcModel.modelStore;
 export const selectViewerInstance = (state) => state.ifcModel.viewer;

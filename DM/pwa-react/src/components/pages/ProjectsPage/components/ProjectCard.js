@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-  IconButton
-} from "@mui/material";
+import { IconButton } from "@mui/material";
 import { ReactComponent as MoreIcon } from "../../../../assets/icons/more.svg";
 import { Controls } from "../../../controls/Controls";
 import "./ProjectCard.css";
-import { deleteProject } from "../../../../services/projectsSlice";
+import { deleteProject, setCurrentProject } from "../../../../services/projectsSlice";
 import { reduceTitle } from "../utils/reduceTitle";
 import { ProjectDeleteDialog } from "./ProjectDeleteDialog";
 import { MenuProjectCard } from "./MenuProjectCard";
@@ -14,17 +12,16 @@ import { formatDate } from "../../../../utils/formatDate";
 import { ProjectUpdateModal } from "./ProjectUpdateModal";
 
 export const ProjectCard = (props) => {
-  const { project } = props;
+  const { project, currentProject } = props;
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-  const [isActive, setActive] = useState(false);
-  const dispatch = useDispatch();
   const isMenuOpen = Boolean(anchorEl);
   const projectId = project.id;
+  const isActiveButton = projectId === currentProject;
   const titleUsersInProject = `Участников ${project.users === null ? 0 : project.users.length}`;
-
-  const titleButton = isActive ? "Выбран" : "Выбрать";
+  const titleButton = isActiveButton ? "Выбран" : "Выбрать";
 
   const handleOpenModal = () => {
     setAnchorEl(null);
@@ -58,7 +55,7 @@ export const ProjectCard = (props) => {
   };
 
   const handleSelectedProject = () => {
-    setActive(!isActive);
+    dispatch(setCurrentProject(projectId));
   };
 
   return (
@@ -104,7 +101,7 @@ export const ProjectCard = (props) => {
           style={{
             width: "340px",
             height: "43px",
-            backgroundColor: isActive ? "#B3B3B3" : "#2D2926",
+            backgroundColor: isActiveButton ? "#B3B3B3" : "#2D2926",
             color: "#FFF",
             border: "none"
           }}

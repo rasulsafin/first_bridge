@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import "./Projects.css";
 import {
   fetchProjects,
-  selectAllProjects
+  selectAllProjects,
+  selectCurrentProject
 } from "../../../services/projectsSlice";
 import { fetchUsers, selectAllUsers } from "../../../services/usersSlice";
 import { ProjectCard } from "./components/ProjectCard";
@@ -18,6 +19,7 @@ export function Projects() {
   const dispatch = useDispatch();
   const projects = useSelector(selectAllProjects);
   const users = useSelector(selectAllUsers);
+  const currentProject = useSelector(selectCurrentProject);
 
   useEffect(() => {
     dispatch(fetchProjects());
@@ -31,7 +33,12 @@ export function Projects() {
         <SearchAndSortProjectToolbar />
       </div>
       <div className="card-container">
-        {projects.map(project => <ProjectCard key={project.id} project={project} />)}
+        {projects.map(project =>
+          <ProjectCard
+            key={project.id}
+            project={project}
+            currentProject={currentProject}
+          />)}
         <div className="new-project-card">
           <button
             type="button"

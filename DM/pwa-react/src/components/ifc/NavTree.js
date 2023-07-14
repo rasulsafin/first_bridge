@@ -4,24 +4,25 @@ import Typography from "@mui/material/Typography";
 import TreeItem, { useTreeItem } from "@mui/lab/TreeItem";
 import HideToggleButton from "./HideToggleButton";
 import { reifyName } from "./utils/itemProperties";
+import clsx from "clsx";
+import { useSelector } from "react-redux";
+import { selectViewerInstance } from "../../services/ifcModelSlice";
 
 /**
  * @param {object} model IFC model
  * @param {object} element IFC element of the model
- * @param {string} pathPrefix URL prefix for constructing links to
- *   elements, recursively grown as passed down the tree
  * @return {object} React component
  */
 export default function NavTree(
   {
     model,
-    element,
-    pathPrefix,
-    selectWithShiftClickEvents
+    element
   }
 ) {
   const CustomContent = React.forwardRef(function CustomContent(props, ref) {
     const {
+      classes,
+      className,
       label,
       nodeId,
       icon: iconProp,
@@ -31,24 +32,41 @@ export default function NavTree(
     } = props;
 
     const {
+      disabled,
+      expanded,
+      selected,
+      focused,
       handleExpansion,
       handleSelection,
       preventSelection
     } = useTreeItem(nodeId);
 
+    const ids = [];
+    ids.push(element.expressID);
+
     const icon = iconProp || expansionIcon || displayIcon;
 
-    const handleMouseDown = (event) => preventSelection(event);
+    const handleMouseDown = (event) => {
+      preventSelection(event);
+    };
 
-    const handleExpansionClick = (event) => handleExpansion(event);
+    const handleExpansionClick = (event) => {
+      handleExpansion(event);
+    };
 
     const handleSelectionClick = (event) => {
       handleSelection(event);
-      selectWithShiftClickEvents(event.shiftKey, element.expressID);
+
     };
 
     return (
       <div
+        className={clsx(className, classes.root, {
+          [classes.expanded]: expanded,
+          [classes.selected]: selected,
+          [classes.focused]: focused,
+          [classes.disabled]: disabled
+        })}
         onMouseDown={handleMouseDown}
         ref={ref}
       >
@@ -58,38 +76,46 @@ export default function NavTree(
         >
           {icon}
         </Box>
-        <div style={{ width: "300px" }}>
+        <div
+          style={{
+            width: "300px",
+            display: "flex",
+            direction: "row",
+            alignItems: "center",
+            gap: "10px"
+          }}>
+          {hasHideIcon &&
+            <div
+              style={{
+                display: "contents"
+              }}>
+              <HideToggleButton elementId={element.expressID} viewer={viewer} />
+            </div>
+          }
           <Typography
-            variant="tree"
+            // variant="tree"
+            component="div"
+            className={classes.label}
             onClick={handleSelectionClick}
+            onMouseMove={viewer && (() => viewer.IFC.selector.prepickIfcItemsByID(0, ids))}
+            onDoubleClick={viewer && (() => viewer.IFC.selector.pickIfcItemsByID(0, ids))}
           >
             {label}
           </Typography>
-          {hasHideIcon &&
-            <div style={{ display: "contents" }}>
-              <HideToggleButton elementId={element.expressID} />
-            </div>
-          }
         </div>
       </div>
     );
   });
 
-  // CustomContent.propTypes = NavTreePropTypes;
-
   const CustomTreeItem = (props) => {
     return <TreeItem
-      ContentComponent={CustomContent} 
+      ContentComponent={CustomContent}
       {...props} />;
   };
 
-  const viewer = {};
-
-  // useStore((state) => state.viewerStore);
+  const viewer = useSelector(selectViewerInstance);
 
   const hasHideIcon = {};
-
-  // viewer.isolator.canBeHidden(element.expressID);
 
   let i = 0;
 
@@ -103,14 +129,14 @@ export default function NavTree(
     >
       {element.children && element.children.length > 0 ?
         element.children.map((child) => {
-          const childKey = `${pathPrefix}-${i++}`;
+          const childKey = `${element.expressID}-${i++}`;
           return (
-            <React.Fragment key={childKey}>
+            <React.Fragment
+              key={childKey}
+            >
               <NavTree
                 model={model}
                 element={child}
-                pathPrefix={pathPrefix}
-                selectWithShiftClickEvents={selectWithShiftClickEvents}
               />
             </React.Fragment>
           );
