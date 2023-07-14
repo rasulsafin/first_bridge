@@ -5,12 +5,14 @@ import Paper from "@mui/material/Paper";
 import TreeView from "@mui/lab/TreeView";
 import TypesNavTree from "./TypesNavTree";
 import { ReactComponent as NodeOpenIcon } from "../../assets/icons/caret.svg";
+import { ReactComponent as NodeCloseIcon } from "../../assets/icons/caretRight.svg";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Tooltip from "@mui/material/Tooltip";
 import NavTree from "./NavTree";
 import { styled } from "@mui/material/styles";
 import { selectElement } from "../../services/ifcModelSlice";
+import { SearchBar } from "../searchBar/SearchBar";
 
 export function useExistInFeature(name) {
   const [existInFeature, setExistInFeature] = useState(false);
@@ -83,7 +85,6 @@ export function assertDefined(...args) {
  * @param {Array} defaultExpandedElements
  * @param {Array} expandedElements
  * @param {Function} setExpandedElements
- * @param {string} pathPrefix
  * @return {object}
  */
 export default function NavPanel(
@@ -97,13 +98,12 @@ export default function NavPanel(
     expandedTypes,
     setExpandedTypes,
     navigationMode,
-    setNavigationMode,
-    selectWithShiftClickEvents,
-    pathPrefix
+    setNavigationMode
   }
 ) {
   assertDefined(...arguments);
 
+  const darkModeSearchBar = true;
 
   const selectedElements = "";
   // useStore((state) => state.selectedElements);
@@ -117,6 +117,10 @@ export default function NavPanel(
     if (value !== null) {
       setNavigationMode(value);
     }
+  };
+
+  const filterByInput = () => {
+
   };
 
   const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
@@ -141,6 +145,15 @@ export default function NavPanel(
       width: "100%"
     }}
     >
+      <div className="header-model-toolbar">
+        <div className="header-model-title">
+          Слои
+        </div>
+        <SearchBar
+          darkMode={darkModeSearchBar}
+          onChange={e => filterByInput(e)}
+        />
+      </div>
       <Paper
         elevation={0}
         aria-label="Navigation Panel"
@@ -149,10 +162,11 @@ export default function NavPanel(
           "marginTop": "14px",
           "overflow": "auto",
           "width": "100%",
+          "height": "100%",
           "opacity": .8,
           "justifyContent": "space-around",
           "alignItems": "center",
-          "maxHeight": "400px",
+          // "maxHeight": "400px",
           "&:hover #togglegrp": {
             visibility: "visible !important"
           },
@@ -166,52 +180,53 @@ export default function NavPanel(
         }}
       >
         <div>
-          {existNavTypesInFeature &&
-            <StyledToggleButtonGroup
-              exclusive
-              id={"togglegrp"}
-              value={navigationMode}
-              size="small"
-              sx={{
-                "marginLeft": "16px",
-                "marginTop": "8px",
-                "visibility": "hidden",
-                "& button": {
-                  height: "30px",
-                  width: "30px"
-                },
-                "& svg": {
-                  height: "20px",
-                  width: "20px"
-                }
-              }}
-              onChange={onTreeViewChanged}
-            >
-              <ToggleButton value="spatial-tree" aria-label="spatial-tree">
-                <Tooltip
-                  title={"Spatial Structure"}
-                  describeChild
-                  placement={"bottom-end"}
-                  PopperProps={{ style: { zIndex: 0 } }}
-                >
-                  <div>Icon</div>
-                </Tooltip>
-              </ToggleButton>
-              <ToggleButton value="element-types" aria-label="element-types">
-                <Tooltip
-                  title={"Element Types"}
-                  describeChild
-                  placement={"bottom-end"}
-                  PopperProps={{ style: { zIndex: 0 } }}
-                >
-                  <ListIcon />
-                </Tooltip>
-              </ToggleButton>
-            </StyledToggleButtonGroup>}
+          {/*{existNavTypesInFeature &&*/}
+          {/*  <StyledToggleButtonGroup*/}
+          {/*    exclusive*/}
+          {/*    id={"togglegrp"}*/}
+          {/*    value={navigationMode}*/}
+          {/*    size="small"*/}
+          {/*    sx={{*/}
+          {/*      "marginLeft": "16px",*/}
+          {/*      "marginTop": "8px",*/}
+          {/*      "visibility": "hidden",*/}
+          {/*      "& button": {*/}
+          {/*        height: "30px",*/}
+          {/*        width: "30px"*/}
+          {/*      },*/}
+          {/*      "& svg": {*/}
+          {/*        height: "20px",*/}
+          {/*        width: "20px"*/}
+          {/*      }*/}
+          {/*    }}*/}
+          {/*    onChange={onTreeViewChanged}*/}
+          {/*  >*/}
+          {/*    <ToggleButton value="spatial-tree" aria-label="spatial-tree">*/}
+          {/*      <Tooltip*/}
+          {/*        title={"Spatial Structure"}*/}
+          {/*        describeChild*/}
+          {/*        placement={"bottom-end"}*/}
+          {/*        PopperProps={{ style: { zIndex: 0 } }}*/}
+          {/*      >*/}
+          {/*        <div>Icon</div>*/}
+          {/*      </Tooltip>*/}
+          {/*    </ToggleButton>*/}
+          {/*    <ToggleButton value="element-types" aria-label="element-types">*/}
+          {/*      <Tooltip*/}
+          {/*        title={"Element Types"}*/}
+          {/*        describeChild*/}
+          {/*        placement={"bottom-end"}*/}
+          {/*        PopperProps={{ style: { zIndex: 0 } }}*/}
+          {/*      >*/}
+          {/*        /!*<ListIcon />*!/*/}
+          {/*      </Tooltip>*/}
+          {/*    </ToggleButton>*/}
+          {/*  </StyledToggleButtonGroup>*/}
+          {/*}*/}
           <TreeView
             aria-label={isNavTree ? "IFC Navigator" : "IFC Types Navigator"}
             defaultCollapseIcon={<NodeOpenIcon className="caretToggle" />}
-            defaultExpandIcon={<NodeOpenIcon className="caretToggle" />}
+            defaultExpandIcon={<NodeCloseIcon className="caretToggle" />}
             defaultExpanded={isNavTree ? defaultExpandedElements : defaultExpandedTypes}
             expanded={isNavTree ? expandedElements : expandedTypes}
             selected={selectedElements}
@@ -225,7 +240,7 @@ export default function NavPanel(
             key="tree"
             sx={{
               "padding": existNavTypesInFeature ? "7px 0 14px 0" : "14px 0",
-              "maxWidth": "400px",
+              "maxWidth": "380px",
               "overflowY": "auto",
               "overflowX": "hidden",
               "flexGrow": 1,
@@ -237,15 +252,11 @@ export default function NavPanel(
             {isNavTree ?
               <NavTree
                 model={model}
-                selectWithShiftClickEvents={selectWithShiftClickEvents}
                 element={element}
-                pathPrefix={pathPrefix}
               /> :
               <TypesNavTree
                 model={model}
                 types={elementTypesMap}
-                selectWithShiftClickEvents={selectWithShiftClickEvents}
-                pathPrefix={pathPrefix}
               />}
           </TreeView>
         </div>

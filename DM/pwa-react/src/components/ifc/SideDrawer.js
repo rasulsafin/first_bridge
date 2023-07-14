@@ -9,7 +9,12 @@ import { selectIfcModel, selectRootElt } from "../../services/ifcModelSlice";
 import { ModelsDrawerPage } from "../pages/ModelPage/components/ModelsDrawerPage";
 
 export function SideDrawer({ isDrawerOpen, closeDrawer, isPropertiesOn, isModelsOn }) {
-
+  const [defaultExpandedElements, setDefaultExpandedElements] = useState([])
+  const [expandedElements, setExpandedElements] = useState([])
+  const [defaultExpandedTypes, setDefaultExpandedTypes] = useState([])
+  const [expandedTypes, setExpandedTypes] = useState([])
+  const [navigationMode, setNavigationMode] = useState('spatial-tree')
+  
   // useEffect(() => {
   //   if (!isPropertiesOn && isDrawerOpen) {
   //     closeDrawer();
@@ -61,35 +66,32 @@ export function SideDrawer({ isDrawerOpen, closeDrawer, isPropertiesOn, isModels
         {/*</Box>*/}
         <Box 
           sx={{
-          display: isPropertiesOn ? "block" : "none",
+          // display: isPropertiesOn ? "block" : "none",
           height: "100%",
           borderRadius: "5px",
           overflowX: "hidden",
           overflowY: "auto"
         }}
         >
-          {isModelsOn && <ModelsDrawerPage />}
+          {/*{isModelsOn && <ModelsDrawerPage />}*/}
           {/*{isPropertiesOn && <PropertiesPanel />}*/}
           {/*{isLayersOn && <LayersPanel />}*/}
           {/*<NavTree />*/}
-          {/*{model &&*/}
-          {/*  <NavPanel*/}
-          {/*    model={model}*/}
-          {/*    element={rootElement}*/}
-          {/*    defaultExpandedElements={defaultExpandedElements}*/}
-          {/*    defaultExpandedTypes={defaultExpandedTypes}*/}
-          {/*    expandedElements={expandedElements}*/}
-          {/*    setExpandedElements={setExpandedElements}*/}
-          {/*    expandedTypes={expandedTypes}*/}
-          {/*    setExpandedTypes={setExpandedTypes}*/}
-          {/*    navigationMode={navigationMode}*/}
-          {/*    setNavigationMode={setNavigationMode}*/}
-          {/*    selectWithShiftClickEvents={selectWithShiftClickEvents}*/}
-          {/*    pathPrefix={*/}
-          {/*      pathPrefix + (modelPath.gitpath ? modelPath.getRepoPath() : modelPath.filepath)*/}
-          {/*    }*/}
-          {/*  />*/}
-          {/*}*/}
+          
+          {model &&
+            <NavPanel
+              model={model}
+              element={rootElement}
+              defaultExpandedElements={defaultExpandedElements}
+              defaultExpandedTypes={defaultExpandedTypes}
+              expandedElements={expandedElements}
+              setExpandedElements={setExpandedElements}
+              expandedTypes={expandedTypes}
+              setExpandedTypes={setExpandedTypes}
+              navigationMode={navigationMode}
+              setNavigationMode={setNavigationMode}
+            />
+          }
         </Box>
       </Box>
     </Drawer>

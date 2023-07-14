@@ -4,6 +4,7 @@ import { axiosInstance } from "../axios/axiosInstance";
 const initialState = {
   projects: [],
   filteredProjects: [],
+  currentProject: null,
   isLoading: true,
   error: null
 };
@@ -68,6 +69,9 @@ export const projectsSlice = createSlice({
     sortProjectsByDateDesc: (state) => {
       state.projects = state.projects
         .sort((a, b) => new Date(b.createdAt) < new Date(a.createdAt) ? -1 : 1);
+    },
+    setCurrentProject: (state, action) => {
+      state.currentProject = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -86,8 +90,14 @@ export const projectsSlice = createSlice({
   }
 });
 
-export const { searchProjectsByTitle, sortProjectsByDateAsc, sortProjectsByDateDesc } = projectsSlice.actions;
+export const {
+  searchProjectsByTitle,
+  sortProjectsByDateAsc,
+  sortProjectsByDateDesc,
+  setCurrentProject
+} = projectsSlice.actions;
 
 export const selectAllProjects = state => state.projects.projects;
+export const selectCurrentProject = state => state.projects.currentProject;
 
 export default projectsSlice.reducer;
