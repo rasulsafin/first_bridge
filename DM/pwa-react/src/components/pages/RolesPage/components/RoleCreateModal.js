@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { addNewRole } from "../../../../services/rolesSlice";
 import { getInitialValues } from "../utils/getInitialValues";
 import { RoleForm } from "./RoleForm";
+import { RoleCreateForm } from "./RoleCreateForm";
 
 export const RoleCreateModal = (props) => {
   const { toggleModal, roles } = props;
@@ -43,9 +44,9 @@ export const RoleCreateModal = (props) => {
               }}
               cancelButtonProps={{ onClick: toggleIt }}
             >
-              {/*<RoleCreateForm />*/}
+              <RoleCreateForm />
               
-              <RoleForm />
+              {/*<RoleForm />*/}
               
             </Controls.ModalContent>
           </Controls.ModalForm>

@@ -12,8 +12,8 @@ import { selectIfcModel, selectViewerInstance } from "../../services/ifcModelSli
  * @return {object} React component
  */
 export default function HideToggleButton({ elementId, viewer }) {
+  
   // const viewer = useSelector(selectViewerInstance);
-
   // const isHidden = useStore((state) => state.hiddenElements[elementId])
   // const updateHiddenStatus = useStore((state) => state.updateHiddenStatus)
   // const isIsolated = useStore((state) => state.isolatedElements[elementId])
@@ -21,7 +21,7 @@ export default function HideToggleButton({ elementId, viewer }) {
   // const viewer = useStore((state) => state.viewerStore)
 
   const isHidden = true;
-  const isIsolated = true;
+  // const isIsolated = true;
   const ids = [];
   ids.push(elementId);
 
@@ -32,6 +32,7 @@ export default function HideToggleButton({ elementId, viewer }) {
     // const result = viewer.context.castRayIfc();
 
     // if (!result) return;
+    
     await viewer.IFC.loader.ifcManager.removeFromSubset(
       0,
       [ids],
@@ -71,9 +72,10 @@ export default function HideToggleButton({ elementId, viewer }) {
   //   }
   // }
 
-  if (isIsolated) {
-    return <VisibilityIcon onClick={toggleHide} />;
-  } else if (!isHidden) {
+  // if (isIsolated) {
+  //   return <VisibilityIcon onClick={toggleHide} />;
+  // } else 
+    if (!isHidden) {
     return <VisibilityIcon onClick={toggleHide} />;
   } else {
     return <VisibilityOffIcon onClick={toggleHide} />;

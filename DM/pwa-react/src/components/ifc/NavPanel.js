@@ -249,15 +249,19 @@ export default function NavPanel(
               }
             }}
           >
-            {isNavTree ?
-              <NavTree
-                model={model}
-                element={element}
-              /> :
-              <TypesNavTree
-                model={model}
-                types={elementTypesMap}
-              />}
+            <NavTree
+              model={model}
+              element={element}
+            />
+            {/*{isNavTree ?*/}
+            {/*  <NavTree*/}
+            {/*    model={model}*/}
+            {/*    element={element}*/}
+            {/*  /> :*/}
+            {/*  <TypesNavTree*/}
+            {/*    model={model}*/}
+            {/*    types={elementTypesMap}*/}
+            {/*  />}*/}
           </TreeView>
         </div>
       </Paper>
