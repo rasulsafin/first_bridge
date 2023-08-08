@@ -73,8 +73,8 @@ export function ProjectUpdateModal(props) {
     setSelectedFile(null);
   }
 
-  const handleDeleteUserFromProject = (userId, projectId) => {
-    dispatch(deleteUserFromProject({ userId, projectId }));
+  const handleDeleteUserFromProject = (userId, projId) => {
+    dispatch(deleteUserFromProject({ userId, projectId: projId }));
   };
 
   const data = {
@@ -124,7 +124,7 @@ export function ProjectUpdateModal(props) {
                   <List style={{ height: "300px", overflowY: "auto", overflowX: "hidden" }}>
                     {project.users ?
                       project.users.map(user =>
-                        <Grid alignItems="center" container>
+                        <Grid key={user.id} alignItems="center" container>
                           <Grid item xs={10}>
                             <UserCard key={user.id} user={user} />
                           </Grid>
@@ -170,19 +170,18 @@ export function ProjectUpdateModal(props) {
                     className="m-0 mt-1"
                     sx={{ width: "100%" }}
                     startIcon={<ClipIcon />}
+                    variant="outlined"
                     onClick={() => uploadInputRef.current && uploadInputRef.current.click()}
                   >Выберите файл</Controls.Button>
                 </>
               </Item>
               <Item>
                 <span>План</span>
-                <p>План 1</p>
-                <p>План 2</p>
-                <p>План 3</p>
                 <Controls.Button
                   className="m-0"
                   sx={{ width: "100%" }}
                   startIcon={<ClipIcon />}
+                  variant="outlined"
                   disabled
                 >Выберите файл
                 </Controls.Button>

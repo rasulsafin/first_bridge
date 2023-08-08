@@ -1,68 +1,69 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useCallback, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { IconButton } from "@mui/material";
 import { ReactComponent as MoreIcon } from "../../../../assets/icons/more.svg";
 import { Controls } from "../../../controls/Controls";
 import "./ProjectCard.css";
-import { deleteProject, setCurrentProject } from "../../../../services/projectsSlice";
+import { deleteProject, selectCurrentProject, setCurrentProject } from "../../../../services/projectsSlice";
 import { reduceTitle } from "../utils/reduceTitle";
 import { ProjectDeleteDialog } from "./ProjectDeleteDialog";
 import { MenuProjectCard } from "./MenuProjectCard";
 import { formatDate } from "../../../../utils/formatDate";
 import { ProjectUpdateModal } from "./ProjectUpdateModal";
 
-export const ProjectCard = (props) => {
-  const { project, currentProject } = props;
+export const ProjectCard = ({ project }) => {
   const dispatch = useDispatch();
+  const currentProject = useSelector(selectCurrentProject);
   const [anchorEl, setAnchorEl] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-  const isMenuOpen = Boolean(anchorEl);
-  const projectId = project.id;
-  const isActiveButton = projectId === currentProject;
-  const titleUsersInProject = `Участников ${project.users === null ? 0 : project.users.length}`;
-  const titleButton = isActiveButton ? "Выбран" : "Выбрать";
+  const projectId = useMemo(() => project.id, [project.id]);
+  const isActiveButton = useMemo(() => projectId === currentProject, [projectId, currentProject]);
+  const titleUsersInProject = useMemo(() => `Участников ${project.users === null ? 0 : project.users.length}`, [project.users]);
+  const titleButton = useMemo(() => isActiveButton ? "Выбран" : "Выбрать", [isActiveButton]);
 
-  const handleOpenModal = () => {
+  const handleOpenModal = useCallback(() => {
     setAnchorEl(null);
     setOpenModal(true);
-  };
+  }, []);
 
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     setOpenModal(false);
-  };
+  }, []);
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
 
-  const handleOpenDialog = () => {
+  const handleOpenDialog = useCallback(() => {
     setAnchorEl(null);
     setOpenDialog(true);
-  };
+  }, [dispatch, projectId]);
 
-  const handleMenuOpen = (event) => {
+  const handleMenuOpen = useCallback((event) => {
     setAnchorEl(event.currentTarget);
-  };
+  }, []);
 
-  const handleMenuClose = () => {
+  const handleMenuClose = useCallback(() => {
     setAnchorEl(null);
-  };
+  }, []);
 
   const handleDeleteProject = () => {
     dispatch(deleteProject(projectId));
     setOpenDialog(false);
   };
 
-  const handleSelectedProject = () => {
+  const handleSelectedProject = useCallback(() => {
     dispatch(setCurrentProject(projectId));
-  };
+  }, [dispatch, projectId]);
+
+  const reducedTitle = useMemo(() => project.title.length > 20 ? reduceTitle(project.title) : project.title, [project.title]);
 
   return (
     <div className="project-card">
       <div className="project-title-container">
         <span className="project-title">
-          {project.title.length > 20 ? reduceTitle(project.title) : project.title}
+          {reducedTitle}
         </span>
         <div>
           <IconButton
@@ -73,7 +74,7 @@ export const ProjectCard = (props) => {
         </div>
         <MenuProjectCard
           anchorEl={anchorEl}
-          open={isMenuOpen}
+          open={Boolean(anchorEl)}
           handleOpenModal={handleOpenModal}
           onClose={handleMenuClose}
           handleOpenDialog={handleOpenDialog}

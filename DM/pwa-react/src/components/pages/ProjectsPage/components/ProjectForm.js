@@ -28,9 +28,8 @@ const Item = styled(Paper)(({ theme }) => ({
   boxShadow: "none"
 }));
 
-export const ProjectForm = (props) => {
-  const { users } = props;
-  const { values, setFieldValue } = useFormikContext();
+export const ProjectForm = ({ users }) => {
+  const { setFieldValue } = useFormikContext();
   const uploadInputRef = useRef(null);
   const [addedUsers, setAddedUsers] = useState([]);
   console.log(addedUsers);
@@ -111,9 +110,6 @@ export const ProjectForm = (props) => {
           </Item>
           <Item>
             <span>План</span>
-            <p>План 1</p>
-            <p>План 2</p>
-            <p>План 3</p>
             <Controls.Button
               className="m-0"
               sx={{ width: "100%" }}
