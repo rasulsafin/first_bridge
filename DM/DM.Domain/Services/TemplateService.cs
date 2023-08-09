@@ -33,10 +33,10 @@ namespace DM.Domain.Services
             _currentUser = userService.CurrentUser;
         }
 
-        public async Task<IEnumerable<TemplateDto>> GetAllOfProject(long projectId)
+        public async Task<IEnumerable<TemplateForReadDto>> GetAllOfProject(long projectId)
         {
             var templates = await Context.Templates.GetAllOfProject(projectId);
-            return _mapper.Map<IEnumerable<TemplateDto>>(templates);
+            return _mapper.Map<IEnumerable<TemplateForReadDto>>(templates);
         }
 
         public TemplateForReadDto GetById(long templateId)
