@@ -1,35 +1,44 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Field, useFormikContext } from "formik";
 import { Box, Grid, InputLabel, List, MenuItem, Typography } from "@mui/material";
 import { Controls } from "../../../controls/Controls";
 import { user } from "../../../../locale/ru/user";
 import { UserCreateChildModal } from "./UserCreateChildModal";
 
-const UserForm = (props) => {
-  const { roles, projects } = props;
+export const UserForm = ({ roles, projects }) => {
   const { setFieldValue } = useFormikContext();
   const [addedProjects, setAddedProjects] = useState([]);
   console.log(addedProjects);
 
-  const filterProjects = projects.filter(project => addedProjects.some(id => id === project.id));
-
-  // const addedProjectsToUser = () => {
-  //   const oldData = values.projectsIds;
-  //   if (!Array.isArray(oldData)) return;
-  //   const isExist = oldData?.includes(addedProjects);
-  //   if (isExist) {
-  //     // filter out the char u want to delete
-  //     const newData = oldData?.filter(i => i !== project.id);
-  //     setFieldValue("projectsIds", newData);
-  //     return;
-  //   }
-  //   const newData = oldData?.concat(addedProjects);
-  //   setFieldValue("projectsIds", newData);
-  // }
+  const filterProjects = useMemo(() => {
+    return projects.filter(project => addedProjects.some(id => id === project.id));
+  }, [projects, addedProjects]);
 
   useEffect(() => {
     setFieldValue("projectsIds", addedProjects);
   }, [addedProjects]);
+
+  const ProjectItem = React.memo(({ project }) => (
+    <Box
+      key={project.id}
+      sx={{
+        height: "73px",
+        backgroundColor: "#F4F4F4",
+        margin: "4px",
+        padding: "16px",
+        borderRadius: "5px"
+      }}
+    >
+      <Grid direction="column" container>
+        <Grid item xs={2}>
+          <span style={{ fontSize: "12px" }}>Участники: {project.users.length}</span>
+        </Grid>
+        <Grid item xs={10}>
+          <span style={{ fontWeight: "bold" }}>{project.title}</span>
+        </Grid>
+      </Grid>
+    </Box>
+  ));
 
   return (
     <>
@@ -78,30 +87,12 @@ const UserForm = (props) => {
           <Field name="organizationId" as={Controls.ValidationFormTextfield} hidden />
         </Grid>
       </Grid>
-
       <Box sx={{ width: "480px" }}>
         <Typography variant="h5">Доступ к проектам</Typography>
         <List style={{ height: "200px", overflowY: "auto", overflowX: "hidden" }}>
           {filterProjects ?
             filterProjects.map(project =>
-              <Box
-                key={project.id}
-                sx={{
-                  height: "73px",
-                  backgroundColor: "#F4F4F4",
-                  margin: "4px",
-                  padding: "16px",
-                  borderRadius: "5px"
-                }}>
-                <Grid direction="column" container>
-                  <Grid item xs={2}>
-                    <span style={{ "fontSize": "12px" }}>Участники: {project.users.length}</span>
-                  </Grid>
-                  <Grid item xs={10}>
-                    <span style={{ "fontWeight": "bold" }}>{project.title}</span>
-                  </Grid>
-                </Grid>
-              </Box>
+              <ProjectItem key={project.id} project={project} />
             )
             : null
           }
@@ -111,5 +102,3 @@ const UserForm = (props) => {
     </>
   );
 };
-
-export default UserForm;

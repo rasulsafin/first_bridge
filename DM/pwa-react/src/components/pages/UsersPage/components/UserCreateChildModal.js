@@ -1,5 +1,4 @@
-import { useDispatch } from "react-redux";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Box, Grid, List, ListItemButton, Modal } from "@mui/material";
 import { useModal } from "../../../../hooks/useModal";
 import { Controls } from "../../../controls/Controls";
@@ -20,35 +19,33 @@ const style = {
   pb: 3
 };
 
-export function UserCreateChildModal(props) {
-  const { projects, setAddedProjects } = props;
-  const dispatch = useDispatch();
-  const [checked, setChecked] = useState([]);
+export function UserCreateChildModal({ projects, setAddedProjects }) {
+  const [checked, setChecked] = useState(new Set());
   const [projectsAddToUser, setProjectsAddToUser] = useState([]);
   const [openModal, toggleModal] = useModal();
 
-  const handleToggle = (project) => {
-    const currentIndex = checked.indexOf(project.id);
-    const newChecked = [...checked];
+  const handleToggle = useCallback((project) => {
+    setChecked(prevChecked => {
+      const newChecked = new Set(prevChecked);
+      if (newChecked.has(project.id)) {
+        newChecked.delete(project.id);
+        setProjectsAddToUser(prevProjects => prevProjects.filter(userProj => userProj.projectId !== project.id));
+      } else {
+        newChecked.add(project.id);
+        setProjectsAddToUser(prevProjects => [...prevProjects, { projectId: project.id }]);
+      }
+      return newChecked;
+    });
+  }, []);
 
-    if (currentIndex === -1) {
-      newChecked.push(project.id);
-      setProjectsAddToUser(usersAddToProject => [...usersAddToProject, { projectId: project.id }]);
-    } else {
-      newChecked.splice(currentIndex, 1);
-      setProjectsAddToUser(usersAddToProject => usersAddToProject.filter(userProj => userProj.projectId !== project.id));
-    }
-
-    setChecked(newChecked);
-  };
-
-  setAddedProjects(checked);
-
-  const handleAddProjectsToUser = () => {
-    // setProjectsAddToUser([]);
-    // setChecked([]);
+  const handleAddProjectsToUser = useCallback(() => {
+    setAddedProjects(Array.from(checked));
+    setProjectsAddToUser([]);
+    setChecked(new Set());
     toggleModal();
-  };
+  }, [checked, setAddedProjects, toggleModal]);
+
+  const projectsAddToUserLength = projectsAddToUser.length;
 
   return (
     <>
@@ -67,7 +64,7 @@ export function UserCreateChildModal(props) {
         <Box sx={{ ...style, width: 450 }}>
           <h3>Доступ к проектам</h3>
           <SearchAndSortProjectToolbar />
-          <p>Выбрано: {projectsAddToUser.length <= 0 ? 0 : projectsAddToUser.length}</p>
+          <p>Выбрано: {projectsAddToUserLength <= 0 ? 0 : projectsAddToUserLength}</p>
           <List style={{ height: "300px", gap: "2px", overflowY: "auto", overflowX: "hidden" }}>
             {projects.map(project =>
               <ListItemButton
@@ -87,7 +84,7 @@ export function UserCreateChildModal(props) {
                 autoFocus={false}
                 onClick={() => handleToggle(project)}
                 dense
-                selected={checked.indexOf(project.id) !== -1}
+                selected={checked.has(project.id)}
               >
                 <Box
                   key={project.id}

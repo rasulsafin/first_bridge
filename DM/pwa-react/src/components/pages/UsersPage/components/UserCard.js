@@ -3,8 +3,7 @@ import "../Users.css";
 import { Grid } from "@mui/material";
 import { Controls } from "../../../controls/Controls";
 
-export const UserCard = (props) => {
-  const { user } = props;
+export const UserCard = ({ user }) => {
   const fullName = `${user.name} ${user.lastName}`;
   return (
     <div className="user-card">

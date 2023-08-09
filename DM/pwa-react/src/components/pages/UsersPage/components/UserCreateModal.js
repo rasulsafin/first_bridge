@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Formik } from "formik";
 import { Controls } from "../../../controls/Controls";
-import UserForm from "./UserForm";
+import { UserForm } from "./UserForm";
 import { addNewUserWithProjects } from "../../../../services/usersSlice";
 import { userValidationSchema } from "../utils/validationSchema";
 import { getInitialValues } from "../utils/getInitialValues";
