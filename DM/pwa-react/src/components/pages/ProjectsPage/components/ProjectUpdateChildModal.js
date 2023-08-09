@@ -25,7 +25,7 @@ export function ProjectUpdateChildModal(props) {
   const { projectId, users } = props;
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const [checked, setChecked] = useState([]);
+  const [checked, setChecked] = useState(new Set());
   const [usersAddToProject, setUsersAddToProject] = useState([]);
 
   const handleOpen = () => {
@@ -35,29 +35,24 @@ export function ProjectUpdateChildModal(props) {
   const handleClose = () => {
     setOpen(false);
     setUsersAddToProject([]);
-    setChecked([]);
+    setChecked(new Set());
   };
 
   const handleToggle = (user) => {
-    const currentIndex = checked.indexOf(user.id);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(user.id);
-      setUsersAddToProject(usersProject => [...usersProject, { userId: user.id, projectId }]);
+    if (checked.has(user.id)) {
+      checked.delete(user.id);
+      setUsersAddToProject(usersAddToProject.filter(userProj => userProj.userId !== user.id));
     } else {
-      newChecked.splice(currentIndex, 1);
-      setUsersAddToProject(usersAddToProject => usersAddToProject.filter(userProj => userProj.userId !== user.id));
+      checked.add(user.id);
+      setUsersAddToProject([...usersAddToProject, { userId: user.id, projectId }]);
     }
-
-    setChecked(newChecked);
   };
 
   const handleAddUsersToProject = () => {
     dispatch(addUserListToProject(usersAddToProject));
     setOpen(false);
     setUsersAddToProject([]);
-    setChecked([]);
+    setChecked(new Set());
   };
 
   return (
@@ -101,7 +96,7 @@ export function ProjectUpdateChildModal(props) {
                   autoFocus={false}
                   onClick={() => handleToggle(user)}
                   dense
-                  selected={checked.indexOf(user.id) !== -1}
+                  selected={checked.has(user.id)}
                 >
                   <UserCard key={user.id} user={user} />
                 </ ListItemButton>

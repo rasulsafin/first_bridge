@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { useDispatch } from "react-redux";
 import { Badge, IconButton, InputAdornment, TextField, Typography } from "@mui/material";
 import { ReactComponent as SearchIcon } from "../../assets/icons/search.svg";
@@ -6,12 +6,15 @@ import { ReactComponent as FilterIcon } from "../../assets/icons/filter.svg";
 import "./SearchBar.css";
 import { toggleDrawer } from "../../services/controlUISlice";
 
-export const SearchBar = (props) => {
-  const { onChange, filter, numberOfActiveFilters, darkMode } = props;
+export const SearchBar = memo(({ onChange, filter, numberOfActiveFilters, darkMode }) => {
   const dispatch = useDispatch();
-  
+
+  const handleClick = () => {
+    dispatch(toggleDrawer());
+  };
+
   return (
-    <div style={{ width: "100%", display: "flex", flexDirection: "row" }}>
+    <div className="search-bar">
       <TextField
         className="search-input"
         placeholder="Поиск"
@@ -36,12 +39,7 @@ export const SearchBar = (props) => {
           startAdornment: (
             <InputAdornment
               position="start"
-              style={{
-                paddingTop: "2px",
-                display: "flex",
-                alignItems: "center",
-                marginLeft: "5px"
-              }}
+              className="search-icon"
             >
               <SearchIcon />
             </InputAdornment>
@@ -49,9 +47,7 @@ export const SearchBar = (props) => {
           endAdornment:
             <InputAdornment
               position="end"
-              style={{
-                marginRight: "20px"
-              }}
+              className="search-bar-end"
             >
             </InputAdornment>
         }}
@@ -67,13 +63,9 @@ export const SearchBar = (props) => {
             borderBottomLeftRadius: 0,
             paddingRight: "18px"
           }}
-          onClick={() => dispatch(toggleDrawer())}
+          onClick={handleClick}
         >
-          <FilterIcon
-            style={{
-              marginRight: "5px"
-            }}
-          />
+          <FilterIcon className="filter-icon" />
           <Badge
             badgeContent={numberOfActiveFilters}
             color="error"
@@ -101,4 +93,4 @@ export const SearchBar = (props) => {
       }
     </div>
   );
-};
+});

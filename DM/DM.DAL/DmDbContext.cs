@@ -253,7 +253,7 @@ namespace DM.DAL
                     Id = 1,
                     Data = "Start",
                     CreatedAt = DateTime.Now,
-                    ListId = 1
+                    ListFieldId = 1
                 });
             modelBuilder.Entity<List>()
                 .HasData(new List
@@ -261,7 +261,7 @@ namespace DM.DAL
                     Id = 2,
                     Data = "InProgress",
                     CreatedAt = DateTime.Now,
-                    ListId = 1
+                    ListFieldId = 1
                 });
             modelBuilder.Entity<List>()
                 .HasData(new List
@@ -269,7 +269,7 @@ namespace DM.DAL
                     Id = 3,
                     Data = "Ready",
                     CreatedAt = DateTime.Now,
-                    ListId = 1
+                    ListFieldId = 1
                 });
 
             modelBuilder.Entity<List>()
@@ -278,7 +278,7 @@ namespace DM.DAL
                     Id = 4,
                     Data = "Development",
                     CreatedAt = DateTime.Now,
-                    ListId = 2
+                    ListFieldId = 2
                 });
             modelBuilder.Entity<List>()
                 .HasData(new List
@@ -286,7 +286,7 @@ namespace DM.DAL
                     Id = 5,
                     Data = "Testing",
                     CreatedAt = DateTime.Now,
-                    ListId = 2
+                    ListFieldId = 2
                 });
             modelBuilder.Entity<List>()
                 .HasData(new List
@@ -294,7 +294,7 @@ namespace DM.DAL
                     Id = 6,
                     Data = "Building",
                     CreatedAt = DateTime.Now,
-                    ListId = 2
+                    ListFieldId = 2
                 });
 
             //Permissions test data

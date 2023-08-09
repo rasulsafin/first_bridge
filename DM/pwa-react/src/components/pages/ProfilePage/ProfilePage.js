@@ -6,6 +6,13 @@ import { Controls } from "../../controls/Controls";
 import ProfileForm from "./components/ProfileForm";
 import "../../layout/Layout.css";
 
+const buttonStyle = {
+  width: "200px",
+  backgroundColor: "#C32A2A",
+  color: "#FFF",
+  border: "none"
+};
+
 export const ProfilePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -22,24 +29,12 @@ export const ProfilePage = () => {
         <div className="header-title">Профиль</div>
       </div>
       <ProfileForm user={currentUser} />
-      <div
-        style={{
-          width: "200px"
-        }}
-      >
-        <Controls.Button
-          className="ml-0 mt-3"
-          size="large"
-          fullWidth
-          color="warning"
-          style={{
-            backgroundColor: "#C32A2A",
-            color: "#FFF",
-            border: "none"
-          }}
-          onClick={handleLogout}
-        >Выйти</Controls.Button>
-      </div>
+      <Controls.Button
+        className="ml-0 mt-3"
+        size="large"
+        style={buttonStyle}
+        onClick={handleLogout}
+      >Выйти</Controls.Button>
     </div>
   );
 };

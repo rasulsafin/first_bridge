@@ -3,9 +3,7 @@ import { IconButton, Menu, MenuItem } from "@mui/material";
 import { ReactComponent as EditIcon } from "../../../../assets/icons/edit.svg";
 import { ReactComponent as TrashIcon } from "../../../../assets/icons/trashcan.svg";
 
-export const MenuProjectCard = (props) => {
-  const { anchorEl, handleOpenDialog, handleOpenModal, open, onClose } = props;
-  
+export const MenuProjectCard = ({ anchorEl, handleOpenDialog, handleOpenModal, open, onClose }) => {
   return (
     <Menu
       anchorEl={anchorEl}

@@ -1,7 +1,5 @@
-import { useDispatch } from "react-redux";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, List, ListItemButton, Modal } from "@mui/material";
-import { addUserListToProject } from "../../../../services/projectsSlice";
 import { Controls } from "../../../controls/Controls";
 import { SearchAndSortUserToolbar } from "../../UsersPage/components/SearchAndSortUserToolbar";
 import { UserCard } from "../../UsersPage/components/UserCard";
@@ -22,50 +20,44 @@ const style = {
   pb: 3
 };
 
-export function ProjectCreateChildModal(props) {
-  const { users, setAddedUsers } = props;
-  const dispatch = useDispatch();
-  const [open, setOpen] = useState(false);
+export function ProjectCreateChildModal({ users, setAddedUsers }) {
   const [checked, setChecked] = useState([]);
   const [usersAddToProject, setUsersAddToProject] = useState([]);
-  const projectId = 1;
   const [openModal, toggleModal] = useModal();
 
+  useEffect(() => {
+    setAddedUsers(checked);
+  }, [checked, setAddedUsers]);
 
   const handleClose = () => {
-    setOpen(false);
+    toggleModal();
     setUsersAddToProject([]);
     setChecked([]);
   };
 
   const handleToggle = (user) => {
-    const currentIndex = checked.indexOf(user.id);
-    const newChecked = [...checked];
+    setChecked(prevChecked => {
+      const currentIndex = prevChecked.indexOf(user.id);
+      const newChecked = [...prevChecked];
 
-    if (currentIndex === -1) {
-      newChecked.push(user.id);
-      setUsersAddToProject(usersProject => [...usersProject, { userId: user.id, projectId }]);
-    } else {
-      newChecked.splice(currentIndex, 1);
-      setUsersAddToProject(usersAddToProject => usersAddToProject.filter(userProj => userProj.userId !== user.id));
-    }
+      if (currentIndex === -1) {
+        newChecked.push(user.id);
+        setUsersAddToProject(usersProject => [...usersProject, { userId: user.id }]);
+      } else {
+        newChecked.splice(currentIndex, 1);
+        setUsersAddToProject(usersAddToProj => usersAddToProj.filter(userProj => userProj.userId !== user.id));
+      }
 
-    setChecked(newChecked);
+      return newChecked;
+    });
   };
 
-  setAddedUsers(checked);
-
   const handleAddUsersToProject = () => {
-    // dispatch(addUserListToProject(usersAddToProject));
-    // setOpen(false);
-    // setUsersAddToProject([]);
-    // setChecked([]);
-
-    toggleModal();
+    toggleModal(false);
   };
 
   return (
-    <>
+    <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
       <Controls.Button
         onClick={toggleModal}
         className="m-0"
@@ -118,10 +110,10 @@ export function ProjectCreateChildModal(props) {
           >Добавить</Controls.Button>
           <Controls.Button
             variant="outlined"
-            onClick={toggleModal}
+            onClick={handleClose}
           >Отменить</Controls.Button>
         </Box>
       </Modal>
-    </>
+    </Box>
   );
 }

@@ -14,7 +14,7 @@ const permissionTitles = [
   "User",
   "Organization",
   "Document"
-]
+];
 
 const permissions = [
   {
@@ -49,16 +49,16 @@ const permissions = [
     update: false,
     delete: false
   }
-]
+];
 
 
 export const RoleCreateForm = () => {
   const { values } = useFormikContext();
-  
+
   return (
     <>
       <Grid container spacing={2}>
-        <Grid item xs={12} md={12} lg={12}>
+        <Grid item xs={6}>
           <InputLabel>{role.name}</InputLabel>
           <Field name="name" as={Controls.ValidationFormTextfield} />
         </Grid>
@@ -87,7 +87,7 @@ export const RoleCreateForm = () => {
           {/*  <Grid item container direction="row"> */}
           {/*    <Grid item lg={2}>*/}
           {/*      <h6>{permission}</h6>*/}
-          
+
           {/*    </Grid>*/}
           {/*    <Grid item lg={10}>*/}
           {/*      */}
@@ -104,16 +104,16 @@ export const RoleCreateForm = () => {
                       <input
                         name="permissions"
                         type="checkbox"
-                        value={permission}
+                        // value={permission}
                         checked={values.permissions
                           .map((e) => e)
                           .includes(permission)}
                         onChange={(e) => {
                           if (e.target.checked)
-                            arrayHelpers.push({ id: permission, text: "txt" });
+                            arrayHelpers.push({ id: permission, text: e.target.checked });
                           else {
                             const index = values.permissions
-                              .map(function (e) {
+                              .map(function(e) {
                                 return e.id;
                               })
                               .indexOf(permission);
@@ -123,7 +123,6 @@ export const RoleCreateForm = () => {
                       />
                       {permission}
                     </label>
-                    
                   </div>
                 ))}
                 <pre>{JSON.stringify(values, null, 2)}</pre>

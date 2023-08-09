@@ -7,8 +7,7 @@ import { ProjectForm } from "./ProjectForm";
 import { addNewProject } from "../../../../services/projectsSlice";
 import { projectValidationSchema } from "../utils/validationSchema";
 
-export const ProjectCreateModal = (props) => {
-  const { toggleModal, users } = props;
+export const ProjectCreateModal = ({ toggleModal, users }) => {
   const dispatch = useDispatch();
   const initialValues = getInitialValues();
   const [isOpen, setIsOpen] = useState(true);
