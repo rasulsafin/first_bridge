@@ -199,7 +199,7 @@ export function Records() {
         >
           <Controls.ModalForm>
             <Controls.ModalContent
-              title="Sddfsdf"
+              title="Создание задачи"
               isWithActions="true"
               confirmButtonProps={{
                 children: "Создать"

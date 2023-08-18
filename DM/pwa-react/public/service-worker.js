@@ -30,16 +30,16 @@ self.addEventListener('activate', async event => {
   console.log('Service worker has been activated');
 });
 
-self.addEventListener("fetch", async event => {
-  if (navigator.onLine) {
-    console.log("fetch is working");
-    await event.respondWith(
-      caches.open(dynamicCacheName)
-        .then(cache => fetch(event.request)
-          .then(response => {
-            cache.put(event.request, response.clone());
-            return response;
-          }))
-    );
-  }
-});
+// self.addEventListener("fetch", async event => {
+//   if (navigator.onLine) {
+//     console.log("fetch is working");
+//     await event.respondWith(
+//       caches.open(dynamicCacheName)
+//         .then(cache => fetch(event.request)
+//           .then(response => {
+//             cache.put(event.request, response.clone());
+//             return response;
+//           }))
+//     );
+//   }
+// });
