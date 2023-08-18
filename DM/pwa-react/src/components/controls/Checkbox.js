@@ -1,10 +1,7 @@
 import React from "react";
 import { FormControl, FormControlLabel, Checkbox as MuiCheckbox } from "@mui/material";
 
-export default function Checkbox(props) {
-
-  const { name, label, value, onChange } = props;
-
+export default function Checkbox({ name, label, value, onChange }) {
   return (
     <FormControl>
       <FormControlLabel

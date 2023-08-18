@@ -19,9 +19,9 @@ export const fetchRecordTemplates = createAsyncThunk(
   });
 
 export const addNewTemplate = createAsyncThunk(
-  "recordTemplates/addNewTemplate", async (newTemplate) => {
-    const response = await axiosInstance.post("api/template", newTemplate);
-    return response.data;
+  "recordTemplates/addNewTemplate", async (newTemplate, thunkAPI) => {
+    await axiosInstance.post("api/template", newTemplate);
+    thunkAPI.dispatch(fetchRecordTemplates(newTemplate.projectId));
   });
 
 export const recordTemplatesSlice = createSlice({
@@ -63,9 +63,9 @@ export const {
   sortRecordTemplatesByNameAsc,
   sortRecordTemplatesByNameDesc,
   sortRecordTemplatesByDateAsc,
-  sortRecordTemplatesByDateDesc,
+  sortRecordTemplatesByDateDesc
 } = recordTemplatesSlice.actions;
- 
+
 export const selectAllRecordTemplates = (state) => state.recordTemplates.recordTemplates;
 
 export default recordTemplatesSlice.reducer;

@@ -19,7 +19,8 @@ export const ProjectCard = ({ project }) => {
   const [openDialog, setOpenDialog] = useState(false);
   const projectId = useMemo(() => project.id, [project.id]);
   const isActiveButton = useMemo(() => projectId === currentProject, [projectId, currentProject]);
-  const titleUsersInProject = useMemo(() => `Участников ${project.users === null ? 0 : project.users.length}`, [project.users]);
+  const titleUsersInProject = useMemo(() =>
+    `Участников ${project.users === null ? 0 : project.users.length}`, [project.users]);
   const titleButton = useMemo(() => isActiveButton ? "Выбран" : "Выбрать", [isActiveButton]);
 
   const handleOpenModal = useCallback(() => {
@@ -57,7 +58,8 @@ export const ProjectCard = ({ project }) => {
     dispatch(setCurrentProject(projectId));
   }, [dispatch, projectId]);
 
-  const reducedTitle = useMemo(() => project.title.length > 20 ? reduceTitle(project.title) : project.title, [project.title]);
+  const reducedTitle = useMemo(() =>
+    project.title.length > 20 ? reduceTitle(project.title) : project.title, [project.title]);
 
   return (
     <div className="project-card">

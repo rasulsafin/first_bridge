@@ -13,8 +13,6 @@ export function CheckBoxRow(props) {
     setPermissions({ ...permission, [key]: IsChecked });
   }
 
-  console.log(permission);
-
   return (
     <Grid container>
       <Grid item xs={3}>{getPermissionTypeName(permission.type)}</Grid>

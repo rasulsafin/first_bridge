@@ -15,6 +15,8 @@ import { SearchBar } from "../../searchBar/SearchBar";
 import { TemplateCard } from "./components/TemplateCard";
 import { useModal } from "../../../hooks/useModal";
 import "../../layout/Layout.css";
+import { TemplateCreateModal } from "./components/TemplateCreateModal";
+import { selectCurrentProject } from "../../../services/projectsSlice";
 
 export const Templates = () => {
   const dispatch = useDispatch();
@@ -22,6 +24,7 @@ export const Templates = () => {
   const [openModal, toggleModal] = useModal();
   const [checked, setChecked] = useState([]);
   const [activeButton, setActiveButton] = useState("");
+  const currentProject = useSelector(selectCurrentProject);
 
   const handleToggle = (templateId) => () => {
     const currentIndex = checked.indexOf(templateId);
@@ -37,7 +40,7 @@ export const Templates = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchRecordTemplates(1));
+    dispatch(fetchRecordTemplates(currentProject));
   }, []);
 
   function filterByInput(e) {
@@ -122,11 +125,11 @@ export const Templates = () => {
             checked={checked}
           />)}
       </List>
-      <Controls.Modal
-        open={openModal}
-        onClose={toggleModal}
-      >
-      </Controls.Modal>
+      {openModal &&
+        <TemplateCreateModal
+          toggleModal={toggleModal}
+        />
+      }
       <Controls.RoundButton onClick={toggleModal} />
     </div>
   );
