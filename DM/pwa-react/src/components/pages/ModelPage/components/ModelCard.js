@@ -1,8 +1,7 @@
 import React from "react";
 import { Box, ListItemButton } from "@mui/material";
 
-export const ModelCard = (props) => {
-  const { file, handleToggle, checked } = props;
+export const ModelCard = ({ file, handleToggle, checked }) => {
   
   console.log(checked)
   

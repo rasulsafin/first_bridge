@@ -4,6 +4,7 @@ import { axiosInstance } from "../axios/axiosInstance";
 const initialState = {
   recordTemplates: [],
   filteredRecordTemplates: [],
+  currentRecordTemplate: {},
   isLoading: true,
   error: null
 };
@@ -15,6 +16,12 @@ export const fetchRecordTemplates = createAsyncThunk(
         projectId
       }
     });
+    return response.data;
+  });
+
+export const fetchRecordTemplateById = createAsyncThunk(
+  "recordTemplates/fetchRecordTemplateById", async (templateId ) => {
+    const response = await axiosInstance.get(`api/template/${templateId}`);
     return response.data;
   });
 
@@ -54,6 +61,9 @@ export const recordTemplatesSlice = createSlice({
       state.isLoading = false;
       state.recordTemplates = action.payload;
       state.filteredRecordTemplates = action.payload;
+    });
+    builder.addCase(fetchRecordTemplateById.fulfilled, (state, action) => {
+      state.currentRecordTemplate = action.payload;
     });
   }
 });

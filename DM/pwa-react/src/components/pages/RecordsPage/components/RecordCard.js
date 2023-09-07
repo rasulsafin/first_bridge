@@ -16,13 +16,12 @@ import { ReactComponent as CaretIcon } from "../../../../assets/icons/caret.svg"
 import { ReactComponent as CaretUpIcon } from "../../../../assets/icons/caretUp.svg";
 import { statusEnum } from "../../../../constants/statusEnum";
 
-export const RecordCard = (props) => {
-  const { record, handleToggle, checked } = props;
+export const RecordCard = ({ record, handleToggle, checked }) => {
   const [expandRecord, setExpandRecord] = useState(false);
   const isParentRecord = record.childRecords.length !== 0;
   const statusRecord = statusEnum.find(item => item.id === record.status);
   const isChild = record.parentId !== null;
-  
+
   const handleOpenModal = () => {
     console.log("open modal");
   };
@@ -119,7 +118,6 @@ export const RecordCard = (props) => {
       </ListItem>
       {isParentRecord ?
         <Collapse
-          
           in={expandRecord}>
           <List
             sx={{

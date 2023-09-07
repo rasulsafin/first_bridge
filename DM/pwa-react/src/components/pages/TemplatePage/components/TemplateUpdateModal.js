@@ -1,20 +1,19 @@
 import React, { useState } from "react";
 import { Formik } from "formik";
-import { useDispatch } from "react-redux";
 import { Controls } from "../../../controls/Controls";
 import { TemplateUpdateForm } from "./TemplateUpdateForm";
 import { getInitialValuesFromData } from "../utils/getInitialValuesFromData";
 
 export const TemplateUpdateModal = ({ toggleModal, template }) => {
-  const dispatch = useDispatch();
   const initialValues = getInitialValuesFromData(template);
   const [isOpen, setIsOpen] = useState(true);
-  const title = "Редактирование шаблона";
+  const title = "Просмотр шаблона";
 
   const toggleIt = () => {
     setIsOpen(false);
     toggleModal();
   };
+  
   return (
     <Controls.Modal
       open={isOpen}
@@ -22,9 +21,9 @@ export const TemplateUpdateModal = ({ toggleModal, template }) => {
     >
       <Formik
         initialValues={initialValues}
+        enableReinitialize="true"
         onSubmit={(values, formikHelpers) => {
           console.log(values);
-          // dispatch(addNewRole(values));
           formikHelpers.resetForm();
           toggleIt();
         }}
@@ -35,8 +34,8 @@ export const TemplateUpdateModal = ({ toggleModal, template }) => {
               title={title}
               isWithActions="true"
               confirmButtonProps={{
-                children: "Сохранить",
-                disabled: !(isValid && dirty)
+                children: "Сохранить"
+                // disabled: !(isValid && dirty)
               }}
               cancelButtonProps={{ onClick: toggleIt }}
             >
