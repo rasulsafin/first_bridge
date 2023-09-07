@@ -25,6 +25,7 @@ export const Templates = () => {
   const [checked, setChecked] = useState([]);
   const [activeButton, setActiveButton] = useState("");
   const currentProject = useSelector(selectCurrentProject);
+  const isCurrentProjectNull = currentProject === null;
 
   const handleToggle = (templateId) => () => {
     const currentIndex = checked.indexOf(templateId);
@@ -111,20 +112,25 @@ export const Templates = () => {
           >От Я до А</Controls.Button>
         </div>
       </div>
-      <List
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap"
-        }}>
-        {recordTemplates.map(template =>
-          <TemplateCard
-            key={template.id}
-            template={template}
-            handleToggle={handleToggle}
-            checked={checked}
-          />)}
-      </List>
+      {isCurrentProjectNull
+        ?
+        (<div><h3>Для отображения шаблонов необходимо выбрать проект</h3></div>)
+        :
+        <List
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "wrap"
+          }}>
+          {recordTemplates.map(template =>
+            <TemplateCard
+              key={template.id}
+              template={template}
+              handleToggle={handleToggle}
+              checked={checked}
+            />)}
+        </List>
+      }
       {openModal &&
         <TemplateCreateModal
           toggleModal={toggleModal}

@@ -17,6 +17,7 @@ import { ifcElementPropsReducer } from "../services/ifcElementPropsSlice";
 import ifcModelReducer from "../services/ifcModelSlice";
 import documentsReducer from "../services/documentsSlice";
 import { controlUIReducer } from "../services/controlUISlice";
+import fieldsReducer from "../services/fieldsSlice";
 
 const persistConfig = {
   key: "root",
@@ -38,7 +39,8 @@ const rootReducer = combineReducers({
   ifcModel: ifcModelReducer,
   roles: rolesReducer,
   documents: documentsReducer,
-  controlUI: controlUIReducer
+  controlUI: controlUIReducer,
+  fields: fieldsReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
