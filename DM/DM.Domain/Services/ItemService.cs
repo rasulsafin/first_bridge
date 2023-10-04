@@ -5,19 +5,18 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
 
-using Xbim.Ifc;
-using Xbim.ModelGeometry.Scene;
-
 using AutoMapper;
 
 using DM.Domain.Interfaces;
 using DM.Domain.DTO;
-
-using DM.DAL.Entities;
 using DM.DAL.Interfaces;
 
 using DM.Common.Enums;
 using DM.Common.Helpers;
+using DM.Domain.Infrastructure.Exceptions;
+using System.Linq;
+using Item = DM.DAL.Entities.Item;
+using offline_module.Domain.Interfaces;
 
 namespace DM.Domain.Services
 {
@@ -25,13 +24,17 @@ namespace DM.Domain.Services
     {
         private readonly UserDto _currentUser;
         private IUnitOfWork Context { get; set; }
+
         private readonly IMapper _mapper;
 
-        public ItemService(IUnitOfWork unitOfWork, IMapper mapper, CurrentUserService userService)
+        private readonly IMinIOService _remoteStorageService;
+
+        public ItemService(IUnitOfWork unitOfWork, IMapper mapper, CurrentUserService userService, IMinIOService remoteStorageService)
         {
             Context = unitOfWork;
             _currentUser = userService.CurrentUser;
             _mapper = mapper;
+            _remoteStorageService = remoteStorageService;
         }
 
         public async Task<IEnumerable<ItemDto>> GetAll(long projectId)
@@ -100,6 +103,45 @@ namespace DM.Domain.Services
             }
         }
 
+        public async Task<long> LinkItem(long projectId, ItemDto itemDto)
+        {
+            try
+            {
+                var project = Context.Projects.GetById(projectId) ?? throw new Exception("Not Found");
+                var projectItems = await Context.Items.GetAllByProject(projectId);
+
+                var itemFromDb = projectItems.FirstOrDefault(
+                    x => x.Id == itemDto.Id || x.RelativePath == itemDto.RelativePath);
+                var isNew = itemFromDb == null;
+
+                var item = itemFromDb;
+
+                if (isNew)
+                {
+                    itemFromDb = _mapper.Map<Item>(itemDto);
+                }
+
+                if (isNew || itemFromDb.Project.Id != projectId)
+                {
+                    itemFromDb.Project = project;
+
+                    if (isNew)
+                        await Context.Items.Create(itemFromDb);
+                    else
+                        Context.Items.Update(itemFromDb);
+
+                    await Context.SaveAsync();
+                }
+
+                return itemFromDb.Id;
+            }
+            catch (Exception ex)
+            {
+                throw new DocumentManagementException(ex.Message, ex.StackTrace);
+            }
+        }
+
+
         public async Task<bool> Delete(string fileName)
         {
             try
@@ -124,6 +166,18 @@ namespace DM.Domain.Services
             {
                 throw new Exception("Incorrect file extention");
             }
+        }
+
+        public async Task<int> UploadItems(int userId, IEnumerable<int> itemIds)
+        {
+            var resUserId = await _remoteStorageService.UploadItems(userId, itemIds);
+            return resUserId;
+        }
+
+        public async Task<int> DownloadItems(int userId, IEnumerable<int> itemIds)
+        {
+            var resUserIdresUserId = await _remoteStorageService.DownloadItems(userId, itemIds);
+            return resUserIdresUserId;
         }
 
         public async Task<bool> GetAccess(long roleId, ActionEnum action)

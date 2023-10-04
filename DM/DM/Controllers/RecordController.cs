@@ -12,11 +12,11 @@ using DM.Common.Enums;
 using DM.Validators.Attributes;
 
 using static DM.Validators.ServiceResponsesValidator;
+using DM.DAL.Entities;
 
 namespace DM.Controllers
 {
     [ApiController]
-    [Authorize]
     [Route("api/record")]
     public class RecordController : ControllerBase
     {
@@ -41,9 +41,6 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _recordService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
-                if (!permission) return StatusCode(403);
-
                 var records = await _recordService.GetAll();
 
                 return Ok(records);
@@ -69,9 +66,6 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _recordService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
-                if (!permission) return StatusCode(403);
-
                 var record = _recordService.GetById(recordId);
 
                 if (record == null) return NotFound();
@@ -83,6 +77,35 @@ namespace DM.Controllers
                 return CreateProblemResult(this, 404, ex.Message);
             }
             catch (DocumentManagementException ex)
+            {
+                return CreateProblemResult(this, 500, ex.Message);
+            }
+        }
+
+        [HttpGet("get_records/{projectId}")]
+        public async Task<IActionResult> GetRecords(int projectId)
+        {
+            try
+            {
+                var recordsToReturn = await _recordService.GetRecords(projectId);
+
+                return Ok(recordsToReturn);
+            }
+            catch(DocumentManagementException ex)
+            {
+                return CreateProblemResult(this, 500, ex.Message);
+            }
+        }
+
+        [HttpGet("subobjectives/{recordId}")]
+        public async Task<IActionResult> GetSubObjectives(int recordId)
+        {
+            try
+            {
+                var recordsToReturn = await _recordService.GetSubObjectives(recordId);
+                return Ok(recordsToReturn);
+            }
+            catch(DocumentManagementException ex)
             {
                 return CreateProblemResult(this, 500, ex.Message);
             }
@@ -101,9 +124,6 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _recordService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
-                if (!permission) return StatusCode(403);
-
                 var id = await _recordService.Create(recordDto);
 
                 if (id == 0) return BadRequest();
@@ -129,9 +149,6 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _recordService.GetAccess(_currentUser.RoleId, ActionEnum.Update);
-                if (!permission) return StatusCode(403);
-
                 var checker = await _recordService.Update(recordDto);
 
                 if (!checker) return BadRequest();
@@ -154,14 +171,11 @@ namespace DM.Controllers
         /// <response code="403">Access denied.</response>
         /// <response code="404">Record was not found.</response>
         /// <response code="500">Something went wrong while deleting record.</response>
-        [HttpDelete]
+        [HttpDelete("{recordId}")]
         public async Task<IActionResult> Delete(long recordId)
         {
             try
             {
-                var permission = await _recordService.GetAccess(_currentUser.RoleId, ActionEnum.Delete);
-                if (!permission) return StatusCode(403);
-
                 var checker = await _recordService.Delete(recordId);
 
                 return Ok(checker);

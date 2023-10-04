@@ -17,6 +17,7 @@ using DM.DAL.Interfaces;
 
 using DM.Common.Helpers;
 using DM.Common.Enums;
+using offline_module.Domain.Interfaces;
 
 namespace DM.Domain.Services
 {
@@ -26,16 +27,20 @@ namespace DM.Domain.Services
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
         private readonly ILogger<UserService> _logger;
+        private readonly ISyncDotMimService _syncService;
+        private readonly IBearerConfigService _bearerConfigService;
 
-        public UserService(IUnitOfWork unitOfWork, IConfiguration configuration, IMapper mapper, ILogger<UserService> logger)
+        public UserService(IUnitOfWork unitOfWork, IConfiguration configuration, ISyncDotMimService syncService, IMapper mapper, ILogger<UserService> logger, IBearerConfigService bearerConfigService)
         {
             Context = unitOfWork;
             _mapper = mapper;
             _configuration = configuration;
             _logger = logger;
+            _syncService = syncService;
+            _bearerConfigService = bearerConfigService;
         }
 
-        public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest request)
+        public async Task<UserDto> Authenticate(AuthenticateRequest request)
         {
             try
             {
@@ -44,16 +49,16 @@ namespace DM.Domain.Services
                 if (user == null)
                 {
                     // todo: need to add logger
-                    return null;
+                    throw new UnauthorizedAccessException();
                 }
-
                 var passwordChecker = PasswordHelper.VerifyHashedPassword(user.HashedPassword, request.Password);
 
                 if (!passwordChecker) return null;
 
                 var token = _configuration.GenerateJwtToken(user);
+                _bearerConfigService.WriteFile(token);
 
-                return new AuthenticateResponse(token);
+                return _mapper.Map<UserDto>(user);
             }
             catch (Exception)
             {

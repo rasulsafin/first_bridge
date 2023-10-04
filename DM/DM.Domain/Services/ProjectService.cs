@@ -13,6 +13,8 @@ using DM.DAL.Entities;
 using DM.DAL.Interfaces;
 
 using DM.Common.Enums;
+using System.ComponentModel;
+using System.Linq.Expressions;
 
 namespace DM.Domain.Services
 {
@@ -33,11 +35,25 @@ namespace DM.Domain.Services
 
         public async Task<IEnumerable<ProjectForReadDto>> GetAll()
         {
-            var access = await GetAccess(_currentUser.RoleId, ActionEnum.Read);
-            if (!access)
-                throw new AccessDeniedException("Access Denied");
-
             var projects = await Context.Projects.GetAll();
+
+            return _mapper.Map<IEnumerable<ProjectForReadDto>>(projects);
+        }
+
+        public async Task<IEnumerable<ProjectForReadDto>> GetUserProjects(int userID)
+        {
+            var userFromDb = Context.Users.GetById(userID);
+
+            if (userFromDb == null)
+            {
+                throw new DocumentManagementException("Не удалось найти данного пользователя.");
+            }
+
+            var userProjects = userFromDb.UserProjects.ToList();
+            var projects = userProjects.Select(up => up.Project).ToList();
+
+            //TODO make sure there is a data with CreatedById in the table
+            /*var result = projects.Where(x => x.CreatedById == userID);*/
             return _mapper.Map<IEnumerable<ProjectForReadDto>>(projects);
         }
 
@@ -51,33 +67,57 @@ namespace DM.Domain.Services
 
         public async Task<long> Create(ProjectForReadDto projectForReadDto)
         {
-            var project = _mapper.Map<Project>(new ProjectForReadDto
+            try
             {
-                Title = projectForReadDto.Title,
-                OrganizationId = projectForReadDto.OrganizationId,
-                Items = projectForReadDto.Items,
-                Users = projectForReadDto.Users,
-            });
-
-            var result = await Context.Projects.CreateProjectWithUsers(project);
-            await Context.SaveAsync();
-
-            if (projectForReadDto.UserIds != null && projectForReadDto.UserIds.Any())
-            {
-                foreach (var userId in projectForReadDto.UserIds)
+                var project = _mapper.Map<Project>(new ProjectForReadDto
                 {
-                    var userProject = _mapper.Map<UserProject>(new UserProjectDto
+                    Title = projectForReadDto.Title,
+                    OrganizationId = projectForReadDto.OrganizationId,
+                    Items = projectForReadDto.Items,
+                    Users = projectForReadDto.Users,
+                });
+
+                var result = await Context.Projects.CreateProjectWithUsers(project);
+
+                await Context.SaveAsync();
+
+                if (projectForReadDto.UserIds != null && projectForReadDto.UserIds.Any())
+                {
+                    foreach (var userId in projectForReadDto.UserIds)
                     {
-                        UserId = userId,
-                        ProjectId = result.Entity.Id
-                    });
+                        var userProject = _mapper.Map<UserProject>(new UserProjectDto
+                        {
+                            UserId = userId,
+                            ProjectId = result.Entity.Id
+                        });
 
-                    await Context.UserProjects.Create(userProject);
-                    await Context.SaveAsync();
+                        await Context.UserProjects.Create(userProject);
+                        await Context.SaveAsync();
+                    }
                 }
-            }
 
-            return project.Id;
+                return project.Id;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<bool> Delete(long projectId)
+        {
+            var proj = Context.Projects.GetById(projectId);
+            Context.Projects.Delete(projectId);
+
+            var userProjects = await Context.UserProjects.GetAll();
+            var toDel = userProjects.Where(up => up.ProjectId == proj.Id).FirstOrDefault();
+            if (toDel != null)
+            {
+                Context.UserProjects.Delete(toDel.Id);
+                await Context.SaveAsync();
+                return true;
+            }
+            return false;
         }
 
         public async Task<bool> Update(ProjectForUpdateDto projectForUpdateDto)

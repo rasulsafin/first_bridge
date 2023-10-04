@@ -26,6 +26,9 @@ using DM.DAL.Repositories;
 
 using Dotmim.Sync.PostgreSql;
 using Dotmim.Sync;
+using System.Net.Http;
+using offline_module.Domain.Interfaces;
+using offline_module.Domain.Services;
 
 namespace DM
 {
@@ -60,6 +63,11 @@ namespace DM
             services.AddScoped<IUserProjectService, UserProjectService>();
             services.AddScoped<IDocumentService, DocumentService>();
             services.AddScoped<CurrentUserService>();
+
+            services.AddScoped<ISynchronizationService, SynchronizationService>();
+            services.AddScoped<IMinIOService, MinIOService>();
+            services.AddScoped<ISyncDotMimService, SyncDotMimService>();
+            services.AddScoped<IBearerConfigService, BearerConfigService>();
 
             services.AddDbContext<DmDbContext>(options =>
             {
@@ -136,11 +144,6 @@ namespace DM
             });
 
             var connectionString = Configuration.GetSection("ConnectionStrings")["Db"];
-
-            var tables = new SyncSetup(new string[] {"Comment", "Field", "Item", "List", "ListField",
-                "Organization", "Permission", "Project", "Record", "Role", "Template", "UserProject", "User"});
-
-            services.AddSyncServer<NpgsqlSyncProvider>(connectionString, tables);
 
             //services.AddLocalization(options => options.ResourcesPath = "translations-folder (not exists yet)");
 

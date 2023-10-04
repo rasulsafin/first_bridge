@@ -47,37 +47,69 @@ namespace DM.Domain.Services
             return _mapper.Map<RecordForReadDto>(record);
         }
 
+        public async Task<IEnumerable<RecordForReadDto>> GetSubObjectives(int recordId)
+        {
+            if (recordId < 1) return null;
+
+            // TODO: Check repository.
+            var allRecords = await Context.Records.GetAll();
+
+            var recordsWithParent = allRecords.Where(r => r.ParentRecordId == recordId).ToList();
+
+            return _mapper.Map<IEnumerable< RecordForReadDto>>(recordsWithParent);
+        }
+
+        public async Task<IEnumerable<RecordForReadDto>> GetRecords(int projId)
+        {
+            var recordsFromDb = await this.Context.Records.GetAll();
+            var recordsFound = recordsFromDb.Where(rec => rec.ProjectId == projId).ToList();
+
+            var recordsToReturn = _mapper.Map<IEnumerable<RecordForReadDto>>(recordsFound);
+
+            return recordsToReturn;
+        }
+
         /// <summary>
-        /// Create new Record
+        ///      new Record
         /// </summary>
         public async Task<long> Create(RecordForCreateDto recordForCreateDto)
         {
-            var record = _mapper.Map<Record>(new RecordForCreateDto
+            try
             {
-                Name = recordForCreateDto.Name,
-                ProjectId = recordForCreateDto.ProjectId,
-                Fields = recordForCreateDto.Fields,
-                ListFields = recordForCreateDto.ListFields,
-                Status = recordForCreateDto.Status
-            });
 
-            await Context.Records.Create(record);
-            await Context.SaveAsync();
-            
-            if (recordForCreateDto.ListChildIds != null && recordForCreateDto.ListChildIds.Any())
-            {
-                foreach (var сhildId in recordForCreateDto.ListChildIds)
+                var records = await Context.Records.GetAll();
+
+                var record = _mapper.Map<Record>(new RecordForCreateDto
                 {
-                    var childRecord = Context.Records.GetById(сhildId);
+                    Name = recordForCreateDto.Name,
+                    ProjectId = recordForCreateDto.ProjectId,
+                    Fields = recordForCreateDto.Fields,
+                    ListFields = recordForCreateDto.ListFields,
+                    Status = recordForCreateDto.Status
+                });
 
-                    childRecord.ParentRecordId = record.Id;
-                    
-                    Context.Records.Update(childRecord);
-                    await Context.SaveAsync();
+                await Context.Records.Create(record);
+                await Context.SaveAsync();
+
+                if (recordForCreateDto.ListChildIds != null && recordForCreateDto.ListChildIds.Any())
+                {
+                    foreach (var сhildId in recordForCreateDto.ListChildIds)
+                    {
+                        var childRecord = Context.Records.GetById(сhildId);
+
+                        childRecord.ParentRecordId = record.Id;
+
+                        Context.Records.Update(childRecord);
+                        await Context.SaveAsync();
+                    }
                 }
-            }
 
-            return record.Id;
+                return record.Id;
+            } 
+            catch
+            {
+                throw;
+            }
         }
 
         /// <summary>
@@ -92,6 +124,8 @@ namespace DM.Domain.Services
             record.Name = recordDto.Name;
             record.ProjectId = recordDto.ProjectId;
             record.UpdatedAt = DateTime.UtcNow;
+            record.Status = recordDto.Status;
+            record.Description = recordDto.Description;
 
             Context.Records.Update(record);
             await Context.SaveAsync();

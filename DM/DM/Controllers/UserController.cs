@@ -14,6 +14,7 @@ using DM.Common.Enums;
 using DM.Validators.Attributes;
 
 using static DM.Validators.ServiceResponsesValidator;
+using System.Net;
 
 namespace DM.Controllers
 {
@@ -70,14 +71,11 @@ namespace DM.Controllers
         /// <response code="404">Could not find user.</response>
         /// <response code="500">Something went wrong while fetching the user.</response>
         [HttpGet("{userId}")]
-        [Authorize]
+        /*[Authorize]*/
         public async Task<IActionResult> GetById(long userId)
         {
             try
             {
-                var permission = await _userService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
-                if (!permission) return BadRequest(403);
-
                 var user = _userService.GetById(userId);
 
                 return Ok(user);
@@ -179,14 +177,11 @@ namespace DM.Controllers
         /// <response code="403">Access denied.</response>
         /// <response code="500">Something went wrong while updating user.</response>
         [HttpPut]
-        [Authorize]
+        /*[Authorize]*/
         public async Task<IActionResult> Update(UserForUpdateDto userDto)
         {
             try
             {
-                var permission = await _userService.GetAccess(_currentUser.RoleId, ActionEnum.Update);
-                if (!permission) return BadRequest(403);
-
                 var checker = await _userService.Update(userDto);
 
                 return Ok(checker);
@@ -212,7 +207,6 @@ namespace DM.Controllers
         /// <response code="404">User was not found.</response>
         /// <response code="500">Something went wrong while deleting user.</response>
         [HttpDelete]
-        [Authorize]
         public async Task<IActionResult> Delete(int userId)
         {
             try
@@ -251,6 +245,11 @@ namespace DM.Controllers
 
                 return Ok(response);
             }
+            catch (UnauthorizedAccessException ex)
+            {
+                // Return a 401 Unauthorized response when authentication fails
+                return Unauthorized(new { message = ex.Message });
+            }
             catch (DocumentManagementException ex)
             {
                 return CreateProblemResult(this, 500, ex.Message);
@@ -267,7 +266,6 @@ namespace DM.Controllers
         /// <response code="404">User or project was not found.</response>
         /// <response code="500">Something went wrong when adding to the project.</response>
         [HttpPost("addToProject")]
-        [Authorize]
         public async Task<IActionResult> AddToProject(UserProjectDto userProjectDto)
         {
             try

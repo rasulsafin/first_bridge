@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="Dotmim.Sync.Core" Version="0.9.8" />
+    <PackageReference Include="Dotmim.Sync.PostgreSql" Version="0.9.8" />
+    <PackageReference Include="Dotmim.Sync.Web.Client" Version="0.9.8" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.22" />
+    <PackageReference Include="Minio" Version="5.0.0" />
+    <PackageReference Include="Xbim.Essentials" Version="5.1.341" />
+    <PackageReference Include="Xbim.Geometry" Version="5.1.437" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DM.Common\offline_module.Common.csproj" />
+    <ProjectReference Include="..\DM.DAL\offline_module.DAL.csproj" />
+  </ItemGroup>
+
+</Project>

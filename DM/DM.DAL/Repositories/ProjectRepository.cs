@@ -50,8 +50,16 @@ namespace DM.DAL.Repositories
         
         public async Task<EntityEntry<Project>> CreateProjectWithUsers(Project project)
         {
-            var result = await _dbContext.Projects.AddAsync(project);
-            return result;
+            try
+            {
+                var result = await _dbContext.Projects.AddAsync(project);
+
+                return result;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public void Update(Project project)

@@ -13,6 +13,13 @@ namespace DM.Domain.Interfaces
         public ItemDto GetById(long itemId);
         public Task<long> Create(ItemDto item, IFormFile file);
         public Task<bool> Delete(string fileName);
+
+        public Task<int> UploadItems(int userId, IEnumerable<int> itemIds);
+
+        public Task<int> DownloadItems(int userId, IEnumerable<int> itemIds);
+
+        public Task<long> LinkItem(long projectId, ItemDto itemDto);
+
         public ItemDto Find(string fileName);
         void Dispose();
     }

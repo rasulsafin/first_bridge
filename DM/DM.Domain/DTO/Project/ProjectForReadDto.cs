@@ -12,6 +12,5 @@ namespace DM.Domain.DTO
 
         public ICollection<int> TemplateIds { get; set; }
         public ICollection<TemplateDto>? Templates { get; set; }
-
     }
 }

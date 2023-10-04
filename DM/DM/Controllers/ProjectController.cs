@@ -17,7 +17,7 @@ using static DM.Validators.ServiceResponsesValidator;
 namespace DM.Controllers
 {
     [ApiController]
-    [Authorize]
+    /*[Authorize]*/
     [Route("api/project")]
     public class ProjectController : ControllerBase
     {
@@ -58,6 +58,24 @@ namespace DM.Controllers
             }
         }
 
+        [HttpGet("for_user/{userID}")]
+        public async Task<IActionResult> GetUserProjects(int userID)
+        {
+            try
+            {
+                var projects = await _projectService.GetUserProjects(userID);
+                return Ok(projects);
+            }
+            catch (AccessDeniedException ex)
+            {
+                return CreateProblemResult(this, 403, ex.Message);
+            }
+            catch (DocumentManagementException ex)
+            {
+                return CreateProblemResult(this, 500, ex.Message);
+            }
+        }
+
         /// <summary>
         /// Get project by their id
         /// </summary>
@@ -73,9 +91,6 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _projectService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
-                if (!permission) return StatusCode(403);
-
                 var project = _projectService.GetById(projectId);
 
                 if (project == null)
@@ -106,11 +121,10 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _projectService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
-                if (!permission) return StatusCode(403);
+                /*var permission = await _projectService.GetAccess(_currentUser.RoleId, ActionEnum.Create);
+                if (!permission) return StatusCode(403);*/
 
                 var id = await _projectService.Create(projectDto);
-
                 return Ok(id);
             }
             catch (DocumentManagementException ex)
@@ -132,9 +146,6 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _projectService.GetAccess(_currentUser.RoleId, ActionEnum.Update);
-                if (!permission) return StatusCode(403);
-
                 var checker = await _projectService.Update(projectDto);
 
                 if (!checker) return BadRequest();
@@ -157,6 +168,14 @@ namespace DM.Controllers
         /// <response code="403">Access denied.</response>
         /// <response code="404">Project was not found.</response>
         /// <response code="500">Something went wrong while deleting project.</response>
+        [HttpDelete("{ProjectId}")]
+        public async Task<IActionResult> Delete(long projectId)
+        {
+            var checker = _projectService.Delete(projectId);
+
+            return Ok(checker);
+        }
+
         [HttpDelete]
         public async Task<IActionResult> Archive(long projectId)
         {
@@ -168,16 +187,16 @@ namespace DM.Controllers
             return Ok(checker);
         }
 
-        /// <summary>
-        /// Add user to project.
-        /// </summary>
-        /// <param name="userProjectDto"></param>
-        /// <returns>Boolean value about function execution.</returns>        
-        /// <response code="200">User added.</response>
-        /// <response code="403">Access denied.</response>
-        /// <response code="404">User or project was not found.</response>
-        /// <response code="500">Something went wrong when adding to the project.</response>
-        [HttpPost("addToProject")]
+            /// <summary>
+            /// Add user to project.
+            /// </summary>
+            /// <param name="userProjectDto"></param>
+            /// <returns>Boolean value about function execution.</returns>        
+            /// <response code="200">User added.</response>
+            /// <response code="403">Access denied.</response>
+            /// <response code="404">User or project was not found.</response>
+            /// <response code="500">Something went wrong when adding to the project.</response>
+            [HttpPost("addToProject")]
         public async Task<IActionResult> AddToProject(UserProjectDto userProjectDto)
         {
             try

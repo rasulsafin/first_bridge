@@ -7,8 +7,9 @@ namespace DM.DAL.Entities
     public class List : BaseEntity
     {
         public string Data { get; set; }
+
         [Required]
-        public long ListFieldId { get; set; }
+        public long ListId { get; set; }
         public ListField ListField { get; set; }
     }
 }

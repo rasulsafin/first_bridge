@@ -42,7 +42,8 @@ namespace DM.DAL.Repositories
                 .Include(x => x.Comments)
                 .Include(x => x.Fields)
                 .Include(x => x.ListFields).ThenInclude(y => y.Lists)
-                .Include(x => x.ChildRecords).Where(y => y.ParentRecord == null)
+                // TODO: I don't know why we need it.
+                /*.Include(x => x.ChildRecords).Where(y => y.ParentRecord == null)*/
                 .ToListAsync();
 
             return records;

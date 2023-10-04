@@ -160,6 +160,22 @@ namespace DM.DAL
                     OrganizationId = 1
                 });
 
+            modelBuilder.Entity<User>()
+                .HasData(new User
+                {
+                    Id = 101,
+                    Name = "Галимуллин Булат",
+                    LastName = "Галимуллин",
+                    FathersName = "Галимуллин",
+                    Login = "local",
+                    Email = "local@mail.ru",
+                    //pass is - string1
+                    HashedPassword = "APgBO/b7Gn4CRVX9oFKbxcbaaAopReFT/Ce7J0rKsWwECa9ozuoXftERf7D7o50AkQ==",
+                    RoleId = 2,
+                    Position = "Team Supervisor Junior",
+                    OrganizationId = 1
+                });
+
             // Project test data
             modelBuilder.Entity<Project>()
                 .HasData(new Project
@@ -253,7 +269,7 @@ namespace DM.DAL
                     Id = 1,
                     Data = "Start",
                     CreatedAt = DateTime.Now,
-                    ListFieldId = 1
+                    ListId = 1
                 });
             modelBuilder.Entity<List>()
                 .HasData(new List
@@ -261,7 +277,7 @@ namespace DM.DAL
                     Id = 2,
                     Data = "InProgress",
                     CreatedAt = DateTime.Now,
-                    ListFieldId = 1
+                    ListId = 1
                 });
             modelBuilder.Entity<List>()
                 .HasData(new List
@@ -269,7 +285,7 @@ namespace DM.DAL
                     Id = 3,
                     Data = "Ready",
                     CreatedAt = DateTime.Now,
-                    ListFieldId = 1
+                    ListId = 1
                 });
 
             modelBuilder.Entity<List>()
@@ -278,7 +294,7 @@ namespace DM.DAL
                     Id = 4,
                     Data = "Development",
                     CreatedAt = DateTime.Now,
-                    ListFieldId = 2
+                    ListId = 2
                 });
             modelBuilder.Entity<List>()
                 .HasData(new List
@@ -286,7 +302,7 @@ namespace DM.DAL
                     Id = 5,
                     Data = "Testing",
                     CreatedAt = DateTime.Now,
-                    ListFieldId = 2
+                    ListId = 2
                 });
             modelBuilder.Entity<List>()
                 .HasData(new List
@@ -294,7 +310,7 @@ namespace DM.DAL
                     Id = 6,
                     Data = "Building",
                     CreatedAt = DateTime.Now,
-                    ListFieldId = 2
+                    ListId = 2
                 });
 
             //Permissions test data

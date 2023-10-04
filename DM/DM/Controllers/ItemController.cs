@@ -19,11 +19,13 @@ using DM.Common.Enums;
 using DM.Validators.Attributes;
 
 using static DM.Validators.ServiceResponsesValidator;
+using System.Collections.Generic;
+using System.Threading;
+using DM.DAL.Entities;
 
 namespace DM.Controllers
 {
     [ApiController]
-    [Authorize]
     [Route("api/item")]
     public class ItemController : ControllerBase
     {
@@ -45,7 +47,7 @@ namespace DM.Controllers
         {
             try
             {
-                var permission = await _itemService.GetAccess(_currentUser.RoleId, ActionEnum.Read);
+                var permission = true;
                 if (!permission) return StatusCode(403);
 
                 var items = await _itemService.GetAll(projectId);
@@ -55,6 +57,20 @@ namespace DM.Controllers
             catch (System.Exception)
             {
 
+                throw;
+            }
+        }
+
+        [HttpGet("getById/{itemId}")]
+        public async Task<IActionResult> GetById(int itemId)
+        {
+            try
+            {
+                var item = _itemService.GetById(itemId);
+                return Ok(item);
+            }
+            catch 
+            {
                 throw;
             }
         }
@@ -149,7 +165,57 @@ namespace DM.Controllers
             }
         }
 
-        /// <summary>
+        [HttpPost("upload_files/{userId}")] 
+        [DisableRequestSizeLimit]
+        public async Task<IActionResult> UploadItems(
+            [FromRoute]
+            int userId,
+            [FromBody]
+            IEnumerable<int> itemIds)
+        {
+            try
+            {
+                var items = await _itemService.UploadItems(userId, itemIds);
+                return Ok(items);
+            }
+            catch (DocumentManagementException ex)
+            {
+                return CreateProblemResult(this, 500, ex.Message);
+            }
+        }
+
+        [HttpPost("download_files/{userId}")]
+        [DisableRequestSizeLimit]
+        public async Task<IActionResult> DownloadItems(
+            [FromRoute]
+            int userId,
+            [FromBody]
+            IEnumerable<int> itemIds)
+        {
+            try
+            {
+                var items = await _itemService.DownloadItems(userId, itemIds);
+                return Ok(items);
+            }
+            catch (DocumentManagementException ex)
+            {
+                return CreateProblemResult(this, 500, ex.Message);
+            }
+        }
+
+
+        [HttpPut("link_item/{projId}")]
+        public async Task<IActionResult> LinkItem(
+            [FromRoute]
+            int projId,
+            [FromBody]
+            ItemDto itemDto)
+        {
+            var result = await _itemService.LinkItem(projId, itemDto);
+            return Ok(result);
+        }
+
+        /// <summarys
         /// Delete existing user.
         /// </summary>
         /// <param name="userId">Id of the user to be deleted.</param>

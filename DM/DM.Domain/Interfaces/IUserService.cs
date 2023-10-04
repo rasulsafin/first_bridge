@@ -7,7 +7,7 @@ namespace DM.Domain.Interfaces
 {
     public interface IUserService : IGetAccess
     {
-        public Task<AuthenticateResponse> Authenticate(AuthenticateRequest user);
+        public Task<UserDto> Authenticate(AuthenticateRequest user);
         public Task<IEnumerable<UserForReadDto>> GetAll();
         public UserForReadDto GetById(long? id);
         public Task<bool> Create(UserForCreateDto user);
